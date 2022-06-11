@@ -9,10 +9,10 @@ class ColorConstants {
   // static var primaryGreenColor = Color(0xFF238841);
   static var whiteColor = Color(0xFFFFFFFF);
   static var blackColor = Color(0xFF070707);
-  // static var tabbtncolor = Color(0xFFC4C4C4);
-  // static var chooseusecardcolor = Color(0xFFF8F8F8);
-  // static var lightBluecolor = Color(0xDEFBFBFB);
-  // static var lightBlueecolor = Color(0xFF82CAFF);
-  // static var greycolor = Color(0xFF9E9E9E);
+  static var background = Color(0xFFE5E5E5);
+  static var blueBtn = Color(0xFF222F7E);
+  static var lightText = Color(0xFF9A9A9A);
+  static var lightPurple = Color(0xFFEBEEF5);
+
 
 }

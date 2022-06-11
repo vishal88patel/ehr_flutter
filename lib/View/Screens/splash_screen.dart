@@ -13,6 +13,8 @@ import '../../Constants/api_endpoint.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import 'package:video_player/video_player.dart';
+
+import 'login_screen.dart';
 class SplashScreen extends StatefulWidget {
 
   @override
@@ -65,8 +67,8 @@ class _SplashScreenState extends State<SplashScreen> {
     //     NavigationHelpers.redirectFromSplash(context, WelcomePageMain());
     //   });
     // }
-    await Future.delayed(Duration(milliseconds: 6500), () {
-      NavigationHelpers.redirectFromSplash(context, DashBoardScreen(1));
+    await Future.delayed(Duration(milliseconds: 2000), () {
+      NavigationHelpers.redirectFromSplash(context, const LogInScreen());
     });
   }
 
