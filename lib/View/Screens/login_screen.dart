@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../CustomWidgets/custom_textform_field.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../customWidgets/custom_button.dart';
@@ -47,18 +48,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     children: [
                       Text("Mobile Number",style: GoogleFonts.heebo(fontSize: D.H/52,fontWeight: FontWeight.w400),),
                       SizedBox(height:D.H/120),
-                      Container(
-                        height: D.H/16,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-
-                          ],
-                        ),
-                      ),
+                      CustomTextFormField(keyboardTYPE: TextInputType.name, validators: (String? value) {  }, obscured: false, readOnly: false, controller:ccController ,),
                       SizedBox(height:D.H/22),
                       CustomButton(color: ColorConstants.blueBtn,onTap: (){
                         NavigationHelpers.redirect(context, OtpScreen());

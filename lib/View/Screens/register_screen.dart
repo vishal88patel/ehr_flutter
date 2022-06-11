@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -101,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       SizedBox(height:D.H/22),
                       CustomButton(color: ColorConstants.blueBtn,onTap: (){
-                        NavigationHelpers.redirect(context, OtpScreen());
+                        NavigationHelpers.redirectto(context, DashBoardScreen(1));
                       },text: "Save",textColor: Colors.white,)
                     ],
                   ),
