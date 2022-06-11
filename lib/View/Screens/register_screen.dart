@@ -10,7 +10,6 @@ import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_textform_field.dart';
 import 'otpScreen.dart';
 
-
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -22,6 +21,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final fNameController = TextEditingController();
   final lNameController = TextEditingController();
   final emailController = TextEditingController();
+  int _groupValue = -1;
+  var _selectedGender = "male";
 
   @override
   Widget build(BuildContext context) {
@@ -32,27 +33,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height:D.H/10),
+            SizedBox(height: D.H / 10),
             Center(child: SvgPicture.asset("assets/images/login_logo.svg")),
-            SizedBox(height:D.H/24),
+            SizedBox(height: D.H / 24),
             Stack(
               children: [
                 Center(child: SvgPicture.asset("assets/images/bg_blue.svg")),
                 Padding(
-                  padding: const EdgeInsets.only(top:6.0),
+                  padding: const EdgeInsets.only(top: 6.0),
                   child: Column(
                     children: [
-                      SvgPicture.asset("assets/images/bg_light.svg",fit: BoxFit.fill,height:MediaQuery.of(context).size.height,),
+                      SvgPicture.asset(
+                        "assets/images/bg_light.svg",
+                        fit: BoxFit.fill,
+                        height: MediaQuery.of(context).size.height,
+                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding:  EdgeInsets.only(left: D.W/10,right: D.W/10,top: D.H/11),
+                  padding: EdgeInsets.only(
+                      left: D.W / 10, right: D.W / 10, top: D.H / 11),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("First Name",style: GoogleFonts.heebo(fontSize: D.H/52,fontWeight: FontWeight.w400),),
-                      SizedBox(height:D.H/120),
+                      Text(
+                        "First Name",
+                        style: GoogleFonts.heebo(
+                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(height: D.H / 120),
                       CustomTextFormField(
                         controller: fNameController,
                         readOnly: false,
@@ -65,9 +75,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardTYPE: TextInputType.text,
                         obscured: false,
                       ),
-                      SizedBox(height:D.H/40),
-                      Text("Last Name",style: GoogleFonts.heebo(fontSize: D.H/52,fontWeight: FontWeight.w400),),
-                      SizedBox(height:D.H/120),
+                      SizedBox(height: D.H / 40),
+                      Text(
+                        "Last Name",
+                        style: GoogleFonts.heebo(
+                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(height: D.H / 120),
                       CustomTextFormField(
                         controller: lNameController,
                         readOnly: false,
@@ -80,9 +94,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardTYPE: TextInputType.text,
                         obscured: false,
                       ),
-                      SizedBox(height:D.H/40),
-                      Text("Email",style: GoogleFonts.heebo(fontSize: D.H/52,fontWeight: FontWeight.w400),),
-                      SizedBox(height:D.H/120),
+                      SizedBox(height: D.H / 40),
+                      Text(
+                        "Email",
+                        style: GoogleFonts.heebo(
+                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(height: D.H / 120),
                       CustomTextFormField(
                         controller: emailController,
                         readOnly: false,
@@ -95,14 +113,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardTYPE: TextInputType.text,
                         obscured: false,
                       ),
-                      SizedBox(height:D.H/40),
-                      Text("Gender",style: GoogleFonts.heebo(fontSize: D.H/52,fontWeight: FontWeight.w400),),
-                      SizedBox(height:D.H/120),
-
-                      SizedBox(height:D.H/22),
-                      CustomButton(color: ColorConstants.blueBtn,onTap: (){
-                        NavigationHelpers.redirect(context, OtpScreen());
-                      },text: "Save",textColor: Colors.white,)
+                      SizedBox(height: D.H / 40),
+                      Text(
+                        "Gender",
+                        style: GoogleFonts.heebo(
+                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                      ),
+                      Row(
+                        children: [
+                          Radio(
+                            onChanged: (value) {
+                              _selectedGender = "male";
+                              setState(() {});
+                            },
+                            groupValue: _selectedGender,
+                            value: "male",
+                          ),
+                          Text(
+                            "Male",
+                            style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                          SizedBox(
+                            width: 14,
+                          ),
+                          Radio(
+                            onChanged: (value) {
+                              _selectedGender = "Female";
+                              setState(() {});
+                            },
+                            groupValue: _selectedGender,
+                            value: "Female",
+                          ),
+                          Text(
+                            "Female",
+                            style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                color: Colors.black.withOpacity(0.6)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: D.H / 36),
+                      CustomButton(
+                        color: ColorConstants.blueBtn,
+                        onTap: () {
+                          NavigationHelpers.redirect(context, OtpScreen());
+                        },
+                        text: "Save",
+                        textColor: Colors.white,
+                      )
                     ],
                   ),
                 )
