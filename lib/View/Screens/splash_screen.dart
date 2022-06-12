@@ -69,7 +69,8 @@ class _SplashScreenState extends State<SplashScreen> {
     //   });
     // }
     await Future.delayed(Duration(milliseconds: 2000), () {
-      NavigationHelpers.redirectFromSplash(context, const ProfileScreen());
+      // NavigationHelpers.redirectFromSplash(context, const ProfileScreen());
+      NavigationHelpers.redirectFromSplash(context, DashBoardScreen(1));
     });
   }
 

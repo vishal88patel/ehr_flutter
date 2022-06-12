@@ -1,4 +1,5 @@
 import 'package:ehr/Utils/navigation_helper.dart';
+import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +31,13 @@ class _BodyScreenState extends State<BodyScreen> {
           style: GoogleFonts.heebo(fontWeight: FontWeight.normal),
         ),
         actions: [
-          SvgPicture.asset(
-            "assets/images/avatar.svg",
+          InkWell(
+            onTap: (){
+              NavigationHelpers.redirectFromSplash(context, ProfileScreen());
+            },
+            child: SvgPicture.asset(
+              "assets/images/avatar.svg",
+            ),
           ),
           Container(
             width: 5,
@@ -224,6 +230,8 @@ class _BodyScreenState extends State<BodyScreen> {
                                 direction: FlipDirection.HORIZONTAL,
                                 // default
                                 front: Container(
+                                  height: 410,
+                                  width: 230,
                                   child: Stack(
                                     children: [
                                       Image.asset(
