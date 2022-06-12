@@ -16,14 +16,14 @@ import 'comment_screen.dart';
 import 'edit_profile_screen.dart';
 import 'otp_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class MedicationDetailScreen extends StatefulWidget {
+  const MedicationDetailScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<MedicationDetailScreen> createState() => _MedicationDetailScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
   final ccController = TextEditingController();
 
   @override
@@ -34,10 +34,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         title: Center(
             child: Text(
-          "Profile",
-          style: GoogleFonts.heebo(
-              fontSize: D.H / 44, fontWeight: FontWeight.w500),
-        )),
+              "Profile",
+              style: GoogleFonts.heebo(
+                  fontSize: D.H / 44, fontWeight: FontWeight.w500),
+            )),
       ),
       backgroundColor: ColorConstants.background,
       body: SingleChildScrollView(
@@ -61,14 +61,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: D.H/7,
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                              borderRadius: BorderRadius.circular(80)
+                                borderRadius: BorderRadius.circular(80)
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(80.0),
                                 child: SvgPicture.asset(
-                                 "assets/images/profile_pic.svg",
+                                  "assets/images/profile_pic.svg",
                                 ),
                               ),
                             ),
@@ -103,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
                         child: InkWell(
                           onTap: (){
-                            NavigationHelpers.redirect(context, EditProfileScreen());
+                            //NavigationHelpers.redirect(context, EditMedicationDetailScreen());
                           },
                           child: Container(
                             height: D.H/12,

@@ -11,7 +11,10 @@ class ColorConstants {
   static var blackColor = Color(0xFF070707);
   static var background = Color(0xFFE5E5E5);
   static var blueBtn = Color(0xFF222F7E);
+  static var blueText = Color(0xFF407BFF);
+  static var skyBlue = Color(0xFF1CB6EA);
   static var lightText = Color(0xFF9A9A9A);
+  static var lightText2 = Color(0xFF969696);
   static var darkText = Color(0xFF616161);
   static var lightPurple = Color(0xFFEBEEF5);
   static var lineColor = Color(0xFFDADADA);
