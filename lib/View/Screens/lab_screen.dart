@@ -1,3 +1,6 @@
+import 'package:ehr/View/Screens/comment_screen.dart';
+import 'package:ehr/View/Screens/medication_detail_screen.dart';
+import 'package:ehr/View/Screens/medication_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -94,101 +97,121 @@ class _LabScreenState extends State<LabScreen>  with SingleTickerProviderStateMi
                       bottomRight: Radius.circular(8),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: D.W / 30.0,left: D.W / 30.0, right: D.H / 80),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          Text("Comments",style: GoogleFonts.heebo(fontSize:20,color: Colors.black,fontWeight: FontWeight.normal),),
-                           SizedBox(
-                            height: 40.0,
-                            width: 40.0,
-                            child: FittedBox(
-                              child: FloatingActionButton(
-                                backgroundColor: ColorConstants.primaryBlueColor,
-                                child: Icon(Icons.add),
-                                onPressed: () {},
+                  child: Container(
+                    padding: EdgeInsets.only(
+                       right: D.W / 22,),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: D.W / 30.0,left: D.W / 30.0, right: D.H / 80),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                            Text("Comments",style: GoogleFonts.heebo(fontSize:20,color: Colors.black,fontWeight: FontWeight.normal),),
+                             SizedBox(
+                              height: 40.0,
+                              width: 40.0,
+                              child: FittedBox(
+                                child: FloatingActionButton(
+                                  backgroundColor: ColorConstants.primaryBlueColor,
+                                  child: Icon(Icons.add),
+                                  onPressed: () {},
+                                ),
                               ),
                             ),
-                          ),
-                        ],),
-                      ),
-                      Container(
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                            itemCount: 3,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: D.W / 30.0, top: D.H / 80),
-                                        child: Row(
+                          ],),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+
+                          children: [
+                              ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                  itemCount: 3,
+                                  shrinkWrap: true,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Container(
+                                      child: Center(
+                                        child: Column(
                                           children: [
-                                            Card(
-                                                color: ColorConstants.bgImage,
-                                                shape: const RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(8),
-                                                    topRight: Radius.circular(8),
-                                                    bottomLeft: Radius.circular(8),
-                                                    bottomRight: Radius.circular(8),
-                                                  ),
-                                                ),
-                                                elevation: 0,
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(D.W / 42),
-                                                  child: SvgPicture.asset(
-                                                      "assets/images/ic_message.svg"),
-                                                )),
-                                            SizedBox(width: D.H / 80),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Chest",
-                                                  style: GoogleFonts.heebo(
-                                                      fontSize: D.H / 52,
-                                                      fontWeight: FontWeight.w700),
-                                                ),
-                                                Text(
-                                                  "Mitral valve prolapse",
-                                                  style: GoogleFonts.heebo(
-                                                      fontSize: D.H / 52,
-                                                      fontWeight: FontWeight.w400),
-                                                ),
-                                              ],
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: D.W / 30.0, top: D.H / 80),
+                                              child: Row(
+                                                children: [
+                                                  Card(
+                                                      color: ColorConstants.bgImage,
+                                                      shape: const RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.only(
+                                                          topLeft: Radius.circular(8),
+                                                          topRight: Radius.circular(8),
+                                                          bottomLeft: Radius.circular(8),
+                                                          bottomRight: Radius.circular(8),
+                                                        ),
+                                                      ),
+                                                      elevation: 0,
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(D.W / 42),
+                                                        child: SvgPicture.asset(
+                                                            "assets/images/ic_message.svg"),
+                                                      )),
+                                                  SizedBox(width: D.H / 80),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "Chest",
+                                                        style: GoogleFonts.heebo(
+                                                            fontSize: D.H / 52,
+                                                            fontWeight: FontWeight.w700),
+                                                      ),
+                                                      Text(
+                                                        "Mitral valve prolapse",
+                                                        style: GoogleFonts.heebo(
+                                                            fontSize: D.H / 52,
+                                                            fontWeight: FontWeight.w400),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: D.H / 80,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 4.0, right: 4.0),
+                                              child: Container(
+                                                height: 1.0,
+                                                color: ColorConstants.lineColor,
+                                              ),
                                             )
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: D.H / 80,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 4.0, right: 4.0),
-                                        child: Container(
-                                          height: 1.0,
-                                          color: ColorConstants.lineColor,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }),
-                      ),
-                    ],
+                                    );
+                                  }),
+
+                            SizedBox(height: 4,),
+                            Container(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    color: Colors.blue.withOpacity(0.1),
+                                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                                child: TextButton(
+                                    onPressed: (){
+                                      NavigationHelpers.redirect(context, CommentScreen());
+                                    }, child: Text("See more",style: GoogleFonts.heebo(fontSize: 16,fontWeight: FontWeight.w600),))),
+                            SizedBox(height: 4,),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 5,),
@@ -350,7 +373,9 @@ class _LabScreenState extends State<LabScreen>  with SingleTickerProviderStateMi
                                     color: Colors.blue.withOpacity(0.1),
                                     borderRadius: BorderRadius.all(Radius.circular(8))),
                                 child: TextButton(
-                                    onPressed: (){}, child: Text("See more",style: GoogleFonts.heebo(fontSize: 16,fontWeight: FontWeight.w600),))),
+                                    onPressed: (){
+                                      NavigationHelpers.redirect(context, MedicationScreen());
+                                    }, child: Text("See more",style: GoogleFonts.heebo(fontSize: 16,fontWeight: FontWeight.w600),))),
                             SizedBox(height: 4,),
                           ],
                         ),
