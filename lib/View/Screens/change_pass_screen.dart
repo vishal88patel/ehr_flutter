@@ -10,32 +10,54 @@ import '../../Utils/navigation_helper.dart';
 import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_textform_field.dart';
 import 'otp_screen.dart';
+import 'otp_verification_screen.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final fNameController = TextEditingController();
-  final lNameController = TextEditingController();
-  final emailController = TextEditingController();
-  int _groupValue = -1;
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+  final oPassController = TextEditingController();
+  final nPassController = TextEditingController();
+  final cPassController = TextEditingController();
   var _selectedGender = "male";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_rounded,
+              size: 24.0,
+              color: Colors.white,
+            )),
+        title: Padding(
+          padding: EdgeInsets.only(right: D.W/8),
+          child: Center(
+            child: Text(
+              "Change password",
+              style: GoogleFonts.heebo(
+                  fontSize: D.H / 44, fontWeight: FontWeight.w500),
+            ),
+          ),
+        ),
+        backgroundColor: ColorConstants.blueBtn,
+        elevation: 0,
+      ),
       backgroundColor: ColorConstants.background,
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: D.H / 10),
-            Center(child: SvgPicture.asset("assets/images/login_logo.svg")),
+            SizedBox(height: D.H / 22),
+            Center(child: Image.asset("assets/images/bg_change_pass.png")),
             SizedBox(height: D.H / 24),
             Stack(
               children: [
@@ -47,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SvgPicture.asset(
                         "assets/images/bg_light.svg",
                         fit: BoxFit.fill,
-                        height: MediaQuery.of(context).size.height,
+                        height: MediaQuery.of(context).size.height/1.61,
                       ),
                     ],
                   ),
@@ -59,18 +81,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "First Name",
+                        "Old Password",
                         style: GoogleFonts.heebo(
                             fontSize: D.H / 52, fontWeight: FontWeight.w400),
                       ),
                       SizedBox(height: D.H / 120),
                       CustomTextFormField(
-                        controller: fNameController,
+                        controller: oPassController,
                         readOnly: false,
                         validators: (e) {
-                          if (fNameController.text == null ||
-                              fNameController.text == '') {
-                            return '*Please enter FirstName';
+                          if (oPassController.text == null ||
+                              oPassController.text == '') {
+                            return '*Please enter Old Password';
                           }
                         },
                         keyboardTYPE: TextInputType.text,
@@ -78,18 +100,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: D.H / 40),
                       Text(
-                        "Last Name",
+                        "New Password",
                         style: GoogleFonts.heebo(
                             fontSize: D.H / 52, fontWeight: FontWeight.w400),
                       ),
                       SizedBox(height: D.H / 120),
                       CustomTextFormField(
-                        controller: lNameController,
+                        controller: nPassController,
                         readOnly: false,
                         validators: (e) {
-                          if (lNameController.text == null ||
-                              lNameController.text == '') {
-                            return '*Please enter LastName';
+                          if (nPassController.text == null ||
+                              nPassController.text == '') {
+                            return '*Please enter New Password';
                           }
                         },
                         keyboardTYPE: TextInputType.text,
@@ -97,71 +119,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: D.H / 40),
                       Text(
-                        "Email",
+                        "Confirm Password",
                         style: GoogleFonts.heebo(
                             fontSize: D.H / 52, fontWeight: FontWeight.w400),
                       ),
                       SizedBox(height: D.H / 120),
                       CustomTextFormField(
-                        controller: emailController,
+                        controller: cPassController,
                         readOnly: false,
                         validators: (e) {
-                          if (emailController.text == null ||
-                              emailController.text == '') {
-                            return '*Please enter Email';
+                          if (cPassController.text == null ||
+                              cPassController.text == '') {
+                            return '*Please enter Confirm Password';
                           }
                         },
                         keyboardTYPE: TextInputType.text,
                         obscured: false,
-                      ),
-                      SizedBox(height: D.H / 40),
-                      Text(
-                        "Gender",
-                        style: GoogleFonts.heebo(
-                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                      ),
-                      Row(
-                        children: [
-                          Radio(
-                            onChanged: (value) {
-                              _selectedGender = "male";
-                              setState(() {});
-                            },
-                            groupValue: _selectedGender,
-                            value: "male",
-                          ),
-                          Text(
-                            "Male",
-                            style: GoogleFonts.roboto(
-                                fontSize: 14,
-                                color: Colors.black.withOpacity(0.6)),
-                          ),
-                          SizedBox(
-                            width: 14,
-                          ),
-                          Radio(
-                            onChanged: (value) {
-                              _selectedGender = "Female";
-                              setState(() {});
-                            },
-                            groupValue: _selectedGender,
-                            value: "Female",
-                          ),
-                          Text(
-                            "Female",
-                            style: GoogleFonts.roboto(
-                                fontSize: 14,
-                                color: Colors.black.withOpacity(0.6)),
-                          ),
-                        ],
                       ),
                       SizedBox(height: D.H / 36),
                       CustomButton(
                         color: ColorConstants.blueBtn,
                         onTap: () {
-                          NavigationHelpers.redirect(context, OtpScreen());
+                          NavigationHelpers.redirect(context, OtpVerificationScreen());
                         },
-                        text: "Save",
+                        text: "Update",
                         textColor: Colors.white,
                       )
                     ],

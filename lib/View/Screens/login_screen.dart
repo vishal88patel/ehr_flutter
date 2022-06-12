@@ -7,7 +7,7 @@ import '../../CustomWidgets/custom_textform_field.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../customWidgets/custom_button.dart';
-import 'otpScreen.dart';
+import 'otp_screen.dart';
 
 
 class LogInScreen extends StatefulWidget {
