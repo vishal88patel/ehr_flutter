@@ -312,8 +312,80 @@ class _BodyScreenState extends State<BodyScreen> {
                                   ),
                                 ),
                                 back: Container(
-                                  child: Image.asset(
-                                    "assets/images/human_body_back.png",
+                                  height: 410,
+                                  width: 230,
+                                  child: Stack(
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/human_body_back.png",
+
+                                      ),
+                                      Positioned(
+                                        top: 57,left: 75,
+                                        child: InkWell(
+                                          onTap: (){
+
+                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Chest"));
+                                          },
+                                          child: Container(
+                                            height: 12,
+                                            width: 12,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.blue),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 80,left: 120,
+                                        child: InkWell(
+                                          onTap: (){
+                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Shoulder"));
+
+                                          },
+                                          child: Container(
+                                            height: 12,
+                                            width: 12,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.greenAccent),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 130,left: 102,
+                                        child: InkWell(
+                                          onTap: (){
+                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Belly"));
+
+                                          },
+                                          child: Container(
+                                            height: 12,
+                                            width: 12,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.red),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 245,left: 113,
+                                        child: InkWell(
+                                          onTap: (){
+                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Knee"));
+
+                                          },
+                                          child: Container(
+                                            height: 20,
+                                            width: 20,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Color(0xFF6FC7BA)),
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
                                   ),
                                 ),
                           ),

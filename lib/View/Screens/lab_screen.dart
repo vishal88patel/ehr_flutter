@@ -446,15 +446,11 @@ class _LabScreenState extends State<LabScreen>  with SingleTickerProviderStateMi
                           children: [
                             // first tab bar view widget
                             Container(
-                              color: Colors.red,
                             ),
-                            Container(
-                              color: Colors.blue,
-                            ),
+                            GraphWidget(),
 
                             // second tab bar viiew widget
                             Container(
-                              color: Colors.pink,
                             ),
                           ],
                         ),
@@ -462,9 +458,237 @@ class _LabScreenState extends State<LabScreen>  with SingleTickerProviderStateMi
                     ],
                   ),
                 ),
+                SizedBox(height: 5,),
+                Card(
+                  color: Colors.white,
+                  elevation: 5,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: D.W / 30.0,left: D.W / 30.0, right: D.H / 80),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Imaging",style: GoogleFonts.heebo(fontSize:20,color: Colors.black,fontWeight: FontWeight.normal),),
+                            SizedBox(
+                              height: 40.0,
+                              width: 40.0,
+                              child: FittedBox(
+                                child: FloatingActionButton(
+                                  backgroundColor: ColorConstants.primaryBlueColor,
+                                  child: Icon(Icons.add),
+                                  onPressed: () {},
+                                ),
+                              ),
+                            ),
+                          ],),
+                      ),
+                     Row(
+                       children: [
+                         Expanded(child: Column(
+                           children: [
+                             InkWell(
+                               onTap: (){
+                                 showDialouge(name: "X-ray",image: "assets/images/xray_icon.png");
+                               },
+                               child: Card(
+                                 shape: RoundedRectangleBorder(
+                                   borderRadius: BorderRadius.circular(15.0),
+                                 ),
+
+                                 elevation:4,child: Column(
+                                 children: [
+                                   Container(height:120,width:200,child: Image .asset("assets/images/xray_icon.png",fit: BoxFit.cover,)),
+                                   SizedBox(height: 4,),
+                                   Text("X-ray",style: GoogleFonts.heebo(fontWeight: FontWeight.normal,fontSize: 16),)
+                                 ],
+                               ),),
+                             ),
+
+                           ],
+                         )),
+                         SizedBox(width: 4,),
+                         Expanded(child: Column(
+                           children: [
+                             InkWell(
+                               onTap: (){
+                                 showDialouge(name: "CT Scan",image: "assets/images/ctscan_icon.png");
+                               },
+                               child: Card(
+                                 shape: RoundedRectangleBorder(
+                                   borderRadius: BorderRadius.circular(15.0),
+                                 ),
+
+                                 elevation:4,child: Column(
+                                 children: [
+                                   Container(height:120,width:200,child: Image .asset("assets/images/ctscan_icon.png",fit: BoxFit.cover,)),
+                                   SizedBox(height: 4,),
+                                   Text("CT Scan",style: GoogleFonts.heebo(fontWeight: FontWeight.normal,fontSize: 16),)
+                                 ],
+                               ),),
+                             ),
+
+                           ],
+                         )),
+                         SizedBox(width: 4,),
+                         Expanded(child: Column(
+                           children: [
+                             InkWell(
+                               onTap: (){
+                                 showDialouge(name: "MRI",image: "assets/images/mri_icon.png");
+                               },
+                               child: Card(
+                                 shape: RoundedRectangleBorder(
+                                   borderRadius: BorderRadius.circular(15.0),
+                                 ),
+
+                                 elevation:4,child: Column(
+                                 children: [
+                                   Container(height:120,width:200,child: Image .asset("assets/images/mri_icon.png",fit: BoxFit.cover,)),
+                                   SizedBox(height: 4,),
+                                   Text("MRI",style: GoogleFonts.heebo(fontWeight: FontWeight.normal,fontSize: 16),)
+                                 ],
+                               ),),
+                             ),
+
+                           ],
+                         )),
+
+                       ],
+                     ),
+                      SizedBox(height: 9,),
+                      Row(
+                        children: [
+                          Expanded(child: Column(
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  showDialouge(name: "Hand X-ray",image: "assets/images/hand_scan_icon.png");
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+
+                                  elevation:4,child: Column(
+                                  children: [
+                                    Container(height:120,width:200,child: Image .asset("assets/images/hand_scan_icon.png",fit: BoxFit.cover,)),
+                                    SizedBox(height: 4,),
+                                    Text("Hand X-ray",style: GoogleFonts.heebo(fontWeight: FontWeight.normal,fontSize: 16),)
+                                  ],
+                                ),),
+                              ),
+
+                            ],
+                          )),
+                          SizedBox(width: 4,),
+                          Expanded(child: Column(
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  showDialouge(name: "Chest X-ray",image: "assets/images/xray_icon.png");
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+
+                                  elevation:4,child: Column(
+                                  children: [
+                                    Container(height:120,width:200,child: Image .asset("assets/images/xray_icon.png",fit: BoxFit.cover,)),
+                                    SizedBox(height: 4,),
+                                    Text("Chest X-ray",style: GoogleFonts.heebo(fontWeight: FontWeight.normal,fontSize: 16),)
+                                  ],
+                                ),),
+                              ),
+
+                            ],
+                          )),
+                          SizedBox(width: 4,),
+                          Expanded(child: Column(
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  showDialouge(name: "Chest X-ray",image: "assets/images/chest_xray_icon.png");
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+
+                                  elevation:4,child: Column(
+                                  children: [
+                                    Container(height:120,width:200,child: Image .asset("assets/images/chest_xray_icon.png",fit: BoxFit.cover,)),
+                                    SizedBox(height: 4,),
+                                    Text("Chest X-ray",style: GoogleFonts.heebo(fontWeight: FontWeight.normal,fontSize: 16),)
+                                  ],
+                                ),),
+                              ),
+
+                            ],
+                          )),
+
+                        ],
+                      ),
+                      SizedBox(height: 12,),
+
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
         ));
+  }
+  showDialouge({name,image}){
+    showDialog(context: context, builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+            borderRadius:BorderRadius.circular(15.0)),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 14),
+          height: 580,
+          child: Column(
+            children: [
+              SizedBox(height: 12,),
+              Row(
+                children: [
+                  Text(name,style:TextStyle(fontSize: 20),),
+
+                ],
+              ),
+              SizedBox(height: 8,),
+              Container(child:  Text("Lorem Ipsum has been the industry's standarddummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",style:GoogleFonts.heebo(color: Colors.grey,fontSize: 14),),),
+              SizedBox(height: 8,),
+              Container(height:350,child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                  child: Image .asset(image,fit: BoxFit.cover,))),
+              SizedBox(height: 8,),
+
+              Container(height: 1,color: Colors.grey,),
+              SizedBox(height: 8,),
+              GestureDetector(
+
+                  onTap: (){
+                    Navigator.of(context).pop();
+                  }, child: Text("OK",style: GoogleFonts.heebo(color: Colors.blue,fontSize: 20),))
+
+
+
+
+            ],
+          ),
+        ),
+      );
+    });
   }
 }
