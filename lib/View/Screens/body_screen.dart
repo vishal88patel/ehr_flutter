@@ -1,4 +1,5 @@
 import 'package:ehr/Utils/navigation_helper.dart';
+import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +31,18 @@ class _BodyScreenState extends State<BodyScreen> {
           style: GoogleFonts.heebo(fontWeight: FontWeight.normal),
         ),
         actions: [
-          SvgPicture.asset(
-            "assets/images/avatar.svg",
+          GestureDetector(
+            onTap: (){
+              NavigationHelpers.redirect(context, ProfileScreen());
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                "assets/images/avatar.svg",
+                height: 33,
+                width: 33,
+              ),
+            ),
           ),
           Container(
             width: 5,
@@ -224,6 +235,8 @@ class _BodyScreenState extends State<BodyScreen> {
                                 direction: FlipDirection.HORIZONTAL,
                                 // default
                                 front: Container(
+                                  height: 410,
+                                  width: 230,
                                   child: Stack(
                                     children: [
                                       Image.asset(
@@ -248,32 +261,50 @@ class _BodyScreenState extends State<BodyScreen> {
                                       ),
                                       Positioned(
                                         top: 80,left: 120,
-                                        child: Container(
-                                          height: 12,
-                                          width: 12,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.greenAccent),
+                                        child: InkWell(
+                                          onTap: (){
+                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Shoulder"));
+
+                                          },
+                                          child: Container(
+                                            height: 12,
+                                            width: 12,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.greenAccent),
+                                          ),
                                         ),
                                       ),
                                       Positioned(
                                         top: 130,left: 102,
-                                        child: Container(
-                                          height: 12,
-                                          width: 12,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.red),
+                                        child: InkWell(
+                                          onTap: (){
+                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Belly"));
+
+                                          },
+                                          child: Container(
+                                            height: 12,
+                                            width: 12,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.red),
+                                          ),
                                         ),
                                       ),
                                       Positioned(
                                         top: 245,left: 113,
-                                        child: Container(
-                                          height: 20,
-                                          width: 20,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Color(0xFF6FC7BA)),
+                                        child: InkWell(
+                                          onTap: (){
+                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Knee"));
+
+                                          },
+                                          child: Container(
+                                            height: 20,
+                                            width: 20,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Color(0xFF6FC7BA)),
+                                          ),
                                         ),
                                       ),
 

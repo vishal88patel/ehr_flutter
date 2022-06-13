@@ -51,13 +51,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
       ),
-      backgroundColor: ColorConstants.background,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: D.H / 22),
-            Center(child: Image.asset("assets/images/bg_change_pass.png")),
+            Center(child: SvgPicture.asset("assets/images/bg_change_pass.svg")),
             SizedBox(height: D.H / 24),
             Stack(
               children: [

@@ -159,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomButton(
                         color: ColorConstants.blueBtn,
                         onTap: () {
-                          NavigationHelpers.redirect(context, OtpScreen());
+                          NavigationHelpers.redirectto(context, DashBoardScreen(1));
                         },
                         text: "Save",
                         textColor: Colors.white,

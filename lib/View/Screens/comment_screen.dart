@@ -52,95 +52,92 @@ class _CommentScreenState extends State<CommentScreen> {
         elevation: 0,
       ),
       backgroundColor: ColorConstants.background,
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  left: D.W / 22, right: D.W / 22, top: D.H / 30),
-              child: Card(
-                color: Colors.white,
-                elevation: 5,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
-                ),
-                child: ListView.builder(
-                    itemCount: 10,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: D.W / 30.0, top: D.H / 80),
-                                child: Row(
-                                  children: [
-                                    Card(
-                                        color: ColorConstants.bgImage,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(8),
-                                            topRight: Radius.circular(8),
-                                            bottomLeft: Radius.circular(8),
-                                            bottomRight: Radius.circular(8),
-                                          ),
-                                        ),
-                                        elevation: 0,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(D.W / 42),
-                                          child: SvgPicture.asset(
-                                              "assets/images/ic_message.svg"),
-                                        )),
-                                    SizedBox(width: D.H / 80),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Chest",
-                                          style: GoogleFonts.heebo(
-                                              fontSize: D.H / 52,
-                                              fontWeight: FontWeight.w700),
-                                        ),
-                                        Text(
-                                          "Mitral valve prolapse",
-                                          style: GoogleFonts.heebo(
-                                              fontSize: D.H / 52,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: D.H / 80,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 4.0,right: 4.0),
-                                child: Container(
-                                  height: 1.0,
-                                  color: ColorConstants.lineColor,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
+      body: Container(
+        height: D.H,
+        child: Padding(
+          padding: EdgeInsets.only(
+              left: D.W / 22, right: D.W / 22, top: D.H / 30),
+          child: Card(
+            color: Colors.white,
+            elevation: 5,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               ),
-            )
-          ],
+            ),
+            child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: 10,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: D.W / 30.0, top: D.H / 80),
+                            child: Row(
+                              children: [
+                                Card(
+                                    color: ColorConstants.bgImage,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        topRight: Radius.circular(8),
+                                        bottomLeft: Radius.circular(8),
+                                        bottomRight: Radius.circular(8),
+                                      ),
+                                    ),
+                                    elevation: 0,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(D.W / 42),
+                                      child: SvgPicture.asset(
+                                          "assets/images/ic_message.svg"),
+                                    )),
+                                SizedBox(width: D.H / 80),
+                                Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Chest",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 52,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    Text(
+                                      "Mitral valve prolapse",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 52,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: D.H / 80,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4.0,right: 4.0),
+                            child: Container(
+                              height: 1.0,
+                              color: ColorConstants.lineColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+          ),
         ),
       ),
     );
