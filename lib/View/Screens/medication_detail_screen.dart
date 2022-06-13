@@ -4,6 +4,7 @@ import 'package:ehr/View/Screens/lab_screen.dart';
 import 'package:ehr/View/Screens/lab_list_screen.dart';
 import 'package:ehr/View/Screens/medication_screen.dart';
 import 'package:ehr/View/Screens/otp_verification_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -50,39 +51,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: D.H / 22),
-                  Stack(
-                    children: [
-                      Image.asset("assets/images/bg_profile.png",height: D.H/6,fit: BoxFit.fill,),
-                      Padding(
-                        padding:  EdgeInsets.only(top: D.H/12),
-                        child: Center(
-                          child: Container(
-                            height: D.H/7,
-                            width: D.H/7,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(80)
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(80.0),
-                                child: SvgPicture.asset(
-                                  "assets/images/profile_pic.svg",
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: D.H / 40),
-                  Text(
-                    "Mark Peterson",
-                    style: GoogleFonts.inter(
-                        fontSize: D.H / 40, fontWeight: FontWeight.w700),
-                  ),
+                  Image.asset("assets/images/bg_medication_detail.png",height: D.H/5,fit: BoxFit.fill,),
                   SizedBox(height: D.H / 16),
                 ],
               ),
@@ -98,125 +67,197 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   child:Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
-                        child: InkWell(
-                          onTap: (){
-                            //NavigationHelpers.redirect(context, EditMedicationDetailScreen());
-                          },
-                          child: Container(
-                            height: D.H/12,
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images/ic_edit_profile.svg",
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 14.0),
-                                  child: Text(
-                                    "Edit Profile",
-                                    style: GoogleFonts.inter(
-                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        padding: EdgeInsets.only(left: D.H / 30,top: D.H / 24),
+                        child: Text(
+                          "Nandrolone",
+                          style: GoogleFonts.heebo(
+                            color: ColorConstants.blueBtn,
+                              fontSize:D.H/40, fontWeight: FontWeight.w700),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 28,right: D.H / 28),
+                        padding: EdgeInsets.only(left: D.H / 30,top: D.H / 45),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                                "assets/images/ic_dosage.svg"),
+                            SizedBox(width: D.H / 50),
+                            Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Dosage",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: D.H / 52,
+                                      color: ColorConstants.lightText3,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                  "Hil 250 mg 2/Day",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: D.H / 50,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:  EdgeInsets.only(left: 4.0,right: 4.0,top: D.H/60),
                         child: Container(
-                          height: 2,
+                          height: 1.0,
                           color: ColorConstants.lineColor,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
-                        child: InkWell(
-                          onTap: (){
-                            NavigationHelpers.redirect(context, ChangePasswordScreen());
-                          },
-                          child: Container(
-                            height: D.H/12,
-                            child: Row(
+                        padding: EdgeInsets.only(left: D.H / 30,top: D.H / 45),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                                "assets/images/ic_time.svg"),
+                            SizedBox(width: D.H / 50),
+                            Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
                               children: [
-                                SvgPicture.asset(
-                                  "assets/images/ic_change_pass.svg",
+                                Text(
+                                  "Time",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: D.H / 52,
+                                      color: ColorConstants.lightText3,
+                                      fontWeight: FontWeight.w400),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 14.0),
-                                  child: Text(
-                                    "Change Password",
-                                    style: GoogleFonts.inter(
-                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Start Time",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 50,
+                                          color: ColorConstants.blueBtn,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      "29-12-2021",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 50,
+                                          color: ColorConstants.skyBlue,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "End Time",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 50,
+                                          color: ColorConstants.blueBtn,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      "01-01-2022",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 50,
+                                          color: ColorConstants.skyBlue,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
                                 ),
                               ],
-                            ),
-                          ),
+                            )
+                          ],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 28,right: D.H / 28),
+                        padding: EdgeInsets.only(left: 4.0,right: 4.0,top: D.H/60),
                         child: Container(
-                          height: 2,
+                          height: 1.0,
                           color: ColorConstants.lineColor,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
-                        child: InkWell(
-                          onTap: (){
-                            NavigationHelpers.redirect(context, LabListScreen());
-                          },
-                          child: Container(
-                            height: D.H/12,
-                            child: Row(
+                        padding: EdgeInsets.only(left: D.H / 30,top: D.H / 45,right : D.H / 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SvgPicture.asset(
-                                  "assets/images/ic_help.svg",
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 14.0),
-                                  child: Text(
-                                    "Help",
-                                    style: GoogleFonts.inter(
-                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
-                                  ),
-                                ),
+                                    "assets/images/ic_doctorr.svg"),
+                                SizedBox(width: D.H / 50),
+                                Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Doctor",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 52,
+                                          color: ColorConstants.lightText3,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      "John Miler",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 50,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
-                          ),
+                            Container(width: 1.0,height: D.H/16,color: ColorConstants.lineColor,),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                    "assets/images/ic_food.svg"),
+                                SizedBox(width: D.H / 50),
+                                Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Food",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 52,
+                                          color: ColorConstants.lightText3,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      "With Food",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: D.H / 50,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 28,right: D.H / 28),
+                        padding: EdgeInsets.only(left: 4.0,right: 4.0,top: D.H/60),
                         child: Container(
-                          height: 2,
+                          height: 1.0,
                           color: ColorConstants.lineColor,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
-                        child: Container(
-                          height: D.H/12,
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/ic_logout.svg",
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 14.0),
-                                child: Text(
-                                  "Logout",
-                                  style: GoogleFonts.inter(
-                                      fontSize: D.H / 45, fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
                       ),
                     ],

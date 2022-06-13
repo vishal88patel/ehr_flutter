@@ -14,6 +14,7 @@ import 'body_detail_screen.dart';
 import 'change_pass_screen.dart';
 import 'comment_screen.dart';
 import 'edit_profile_screen.dart';
+import 'medication_detail_screen.dart';
 import 'otp_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -169,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
                         child: InkWell(
                           onTap: (){
-                            NavigationHelpers.redirect(context, LabListScreen());
+                            NavigationHelpers.redirect(context, MedicationDetailScreen());
                           },
                           child: Container(
                             height: D.H/12,
