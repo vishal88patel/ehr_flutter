@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/View/Screens/add_shedule_screen.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
+import 'package:ehr/View/Screens/schedual_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -69,11 +71,9 @@ class _SplashScreenState extends State<SplashScreen> {
     //   });
     // }
     await Future.delayed(Duration(milliseconds: 2000), () {
-      NavigationHelpers.redirectFromSplash(context, DashBoardScreen(1));
+      NavigationHelpers.redirectFromSplash(context, SchedualScreen());
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
