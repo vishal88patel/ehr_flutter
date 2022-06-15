@@ -43,7 +43,6 @@ dependencies:
   email_validator: ^2.0.1
   shared_preferences: ^2.0.13
   google_sign_in: ^5.1.0
-  firebase_auth:
   firebase_core: ^1.6.0
   flutter_facebook_auth: ^4.1.2
   syncfusion_flutter_sliders: ^20.1.47
@@ -56,6 +55,9 @@ dependencies:
   shimmer: ^2.0.0
   pin_code_fields: ^7.4.0
   flip_card: ^0.6.0
+  syncfusion_flutter_charts: ^20.1.59
+  intl: ^0.17.0
+
 
 dev_dependencies:
   flutter_test:
