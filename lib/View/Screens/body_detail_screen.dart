@@ -154,19 +154,19 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                               fontSize: D.H / 52, fontWeight: FontWeight.w400),
                         ),
                         SizedBox(height: D.H / 120),
-                        CustomBigTextFormField(
-                          controller: desController,
-                          readOnly: false,
+                        CustomBigTextFormField(controller: desController,
+                            readOnly: false,
+                            validators: (e) {
+                              if (desController.text == null ||
+                                  desController.text == '') {
+                                return '*Medication Name';
+                              }
+                            },
+                            keyboardTYPE: TextInputType.text,
+                            maxlength: 6,
+                            maxline: 6,
+                            obscured: false),
 
-                          validators: (e) {
-                            if (desController.text == null ||
-                                desController.text == '') {
-                              return '*Medication Name';
-                            }
-                          },
-                          keyboardTYPE: TextInputType.text,
-                          obscured: false, maxline: 6,
-                        ),
                         SizedBox(height: D.H / 40),
                         Text(
                           "Duration",

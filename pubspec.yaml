@@ -57,6 +57,7 @@ dependencies:
   flip_card: ^0.6.0
   syncfusion_flutter_charts: ^20.1.59
   intl: ^0.17.0
+  table_calendar: ^3.0.6
 
 
 dev_dependencies:

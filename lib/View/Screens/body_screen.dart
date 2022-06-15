@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../Constants/color_constants.dart';
+import '../../CustomWidgets/custom_calender.dart';
 import 'body_detail_screen.dart';
 
 class BodyScreen extends StatefulWidget {
@@ -505,7 +506,12 @@ class _BodyScreenState extends State<BodyScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorConstants.primaryBlueColor,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CustomCalender()),
+          );
+        },
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

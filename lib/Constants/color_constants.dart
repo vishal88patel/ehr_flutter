@@ -25,6 +25,7 @@ class ColorConstants {
   static var lightGreen = Color(0xFF6FC7BA);
   static var border = Color(0xFFC1C1C1);
   static var line = Color(0xFFDBDBDB);
+  static var calenderFontColor = Color(0xFF0084F0);
 
 
 }
