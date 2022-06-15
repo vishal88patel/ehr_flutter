@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/View/Screens/comment_screen.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //   });
     // }
     await Future.delayed(Duration(milliseconds: 2000), () {
-      NavigationHelpers.redirectFromSplash(context, LogInScreen());
+      NavigationHelpers.redirectFromSplash(context, CommentScreen());
     });
   }
 

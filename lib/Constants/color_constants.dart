@@ -23,6 +23,8 @@ class ColorConstants {
   static var bgImage = Color(0xFFF3F3F3);
   static var lightRed = Color(0xFFFE6666);
   static var lightGreen = Color(0xFF6FC7BA);
+  static var border = Color(0xFFC1C1C1);
+  static var line = Color(0xFFDBDBDB);
 
 
 }

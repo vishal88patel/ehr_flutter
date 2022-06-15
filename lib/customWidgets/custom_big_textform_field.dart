@@ -10,12 +10,14 @@ class CustomBigTextFormField extends StatefulWidget {
         required this.controller,
         required this.readOnly,
         required this.validators,
+        required this.maxline,
         required this.keyboardTYPE,
         this.maxlength, this.onChanged,
         required this.obscured,});
 
   final TextEditingController controller;
   int? maxlength;
+  int? maxline;
   bool readOnly;
   bool obscured;
   TextInputType? keyboardTYPE;
@@ -48,7 +50,7 @@ class _CustomBigTextFormFieldState extends State<CustomBigTextFormField> {
     return Container(
 
       child: TextFormField(
-        maxLines: 6,
+        maxLines: widget.maxline,
         obscureText: _obscured,
         readOnly: widget.readOnly,
         controller:widget.controller,

@@ -165,7 +165,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                             }
                           },
                           keyboardTYPE: TextInputType.text,
-                          obscured: false,
+                          obscured: false, maxline: 6,
                         ),
                         SizedBox(height: D.H / 40),
                         Text(
