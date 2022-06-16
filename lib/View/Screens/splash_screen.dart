@@ -71,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //   });
     // }
     await Future.delayed(Duration(milliseconds: 2000), () {
-      NavigationHelpers.redirectFromSplash(context, SchedualScreen());
+      NavigationHelpers.redirectFromSplash(context, LogInScreen());
     });
   }
 

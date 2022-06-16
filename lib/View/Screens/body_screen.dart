@@ -509,7 +509,7 @@ class _BodyScreenState extends State<BodyScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CustomCalender()),
+            MaterialPageRoute(builder: (context) => BodyDetailScreen(appBarName: "Chest")),
           );
         },
         child: Icon(Icons.add),

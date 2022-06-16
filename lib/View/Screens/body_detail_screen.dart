@@ -240,8 +240,8 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                         CustomButton(
                           color: ColorConstants.blueBtn,
                           onTap: () {
-                            NavigationHelpers.redirect(
-                                context, OtpVerificationScreen());
+                           /* NavigationHelpers.redirect(
+                                context, OtpVerificationScreen());*/
                           },
                           text: "Save",
                           textColor: Colors.white,

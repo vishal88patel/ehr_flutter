@@ -31,7 +31,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     LabScreen(),
     BodyScreen(),
     SchedualScreen(),
-
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   // late LoginModel loginModel;

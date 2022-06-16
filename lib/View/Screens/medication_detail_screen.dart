@@ -33,12 +33,14 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
       appBar: AppBar(
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
-        title: Center(
-            child: Text(
-              "Profile",
-              style: GoogleFonts.heebo(
-                  fontSize: D.H / 44, fontWeight: FontWeight.w500),
-            )),
+        title: Padding(
+          padding:  EdgeInsets.only(left: D.W/6),
+          child: Text(
+            "Medication Detail",
+            style: GoogleFonts.heebo(
+                fontSize: D.H / 44, fontWeight: FontWeight.w500),
+          ),
+        ),
       ),
       backgroundColor: ColorConstants.background,
       body: SingleChildScrollView(

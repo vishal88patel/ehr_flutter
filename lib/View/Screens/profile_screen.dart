@@ -14,6 +14,7 @@ import 'body_detail_screen.dart';
 import 'change_pass_screen.dart';
 import 'comment_screen.dart';
 import 'edit_profile_screen.dart';
+import 'help_screen.dart';
 import 'medication_detail_screen.dart';
 import 'otp_screen.dart';
 
@@ -170,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
                         child: InkWell(
                           onTap: (){
-                            NavigationHelpers.redirect(context, MedicationDetailScreen());
+                            NavigationHelpers.redirect(context, HelpScreen());
                           },
                           child: Container(
                             height: D.H/12,

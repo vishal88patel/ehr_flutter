@@ -27,12 +27,22 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
       appBar: AppBar(
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
-        title: Center(
-            child: Text(
-              "Add Schedule",
-              style: GoogleFonts.heebo(
-                  fontSize: D.H / 44, fontWeight: FontWeight.w500),
+        leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_rounded,
+              size: 24.0,
+              color: Colors.white,
             )),
+        title: Center(
+          child: Text(
+            "Add Schedule",
+            style: GoogleFonts.heebo(
+                fontSize: D.H / 44, fontWeight: FontWeight.w500),
+          ),
+        ),
       ),
       backgroundColor: ColorConstants.background,
       body: SingleChildScrollView(
