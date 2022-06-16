@@ -34,12 +34,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
-        title: Center(
-            child: Text(
+        centerTitle: true,
+        title: Text(
           "Profile",
           style: GoogleFonts.heebo(
-              fontSize: D.H / 44, fontWeight: FontWeight.w500),
-        )),
+          fontSize: D.H / 44, fontWeight: FontWeight.w500),
+        ),
       ),
       backgroundColor: ColorConstants.background,
       body: SingleChildScrollView(

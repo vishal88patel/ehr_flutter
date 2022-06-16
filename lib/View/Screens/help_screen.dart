@@ -87,7 +87,7 @@ class _HelpScreenState extends State<HelpScreen> {
                       ),
                       SizedBox(height: D.H / 120),
                       CustomBigTextFormField(
-                        maxlength: 10,
+                        maxlength: 200,
                         controller: fNameController,
                         readOnly: false,
                         validators: (e) {

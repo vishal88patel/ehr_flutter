@@ -1,5 +1,4 @@
 import 'package:ehr/View/Screens/comment_screen.dart';
-import 'package:ehr/View/Screens/medication_detail_screen.dart';
 import 'package:ehr/View/Screens/medication_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -52,16 +51,21 @@ class _LabScreenState extends State<LabScreen>
           ),
           centerTitle: true,
           actions: [
-            InkWell(
-              onTap: () {
+            GestureDetector(
+              onTap: (){
                 NavigationHelpers.redirect(context, ProfileScreen());
               },
-              child: SvgPicture.asset(
-                "assets/images/avatar.svg",
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(
+                  "assets/images/avatar.svg",
+                  height: 33,
+                  width: 33,
+                ),
               ),
             ),
             Container(
-              width: 10,
+              width: 5,
             )
           ],
           backgroundColor: ColorConstants.blueBtn,
@@ -162,9 +166,15 @@ class _LabScreenState extends State<LabScreen>
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.end,
                                                     children: [
-                                                      Icon(
-                                                        Icons.close,
-                                                        size: D.W / 20,
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Icon(
+                                                          Icons.close,
+                                                          size: D.W / 20,
+                                                        ),
                                                       )
                                                     ],
                                                   ),
@@ -322,7 +332,8 @@ class _LabScreenState extends State<LabScreen>
                                                       },
                                                       keyboardTYPE:
                                                           TextInputType.text,
-                                                      obscured: false, maxlength: 3,
+                                                      obscured: false,
+                                                      maxlength: 3,
                                                     ),
                                                   ),
                                                 ),
@@ -513,7 +524,8 @@ class _LabScreenState extends State<LabScreen>
                                       ColorConstants.primaryBlueColor,
                                   child: Icon(Icons.add),
                                   onPressed: () {
-                                    NavigationHelpers.redirect(context, AddMedicationScreen());
+                                    NavigationHelpers.redirect(
+                                        context, AddMedicationScreen());
                                   },
                                 ),
                               ),
@@ -787,9 +799,14 @@ class _LabScreenState extends State<LabScreen>
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
                                                   children: [
-                                                    Icon(
-                                                      Icons.close,
-                                                      size: D.W / 20,
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        size: D.W / 20,
+                                                      ),
                                                     )
                                                   ],
                                                 ),
@@ -1081,7 +1098,8 @@ class _LabScreenState extends State<LabScreen>
                                   onPressed: () {
                                     showDialog<String>(
                                       context: context,
-                                      builder: (BuildContext context) => AlertDialog(
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
                                         contentPadding: EdgeInsets.all(0),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
@@ -1091,31 +1109,42 @@ class _LabScreenState extends State<LabScreen>
                                         content: Container(
                                           width: D.W / 1.25,
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Padding(
-                                                padding:
-                                                EdgeInsets.only(top: D.W / 40, right: D.W / 40),
+                                                padding: EdgeInsets.only(
+                                                    top: D.W / 40,
+                                                    right: D.W / 40),
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
                                                   children: [
-                                                    Icon(
-                                                      Icons.close,
-                                                      size: D.W / 20,
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        size: D.W / 20,
+                                                      ),
                                                     )
                                                   ],
                                                 ),
                                               ),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Text(
                                                     "Imaging",
                                                     style: GoogleFonts.heebo(
                                                         fontSize: D.H / 38,
-                                                        fontWeight: FontWeight.w600),
+                                                        fontWeight:
+                                                            FontWeight.w600),
                                                   ),
                                                 ],
                                               ),
@@ -1126,27 +1155,43 @@ class _LabScreenState extends State<LabScreen>
                                               ),
                                               SizedBox(height: D.H / 60),
                                               Padding(
-                                                padding:
-                                                EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
                                                 child: Row(
                                                   children: [
                                                     Card(
-                                                        color: ColorConstants.bgImage,
-                                                        shape: const RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.only(
-                                                            topLeft: Radius.circular(8),
-                                                            topRight: Radius.circular(8),
-                                                            bottomLeft: Radius.circular(8),
-                                                            bottomRight: Radius.circular(8),
+                                                        color: ColorConstants
+                                                            .bgImage,
+                                                        shape:
+                                                            const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    8),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    8),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    8),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    8),
                                                           ),
                                                         ),
                                                         elevation: 0,
                                                         child: Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: D.W / 50,
-                                                              right: D.W / 70,
-                                                              top: D.W / 50,
-                                                              bottom: D.W / 50),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left:
+                                                                      D.W / 50,
+                                                                  right:
+                                                                      D.W / 70,
+                                                                  top: D.W / 50,
+                                                                  bottom:
+                                                                      D.W / 50),
                                                           child: SvgPicture.asset(
                                                               "assets/images/ic_upload_image.svg"),
                                                         )),
@@ -1155,47 +1200,81 @@ class _LabScreenState extends State<LabScreen>
                                                       "Upload Image",
                                                       style: GoogleFonts.heebo(
                                                           fontSize: D.H / 38,
-                                                          color: ColorConstants.skyBlue,
-                                                          fontWeight: FontWeight.w400),
+                                                          color: ColorConstants
+                                                              .skyBlue,
+                                                          fontWeight:
+                                                              FontWeight.w400),
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                               SizedBox(height: D.H / 60),
                                               Padding(
-                                                padding:
-                                                EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
                                                 child: Row(
                                                   children: [
                                                     Stack(
                                                       children: [
                                                         Card(
-                                                            color: ColorConstants.bgImage,
-                                                            shape: const RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.only(
-                                                                topLeft: Radius.circular(8),
-                                                                topRight: Radius.circular(8),
-                                                                bottomLeft: Radius.circular(8),
-                                                                bottomRight: Radius.circular(8),
+                                                            color:
+                                                                ColorConstants
+                                                                    .bgImage,
+                                                            shape:
+                                                                const RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        8),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        8),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        8),
+                                                                bottomRight:
+                                                                    Radius
+                                                                        .circular(
+                                                                            8),
                                                               ),
                                                             ),
                                                             elevation: 0,
                                                             child: Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  left: D.W / 34,
-                                                                  right: D.W / 34,
-                                                                  top: D.W / 34,
-                                                                  bottom: D.W / 34),
-                                                              child: SvgPicture.asset(
-                                                                  "assets/images/ic_gallary.svg"),
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: D.W /
+                                                                          34,
+                                                                      right:
+                                                                          D.W /
+                                                                              34,
+                                                                      top: D.W /
+                                                                          34,
+                                                                      bottom:
+                                                                          D.W /
+                                                                              34),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                      "assets/images/ic_gallary.svg"),
                                                             )),
                                                         Positioned(
-                                                            right:0,
+                                                            right: 0,
                                                             child: ClipRRect(
-                                                                borderRadius: BorderRadius.circular(20),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
                                                                 child: Container(
                                                                     color: ColorConstants.skyBlue,
-                                                                    child: Icon(Icons.close,size: 20,color: Colors.white,))))
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .close,
+                                                                      size: 20,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ))))
                                                       ],
                                                     ),
                                                     SizedBox(
@@ -1204,32 +1283,63 @@ class _LabScreenState extends State<LabScreen>
                                                     Stack(
                                                       children: [
                                                         Card(
-                                                            color: ColorConstants.bgImage,
-                                                            shape: const RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.only(
-                                                                topLeft: Radius.circular(8),
-                                                                topRight: Radius.circular(8),
-                                                                bottomLeft: Radius.circular(8),
-                                                                bottomRight: Radius.circular(8),
+                                                            color:
+                                                                ColorConstants
+                                                                    .bgImage,
+                                                            shape:
+                                                                const RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        8),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        8),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        8),
+                                                                bottomRight:
+                                                                    Radius
+                                                                        .circular(
+                                                                            8),
                                                               ),
                                                             ),
                                                             elevation: 0,
                                                             child: Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  left: D.W / 34,
-                                                                  right: D.W / 34,
-                                                                  top: D.W / 34,
-                                                                  bottom: D.W / 34),
-                                                              child: SvgPicture.asset(
-                                                                  "assets/images/ic_gallary.svg"),
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: D.W /
+                                                                          34,
+                                                                      right:
+                                                                          D.W /
+                                                                              34,
+                                                                      top: D.W /
+                                                                          34,
+                                                                      bottom:
+                                                                          D.W /
+                                                                              34),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                      "assets/images/ic_gallary.svg"),
                                                             )),
                                                         Positioned(
-                                                            right:0,
+                                                            right: 0,
                                                             child: ClipRRect(
-                                                                borderRadius: BorderRadius.circular(20),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
                                                                 child: Container(
                                                                     color: ColorConstants.skyBlue,
-                                                                    child: Icon(Icons.close,size: 20,color: Colors.white,))))
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .close,
+                                                                      size: 20,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ))))
                                                       ],
                                                     ),
                                                   ],
@@ -1237,38 +1347,53 @@ class _LabScreenState extends State<LabScreen>
                                               ),
                                               SizedBox(height: D.H / 60),
                                               Padding(
-                                                padding:
-                                                EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
                                                 child: Text(
                                                   "Tests",
                                                   style: GoogleFonts.heebo(
                                                       fontSize: D.H / 52,
-                                                      fontWeight: FontWeight.w400),
+                                                      fontWeight:
+                                                          FontWeight.w400),
                                                 ),
                                               ),
                                               SizedBox(height: D.H / 240),
                                               Padding(
-                                                padding:
-                                                EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
                                                 child: Container(
                                                   padding: EdgeInsets.only(
-                                                      left: D.W / 30, right: D.W / 60),
-                                                  width: MediaQuery.of(context).size.width,
+                                                      left: D.W / 30,
+                                                      right: D.W / 60),
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
                                                   decoration: BoxDecoration(
                                                       color: Colors.white,
-                                                      border:
-                                                      Border.all(color: ColorConstants.border),
+                                                      border: Border.all(
+                                                          color: ColorConstants
+                                                              .border),
                                                       borderRadius:
-                                                      BorderRadius.all(Radius.circular(8))),
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  8))),
                                                   child: DropdownButton<String>(
                                                     isExpanded: true,
                                                     focusColor: Colors.white,
                                                     value: _chosenValue,
-                                                    style: TextStyle(color: Colors.white),
-                                                    iconEnabledColor: ColorConstants.lightGrey,
-                                                    icon: Icon(Icons.arrow_drop_down_sharp),
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                    iconEnabledColor:
+                                                        ColorConstants
+                                                            .lightGrey,
+                                                    icon: Icon(Icons
+                                                        .arrow_drop_down_sharp),
                                                     iconSize: 32,
-                                                    underline: Container(color: Colors.transparent),
+                                                    underline: Container(
+                                                        color:
+                                                            Colors.transparent),
                                                     items: <String>[
                                                       'Abc',
                                                       'Bcd',
@@ -1277,12 +1402,18 @@ class _LabScreenState extends State<LabScreen>
                                                       'Efg',
                                                       'Fgh',
                                                       'Ghi',
-                                                    ].map<DropdownMenuItem<String>>((String value) {
-                                                      return DropdownMenuItem<String>(
+                                                    ].map<
+                                                            DropdownMenuItem<
+                                                                String>>(
+                                                        (String value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
                                                         value: value,
                                                         child: Text(
                                                           value,
-                                                          style: TextStyle(color: Colors.black),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black),
                                                         ),
                                                       );
                                                     }).toList(),
@@ -1291,7 +1422,8 @@ class _LabScreenState extends State<LabScreen>
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: D.H / 48,
-                                                          fontWeight: FontWeight.w400),
+                                                          fontWeight:
+                                                              FontWeight.w400),
                                                     ),
                                                     onChanged: (String? value) {
                                                       setState(() {
@@ -1303,36 +1435,45 @@ class _LabScreenState extends State<LabScreen>
                                               ),
                                               SizedBox(height: D.H / 60),
                                               Padding(
-                                                padding:
-                                                EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
                                                 child: Text(
                                                   "Description",
                                                   style: GoogleFonts.heebo(
                                                       fontSize: D.H / 52,
-                                                      fontWeight: FontWeight.w400),
+                                                      fontWeight:
+                                                          FontWeight.w400),
                                                 ),
                                               ),
                                               SizedBox(height: D.H / 240),
                                               Padding(
-                                                padding:
-                                                EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                       color: Colors.white,
-                                                      border:
-                                                      Border.all(color: ColorConstants.border),
+                                                      border: Border.all(
+                                                          color: ColorConstants
+                                                              .border),
                                                       borderRadius:
-                                                      BorderRadius.all(Radius.circular(8))),
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  8))),
                                                   child: CustomTextFormField(
                                                     controller: discController,
                                                     readOnly: false,
                                                     validators: (e) {
-                                                      if (discController.text == null ||
-                                                          discController.text == '') {
+                                                      if (discController.text ==
+                                                              null ||
+                                                          discController.text ==
+                                                              '') {
                                                         return '*Description';
                                                       }
                                                     },
-                                                    keyboardTYPE: TextInputType.text,
+                                                    keyboardTYPE:
+                                                        TextInputType.text,
                                                     obscured: false,
                                                   ),
                                                 ),
@@ -1344,14 +1485,17 @@ class _LabScreenState extends State<LabScreen>
                                               ),
                                               SizedBox(height: D.H / 80),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Text(
                                                     "OK",
                                                     style: GoogleFonts.heebo(
                                                         fontSize: D.H / 33,
-                                                        color: ColorConstants.skyBlue,
-                                                        fontWeight: FontWeight.w400),
+                                                        color: ColorConstants
+                                                            .skyBlue,
+                                                        fontWeight:
+                                                            FontWeight.w400),
                                                   ),
                                                 ],
                                               ),

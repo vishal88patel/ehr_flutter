@@ -27,6 +27,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
       appBar: AppBar(
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
+        centerTitle: true,
         title: Center(
             child: Text(
               "Calender",
@@ -38,12 +39,17 @@ class _SchedualScreenState extends State<SchedualScreen> {
             onTap: (){
               NavigationHelpers.redirect(context, ProfileScreen());
             },
-            child: SvgPicture.asset(
-              "assets/images/ic_btn_profile.svg",
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                "assets/images/avatar.svg",
+                height: 33,
+                width: 33,
+              ),
             ),
           ),
           Container(
-            width: D.W / 36,
+            width: 5,
           )
         ],
       ),
@@ -56,8 +62,8 @@ class _SchedualScreenState extends State<SchedualScreen> {
             children: [
               CustomCalender(),
               ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: 10,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: 5,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
@@ -65,39 +71,24 @@ class _SchedualScreenState extends State<SchedualScreen> {
                         NavigationHelpers.redirect(context, AddSheduleScreen());
                       },
                       child: Slidable(
+
                         key: const ValueKey(0),
                         endActionPane:  ActionPane(
                           motion: ScrollMotion(),
                           children: [
-                            Padding(
-                              padding:EdgeInsets.only(left: 0,right: 0,top: D.W/28,bottom: D.W/100),
-                              child: Container(
-                                width: 33,
-                                child: Center(
-                                  child: SlidableAction(
-                                    padding: EdgeInsets.all(0),
-                                    onPressed: (BuildContext context) { _showSnackBar(context,"edit"); },
-                                    backgroundColor: Color(0xFF21B7CA),
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.edit,
-                                  ),
-                                ),
-                              ),
+                            SlidableAction(
+                              padding: EdgeInsets.all(0),
+                              onPressed: (BuildContext context) { _showSnackBar(context,"edit"); },
+                              backgroundColor: ColorConstants.primaryBlueColor,
+                              foregroundColor: Colors.white,
+                              icon: Icons.edit,
                             ),
-                            Padding(
-                              padding:EdgeInsets.only(left: 0,right: 0,top: D.W/28,bottom: D.W/100),
-                              child: Container(
-                                width: 33,
-                                child: Center(
-                                  child: SlidableAction(
-                                    padding: EdgeInsets.all(0),
-                                    onPressed: (BuildContext context) { _showSnackBar(context,"Delete"); },
-                                    backgroundColor: Color(0xFFFE4A49),
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.delete,
-                                  ),
-                                ),
-                              ),
+                            SlidableAction(
+                              padding: EdgeInsets.all(0),
+                              onPressed: (BuildContext context) { _showSnackBar(context,"Delete"); },
+                              backgroundColor: Color(0xFFFE4A49),
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
                             ),
                           ],
                         ),
