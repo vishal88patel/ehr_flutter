@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../CustomWidgets/custom_calender.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
@@ -39,7 +40,10 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: D.H / 2),
+            Padding(
+              padding: EdgeInsets.all(D.W/28),
+              child: CustomCalender(),
+            ),
             Container(
               color: ColorConstants.lightPurple,
               child: Column(
