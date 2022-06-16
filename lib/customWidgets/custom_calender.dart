@@ -73,7 +73,7 @@ class _CustomCalenderState extends State<CustomCalender> {
         ),
         elevation: 8,
         child: Container(
-          height: 385,
+          height: D.H/2.35,
           child: Column(
             children: [
               ValueListenableBuilder<DateTime>(
@@ -81,7 +81,6 @@ class _CustomCalenderState extends State<CustomCalender> {
                 builder: (context, value, _) {
                   return _CalendarHeader(
                     focusedDay: value,
-
                     clearButtonVisible: canClearSelection,
                     onTodayButtonTap: () {
                       setState(() => _focusedDay1.value = DateTime.now());
