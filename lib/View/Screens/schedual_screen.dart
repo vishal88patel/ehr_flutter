@@ -78,7 +78,6 @@ class _SchedualScreenState extends State<SchedualScreen> {
                         NavigationHelpers.redirect(context, AddSheduleScreen());
                       },
                       child: Slidable(
-
                         key: const ValueKey(0),
                         endActionPane:  ActionPane(
                           motion: ScrollMotion(),
