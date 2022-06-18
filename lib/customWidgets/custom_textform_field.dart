@@ -59,7 +59,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           contentPadding: EdgeInsets.only(left:D.W/30,right: D.W/30),
           focusColor: ColorConstants.whiteColor,
           filled: true,
-          fillColor: Color(0xFFF8F9FC),
+          fillColor: ColorConstants.innerColor,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: BorderSide(

@@ -31,8 +31,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 50,
-
+        toolbarHeight: 45,
         leading: InkWell(
             onTap: () {
               Navigator.pop(context);

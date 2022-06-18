@@ -52,7 +52,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: D.H / 22),
-            Center(child: Image.asset("assets/images/bg_otp_verification.png")),
+            Center(child: SvgPicture.asset("assets/images/bg_otp_verification.svg")),
             SizedBox(height: D.H / 18),
             Center(
               child: Text(
@@ -85,14 +85,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     borderRadius: BorderRadius.circular(10),
                     fieldHeight: D.H / 14,
                     fieldWidth: D.H / 13,
-                    activeFillColor: Colors.white,
+                    activeFillColor: ColorConstants.lightPurple,
                     disabledColor: Colors.transparent,
                     errorBorderColor: Colors.transparent,
                     activeColor: Colors.transparent,
                     selectedColor: Colors.transparent,
-                    inactiveColor: Colors.white,
-                    inactiveFillColor: Colors.white,
-                    selectedFillColor: Colors.white),
+                    inactiveColor: ColorConstants.whiteColor,
+                    inactiveFillColor: ColorConstants.lightPurple,
+                    selectedFillColor: ColorConstants.lightPurple,),
                 animationDuration: Duration(milliseconds: 300),
                 backgroundColor: Colors.transparent,
                 enableActiveFill: true,

@@ -82,7 +82,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
                               onPressed: (BuildContext context) { _showSnackBar(context,"edit"); },
                               backgroundColor: ColorConstants.primaryBlueColor,
                               foregroundColor: Colors.white,
-                              icon: Icons.edit,
+                              icon: Icons.edit_outlined,
                             ),
                             SlidableAction(
                               padding: EdgeInsets.all(0),
