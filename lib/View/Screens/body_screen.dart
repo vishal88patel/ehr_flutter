@@ -27,6 +27,7 @@ class _BodyScreenState extends State<BodyScreen> {
         backgroundColor: ColorConstants.primaryBlueColor,
         elevation: 0,
         centerTitle: true,
+        toolbarHeight: 50,
         title: Text(
           "Home",
           style: GoogleFonts.heebo(fontWeight: FontWeight.normal),
@@ -37,7 +38,7 @@ class _BodyScreenState extends State<BodyScreen> {
               NavigationHelpers.redirect(context, ProfileScreen());
             },
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(right: 8.0),
               child: SvgPicture.asset(
                 "assets/images/avatar.svg",
                 height: 33,
