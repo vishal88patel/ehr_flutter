@@ -63,80 +63,104 @@ class _OtpScreenState extends State<OtpScreen> {
             SizedBox(height: D.H / 20),
             Stack(
               children: [
-                Center(child: SvgPicture.asset("assets/images/bg_blue.svg")),
                 Padding(
-                  padding: const EdgeInsets.only(top: 6.0),
-                  child: SvgPicture.asset("assets/images/bg_light.svg",fit: BoxFit.fill,height:MediaQuery.of(context).size.height,),
+                  padding: const EdgeInsets.only(left: 18.0,right: 18.0),
+                  child: Card(
+                    color: ColorConstants.blueBtn,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(48),
+                          topRight: Radius.circular(48)),
+
+                    ),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height:40,
+
+                    ),
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      left: D.W / 10, right: D.W / 10, top: D.H / 11),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      PinCodeTextField(
-                        length: 4,
-                        obscureText: false,
-                        animationType: AnimationType.fade,
-                        cursorColor: ColorConstants.blueBtn,
-                        keyboardType: TextInputType.number,
-                        pinTheme: PinTheme(
-                            shape: PinCodeFieldShape.box,
-                            borderRadius: BorderRadius.circular(10),
-                            fieldHeight: D.H / 14,
-                            fieldWidth: D.H / 13,
-                            activeFillColor: Colors.white,
-                            disabledColor: Colors.transparent,
-                            errorBorderColor: Colors.transparent,
-                            activeColor: Colors.transparent,
-                            selectedColor: Colors.transparent,
-                            inactiveColor: Colors.white,
-                            inactiveFillColor: Colors.white,
-                            selectedFillColor: Colors.white),
-                        animationDuration: Duration(milliseconds: 300),
-                        backgroundColor: Colors.transparent,
-                        enableActiveFill: true,
-                        controller: pinController,
-                        onCompleted: (v) {
-                          print("Completed");
-                        },
-                        onChanged: (value) {},
-                        beforeTextPaste: (text) {
-                          print("Allowing to paste $text");
-                          return true;
-                        },
-                        appContext: context,
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Card(
+                      margin: const EdgeInsets.symmetric(horizontal:0),
+                      color: ColorConstants.lightPurple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(48),
+                            topRight: Radius.circular(48)),
                       ),
-                      SizedBox(height: D.H / 80),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't Get Otp?",
-                            style: GoogleFonts.heebo(
-                                fontSize: D.H / 52,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          Text(
-                            "Resend",
-                            style: GoogleFonts.heebo(
-                                fontSize: D.H / 44,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: D.H / 26),
-                      CustomButton(
-                        color: ColorConstants.blueBtn,
-                        onTap: () {
-                          NavigationHelpers.redirect(context, RegisterScreen());
-                        },
-                        text: "Verify",
-                        textColor: Colors.white,
+                      child:Padding(
+                        padding: EdgeInsets.only(
+                            left: D.W / 10, right: D.W / 10, top: D.H / 11),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            PinCodeTextField(
+                              length: 4,
+                              obscureText: false,
+                              animationType: AnimationType.fade,
+                              cursorColor: ColorConstants.blueBtn,
+                              pinTheme: PinTheme(
+                                  shape: PinCodeFieldShape.box,
+                                  borderRadius: BorderRadius.circular(10),
+                                  fieldHeight: D.H / 14,
+                                  fieldWidth: D.H / 13,
+                                  activeFillColor: Colors.white,
+                                  disabledColor: Colors.transparent,
+                                  errorBorderColor: Colors.transparent,
+                                  activeColor: Colors.transparent,
+                                  selectedColor: Colors.transparent,
+                                  inactiveColor: Colors.white,
+                                  inactiveFillColor: Colors.white,
+                                  selectedFillColor: Colors.white),
+                              animationDuration: Duration(milliseconds: 300),
+                              backgroundColor: Colors.transparent,
+                              enableActiveFill: true,
+                              controller: pinController,
+                              onCompleted: (v) {
+                                print("Completed");
+                              },
+                              onChanged: (value) {},
+                              beforeTextPaste: (text) {
+                                print("Allowing to paste $text");
+                                return true;
+                              },
+                              appContext: context,
+                            ),
+                            SizedBox(height: D.H / 80),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Don't Get Otp?",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: D.H / 52,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                Text(
+                                  "Resend",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: D.H / 44,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: D.H / 26),
+                            CustomButton(
+                              color: ColorConstants.blueBtn,
+                              onTap: () {
+                                NavigationHelpers.redirect(context, RegisterScreen());
+                              },
+                              text: "Verify",
+                              textColor: Colors.white,
+                            ),
+                            SizedBox(height:D.H/5.9),
+                          ],
+                        ),
                       )
-                    ],
                   ),
-                )
+                ),
               ],
             )
           ],
