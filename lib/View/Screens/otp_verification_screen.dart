@@ -47,7 +47,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: D.H / 22),
-            Center(child: Image.asset("assets/images/bg_otp_verification.png")),
+            Center(child: SvgPicture.asset("assets/images/bg_otp_verification.svg")),
             SizedBox(height: D.H / 18),
             Center(
               child: Text(

@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
-      backgroundColor: ColorConstants.background,
+      backgroundColor: ColorConstants.innerColor,
       body: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
         child: Column(
@@ -99,6 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             Card(
               elevation: 5,
+              margin: const EdgeInsets.symmetric(horizontal:0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(48),

@@ -145,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     shape: BoxShape.circle,
                                     border: Border.all(
                                       width: 2,
-                                      color: Colors.white,
+                                      color: Colors.white.withOpacity(0.5),
                                       style: BorderStyle.solid,
                                     ),
                                   ),
@@ -168,7 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     shape: BoxShape.circle,
                                     border: Border.all(
                                       width: 2,
-                                      color: Colors.white,
+                                      color: Colors.white.withOpacity(0.5),
                                       style: BorderStyle.solid,
                                     ),
                                   ),
