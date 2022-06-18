@@ -61,56 +61,74 @@ class _HelpScreenState extends State<HelpScreen> {
             SizedBox(height: D.H / 24),
             Stack(
               children: [
-                Center(child: SvgPicture.asset("assets/images/bg_blue.svg")),
                 Padding(
-                  padding: const EdgeInsets.only(top: 6.0),
-                  child: Column(
-                    children: [
-                      SvgPicture.asset(
-                        "assets/images/bg_light.svg",
-                        fit: BoxFit.fill,
-                        height: MediaQuery.of(context).size.height/1.4,
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(left: 18.0,right: 18.0),
+                  child: Card(
+                    color: ColorConstants.blueBtn,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(48),
+                          topRight: Radius.circular(48)),
+
+                    ),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height:40,
+
+                    ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      left: D.W / 10, right: D.W / 10, top: D.H / 11),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Comments",
-                        style: GoogleFonts.heebo(
-                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Card(
+                      margin: const EdgeInsets.symmetric(horizontal:0),
+                      color: ColorConstants.lightPurple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(48),
+                            topRight: Radius.circular(48)),
                       ),
-                      SizedBox(height: D.H / 120),
-                      CustomBigTextFormField(
-                        maxlength: 200,
-                        controller: fNameController,
-                        readOnly: false,
-                        validators: (e) {
-                          if (fNameController.text == null ||
-                              fNameController.text == '') {
-                            return '*Please enter FirstName';
-                          }
-                        },
-                        keyboardTYPE: TextInputType.text,
-                        obscured: false, maxline: 10,
-                      ),
-                      SizedBox(height: D.H / 36),
-                      CustomButton(
-                        color: ColorConstants.blueBtn,
-                        onTap: () {
-                          NavigationHelpers.redirect(context, OtpVerificationScreen());
-                        },
-                        text: "Send",
-                        textColor: Colors.white,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: D.W / 10, right: D.W / 10, top: D.H / 11),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Comments",
+                              style: GoogleFonts.heebo(
+                                  fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                            ),
+                            SizedBox(height: D.H / 120),
+                            CustomBigTextFormField(
+                              maxlength: 200,
+                              controller: fNameController,
+                              readOnly: false,
+                              validators: (e) {
+                                if (fNameController.text == null ||
+                                    fNameController.text == '') {
+                                  return '*Please enter FirstName';
+                                }
+                              },
+                              keyboardTYPE: TextInputType.text,
+                              obscured: false, maxline: 10,
+                            ),
+                            SizedBox(height: D.H / 36),
+                            CustomButton(
+                              color: ColorConstants.blueBtn,
+                              onTap: () {
+                                NavigationHelpers.redirect(context, OtpVerificationScreen());
+                              },
+                              text: "Send",
+                              textColor: Colors.white,
+                            ),
+                            SizedBox(height: D.H / 12),
+                          ],
+                        ),
                       )
-                    ],
                   ),
-                )
+                ),
+
               ],
             )
           ],

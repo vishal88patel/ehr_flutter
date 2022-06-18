@@ -65,12 +65,13 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                   SizedBox(height: D.H / 22),
                   Center(
                       child:
-                          Image.asset("assets/images/bg_add_medication.png")),
+                          SvgPicture.asset("assets/images/bg_add_medication.svg")),
                   SizedBox(height: D.H / 24),
                 ],
               ),
             ),
             Card(
+              margin: const EdgeInsets.symmetric(horizontal:0),
               color: ColorConstants.lightPurple,
               elevation: 5,
               shape: RoundedRectangleBorder(
@@ -97,9 +98,15 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                           padding: EdgeInsets.only(left:D.W/30,right: D.W/60),
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
+                              color: ColorConstants.innerColor,
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                            border: Border.all(
+                              width: 2,
                               color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
+                              style: BorderStyle.solid,
+                            ),
+
+                          ),
                           child: DropdownButton<String>(
                             isExpanded: true,
                             focusColor: Colors.white,
@@ -184,50 +191,75 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                           style: GoogleFonts.heebo(
                               fontSize: D.H / 52, fontWeight: FontWeight.w400),
                         ),
+                        SizedBox(height: D.H / 120),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Radio(
-                              onChanged: (value) {
-                                _selectedFood = "withFood";
-                                setState(() {});
-                              },
-                              groupValue: _selectedFood,
-                              value: "withFood",
+                            Container(
+                              height:D.W/19,
+                              width: D.W/19,
+                              decoration: new BoxDecoration(
+                                color: ColorConstants.innerColor,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 2,
+                                  color: Colors.white,
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
                             ),
+                            SizedBox(width: D.W / 60),
                             Text(
                               "With Food",
                               style: GoogleFonts.roboto(
                                   fontSize: 14,
-                                  color: Colors.black.withOpacity(0.6)),
+                                  color: Colors.black),
                             ),
-                            Radio(
-                              onChanged: (value) {
-                                _selectedFood = "before";
-                                setState(() {});
-                              },
-                              groupValue: _selectedFood,
-                              value: "before",
+                            SizedBox(
+                              width: 29,
                             ),
+                            Container(
+                              height:D.W/19,
+                              width: D.W/19,
+                              decoration: new BoxDecoration(
+                                color: ColorConstants.innerColor,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 2,
+                                  color: Colors.white,
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: D.W / 60),
                             Text(
                               "Before",
                               style: GoogleFonts.roboto(
                                   fontSize: 14,
-                                  color: Colors.black.withOpacity(0.6)),
+                                  color: Colors.black),
                             ),
-                            Radio(
-                              onChanged: (value) {
-                                _selectedFood = "after";
-                                setState(() {});
-                              },
-                              groupValue: _selectedFood,
-                              value: "after",
+                            SizedBox(
+                              width: 29,
                             ),
+                            Container(
+                              height:D.W/19,
+                              width: D.W/19,
+                              decoration: new BoxDecoration(
+                                color: ColorConstants.innerColor,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 2,
+                                  color: Colors.white,
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: D.W / 60),
                             Text(
                               "After",
                               style: GoogleFonts.roboto(
                                   fontSize: 14,
-                                  color: Colors.black.withOpacity(0.6)),
+                                  color: Colors.black),
                             ),
                           ],
                         ),
@@ -247,6 +279,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                 SizedBox(height: D.H / 120),
                                 Container(
                                   width: D.W / 2.9,
+
                                   child: CustomDateField(
                                     controller: sDateController,
                                     iconPath: "assets/images/ic_date.svg",

@@ -53,7 +53,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: D.H / 22),
-                  Image.asset("assets/images/bg_medication_detail.png",height: D.H/5,fit: BoxFit.fill,),
+                  SvgPicture.asset("assets/images/bg_medication_detail.svg",height: D.H/5,fit: BoxFit.fill,),
                   SizedBox(height: D.H / 16),
                 ],
               ),

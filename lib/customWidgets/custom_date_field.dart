@@ -63,38 +63,32 @@ class _CustomDateFieldState extends State<CustomDateField> {
             onPressed: () {  },
           ),
           contentPadding: EdgeInsets.only(left:D.W/30,right: D.W/30),
-          focusColor: ColorConstants.whiteColor,
+          focusColor: ColorConstants.innerColor,
           filled: true,
-          fillColor: Colors.white,
+          fillColor: ColorConstants.innerColor,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
+              width: 2,
+              color: Colors.white,
+              style: BorderStyle.solid,
             ),
           ),
-          errorBorder: OutlineInputBorder(
-
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
-          disabledBorder: OutlineInputBorder(
-
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
+              width: 2,
+              color: Colors.white,
+              style: BorderStyle.solid,
             ),
           ),
           counterText: "",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
+              width: 2,
+              color: Colors.white,
+              style: BorderStyle.solid,
             ),
           ),
           errorMaxLines: 4,
