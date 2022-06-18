@@ -36,7 +36,6 @@ class _OtpScreenState extends State<OtpScreen> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,6 +79,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         obscureText: false,
                         animationType: AnimationType.fade,
                         cursorColor: ColorConstants.blueBtn,
+                        keyboardType: TextInputType.number,
                         pinTheme: PinTheme(
                             shape: PinCodeFieldShape.box,
                             borderRadius: BorderRadius.circular(10),

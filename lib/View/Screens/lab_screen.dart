@@ -44,6 +44,7 @@ class _LabScreenState extends State<LabScreen>
     return Scaffold(
         backgroundColor: Color(0xFFE5E5E5),
         appBar: AppBar(
+          toolbarHeight: 50,
           title: Text(
             "James Smith",
             style: GoogleFonts.heebo(
@@ -56,7 +57,7 @@ class _LabScreenState extends State<LabScreen>
                 NavigationHelpers.redirect(context, ProfileScreen());
               },
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(right: 8.0),
                 child: SvgPicture.asset(
                   "assets/images/avatar.svg",
                   height: 33,
@@ -559,7 +560,7 @@ class _LabScreenState extends State<LabScreen>
                                                   )),
                                               Padding(
                                                 padding: EdgeInsets.only(
-                                                    left: D.H / 180),
+                                                    left: D.H / 100),
                                                 child: Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -583,13 +584,13 @@ class _LabScreenState extends State<LabScreen>
                                                                           .w400),
                                                         ),
                                                         SizedBox(
-                                                          width: 50,
+                                                          width: 65,
                                                         ),
                                                         Row(
                                                           children: [
                                                             Container(
-                                                              height: D.W / 24,
-                                                              width: D.W / 24,
+                                                              height: D.W / 30,
+                                                              width: D.W / 30,
                                                               decoration: BoxDecoration(
                                                                   borderRadius:
                                                                       BorderRadius.all(
@@ -628,7 +629,7 @@ class _LabScreenState extends State<LabScreen>
                                                                       .w500),
                                                         ),
                                                         SizedBox(
-                                                          width: 50,
+                                                          width: 60,
                                                         ),
                                                         Text(
                                                           "27 -12-202",
@@ -1749,45 +1750,50 @@ class _LabScreenState extends State<LabScreen>
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0)),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 14),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        name,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
                   Container(
-                    child: Text(
-                      "Lorem Ipsum has been the industry's standarddummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                      style:
-                          GoogleFonts.heebo(color: ColorConstants.light, fontSize: 14),
+                    padding: EdgeInsets.symmetric(horizontal: 14),
+
+                    child: Column(children: [
+                    SizedBox(
+                      height: 12,
                     ),
-                  ),
-                  SizedBox(
-                    height: 26,
-                  ),
-                  Container(
-                      height: 320,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(25)),
-                          child: Image.asset(
-                            image,
-                            fit: BoxFit.cover,
-                          ))),
-                  SizedBox(
-                    height: 18,
-                  ),
+                    Row(
+                      children: [
+                        Text(
+                          name,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      child: Text(
+                        "Lorem Ipsum has been the industry's standarddummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                        style:
+                        GoogleFonts.heebo(color: ColorConstants.light, fontSize: 14),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 26,
+                    ),
+                    Container(
+                        height: 320,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(25)),
+                            child: Image.asset(
+                              image,
+                              fit: BoxFit.cover,
+                            ))),
+                    SizedBox(
+                      height: 18,
+                    ),
+                  ],),),
+
                   Container(
                     height: 1,
                     color: ColorConstants.line,

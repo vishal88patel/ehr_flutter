@@ -25,6 +25,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 50,
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
         centerTitle: true,
