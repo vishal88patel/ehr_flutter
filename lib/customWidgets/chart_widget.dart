@@ -12,25 +12,53 @@ class GraphWidget extends StatefulWidget {
 
 class GraphWidgetState extends State<GraphWidget> {
   List<_SalesData> data = [
-    _SalesData('10',10),
-    _SalesData('20', 20),
-    _SalesData('30', 30),
-    _SalesData('40', 20),
-    _SalesData('50', 40)
+    _SalesData('10',120,),
+    _SalesData('20', 121),
+    _SalesData('30', 122),
+    _SalesData('40', 123),
+    _SalesData('50', 120),
+    _SalesData('60', 119),
+    _SalesData('70', 126),
+    _SalesData('80', 126),
+    _SalesData('90', 123),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SfCartesianChart(
-            borderColor: Colors.grey,
-            primaryXAxis: CategoryAxis(),
+            primaryXAxis: CategoryAxis(
+                majorGridLines: MajorGridLines(
+                    width: 1,
+                    color: Colors.transparent,
+                ),
+                minorGridLines: MinorGridLines(
+                    width: 1,
+                    color: Colors.transparent,
+                ),
+            ),
+            primaryYAxis:  CategoryAxis(
+                majorGridLines: MajorGridLines(
+                  width: 1,
+                  color: Colors.transparent,
+                ),
+                minorGridLines: MinorGridLines(
+                  width: 1,
+                  color: Colors.transparent,
+                ),
+            ),
+            borderColor: Colors.transparent,
+
             // Chart title
             // Enable legend
             legend: Legend(isVisible: false),
+
             // Enable tooltip
             tooltipBehavior: TooltipBehavior(enable: false),
             series: <ChartSeries<_SalesData, String>>[
+
               LineSeries<_SalesData, String>(
+
+                color: Color(0xFFB459CB),
                   dataSource: data,
                   xValueMapper: (_SalesData sales, _) => sales.year,
                   yValueMapper: (_SalesData sales, _) => sales.sales,

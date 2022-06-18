@@ -63,12 +63,12 @@ class _CustomBigTextFormFieldState extends State<CustomBigTextFormField> {
           contentPadding: EdgeInsets.only(left:D.W/30,right: D.W/30,top: D.W/30),
           focusColor: ColorConstants.whiteColor,
           filled: true,
-          fillColor: Colors.white,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
+          fillColor: Color(0xFFF8F9FC),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(
+              color: Colors.white.withOpacity(0.5),
+              width: 2.0,
             ),
           ),
           errorBorder: OutlineInputBorder(
