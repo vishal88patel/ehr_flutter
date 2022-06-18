@@ -23,27 +23,22 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     return Scaffold(
       backgroundColor: ColorConstants.background,
       appBar: AppBar(
-        leading: InkWell(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back_rounded,
-              size: 24.0,
-              color: Colors.white,
-            )),
-        title: Padding(
-          padding: EdgeInsets.only(right: D.W/8),
-          child: Center(
-            child: Text(
+        toolbarHeight: 48,
+        backgroundColor: ColorConstants.blueBtn,
+        elevation: 0,
+        centerTitle: true,
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 10,),
+            Text(
               "OTP",
               style: GoogleFonts.heebo(
                   fontSize: D.H / 44, fontWeight: FontWeight.w500),
             ),
-          ),
+          ],
         ),
-        backgroundColor: ColorConstants.blueBtn,
-        elevation: 0,
       ),
       body: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
@@ -81,18 +76,18 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 animationType: AnimationType.fade,
                 cursorColor: ColorConstants.blueBtn,
                 pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.box,
-                    borderRadius: BorderRadius.circular(10),
-                    fieldHeight: D.H / 14,
-                    fieldWidth: D.H / 13,
-                    activeFillColor: Colors.white,
-                    disabledColor: Colors.transparent,
-                    errorBorderColor: Colors.transparent,
-                    activeColor: Colors.transparent,
-                    selectedColor: Colors.transparent,
-                    inactiveColor: Colors.white,
-                    inactiveFillColor: Colors.white,
-                    selectedFillColor: Colors.white),
+                  shape: PinCodeFieldShape.box,
+                  borderRadius: BorderRadius.circular(10),
+                  fieldHeight: D.H / 14,
+                  fieldWidth: D.H / 13,
+                  activeFillColor: ColorConstants.lightPurple,
+                  disabledColor: Colors.white,
+                  errorBorderColor: Colors.white,
+                  activeColor: Colors.white,
+                  selectedColor: Colors.white,
+                  inactiveColor: ColorConstants.whiteColor,
+                  inactiveFillColor: ColorConstants.lightPurple,
+                  selectedFillColor: ColorConstants.lightPurple,),
                 animationDuration: Duration(milliseconds: 300),
                 backgroundColor: Colors.transparent,
                 enableActiveFill: true,

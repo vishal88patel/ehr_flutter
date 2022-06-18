@@ -44,13 +44,22 @@ class _LabScreenState extends State<LabScreen>
     return Scaffold(
         backgroundColor: Color(0xFFE5E5E5),
         appBar: AppBar(
-          toolbarHeight: 50,
-          title: Text(
-            "James Smith",
-            style: GoogleFonts.heebo(
-                fontSize: D.H / 44, fontWeight: FontWeight.w500),
-          ),
+          backgroundColor: ColorConstants.primaryBlueColor,
+          elevation: 0,
+          toolbarHeight: 45,
           centerTitle: true,
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 10,),
+              Text(
+                "James Smith",
+                style: GoogleFonts.heebo(
+                    fontSize: D.H / 44, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
           actions: [
             GestureDetector(
               onTap: (){
@@ -60,8 +69,8 @@ class _LabScreenState extends State<LabScreen>
                 padding: const EdgeInsets.only(right: 8.0),
                 child: SvgPicture.asset(
                   "assets/images/avatar.svg",
-                  height: 33,
-                  width: 33,
+                  height: 30,
+                  width: 30,
                 ),
               ),
             ),
@@ -69,8 +78,6 @@ class _LabScreenState extends State<LabScreen>
               width: 5,
             )
           ],
-          backgroundColor: ColorConstants.blueBtn,
-          elevation: 0,
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -1495,11 +1502,10 @@ class _LabScreenState extends State<LabScreen>
                                   elevation: 4,
                                   child: Column(
                                     children: [
-                                      Container(
-                                          height: 120,
-                                          width: 200,
+                                      ClipRRect(
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
                                           child: Image.asset(
-                                            "assets/images/xray_icon.png",
+                                            "assets/images/xray_icon.png",height: 120,width: 120,
                                             fit: BoxFit.cover,
                                           )),
                                       SizedBox(
@@ -1536,11 +1542,11 @@ class _LabScreenState extends State<LabScreen>
                                   elevation: 4,
                                   child: Column(
                                     children: [
-                                      Container(
-                                          height: 120,
-                                          width: 200,
+                                      ClipRRect(
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
                                           child: Image.asset(
-                                            "assets/images/ctscan_icon.png",
+                                            "assets/images/ctscan_icon.png",  height: 120,
+                                            width: 200,
                                             fit: BoxFit.cover,
                                           )),
                                       SizedBox(
@@ -1577,11 +1583,12 @@ class _LabScreenState extends State<LabScreen>
                                   elevation: 4,
                                   child: Column(
                                     children: [
-                                      Container(
-                                          height: 120,
-                                          width: 200,
+                                      ClipRRect(
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
+
                                           child: Image.asset(
-                                            "assets/images/mri_icon.png",
+                                            "assets/images/mri_icon.png",height: 120,
+                                            width: 200,
                                             fit: BoxFit.cover,
                                           )),
                                       SizedBox(
@@ -1623,11 +1630,11 @@ class _LabScreenState extends State<LabScreen>
                                   elevation: 4,
                                   child: Column(
                                     children: [
-                                      Container(
-                                          height: 120,
-                                          width: 200,
+                                      ClipRRect(
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
                                           child: Image.asset(
-                                            "assets/images/hand_scan_icon.png",
+                                            "assets/images/hand_scan_icon.png", height: 120,
+                                            width: 200,
                                             fit: BoxFit.cover,
                                           )),
                                       SizedBox(
@@ -1664,11 +1671,11 @@ class _LabScreenState extends State<LabScreen>
                                   elevation: 4,
                                   child: Column(
                                     children: [
-                                      Container(
-                                          height: 120,
-                                          width: 200,
+                                      ClipRRect(
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
                                           child: Image.asset(
-                                            "assets/images/xray_icon.png",
+                                            "assets/images/xray_icon.png",height: 120,
+                                            width: 200,
                                             fit: BoxFit.cover,
                                           )),
                                       SizedBox(
@@ -1706,11 +1713,11 @@ class _LabScreenState extends State<LabScreen>
                                   elevation: 4,
                                   child: Column(
                                     children: [
-                                      Container(
-                                          height: 120,
-                                          width: 200,
+                                      ClipRRect(
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
                                           child: Image.asset(
-                                            "assets/images/chest_xray_icon.png",
+                                            "assets/images/chest_xray_icon.png", height: 120,
+                                            width: 200,
                                             fit: BoxFit.cover,
                                           )),
                                       SizedBox(

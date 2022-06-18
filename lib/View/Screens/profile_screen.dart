@@ -32,13 +32,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 48,
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
         centerTitle: true,
-        title: Text(
-          "Profile",
-          style: GoogleFonts.heebo(
-          fontSize: D.H / 44, fontWeight: FontWeight.w500),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 10,),
+            Text(
+              "Profile",
+              style: GoogleFonts.heebo(
+                  fontSize: D.H / 44, fontWeight: FontWeight.w500),
+            ),
+          ],
         ),
       ),
       backgroundColor: ColorConstants.background,

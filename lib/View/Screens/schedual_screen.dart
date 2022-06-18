@@ -24,36 +24,42 @@ class _SchedualScreenState extends State<SchedualScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 50,
-        backgroundColor: ColorConstants.blueBtn,
-        elevation: 0,
-        centerTitle: true,
-        title: Center(
-            child: Text(
-              "Calender",
-              style: GoogleFonts.heebo(
-                  fontSize: D.H / 44, fontWeight: FontWeight.w500),
-            )),
-        actions: [
-          GestureDetector(
-            onTap: (){
-              NavigationHelpers.redirect(context, ProfileScreen());
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SvgPicture.asset(
-                "assets/images/avatar.svg",
-                height: 33,
-                width: 33,
+        appBar: AppBar(
+          backgroundColor: ColorConstants.primaryBlueColor,
+          elevation: 0,
+          toolbarHeight: 45,
+          centerTitle: true,
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 10,),
+              Text(
+                "Calender",
+                style: GoogleFonts.heebo(
+                    fontSize: D.H / 44, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          actions: [
+            GestureDetector(
+              onTap: (){
+                NavigationHelpers.redirect(context, ProfileScreen());
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: SvgPicture.asset(
+                  "assets/images/avatar.svg",
+                  height: 30,
+                  width: 30,
+                ),
               ),
             ),
-          ),
-          Container(
-            width: 5,
-          )
-        ],
-      ),
+            Container(
+              width: 5,
+            )
+          ],
+        ),
 
       backgroundColor: ColorConstants.background,
       body:SingleChildScrollView(

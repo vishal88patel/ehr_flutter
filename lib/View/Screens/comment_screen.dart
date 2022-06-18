@@ -31,6 +31,7 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 48,
         leading: InkWell(
             onTap: () {
               Navigator.pop(context);
@@ -40,12 +41,16 @@ class _CommentScreenState extends State<CommentScreen> {
               size: 24.0,
               color: Colors.white,
             )),
-        title: Center(
-          child: Text(
-            "Comments",
-            style: GoogleFonts.heebo(
-                fontSize: D.H / 44, fontWeight: FontWeight.w500),
-          ),
+        centerTitle: true,
+        title: Column(
+          children: [
+            SizedBox(height: 10,),
+            Text(
+              "Comments",
+              style: GoogleFonts.heebo(
+                  fontSize: D.H / 44, fontWeight: FontWeight.w500),
+            ),
+          ],
         ),
         actions: [
           GestureDetector(

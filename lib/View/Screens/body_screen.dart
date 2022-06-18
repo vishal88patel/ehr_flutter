@@ -26,11 +26,18 @@ class _BodyScreenState extends State<BodyScreen> {
       appBar: AppBar(
         backgroundColor: ColorConstants.primaryBlueColor,
         elevation: 0,
+        toolbarHeight: 45,
         centerTitle: true,
-        toolbarHeight: 50,
-        title: Text(
-          "Home",
-          style: GoogleFonts.heebo(fontWeight: FontWeight.normal),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 10,),
+            Text(
+              "Home",
+              style: GoogleFonts.heebo(fontWeight: FontWeight.normal),
+            ),
+          ],
         ),
         actions: [
           GestureDetector(
@@ -41,8 +48,8 @@ class _BodyScreenState extends State<BodyScreen> {
               padding: const EdgeInsets.only(right: 8.0),
               child: SvgPicture.asset(
                 "assets/images/avatar.svg",
-                height: 33,
-                width: 33,
+                height: 30,
+                width: 30,
               ),
             ),
           ),

@@ -30,27 +30,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: InkWell(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back_rounded,
-              size: 24.0,
-              color: Colors.white,
-            )),
-        title: Padding(
-          padding: EdgeInsets.only(right: D.W/8),
-          child: Center(
-            child: Text(
+        toolbarHeight: 48,
+        backgroundColor: ColorConstants.blueBtn,
+        elevation: 0,
+        centerTitle: true,
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 10,),
+            Text(
               "Edit Profile",
               style: GoogleFonts.heebo(
                   fontSize: D.H / 44, fontWeight: FontWeight.w500),
             ),
-          ),
+          ],
         ),
-        backgroundColor: ColorConstants.blueBtn,
-        elevation: 0,
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

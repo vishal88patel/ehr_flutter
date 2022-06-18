@@ -26,6 +26,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 48,
         leading: InkWell(
             onTap: () {
               Navigator.pop(context);
@@ -35,12 +36,16 @@ class _MedicationScreenState extends State<MedicationScreen> {
               size: 24.0,
               color: Colors.white,
             )),
-        title: Center(
-          child: Text(
-            "Medication",
-            style: GoogleFonts.heebo(
-                fontSize: D.H / 44, fontWeight: FontWeight.w500),
-          ),
+        centerTitle: true,
+        title:Column(
+          children: [
+            SizedBox(height: 10,),
+            Text(
+              "Medication",
+              style: GoogleFonts.heebo(
+                  fontSize: D.H / 44, fontWeight: FontWeight.w500),
+            ),
+          ],
         ),
         actions: [
           GestureDetector(
