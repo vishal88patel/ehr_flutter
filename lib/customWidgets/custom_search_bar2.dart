@@ -31,7 +31,7 @@ class CUstomSearchBar2 extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: D.W / 60, vertical: D.H / 100),
       child: SizedBox(
-        height: 50,
+        height: 46.0,
         child: TextFormField(
           onTap: () {
             function.call();

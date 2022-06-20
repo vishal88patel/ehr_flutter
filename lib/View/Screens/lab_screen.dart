@@ -49,19 +49,10 @@ class _LabScreenState extends State<LabScreen>
           elevation: 0,
           toolbarHeight: 45,
           centerTitle: true,
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "James Smith",
-                style: GoogleFonts.heebo(
-                    fontSize: D.H / 44, fontWeight: FontWeight.w500),
-              ),
-            ],
+          title: Text(
+            "James Smith",
+            style: GoogleFonts.heebo(
+                fontSize: D.H / 44, fontWeight: FontWeight.w500),
           ),
           actions: [
             GestureDetector(
@@ -116,15 +107,15 @@ class _LabScreenState extends State<LabScreen>
                   elevation: 5,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
                     ),
                   ),
                   child: Container(
                     padding: EdgeInsets.only(
-                      right: D.W / 22,
+                      right: D.W / 26,
                     ),
                     child: Column(
                       children: [
@@ -134,12 +125,15 @@ class _LabScreenState extends State<LabScreen>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "Comments",
-                                style: GoogleFonts.heebo(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                child: Text(
+                                  "Comments",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal),
+                                ),
                               ),
                               InkWell(
                                   onTap: () {
@@ -368,7 +362,7 @@ class _LabScreenState extends State<LabScreen>
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(
-                                                left: D.W / 30.0,
+                                                left: D.W / 40.0,
                                                 top: D.H / 80),
                                             child: Row(
                                               children: [
@@ -392,7 +386,7 @@ class _LabScreenState extends State<LabScreen>
                                                     elevation: 0,
                                                     child: Padding(
                                                       padding: EdgeInsets.all(
-                                                          D.W / 42),
+                                                          D.W / 50),
                                                       child: SvgPicture.asset(
                                                           "assets/images/ic_message.svg"),
                                                     )),
@@ -443,11 +437,11 @@ class _LabScreenState extends State<LabScreen>
                               height: 4,
                             ),
                             Container(
-                                height: 33,
+                                height: 30,
                                 decoration: BoxDecoration(
                                     color: Colors.blue.withOpacity(0.1),
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(8))),
+                                        BorderRadius.all(Radius.circular(4))),
                                 child: TextButton(
                                     onPressed: () {
                                       NavigationHelpers.redirect(
@@ -461,7 +455,7 @@ class _LabScreenState extends State<LabScreen>
                                           color: ColorConstants.skyBlue),
                                     ))),
                             SizedBox(
-                              height: D.H / 34,
+                              height: D.H / 40,
                             ),
                           ],
                         ),
@@ -477,43 +471,45 @@ class _LabScreenState extends State<LabScreen>
                   elevation: 5,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: D.W / 30.0, left: D.W / 30.0, right: D.H / 50),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Medications",
-                              style: GoogleFonts.heebo(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  NavigationHelpers.redirect(
-                                      context, AddMedicationScreen());
-                                },
-                                child: SvgPicture.asset(
-                                    "assets/images/ic_add_plus.svg"))
-                          ],
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      right: D.W / 26,
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: D.W / 30.0, left: D.W / 30.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                child: Text(
+                                  "Medications",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    NavigationHelpers.redirect(
+                                        context, AddMedicationScreen());
+                                  },
+                                  child: SvgPicture.asset(
+                                      "assets/images/ic_add_plus.svg"))
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                          left: D.W / 22,
-                          right: D.W / 22,
-                        ),
-                        child: Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             ListView.builder(
@@ -522,6 +518,9 @@ class _LabScreenState extends State<LabScreen>
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
                                   return Container(
+                                        padding: EdgeInsets.only(
+                                            left: D.W / 40.0,
+                                            top: D.H / 80),
                                     child: Center(
                                       child: Column(
                                         children: [
@@ -546,7 +545,7 @@ class _LabScreenState extends State<LabScreen>
                                                   elevation: 0,
                                                   child: Padding(
                                                     padding: EdgeInsets.all(
-                                                        D.W / 42),
+                                                        D.W / 60),
                                                     child: SvgPicture.asset(
                                                         "assets/images/ic_bowl.svg"),
                                                   )),
@@ -592,7 +591,7 @@ class _LabScreenState extends State<LabScreen>
                                                                       .lightRed),
                                                             ),
                                                             SizedBox(
-                                                              width: 6,
+                                                              width: 3,
                                                             ),
                                                             Text(
                                                               "Lorem Dummy",
@@ -621,7 +620,7 @@ class _LabScreenState extends State<LabScreen>
                                                                       .w500),
                                                         ),
                                                         SizedBox(
-                                                          width: 60,
+                                                          width: 57,
                                                         ),
                                                         Text(
                                                           "27 -12-202",
@@ -683,11 +682,11 @@ class _LabScreenState extends State<LabScreen>
                               height: 4,
                             ),
                             Container(
-                                height: 33,
+                                height: 30,
                                 decoration: BoxDecoration(
                                     color: Colors.blue.withOpacity(0.1),
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(8))),
+                                        BorderRadius.all(Radius.circular(4))),
                                 child: TextButton(
                                     onPressed: () {
                                       NavigationHelpers.redirect(
@@ -701,12 +700,12 @@ class _LabScreenState extends State<LabScreen>
                                           color: ColorConstants.skyBlue),
                                     ))),
                             SizedBox(
-                              height: D.H / 34,
+                              height: D.H / 40,
                             ),
                           ],
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -717,26 +716,29 @@ class _LabScreenState extends State<LabScreen>
                   elevation: 5,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
                     ),
                   ),
                   child: Column(
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            top: D.W / 30.0, left: D.W / 30.0, right: D.H / 50),
+                            top: D.W / 30.0, left: D.W / 30.0, right: D.W / 26),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Labs",
-                              style: GoogleFonts.heebo(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: Text(
+                                "Labs",
+                                style: GoogleFonts.heebo(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal),
+                              ),
                             ),
                             InkWell(
                                 onTap: () {
@@ -957,10 +959,12 @@ class _LabScreenState extends State<LabScreen>
                         height: D.H / 180,
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 48,
                         child: AppBar(
                           backgroundColor: Colors.white,
+                          elevation: 0,
                           bottom: TabBar(
+                            indicatorColor: ColorConstants.primaryBlueColor,
                             controller: _tabController,
                             tabs: [
                               Tab(
@@ -969,7 +973,7 @@ class _LabScreenState extends State<LabScreen>
                                   style: GoogleFonts.heebo(
                                       fontSize: 12,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.normal),
                                 ),
                               ),
                               Tab(
@@ -978,7 +982,7 @@ class _LabScreenState extends State<LabScreen>
                                   style: GoogleFonts.heebo(
                                       fontSize: 12,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.normal),
                                 ),
                               ),
                               Tab(
@@ -987,7 +991,7 @@ class _LabScreenState extends State<LabScreen>
                                   style: GoogleFonts.heebo(
                                       fontSize: 12,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.normal),
                                 ),
                               ),
                             ],
@@ -1004,7 +1008,6 @@ class _LabScreenState extends State<LabScreen>
                             // first tab bar view widget
                             Container(),
                             GraphWidget(),
-
                             // second tab bar viiew widget
                             Container(),
                           ],
@@ -1031,7 +1034,7 @@ class _LabScreenState extends State<LabScreen>
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            top: D.W / 30.0, left: D.W / 30.0, right: D.H / 50),
+                            top: D.W / 30.0, left: D.W / 30.0,right:D.W/26),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1435,6 +1438,7 @@ class _LabScreenState extends State<LabScreen>
                           ],
                         ),
                       ),
+                      SizedBox(height: 8,),
                       Row(
                         children: [
                           Expanded(
