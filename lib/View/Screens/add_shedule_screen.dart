@@ -36,12 +36,11 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
               size: 24.0,
               color: Colors.white,
             )),
-        title: Center(
-          child: Text(
-            "Add Schedule",
-            style: GoogleFonts.heebo(
-                fontSize: D.H / 44, fontWeight: FontWeight.w500),
-          ),
+        centerTitle: true,
+        title: Text(
+          "Add Schedule",
+          style: GoogleFonts.heebo(
+              fontSize: D.H / 44, fontWeight: FontWeight.w500),
         ),
       ),
       backgroundColor: ColorConstants.background,
@@ -82,9 +81,15 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                                   left: D.W / 30, right: D.W / 60),
                               width: MediaQuery.of(context).size.width / 1.8,
                               decoration: BoxDecoration(
+                                color: ColorConstants.innerColor,
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                border: Border.all(
+                                  width: 2,
                                   color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
+                                  style: BorderStyle.solid,
+                                ),
+
+                              ),
                               child: DropdownButton<String>(
                                 isExpanded: true,
                                 focusColor: Colors.white,
@@ -150,9 +155,15 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                                   left: D.W / 30, right: D.W / 60),
                               width: MediaQuery.of(context).size.width / 3.65,
                               decoration: BoxDecoration(
+                                color: ColorConstants.innerColor,
+                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                border: Border.all(
+                                  width: 2,
                                   color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
+                                  style: BorderStyle.solid,
+                                ),
+
+                              ),
                               child: DropdownButton<String>(
                                 isExpanded: true,
                                 focusColor: Colors.white,

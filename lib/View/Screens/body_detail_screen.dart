@@ -99,9 +99,14 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                           padding: EdgeInsets.only(left:D.W/30,right: D.W/60),
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
+                            color: ColorConstants.innerColor,
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            border: Border.all(
+                              width: 2,
                               color: Colors.white,
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(8))),
+                              style: BorderStyle.solid,
+                            ),
+                          ),
                           child: DropdownButton<String>(
                             isExpanded: true,
                             focusColor: Colors.white,

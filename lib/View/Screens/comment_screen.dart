@@ -9,6 +9,7 @@ import '../../Utils/navigation_helper.dart';
 import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_date_field.dart';
+import '../../customWidgets/custom_white_textform_field.dart';
 import 'change_pass_screen.dart';
 import 'edit_profile_screen.dart';
 import 'otp_screen.dart';
@@ -171,26 +172,19 @@ class _CommentScreenState extends State<CommentScreen> {
                         SizedBox(height: D.H / 120),
                         Padding(
                           padding: EdgeInsets.only(left: D.W/18,right: D.W/18),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: ColorConstants.border),
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(8))),
-                            child: CustomBigTextFormField(
-                              maxlength: 3,
-                              controller: commentController,
-                              readOnly: false,
-                              maxline: 3,
-                              validators: (e) {
-                                if (commentController.text == null ||
-                                    commentController.text == '') {
-                                  return '*Comments';
-                                }
-                              },
-                              keyboardTYPE: TextInputType.text,
-                              obscured: false,
-                            ),
+                          child: CustomWhiteTextFormField(
+                            maxlength: 3,
+                            controller: commentController,
+                            readOnly: false,
+                            maxline: 3,
+                            validators: (e) {
+                              if (commentController.text == null ||
+                                  commentController.text == '') {
+                                return '*Comments';
+                              }
+                            },
+                            keyboardTYPE: TextInputType.text,
+                            obscured: false,
                           ),
                         ),
                         SizedBox(height: D.H / 60),
