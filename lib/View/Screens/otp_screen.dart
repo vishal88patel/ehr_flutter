@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../Constants/api_endpoint.dart';
+import '../../Model/otp_verification_model.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
@@ -205,11 +206,13 @@ class _OtpScreenState extends State<OtpScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200 ) {
-      // PreferenceUtils.setString("ACCESSTOKEN",res["accessToken"]);
-      //
-      // CommonUtils.hideProgressDialog(context);
-      // CommonUtils.showGreenToastMessage("Login Successfully");
-      // NavigationHelpers.redirectto(context, OtpScreen());
+      OtpVerificationModel model=OtpVerificationModel();
+      model=OtpVerificationModel.fromJson(res);
+      PreferenceUtils.putObject("OtpVerificationResponse", model);
+
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("Login Successfully");
+      NavigationHelpers.redirect(context, RegisterScreen());
 
     } else {
       CommonUtils.hideProgressDialog(context);

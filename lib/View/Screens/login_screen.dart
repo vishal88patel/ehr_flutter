@@ -264,7 +264,7 @@ class _LogInScreenState extends State<LogInScreen> {
       PreferenceUtils.setString("ACCESSTOKEN",res["accessToken"]);
 
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Login Successfully");
+      CommonUtils.showGreenToastMessage("Otp Sent Successfully");
       NavigationHelpers.redirectto(context, OtpScreen());
 
     } else {
