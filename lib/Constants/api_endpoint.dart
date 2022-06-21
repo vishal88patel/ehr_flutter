@@ -1,21 +1,21 @@
 
 class ApiEndPoint {
 
-  static String BASE_URL = "https://hindustanbrassindustries.com/api/";
+  static String BASE_URL = "https://ehr-app.azurewebsites.net/swagger/";
 
 
-  static Uri REGISTER = Uri.parse(BASE_URL + "register");
-  static Uri login = Uri.parse(BASE_URL + "login");
-  static Uri ForgetPassword = Uri.parse(BASE_URL + "forgot-password");
-  static Uri socialmediasignup = Uri.parse(BASE_URL + "social-media-signup");
-  static Uri getJobCategory = Uri.parse(BASE_URL + "job-categories");
-  static Uri AppliedJob = Uri.parse(BASE_URL + "candidate/applied-jobs");
-  static Uri getRecentJob = Uri.parse(BASE_URL + "latest-jobs");
-  static Uri getJobDetails = Uri.parse(BASE_URL + "job/");
-  static Uri applyJob = Uri.parse(BASE_URL + "apply-job");
-  static Uri logout = Uri.parse(BASE_URL + "logout");
-  static Uri refressToken = Uri.parse(BASE_URL + "refresh-token");
-  // static Uri LOGIN = Uri.parse(BASE_URL + "/auth/login");
-
+  static Uri login = Uri.parse(BASE_URL + "account/login");
+  static Uri otpVeryfy = Uri.parse(BASE_URL + "account/verify-access");
+  static Uri resendOtp = Uri.parse(BASE_URL + "account/resend-code");
+  static Uri getProfile = Uri.parse(BASE_URL + "account/profile");
+  static Uri updateProfile = Uri.parse(BASE_URL + "account/update-profile");
+  static Uri uploadPhoto = Uri.parse(BASE_URL + "account/upload-photo");
+  static Uri countryCode = Uri.parse(BASE_URL + "shared/get-country-codes");
+  static Uri getBodyParts = Uri.parse(BASE_URL + "shared/get-body-parts");
+  static Uri getNotification = Uri.parse(BASE_URL + "users/get-notifications");
+  static Uri savePain = Uri.parse(BASE_URL + "users/save-pain");
+  static Uri saveComment = Uri.parse(BASE_URL + "users/save-comment");
+  static Uri getComment = Uri.parse(BASE_URL + "users/get-comments");
+  static Uri getDashboard = Uri.parse(BASE_URL + "users/dashboard");
 
 }

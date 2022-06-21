@@ -1,12 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-
 class ColorConstants {
-  // static var statusBarColor = Color(0xFFFA8832);
+
   static var primaryBlueColor = Color(0xFF222F7E);
-  // static var primaryGreenColor = Color(0xFF238841);
   static var whiteColor = Color(0xFFFFFFFF);
   static var blackColor = Color(0xFF070707);
   static var background = Color(0xFFFFFFFF);
@@ -28,6 +25,4 @@ class ColorConstants {
   static var light = Color(0xFFA7A7A7);
   static var calenderFontColor = Color(0xFF0084F0);
   static var innerColor = Color(0xFFF8F9FC);
-
-
 }
