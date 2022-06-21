@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 
 
 class ColorConstants {
-  // static var statusBarColor = Color(0xFFFA8832);
+
   static var primaryBlueColor = Color(0xFF222F7E);
-  // static var primaryGreenColor = Color(0xFF238841);
   static var whiteColor = Color(0xFFFFFFFF);
   static var blackColor = Color(0xFF070707);
   static var background = Color(0xFFFFFFFF);
