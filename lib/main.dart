@@ -5,6 +5,7 @@ import 'Constants/color_constants.dart';
 import 'View/Screens/splash_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 
 }

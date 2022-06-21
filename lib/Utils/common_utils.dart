@@ -28,6 +28,28 @@ class CommonUtils {
       toastLength: Toast.LENGTH_LONG,
     );
   }
+  static void showProgressDialog(BuildContext context) {
+    isShowing = true;
+    showDialog(
+        barrierDismissible: false,
+        useSafeArea: true,
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              height: 100.0,
+              width: 100.0,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0)),
+              child: const Center(
+                child: CircularProgressIndicator(color:  Color(0xFF222F7E)),
+              ),
+            ),
+          );
+        });
+  }
 
   static onLoading(BuildContext context) {
     showDialog(
@@ -57,28 +79,6 @@ class CommonUtils {
   }
   static hideDialog(BuildContext context){
     Navigator.pop(context);
-  }
-  static void showProgressDialog(BuildContext context) {
-    isShowing = true;
-    showDialog(
-        barrierDismissible: false,
-        useSafeArea: true,
-        context: context,
-        builder: (context) {
-          return Center(
-            child: Container(
-              padding: const EdgeInsets.all(10.0),
-              height: 100.0,
-              width: 100.0,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0)),
-              child: const Center(
-                child: CircularProgressIndicator(color:  Color(0xFF1489A9)),
-              ),
-            ),
-          );
-        });
   }
 
   static void hideProgressDialog(BuildContext context) {

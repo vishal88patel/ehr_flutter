@@ -45,64 +45,61 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: D.H/16,
-      child: TextFormField(
-        obscureText: _obscured,
-        readOnly: widget.readOnly,
-        controller:widget.controller,
-        validator: widget.validators,
-        onChanged: widget.onChanged,
-        maxLength: widget.maxlength,
-        cursorColor: ColorConstants.primaryBlueColor,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(left:D.W/30,right: D.W/30),
-          focusColor: ColorConstants.whiteColor,
-          filled: true,
-          fillColor: ColorConstants.innerColor,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide(
-              color: Colors.white.withOpacity(0.5),
-              width: 2.0,
-            ),
+    return TextFormField(
+      obscureText: _obscured,
+      readOnly: widget.readOnly,
+      controller:widget.controller,
+      validator: widget.validators,
+      onChanged: widget.onChanged,
+      maxLength: widget.maxlength,
+      cursorColor: ColorConstants.primaryBlueColor,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.only(left:D.W/30,right: D.W/30),
+        focusColor: ColorConstants.whiteColor,
+        filled: true,
+        fillColor: ColorConstants.innerColor,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: Colors.white.withOpacity(0.5),
+            width: 2.0,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: Colors.white.withOpacity(0.5),
-              width: 2.0,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
-          disabledBorder: OutlineInputBorder(
-
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
-          counterText: "",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
-          errorMaxLines: 4,
-          labelStyle: TextStyle(fontSize: D.H/48, color: Colors.black),
         ),
-        keyboardType: widget.keyboardTYPE,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: Colors.white.withOpacity(0.5),
+            width: 2.0,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 0,
+            style: BorderStyle.none,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 0,
+            style: BorderStyle.none,
+          ),
+        ),
+        counterText: "",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            width: 0,
+            style: BorderStyle.none,
+          ),
+        ),
+        errorMaxLines: 4,
+        labelStyle: TextStyle(fontSize: D.H/48, color: Colors.black),
       ),
+      keyboardType: widget.keyboardTYPE,
     );
   }
 }
