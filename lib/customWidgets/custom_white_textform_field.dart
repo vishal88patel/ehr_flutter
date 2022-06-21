@@ -4,8 +4,8 @@ import '../../Utils/dimensions.dart';
 import '../Constants/color_constants.dart';
 import '../Utils/dimensions.dart';
 
-class CustomBigTextFormField extends StatefulWidget {
-  CustomBigTextFormField(
+class CustomWhiteTextFormField extends StatefulWidget {
+  CustomWhiteTextFormField(
       {Key? key,
         required this.controller,
         required this.readOnly,
@@ -26,10 +26,10 @@ class CustomBigTextFormField extends StatefulWidget {
   final FormFieldValidator<String>? onChanged;
 
   @override
-  State<CustomBigTextFormField> createState() => _CustomBigTextFormFieldState();
+  State<CustomWhiteTextFormField> createState() => _CustomWhiteTextFormFieldState();
 }
 
-class _CustomBigTextFormFieldState extends State<CustomBigTextFormField> {
+class _CustomWhiteTextFormFieldState extends State<CustomWhiteTextFormField> {
   bool _obscured = false;
 
   final textFieldFocusNode = FocusNode();
@@ -49,7 +49,6 @@ class _CustomBigTextFormFieldState extends State<CustomBigTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       child: TextFormField(
         maxLines: widget.maxline,
         obscureText: _obscured,
@@ -63,41 +62,26 @@ class _CustomBigTextFormFieldState extends State<CustomBigTextFormField> {
           contentPadding: EdgeInsets.only(left:D.W/30,right: D.W/30,top: D.W/30),
           focusColor: ColorConstants.whiteColor,
           filled: true,
-          fillColor: Color(0xFFF8F9FC),
+          fillColor: Colors.white,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: BorderSide(
-              color: Colors.white.withOpacity(0.5),
-              width: 2.0,
+              color: ColorConstants.lightGrey,
+              width: 1.0,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
-              color: Colors.white.withOpacity(0.5),
-              width: 2.0,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-          ),
-          disabledBorder: OutlineInputBorder(
-
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              width: 0,
-              style: BorderStyle.none,
+              width: 1.0,
+              color:ColorConstants.lightGrey,
             ),
           ),
           counterText: "",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
-              width: 0,
+              width: 1,
               style: BorderStyle.none,
             ),
           ),

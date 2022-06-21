@@ -25,8 +25,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorConstants.blueBtn,
-        elevation: 0,
+        toolbarHeight: 48,
         leading: InkWell(
             onTap: () {
               Navigator.pop(context);
@@ -36,13 +35,20 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
               size: 24.0,
               color: Colors.white,
             )),
-        title: Center(
-          child: Text(
-            "Add Schedule",
-            style: GoogleFonts.heebo(
-                fontSize: D.H / 44, fontWeight: FontWeight.w500),
-          ),
+        centerTitle: true,
+        title: Column(
+          children: [
+            SizedBox(height: 10,),
+            Text(
+              "Add Schedual",
+              style: GoogleFonts.heebo(
+                  fontSize: D.H / 44, fontWeight: FontWeight.w500),
+            ),
+          ],
         ),
+
+        backgroundColor: ColorConstants.blueBtn,
+        elevation: 0,
       ),
       backgroundColor: ColorConstants.background,
       body: SingleChildScrollView(

@@ -10,6 +10,7 @@ import '../../CustomWidgets/chart_widget.dart';
 import '../../CustomWidgets/custom_search_bar.dart';
 import '../../CustomWidgets/custom_search_bar2.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
+import '../../CustomWidgets/custom_white_textform_field.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../customWidgets/custom_big_textform_field.dart';
@@ -48,21 +49,14 @@ class _LabScreenState extends State<LabScreen>
           elevation: 0,
           toolbarHeight: 45,
           centerTitle: true,
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 10,),
-              Text(
-                "James Smith",
-                style: GoogleFonts.heebo(
-                    fontSize: D.H / 44, fontWeight: FontWeight.w500),
-              ),
-            ],
+          title: Text(
+            "James Smith",
+            style: GoogleFonts.heebo(
+                fontSize: D.H / 44, fontWeight: FontWeight.w500),
           ),
           actions: [
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 NavigationHelpers.redirect(context, ProfileScreen());
               },
               child: Padding(
@@ -113,15 +107,15 @@ class _LabScreenState extends State<LabScreen>
                   elevation: 5,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
                     ),
                   ),
                   child: Container(
                     padding: EdgeInsets.only(
-                      right: D.W / 22,
+                      right: D.W / 26,
                     ),
                     child: Column(
                       children: [
@@ -131,12 +125,15 @@ class _LabScreenState extends State<LabScreen>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "Comments",
-                                style: GoogleFonts.heebo(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                child: Text(
+                                  "Comments",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal),
+                                ),
                               ),
                               InkWell(
                                   onTap: () {
@@ -169,8 +166,7 @@ class _LabScreenState extends State<LabScreen>
                                                       children: [
                                                         InkWell(
                                                           onTap: () {
-                                                            Navigator.pop(
-                                                                context);
+                                                            Navigator.pop(context);
                                                           },
                                                           child: Icon(
                                                             Icons.close,
@@ -215,22 +211,19 @@ class _LabScreenState extends State<LabScreen>
                                                       padding: EdgeInsets.only(
                                                           left: D.W / 30,
                                                           right: D.W / 60),
-                                                      width:
-                                                      MediaQuery.of(context)
+                                                      width: MediaQuery.of(context)
                                                           .size
                                                           .width,
                                                       decoration: BoxDecoration(
                                                           color: Colors.white,
                                                           border: Border.all(
-                                                              color:
-                                                              ColorConstants
+                                                              color: ColorConstants
                                                                   .border),
                                                           borderRadius:
                                                           BorderRadius.all(
                                                               Radius.circular(
                                                                   8))),
-                                                      child:
-                                                      DropdownButton<String>(
+                                                      child: DropdownButton<String>(
                                                         isExpanded: true,
                                                         focusColor: Colors.white,
                                                         value: _chosenValue,
@@ -243,8 +236,8 @@ class _LabScreenState extends State<LabScreen>
                                                             .arrow_drop_down_sharp),
                                                         iconSize: 32,
                                                         underline: Container(
-                                                            color: Colors
-                                                                .transparent),
+                                                            color:
+                                                            Colors.transparent),
                                                         items: <String>[
                                                           'Abc',
                                                           'Bcd',
@@ -263,8 +256,8 @@ class _LabScreenState extends State<LabScreen>
                                                                 child: Text(
                                                                   value,
                                                                   style: TextStyle(
-                                                                      color: Colors
-                                                                          .black),
+                                                                      color:
+                                                                      Colors.black),
                                                                 ),
                                                               );
                                                             }).toList(),
@@ -274,11 +267,9 @@ class _LabScreenState extends State<LabScreen>
                                                               color: Colors.black,
                                                               fontSize: D.H / 48,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w400),
+                                                              FontWeight.w400),
                                                         ),
-                                                        onChanged:
-                                                            (String? value) {
+                                                        onChanged: (String? value) {
                                                           setState(() {
                                                             _chosenValue = value;
                                                           });
@@ -304,38 +295,24 @@ class _LabScreenState extends State<LabScreen>
                                                     padding: EdgeInsets.only(
                                                         left: D.W / 18,
                                                         right: D.W / 18),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          border: Border.all(
-                                                              color:
-                                                              ColorConstants
-                                                                  .border),
-                                                          borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  8))),
-                                                      child:
-                                                      CustomBigTextFormField(
-                                                        controller:
-                                                        commentController,
-                                                        readOnly: false,
-                                                        maxline: 3,
-                                                        validators: (e) {
-                                                          if (commentController
-                                                              .text ==
-                                                              null ||
-                                                              commentController
-                                                                  .text ==
-                                                                  '') {
-                                                            return '*Comments';
-                                                          }
-                                                        },
-                                                        keyboardTYPE:
-                                                        TextInputType.text,
-                                                        obscured: false,
-                                                        maxlength: 3,
-                                                      ),
+                                                    child: CustomWhiteTextFormField(
+                                                      controller: commentController,
+                                                      readOnly: false,
+                                                      maxline: 3,
+                                                      validators: (e) {
+                                                        if (commentController
+                                                            .text ==
+                                                            null ||
+                                                            commentController
+                                                                .text ==
+                                                                '') {
+                                                          return '*Comments';
+                                                        }
+                                                      },
+                                                      keyboardTYPE:
+                                                      TextInputType.text,
+                                                      obscured: false,
+                                                      maxlength: 3,
                                                     ),
                                                   ),
                                                   SizedBox(height: D.H / 60),
@@ -366,7 +343,8 @@ class _LabScreenState extends State<LabScreen>
                                           ),
                                     );
                                   },
-                                  child: SvgPicture.asset("assets/images/ic_add_plus.svg"))
+                                  child: SvgPicture.asset(
+                                      "assets/images/ic_add_plus.svg"))
                             ],
                           ),
                         ),
@@ -384,55 +362,55 @@ class _LabScreenState extends State<LabScreen>
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(
-                                                left: D.W / 30.0,
+                                                left: D.W / 40.0,
                                                 top: D.H / 80),
                                             child: Row(
                                               children: [
                                                 Card(
                                                     color:
-                                                        ColorConstants.bgImage,
+                                                    ColorConstants.bgImage,
                                                     shape:
-                                                        const RoundedRectangleBorder(
+                                                    const RoundedRectangleBorder(
                                                       borderRadius:
-                                                          BorderRadius.only(
+                                                      BorderRadius.only(
                                                         topLeft:
-                                                            Radius.circular(8),
+                                                        Radius.circular(8),
                                                         topRight:
-                                                            Radius.circular(8),
+                                                        Radius.circular(8),
                                                         bottomLeft:
-                                                            Radius.circular(8),
+                                                        Radius.circular(8),
                                                         bottomRight:
-                                                            Radius.circular(8),
+                                                        Radius.circular(8),
                                                       ),
                                                     ),
                                                     elevation: 0,
                                                     child: Padding(
                                                       padding: EdgeInsets.all(
-                                                          D.W / 42),
+                                                          D.W / 50),
                                                       child: SvgPicture.asset(
                                                           "assets/images/ic_message.svg"),
                                                     )),
                                                 SizedBox(width: D.H / 80),
                                                 Column(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       "Chest",
                                                       style: GoogleFonts.heebo(
                                                           fontSize: D.H / 52,
                                                           fontWeight:
-                                                              FontWeight.w700),
+                                                          FontWeight.w700),
                                                     ),
                                                     Text(
                                                       "Mitral valve prolapse",
                                                       style: GoogleFonts.heebo(
                                                           fontSize: D.H / 52,
                                                           fontWeight:
-                                                              FontWeight.w400),
+                                                          FontWeight.w400),
                                                     ),
                                                   ],
                                                 )
@@ -459,11 +437,11 @@ class _LabScreenState extends State<LabScreen>
                               height: 4,
                             ),
                             Container(
-                                height: 33,
+                                height: 30,
                                 decoration: BoxDecoration(
                                     color: Colors.blue.withOpacity(0.1),
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(8))),
+                                    BorderRadius.all(Radius.circular(4))),
                                 child: TextButton(
                                     onPressed: () {
                                       NavigationHelpers.redirect(
@@ -477,7 +455,7 @@ class _LabScreenState extends State<LabScreen>
                                           color: ColorConstants.skyBlue),
                                     ))),
                             SizedBox(
-                              height: D.H / 34,
+                              height: D.H / 40,
                             ),
                           ],
                         ),
@@ -493,42 +471,45 @@ class _LabScreenState extends State<LabScreen>
                   elevation: 5,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: D.W / 30.0, left: D.W / 30.0, right: D.H / 50),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Medications",
-                              style: GoogleFonts.heebo(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  NavigationHelpers.redirect(
-                                      context, AddMedicationScreen());
-                                },
-                                child: SvgPicture.asset("assets/images/ic_add_plus.svg"))
-                          ],
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      right: D.W / 26,
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: D.W / 30.0, left: D.W / 30.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                child: Text(
+                                  "Medications",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    NavigationHelpers.redirect(
+                                        context, AddMedicationScreen());
+                                  },
+                                  child: SvgPicture.asset(
+                                      "assets/images/ic_add_plus.svg"))
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                          left: D.W / 22,
-                          right: D.W / 22,
-                        ),
-                        child: Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             ListView.builder(
@@ -537,6 +518,9 @@ class _LabScreenState extends State<LabScreen>
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
                                   return Container(
+                                    padding: EdgeInsets.only(
+                                        left: D.W / 40.0,
+                                        top: D.H / 80),
                                     child: Center(
                                       child: Column(
                                         children: [
@@ -545,23 +529,23 @@ class _LabScreenState extends State<LabScreen>
                                               Card(
                                                   color: ColorConstants.bgImage,
                                                   shape:
-                                                      const RoundedRectangleBorder(
+                                                  const RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.only(
+                                                    BorderRadius.only(
                                                       topLeft:
-                                                          Radius.circular(8),
+                                                      Radius.circular(8),
                                                       topRight:
-                                                          Radius.circular(8),
+                                                      Radius.circular(8),
                                                       bottomLeft:
-                                                          Radius.circular(8),
+                                                      Radius.circular(8),
                                                       bottomRight:
-                                                          Radius.circular(8),
+                                                      Radius.circular(8),
                                                     ),
                                                   ),
                                                   elevation: 0,
                                                   child: Padding(
                                                     padding: EdgeInsets.all(
-                                                        D.W / 42),
+                                                        D.W / 60),
                                                     child: SvgPicture.asset(
                                                         "assets/images/ic_bowl.svg"),
                                                   )),
@@ -570,25 +554,25 @@ class _LabScreenState extends State<LabScreen>
                                                     left: D.H / 100),
                                                 child: Column(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   children: [
                                                     Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                       children: [
                                                         Text(
                                                           "Metformin",
                                                           style:
-                                                              GoogleFonts.heebo(
-                                                                  fontSize:
-                                                                      D.H / 52,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
+                                                          GoogleFonts.heebo(
+                                                              fontSize:
+                                                              D.H / 52,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400),
                                                         ),
                                                         SizedBox(
                                                           width: 65,
@@ -600,14 +584,14 @@ class _LabScreenState extends State<LabScreen>
                                                               width: D.W / 30,
                                                               decoration: BoxDecoration(
                                                                   borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              25)),
+                                                                  BorderRadius.all(
+                                                                      Radius.circular(
+                                                                          25)),
                                                                   color: ColorConstants
                                                                       .lightRed),
                                                             ),
                                                             SizedBox(
-                                                              width: 6,
+                                                              width: 3,
                                                             ),
                                                             Text(
                                                               "Lorem Dummy",
@@ -615,7 +599,7 @@ class _LabScreenState extends State<LabScreen>
                                                                   color: Colors
                                                                       .black
                                                                       .withOpacity(
-                                                                          0.3)),
+                                                                      0.3)),
                                                             )
                                                           ],
                                                         )
@@ -627,16 +611,16 @@ class _LabScreenState extends State<LabScreen>
                                                           "Hil 250 mg 2/Day",
                                                           style: GoogleFonts.heebo(
                                                               color:
-                                                                  ColorConstants
-                                                                      .blueBtn,
+                                                              ColorConstants
+                                                                  .blueBtn,
                                                               fontSize:
-                                                                  D.H / 66,
+                                                              D.H / 66,
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                              FontWeight
+                                                                  .w500),
                                                         ),
                                                         SizedBox(
-                                                          width: 60,
+                                                          width: 57,
                                                         ),
                                                         Text(
                                                           "27 -12-202",
@@ -644,7 +628,7 @@ class _LabScreenState extends State<LabScreen>
                                                               color: Colors
                                                                   .black
                                                                   .withOpacity(
-                                                                      0.3)),
+                                                                  0.3)),
                                                         )
                                                       ],
                                                     ),
@@ -654,21 +638,21 @@ class _LabScreenState extends State<LabScreen>
                                                             "assets/images/ic_doctor.svg"),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 2.0,
-                                                                  top: 2.0),
+                                                          const EdgeInsets
+                                                              .only(
+                                                              left: 2.0,
+                                                              top: 2.0),
                                                           child: Text(
                                                             "Jhon Miler",
                                                             style: GoogleFonts.heebo(
                                                                 color:
-                                                                    ColorConstants
-                                                                        .darkText,
+                                                                ColorConstants
+                                                                    .darkText,
                                                                 fontSize:
-                                                                    D.H / 66,
+                                                                D.H / 66,
                                                                 fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
+                                                                FontWeight
+                                                                    .w400),
                                                           ),
                                                         ),
                                                       ],
@@ -698,11 +682,11 @@ class _LabScreenState extends State<LabScreen>
                               height: 4,
                             ),
                             Container(
-                                height: 33,
+                                height: 30,
                                 decoration: BoxDecoration(
                                     color: Colors.blue.withOpacity(0.1),
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(8))),
+                                    BorderRadius.all(Radius.circular(4))),
                                 child: TextButton(
                                     onPressed: () {
                                       NavigationHelpers.redirect(
@@ -716,12 +700,12 @@ class _LabScreenState extends State<LabScreen>
                                           color: ColorConstants.skyBlue),
                                     ))),
                             SizedBox(
-                              height: D.H / 34,
+                              height: D.H / 40,
                             ),
                           ],
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -732,26 +716,29 @@ class _LabScreenState extends State<LabScreen>
                   elevation: 5,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
                     ),
                   ),
                   child: Column(
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            top: D.W / 30.0, left: D.W / 30.0, right: D.H / 50),
+                            top: D.W / 30.0, left: D.W / 30.0, right: D.W / 26),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Labs",
-                              style: GoogleFonts.heebo(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: Text(
+                                "Labs",
+                                style: GoogleFonts.heebo(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal),
+                              ),
                             ),
                             InkWell(
                                 onTap: () {
@@ -853,8 +840,7 @@ class _LabScreenState extends State<LabScreen>
                                                       style: TextStyle(
                                                           color: Colors.white),
                                                       iconEnabledColor:
-                                                      ColorConstants
-                                                          .lightGrey,
+                                                      ColorConstants.lightGrey,
                                                       icon: Icon(Icons
                                                           .arrow_drop_down_sharp),
                                                       iconSize: 32,
@@ -918,33 +904,22 @@ class _LabScreenState extends State<LabScreen>
                                                   padding: EdgeInsets.only(
                                                       left: D.W / 18,
                                                       right: D.W / 18),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        border: Border.all(
-                                                            color: ColorConstants
-                                                                .border),
-                                                        borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8))),
-                                                    child: CustomTextFormField(
-                                                      controller: valueController,
-                                                      readOnly: false,
-                                                      validators: (e) {
-                                                        if (valueController
-                                                            .text ==
-                                                            null ||
-                                                            valueController
-                                                                .text ==
-                                                                '') {
-                                                          return '*Value';
-                                                        }
-                                                      },
-                                                      keyboardTYPE:
-                                                      TextInputType.text,
-                                                      obscured: false,
-                                                    ),
+                                                  child: CustomWhiteTextFormField(
+                                                    controller: valueController,
+                                                    readOnly: false,
+                                                    validators: (e) {
+                                                      if (valueController.text ==
+                                                          null ||
+                                                          valueController.text ==
+                                                              '') {
+                                                        return '*Value';
+                                                      }
+                                                    },
+                                                    keyboardTYPE:
+                                                    TextInputType.text,
+                                                    obscured: false,
+                                                    maxlength: 100,
+                                                    maxline: 1,
                                                   ),
                                                 ),
                                                 SizedBox(height: D.H / 40),
@@ -975,7 +950,8 @@ class _LabScreenState extends State<LabScreen>
                                         ),
                                   );
                                 },
-                                child: SvgPicture.asset("assets/images/ic_add_plus.svg"))
+                                child: SvgPicture.asset(
+                                    "assets/images/ic_add_plus.svg"))
                           ],
                         ),
                       ),
@@ -983,10 +959,12 @@ class _LabScreenState extends State<LabScreen>
                         height: D.H / 180,
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 48,
                         child: AppBar(
                           backgroundColor: Colors.white,
+                          elevation: 0,
                           bottom: TabBar(
+                            indicatorColor: ColorConstants.primaryBlueColor,
                             controller: _tabController,
                             tabs: [
                               Tab(
@@ -995,7 +973,7 @@ class _LabScreenState extends State<LabScreen>
                                   style: GoogleFonts.heebo(
                                       fontSize: 12,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.normal),
                                 ),
                               ),
                               Tab(
@@ -1004,7 +982,7 @@ class _LabScreenState extends State<LabScreen>
                                   style: GoogleFonts.heebo(
                                       fontSize: 12,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.normal),
                                 ),
                               ),
                               Tab(
@@ -1013,7 +991,7 @@ class _LabScreenState extends State<LabScreen>
                                   style: GoogleFonts.heebo(
                                       fontSize: 12,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.normal),
                                 ),
                               ),
                             ],
@@ -1030,7 +1008,6 @@ class _LabScreenState extends State<LabScreen>
                             // first tab bar view widget
                             Container(),
                             GraphWidget(),
-
                             // second tab bar viiew widget
                             Container(),
                           ],
@@ -1057,7 +1034,7 @@ class _LabScreenState extends State<LabScreen>
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            top: D.W / 30.0, left: D.W / 30.0, right: D.H / 50),
+                            top: D.W / 30.0, left: D.W / 30.0,right:D.W/26),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1159,10 +1136,8 @@ class _LabScreenState extends State<LabScreen>
                                                           child: Padding(
                                                             padding:
                                                             EdgeInsets.only(
-                                                                left:
-                                                                D.W / 50,
-                                                                right:
-                                                                D.W / 70,
+                                                                left: D.W / 50,
+                                                                right: D.W / 70,
                                                                 top: D.W / 50,
                                                                 bottom:
                                                                 D.W / 50),
@@ -1192,8 +1167,7 @@ class _LabScreenState extends State<LabScreen>
                                                       Stack(
                                                         children: [
                                                           Card(
-                                                              color:
-                                                              ColorConstants
+                                                              color: ColorConstants
                                                                   .bgImage,
                                                               shape:
                                                               const RoundedRectangleBorder(
@@ -1201,14 +1175,11 @@ class _LabScreenState extends State<LabScreen>
                                                                 BorderRadius
                                                                     .only(
                                                                   topLeft: Radius
-                                                                      .circular(
-                                                                      8),
+                                                                      .circular(8),
                                                                   topRight: Radius
-                                                                      .circular(
-                                                                      8),
+                                                                      .circular(8),
                                                                   bottomLeft: Radius
-                                                                      .circular(
-                                                                      8),
+                                                                      .circular(8),
                                                                   bottomRight:
                                                                   Radius
                                                                       .circular(
@@ -1217,20 +1188,18 @@ class _LabScreenState extends State<LabScreen>
                                                               ),
                                                               elevation: 0,
                                                               child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                EdgeInsets.only(
                                                                     left: D.W /
                                                                         34,
-                                                                    right:
-                                                                    D.W /
+                                                                    right: D.W /
                                                                         34,
                                                                     top: D.W /
                                                                         34,
                                                                     bottom:
                                                                     D.W /
                                                                         34),
-                                                                child: SvgPicture
-                                                                    .asset(
+                                                                child: SvgPicture.asset(
                                                                     "assets/images/ic_gallary.svg"),
                                                               )),
                                                           Positioned(
@@ -1241,10 +1210,10 @@ class _LabScreenState extends State<LabScreen>
                                                                       .circular(
                                                                       20),
                                                                   child: Container(
-                                                                      color: ColorConstants.skyBlue,
+                                                                      color: ColorConstants
+                                                                          .skyBlue,
                                                                       child: Icon(
-                                                                        Icons
-                                                                            .close,
+                                                                        Icons.close,
                                                                         size: 20,
                                                                         color: Colors
                                                                             .white,
@@ -1257,8 +1226,7 @@ class _LabScreenState extends State<LabScreen>
                                                       Stack(
                                                         children: [
                                                           Card(
-                                                              color:
-                                                              ColorConstants
+                                                              color: ColorConstants
                                                                   .bgImage,
                                                               shape:
                                                               const RoundedRectangleBorder(
@@ -1266,14 +1234,11 @@ class _LabScreenState extends State<LabScreen>
                                                                 BorderRadius
                                                                     .only(
                                                                   topLeft: Radius
-                                                                      .circular(
-                                                                      8),
+                                                                      .circular(8),
                                                                   topRight: Radius
-                                                                      .circular(
-                                                                      8),
+                                                                      .circular(8),
                                                                   bottomLeft: Radius
-                                                                      .circular(
-                                                                      8),
+                                                                      .circular(8),
                                                                   bottomRight:
                                                                   Radius
                                                                       .circular(
@@ -1282,20 +1247,18 @@ class _LabScreenState extends State<LabScreen>
                                                               ),
                                                               elevation: 0,
                                                               child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                EdgeInsets.only(
                                                                     left: D.W /
                                                                         34,
-                                                                    right:
-                                                                    D.W /
+                                                                    right: D.W /
                                                                         34,
                                                                     top: D.W /
                                                                         34,
                                                                     bottom:
                                                                     D.W /
                                                                         34),
-                                                                child: SvgPicture
-                                                                    .asset(
+                                                                child: SvgPicture.asset(
                                                                     "assets/images/ic_gallary.svg"),
                                                               )),
                                                           Positioned(
@@ -1306,10 +1269,10 @@ class _LabScreenState extends State<LabScreen>
                                                                       .circular(
                                                                       20),
                                                                   child: Container(
-                                                                      color: ColorConstants.skyBlue,
+                                                                      color: ColorConstants
+                                                                          .skyBlue,
                                                                       child: Icon(
-                                                                        Icons
-                                                                            .close,
+                                                                        Icons.close,
                                                                         size: 20,
                                                                         color: Colors
                                                                             .white,
@@ -1360,8 +1323,7 @@ class _LabScreenState extends State<LabScreen>
                                                       style: TextStyle(
                                                           color: Colors.white),
                                                       iconEnabledColor:
-                                                      ColorConstants
-                                                          .lightGrey,
+                                                      ColorConstants.lightGrey,
                                                       icon: Icon(Icons
                                                           .arrow_drop_down_sharp),
                                                       iconSize: 32,
@@ -1425,31 +1387,22 @@ class _LabScreenState extends State<LabScreen>
                                                   padding: EdgeInsets.only(
                                                       left: D.W / 18,
                                                       right: D.W / 18),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        border: Border.all(
-                                                            color: ColorConstants
-                                                                .border),
-                                                        borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8))),
-                                                    child: CustomTextFormField(
-                                                      controller: discController,
-                                                      readOnly: false,
-                                                      validators: (e) {
-                                                        if (discController.text ==
-                                                            null ||
-                                                            discController.text ==
-                                                                '') {
-                                                          return '*Description';
-                                                        }
-                                                      },
-                                                      keyboardTYPE:
-                                                      TextInputType.text,
-                                                      obscured: false,
-                                                    ),
+                                                  child: CustomWhiteTextFormField(
+                                                    controller: discController,
+                                                    readOnly: false,
+                                                    validators: (e) {
+                                                      if (discController.text ==
+                                                          null ||
+                                                          discController.text ==
+                                                              '') {
+                                                        return '*Description';
+                                                      }
+                                                    },
+                                                    keyboardTYPE:
+                                                    TextInputType.text,
+                                                    obscured: false,
+                                                    maxline: 1,
+                                                    maxlength: 100,
                                                   ),
                                                 ),
                                                 SizedBox(height: D.H / 40),
@@ -1480,132 +1433,143 @@ class _LabScreenState extends State<LabScreen>
                                         ),
                                   );
                                 },
-                                child: SvgPicture.asset("assets/images/ic_add_plus.svg"))
+                                child: SvgPicture.asset(
+                                    "assets/images/ic_add_plus.svg"))
                           ],
                         ),
                       ),
+                      SizedBox(height: 8,),
                       Row(
                         children: [
                           Expanded(
                               child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showDialouge(
-                                      name: "X-ray",
-                                      image: "assets/images/xray_icon.png");
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  elevation: 4,
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
-                                          child: Image.asset(
-                                            "assets/images/xray_icon.png",height: 120,width: 120,
-                                            fit: BoxFit.cover,
-                                          )),
-                                      SizedBox(
-                                        height: 4,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showDialouge(
+                                          name: "X-ray",
+                                          image: "assets/images/xray_icon.png");
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
                                       ),
-                                      Text(
-                                        "X-ray",
-                                        style: GoogleFonts.heebo(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 16),
-                                      )
-                                    ],
+                                      elevation: 4,
+                                      child: Column(
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(18),
+                                                  topRight: Radius.circular(18)),
+                                              child: Image.asset(
+                                                "assets/images/xray_icon.png",
+                                                height: 120,
+                                                width: 120,
+                                                fit: BoxFit.cover,
+                                              )),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Text(
+                                            "X-ray",
+                                            style: GoogleFonts.heebo(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          )),
+                                ],
+                              )),
                           SizedBox(
                             width: 4,
                           ),
                           Expanded(
                               child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showDialouge(
-                                      name: "CT Scan",
-                                      image: "assets/images/ctscan_icon.png");
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  elevation: 4,
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
-                                          child: Image.asset(
-                                            "assets/images/ctscan_icon.png",  height: 120,
-                                            width: 200,
-                                            fit: BoxFit.cover,
-                                          )),
-                                      SizedBox(
-                                        height: 4,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showDialouge(
+                                          name: "CT Scan",
+                                          image: "assets/images/ctscan_icon.png");
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
                                       ),
-                                      Text(
-                                        "CT Scan",
-                                        style: GoogleFonts.heebo(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 16),
-                                      )
-                                    ],
+                                      elevation: 4,
+                                      child: Column(
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(18),
+                                                  topRight: Radius.circular(18)),
+                                              child: Image.asset(
+                                                "assets/images/ctscan_icon.png",
+                                                height: 120,
+                                                width: 200,
+                                                fit: BoxFit.cover,
+                                              )),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Text(
+                                            "CT Scan",
+                                            style: GoogleFonts.heebo(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          )),
+                                ],
+                              )),
                           SizedBox(
                             width: 4,
                           ),
                           Expanded(
                               child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showDialouge(
-                                      name: "MRI",
-                                      image: "assets/images/mri_icon.png");
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  elevation: 4,
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
-
-                                          child: Image.asset(
-                                            "assets/images/mri_icon.png",height: 120,
-                                            width: 200,
-                                            fit: BoxFit.cover,
-                                          )),
-                                      SizedBox(
-                                        height: 4,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showDialouge(
+                                          name: "MRI",
+                                          image: "assets/images/mri_icon.png");
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
                                       ),
-                                      Text(
-                                        "MRI",
-                                        style: GoogleFonts.heebo(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 16),
-                                      )
-                                    ],
+                                      elevation: 4,
+                                      child: Column(
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(18),
+                                                  topRight: Radius.circular(18)),
+                                              child: Image.asset(
+                                                "assets/images/mri_icon.png",
+                                                height: 120,
+                                                width: 200,
+                                                fit: BoxFit.cover,
+                                              )),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Text(
+                                            "MRI",
+                                            style: GoogleFonts.heebo(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          )),
+                                ],
+                              )),
                         ],
                       ),
                       SizedBox(
@@ -1615,126 +1579,135 @@ class _LabScreenState extends State<LabScreen>
                         children: [
                           Expanded(
                               child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showDialouge(
-                                      name: "Hand X-ray",
-                                      image:
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showDialouge(
+                                          name: "Hand X-ray",
+                                          image:
                                           "assets/images/hand_scan_icon.png");
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  elevation: 4,
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
-                                          child: Image.asset(
-                                            "assets/images/hand_scan_icon.png", height: 120,
-                                            width: 200,
-                                            fit: BoxFit.cover,
-                                          )),
-                                      SizedBox(
-                                        height: 4,
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
                                       ),
-                                      Text(
-                                        "Hand X-ray",
-                                        style: GoogleFonts.heebo(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 16),
-                                      )
-                                    ],
+                                      elevation: 4,
+                                      child: Column(
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(18),
+                                                  topRight: Radius.circular(18)),
+                                              child: Image.asset(
+                                                "assets/images/hand_scan_icon.png",
+                                                height: 120,
+                                                width: 200,
+                                                fit: BoxFit.cover,
+                                              )),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Text(
+                                            "Hand X-ray",
+                                            style: GoogleFonts.heebo(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          )),
+                                ],
+                              )),
                           SizedBox(
                             width: 4,
                           ),
                           Expanded(
                               child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showDialouge(
-                                      name: "Chest X-ray",
-                                      image: "assets/images/xray_icon.png");
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  elevation: 4,
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
-                                          child: Image.asset(
-                                            "assets/images/xray_icon.png",height: 120,
-                                            width: 200,
-                                            fit: BoxFit.cover,
-                                          )),
-                                      SizedBox(
-                                        height: 4,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showDialouge(
+                                          name: "Chest X-ray",
+                                          image: "assets/images/xray_icon.png");
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
                                       ),
-                                      Text(
-                                        "Chest X-ray",
-                                        style: GoogleFonts.heebo(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 16),
-                                      )
-                                    ],
+                                      elevation: 4,
+                                      child: Column(
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(18),
+                                                  topRight: Radius.circular(18)),
+                                              child: Image.asset(
+                                                "assets/images/xray_icon.png",
+                                                height: 120,
+                                                width: 200,
+                                                fit: BoxFit.cover,
+                                              )),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Text(
+                                            "Chest X-ray",
+                                            style: GoogleFonts.heebo(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          )),
+                                ],
+                              )),
                           SizedBox(
                             width: 4,
                           ),
                           Expanded(
                               child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showDialouge(
-                                      name: "Chest X-ray",
-                                      image:
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showDialouge(
+                                          name: "Chest X-ray",
+                                          image:
                                           "assets/images/chest_xray_icon.png");
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  elevation: 4,
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
-                                          child: Image.asset(
-                                            "assets/images/chest_xray_icon.png", height: 120,
-                                            width: 200,
-                                            fit: BoxFit.cover,
-                                          )),
-                                      SizedBox(
-                                        height: 4,
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0),
                                       ),
-                                      Text(
-                                        "Chest X-ray",
-                                        style: GoogleFonts.heebo(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 16),
-                                      )
-                                    ],
+                                      elevation: 4,
+                                      child: Column(
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(18),
+                                                  topRight: Radius.circular(18)),
+                                              child: Image.asset(
+                                                "assets/images/chest_xray_icon.png",
+                                                height: 120,
+                                                width: 200,
+                                                fit: BoxFit.cover,
+                                              )),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Text(
+                                            "Chest X-ray",
+                                            style: GoogleFonts.heebo(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          )),
+                                ],
+                              )),
                         ],
                       ),
                       SizedBox(
@@ -1762,45 +1735,47 @@ class _LabScreenState extends State<LabScreen>
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 14),
-
-                    child: Column(children: [
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Row(
+                    child: Column(
                       children: [
-                        Text(
-                          name,
-                          style: TextStyle(fontSize: 20),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              name,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Container(
+                          child: Text(
+                            "Lorem Ipsum has been the industry's standarddummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                            style: GoogleFonts.heebo(
+                                color: ColorConstants.light, fontSize: 14),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 26,
+                        ),
+                        Container(
+                            height: 320,
+                            child: ClipRRect(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(25)),
+                                child: Image.asset(
+                                  image,
+                                  fit: BoxFit.cover,
+                                ))),
+                        SizedBox(
+                          height: 18,
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      child: Text(
-                        "Lorem Ipsum has been the industry's standarddummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                        style:
-                        GoogleFonts.heebo(color: ColorConstants.light, fontSize: 14),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 26,
-                    ),
-                    Container(
-                        height: 320,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(25)),
-                            child: Image.asset(
-                              image,
-                              fit: BoxFit.cover,
-                            ))),
-                    SizedBox(
-                      height: 18,
-                    ),
-                  ],),),
-
+                  ),
                   Container(
                     height: 1,
                     color: ColorConstants.line,
@@ -1815,7 +1790,7 @@ class _LabScreenState extends State<LabScreen>
                       child: Text(
                         "OK",
                         style:
-                            GoogleFonts.heebo(color: Colors.blue, fontSize: 25),
+                        GoogleFonts.heebo(color: Colors.blue, fontSize: 25),
                       )),
                   SizedBox(
                     height: 15,
