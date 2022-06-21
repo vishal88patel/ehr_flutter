@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
 
 class ColorConstants {
 
@@ -27,6 +25,4 @@ class ColorConstants {
   static var light = Color(0xFFA7A7A7);
   static var calenderFontColor = Color(0xFF0084F0);
   static var innerColor = Color(0xFFF8F9FC);
-
-
 }
