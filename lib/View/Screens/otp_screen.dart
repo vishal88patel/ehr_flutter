@@ -1,15 +1,20 @@
+import 'dart:convert';
+
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Utils/common_utils.dart';
 import 'package:ehr/View/Screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import '../../Constants/api_endpoint.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({Key? key}) : super(key: key);
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -97,6 +102,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             PinCodeTextField(
+                              keyboardType: TextInputType.number,
                               length: 4,
                               obscureText: false,
                               animationType: AnimationType.fade,
@@ -150,7 +156,14 @@ class _OtpScreenState extends State<OtpScreen> {
                             CustomButton(
                               color: ColorConstants.blueBtn,
                               onTap: () {
-                                NavigationHelpers.redirect(context, RegisterScreen());
+                                if(pinController.text.length==4){
+                                  callOtpVerificationApi();
+                                  // NavigationHelpers.redirect(context, RegisterScreen());
+
+                                }else{
+                                  CommonUtils.showRedToastMessage("Please enter all digits");
+
+                                }
                               },
                               text: "Verify",
                               textColor: Colors.white,
@@ -167,5 +180,40 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> callOtpVerificationApi() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.otpVeryfy;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "code": pinController.text,
+
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      // PreferenceUtils.setString("ACCESSTOKEN",res["accessToken"]);
+      //
+      // CommonUtils.hideProgressDialog(context);
+      // CommonUtils.showGreenToastMessage("Login Successfully");
+      // NavigationHelpers.redirectto(context, OtpScreen());
+
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }

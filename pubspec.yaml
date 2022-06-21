@@ -61,6 +61,7 @@ dependencies:
   table_calendar: ^3.0.6
   device_info_plus: ^4.0.0
   package_info_plus: ^1.4.2
+  firebase_messaging: ^11.4.2
 
 
 dev_dependencies:

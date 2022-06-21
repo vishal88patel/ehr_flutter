@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "568631935740",
+    "project_id": "ehr-app-673e6",
+    "storage_bucket": "ehr-app-673e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568631935740:android:cf15eb231f2716e1384d79",
+        "android_client_info": {
+          "package_name": "com.example.ehr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568631935740-illvrjptartehs504al03uvai5uq1bff.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ehr",
+            "certificate_hash": "b22e5a6f70a61559f84f67d8595553435c4605b8"
+          }
+        },
+        {
+          "client_id": "568631935740-lj31nuuf14dd6nedfq7hb6bh0pvdle8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtnJpdc4HuTUsmUykPYV0828Gk7NAmSQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568631935740-lj31nuuf14dd6nedfq7hb6bh0pvdle8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

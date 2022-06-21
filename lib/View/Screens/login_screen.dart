@@ -1,16 +1,21 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../Constants/api_endpoint.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 import 'otp_screen.dart';
 import 'package:flutter/services.dart';
@@ -29,15 +34,21 @@ class _LogInScreenState extends State<LogInScreen> {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};
   String platform="";
+  String? token="";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    initPlatformState();
+
+    FirebaseMessaging.instance.getToken().then((value) {
+       token = value;
+      initPlatformState();
+    });
   }
 
   Future<void> initPlatformState() async {
+    PreferenceUtils.setString("FCMTOKEN", token.toString());
     var deviceData = <String, dynamic>{};
 
     try {
@@ -189,7 +200,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   String version = packageInfo.version;
                                   signInByPhone(countryCode: "+91", appVersion:version,
                                       deviceName:_deviceData["brand"]+" "+_deviceData["device"],
-                                  deviceToken: "TEsjdhsjadhaijh94378r5cf3647rtb8375cr6666r27bhtrfhrvyby5rty54646y5v4t6t",
+                                  deviceToken: await PreferenceUtils.getString("FCMTOKEN"),
                                     deviceType: platform,
                                     deviceVersion:_deviceData["version.sdkInt"].toString() ,
                                     mobile:ccController.text
@@ -225,43 +236,41 @@ class _LogInScreenState extends State<LogInScreen> {
     required String deviceVersion,
 
   }) async {
-    // CommonUtils.showProgressDialog(context);
-    // final uri = ApiEndPoint.login;
-    // final headers = {'Content-Type': 'application/json'};
-    // Map<String, dynamic> body = {
-    //   "email": email,
-    //   "password": password,
-    // };
-    // String jsonBody = json.encode(body);
-    // final encoding = Encoding.getByName('utf-8');
-    //
-    // Response response = await post(
-    //   uri,
-    //   headers: headers,
-    //   body: jsonBody,
-    //   encoding: encoding,
-    // );
-    // int statusCode = response.statusCode;
-    // String responseBody = response.body;
-    // var res = jsonDecode(responseBody);
-    // if (statusCode == 200 && res["success"]) {
-    //   LoginModel responsee = LoginModel.fromJson(res);
-    //   PreferenceUtils.putObject("LoginResponse", responsee);
-    //
-    //   CommonUtils.hideProgressDialog(context);
-    //   CommonUtils.showGreenToastMessage("Login Successfully");
-    //   NavigationHelpers.redirectto(context, ChooseYourUseScreen());
-    //   // if(responsee.user!.first_time==0){
-    //   //   NavigationHelpers.redirectFromSplash(context, DashBoardScreen(0));
-    //   //
-    //   // }else{
-    //   //   NavigationHelpers.redirectto(context, ChooseYourUseScreen());
-    //   // }
-    //
-    // } else {
-    //   CommonUtils.hideProgressDialog(context);
-    //   CommonUtils.showRedToastMessage("Something went wrong");
-    // }
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.login;
+    final headers = {'Content-Type': 'application/json'};
+    Map<String, dynamic> body = {
+      "countryCode": countryCode,
+      "mobileNumber": mobile,
+      "deviceToken": deviceToken,
+      "deviceType": deviceType,
+      "deviceName": deviceName,
+      "appVersion": appVersion,
+      "deviceVersion": deviceVersion,
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      PreferenceUtils.setString("ACCESSTOKEN",res["accessToken"]);
+
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("Login Successfully");
+      NavigationHelpers.redirectto(context, OtpScreen());
+
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 
 }
