@@ -13,10 +13,14 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Constants/api_endpoint.dart';
+import '../../Constants/constants.dart';
+import '../../Model/body_part_response_model.dart';
+import '../../Model/otp_verification_model.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../Utils/preferences.dart';
 import 'login_screen.dart';
 class SplashScreen extends StatefulWidget {
 
@@ -33,9 +37,10 @@ class _SplashScreenState extends State<SplashScreen> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+    getBodyPartsApi();
 
 
-    changeRoute();
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: ColorConstants.primaryBlueColor,
       statusBarIconBrightness: Brightness.light,
@@ -43,36 +48,48 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
+  Future<void> getBodyPartsApi() async {
+    final uri = ApiEndPoint.getBodyParts;
+    final headers = {'Content-Type': 'application/json',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      List<BodyPartListResponseModel> ll=[];
+      for(int i=0;i<res.length; i++){
+        ll.add(BodyPartListResponseModel(bodyPartId: res[i]["bodyPartId"],bodyPart: res[i]["bodyPart"]));
+      }
+      Constants.BodyPartsList=ll;
+      changeRoute();
+
+    } else {
+      // CommonUtils.hideProgressDialog(context);
+      // CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
 
 
 
 
   Future changeRoute() async {
-    // LoginModel? loginModel=await PreferenceUtils.getLoginObject("LoginResponse");
-    // if(loginModel!=null && loginModel.token!.isNotEmpty){
-    //   refressToken();
-    //   await Future.delayed(Duration(milliseconds: 6500), () {
-    //     NavigationHelpers.redirectFromSplash(context, DashBoardScreen(0));
-    //   });
-    // }else{
-    //   await Future.delayed(Duration(milliseconds: 6500), () {
-    //     NavigationHelpers.redirectFromSplash(context, WelcomePageMain());
-    //   });
-    // }
-
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // if(prefs.getBool("isLogin")??false){
-    //   await Future.delayed(Duration(milliseconds: 6500), () {
-    //     NavigationHelpers.redirectFromSplash(context, DashBoardScreen(0));
-    //   });
-    // }else{
-    //   await Future.delayed(Duration(milliseconds: 6500), () {
-    //     NavigationHelpers.redirectFromSplash(context, WelcomePageMain());
-    //   });
-    // }
-    await Future.delayed(Duration(milliseconds: 2000), () {
-      NavigationHelpers.redirectFromSplash(context, LogInScreen());
-    });
+    OtpVerificationModel? loginModel=OtpVerificationModel();
+    loginModel=await PreferenceUtils.getDataObject("OtpVerificationResponse");
+    if(loginModel!=null && loginModel.registrationCompleted!){
+      await Future.delayed(Duration(milliseconds: 2000), () {
+        NavigationHelpers.redirectFromSplash(context, DashBoardScreen(1));
+      });
+    }else{
+      await Future.delayed(Duration(milliseconds: 2000), () {
+        NavigationHelpers.redirectFromSplash(context, LogInScreen());
+      });
+    }
   }
 
   @override

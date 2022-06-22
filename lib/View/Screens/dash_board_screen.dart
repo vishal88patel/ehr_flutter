@@ -25,8 +25,7 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
-  String userName="Adom Shafi";
-  String UserEmail="hellobesnik@gmail.com";
+
   final List<Widget> _children = [
     LabScreen(),
     BodyScreen(),

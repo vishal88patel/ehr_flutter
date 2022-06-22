@@ -1,5 +1,7 @@
 import 'dart:io';
-
+import 'package:ehr/Constants/api_endpoint.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/Model/otp_verification_model.dart';
 import 'package:ehr/View/Screens/add_medication_screen.dart';
@@ -10,6 +12,7 @@ import 'package:ehr/View/Screens/otp_verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
@@ -34,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ccController = TextEditingController();
   late OtpVerificationModel dataModel;
   String imageUrl="";
-  late File uploadedphoto;
+   String uploadedphoto = "";
   String pickedfilepath = '';
   bool photouploaded = false;
 
@@ -80,20 +83,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Image.asset("assets/images/bg_profile.png",height: D.H/6,fit: BoxFit.fill,),
                       Padding(
                         padding:  EdgeInsets.only(top: D.H/12),
-                        child: Center(
-                          child: Container(
-                            height: D.H/7,
-                            width: D.H/7,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                              borderRadius: BorderRadius.circular(80)
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
+                        child: GestureDetector(
+                          onTap: (){
+                            _getFromGallery();
+                          },
+                          child: Center(
+                            child: uploadedphoto!=null?Container(
+                              height: D.H/7,
+                              width: D.H/7,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                borderRadius: BorderRadius.circular(80)
+                              ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(80.0),
                                 child: Image.network(
-                                  imageUrl.toString(),
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ):Container(
+                              height: D.H/7,
+                              width: D.H/7,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(80)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(80.0),
+                                  child: Image.asset(
+                                    "assets/images/profile_pic.svg",
+                                    fit: BoxFit.cover,
+
+                                  ),
                                 ),
                               ),
                             ),
@@ -265,8 +289,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (pickedFile != null) {
       setState(() {
         photouploaded = true;
-        uploadedphoto = File(pickedFile.path);
+        uploadedphoto =  pickedFile.path;
         pickedfilepath = pickedFile.path;
+        if(pickedfilepath!=null){
+          multipartProdecudre();
+        }
       });
     }
   }
@@ -283,6 +310,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
 
     });
+  }
+
+  multipartProdecudre() async {
+    CommonUtils.showProgressDialog(context);
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    //for multipartrequest
+    var request = http.MultipartRequest('POST', ApiEndPoint.uploadPhoto);
+
+    //for token
+    request.headers.addAll(headers);
+
+    //for image and videos and files
+
+    request.files.add(await http.MultipartFile.fromPath("profilePicture", pickedfilepath));
+
+    var response =await request.send();
+
+    var responsed = await http.Response.fromStream(response);
+    final responseData = json.decode(responsed.body);
+
+
+    if (response.statusCode==200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage(responseData["message"]);
+      setState(() {
+
+      });
+
+    }
+    else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(responseData["message"]);
+
+    }
   }
 
 
