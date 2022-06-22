@@ -31,12 +31,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final lNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+
+  late OtpVerificationModel dataModel;
+  String firstName=" ";
+  String lastName=" ";
+  String email=" ";
+  String phone=" ";
+  int birthdate= 0 ;
+  int gender=1;
   var _selectedGender = "male";
   OtpVerificationModel? otpModel;
 
   @override
   void initState() {
-   getProfile();
+   getData();
     super.initState();
   }
 
@@ -171,7 +179,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           updateProfile(
                             lastName: lNameController.text.toString(),
                               firstName: fNameController.text.toString(),
-                               birthdate: 17081999,
+                               birthdate: birthdate,
                             email: emailController.text,
                             gender: 1
                           );
@@ -190,33 +198,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Future<void> getProfile() async {
+  getData() async {
+    dataModel = (await PreferenceUtils.getDataObject('OtpVerificationResponse'))!;
 
-    final uri = ApiEndPoint.getProfile;
-    final headers = {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
-    };
-    Response response = await get(
-      uri,
-      headers: headers,
-    );
-    int statusCode = response.statusCode;
-    String responseBody = response.body;
-    var res = jsonDecode(responseBody);
-    if (statusCode == 200 ) {
-      OtpVerificationModel model=OtpVerificationModel();
-      model=OtpVerificationModel.fromJson(res);
-      fNameController.text=model.firstName!;
-      lNameController.text=model.lastName!;
-      emailController.text=model.email!;
-      phoneController.text=model.phoneNumber!;
-      CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Success");
+    if(dataModel!=null){
+      firstName=dataModel.firstName!;
+      lastName=dataModel.lastName!;
+      email=dataModel.email!;
+      phone=dataModel.phoneNumber!;
+      birthdate=dataModel.birthdate!;
 
-    } else {
-      CommonUtils.hideProgressDialog(context);
-      CommonUtils.showRedToastMessage(res["message"]);
+      fNameController.text=firstName;
+      lNameController.text=lastName;
+      emailController.text=email;
+      phoneController.text=phone;
+    }else{
+
     }
+    setState(() {
+
+    });
   }
 
   Future<void> updateProfile({

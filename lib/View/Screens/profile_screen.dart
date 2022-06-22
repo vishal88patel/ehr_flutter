@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Model/otp_verification_model.dart';
 import 'package:ehr/View/Screens/add_medication_screen.dart';
 import 'package:ehr/View/Screens/lab_screen.dart';
 import 'package:ehr/View/Screens/lab_list_screen.dart';
@@ -9,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 import 'body_detail_screen.dart';
 import 'change_pass_screen.dart';
@@ -17,6 +21,7 @@ import 'edit_profile_screen.dart';
 import 'help_screen.dart';
 import 'medication_detail_screen.dart';
 import 'otp_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -27,7 +32,17 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final ccController = TextEditingController();
+  late OtpVerificationModel dataModel;
+  String imageUrl="";
+  late File uploadedphoto;
+  String pickedfilepath = '';
+  bool photouploaded = false;
 
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,8 +92,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               padding: const EdgeInsets.all(16.0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(80.0),
-                                child: SvgPicture.asset(
-                                 "assets/images/profile_pic.svg",
+                                child: Image.network(
+                                  imageUrl.toString(),
                                 ),
                               ),
                             ),
@@ -239,4 +254,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        photouploaded = true;
+        uploadedphoto = File(pickedFile.path);
+        pickedfilepath = pickedFile.path;
+      });
+    }
+  }
+
+
+  getData() async {
+    dataModel = (await PreferenceUtils.getDataObject('OtpVerificationResponse'))!;
+
+    if(dataModel!=null){
+      imageUrl=dataModel.profilePicture!;
+    }else{
+
+    }
+    setState(() {
+
+    });
+  }
+
+
 }
