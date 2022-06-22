@@ -1,3 +1,4 @@
+import 'package:ehr/Constants/constants.dart';
 import 'package:ehr/Utils/navigation_helper.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flip_card/flip_card.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../Constants/color_constants.dart';
-import '../../CustomWidgets/custom_calender.dart';
 import 'body_detail_screen.dart';
 
 class BodyScreen extends StatefulWidget {
@@ -18,8 +18,9 @@ class BodyScreen extends StatefulWidget {
 }
 
 class _BodyScreenState extends State<BodyScreen> {
-  FlipCardController _flipCardController=FlipCardController();
-  bool isFlipped =false;
+  FlipCardController _flipCardController = FlipCardController();
+  bool isFlipped = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +33,9 @@ class _BodyScreenState extends State<BodyScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               "Home",
               style: GoogleFonts.heebo(fontWeight: FontWeight.normal),
@@ -41,7 +44,7 @@ class _BodyScreenState extends State<BodyScreen> {
         ),
         actions: [
           GestureDetector(
-            onTap: (){
+            onTap: () {
               NavigationHelpers.redirect(context, ProfileScreen());
             },
             child: Padding(
@@ -59,7 +62,7 @@ class _BodyScreenState extends State<BodyScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.symmetric(horizontal: 11.0),
         child: Column(
           children: [
             SizedBox(
@@ -74,21 +77,16 @@ class _BodyScreenState extends State<BodyScreen> {
                       fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 InkWell(
-                  onTap: (){
-                    if(isFlipped){
-                      isFlipped=false;
+                  onTap: () {
+                    if (isFlipped) {
+                      isFlipped = false;
                       _flipCardController.toggleCard();
-                      setState(() {
-
-                      });
-                    }else{
-                      isFlipped=true;
+                      setState(() {});
+                    } else {
+                      isFlipped = true;
                       _flipCardController.toggleCard();
-                      setState(() {
-
-                      });
+                      setState(() {});
                     }
-
                   },
                   child: Container(
                       width: 100,
@@ -102,7 +100,7 @@ class _BodyScreenState extends State<BodyScreen> {
                       height: 50,
                       child: Center(
                           child: Text(
-                            isFlipped?"Frontside":"Backside",
+                        isFlipped ? "Frontside" : "Backside",
                         style: GoogleFonts.roboto(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -118,7 +116,9 @@ class _BodyScreenState extends State<BodyScreen> {
                 children: [
                   Column(
                     children: [
-                      SizedBox(height: 30,),
+                      SizedBox(
+                        height: 30,
+                      ),
                       Text(
                         "2020",
                         style: GoogleFonts.heebo(
@@ -209,6 +209,7 @@ class _BodyScreenState extends State<BodyScreen> {
                       ),
                     ],
                   ),
+                  SizedBox(width: 12,),
                   Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
@@ -232,11 +233,12 @@ class _BodyScreenState extends State<BodyScreen> {
                           SizedBox(
                             height: 100,
                           ),
-                           Container(
-                             height: 410,width: 230,
-                             child: GestureDetector(
-                               child: FlipCard(
-                                 flipOnTouch: false,
+                          Container(
+                            height: 410,
+                            width: 230,
+                            child: GestureDetector(
+                              child: FlipCard(
+                                flipOnTouch: false,
                                 fill: Fill.fillBack,
                                 controller: _flipCardController,
                                 // Fill the back side of the card to make in the same size as the front.
@@ -250,14 +252,16 @@ class _BodyScreenState extends State<BodyScreen> {
                                     children: [
                                       Image.asset(
                                         "assets/images/human_body_front.png",
-
                                       ),
                                       Positioned(
-                                        top: 57,left: 75,
+                                        top: 57,
+                                        left: 75,
                                         child: InkWell(
-                                          onTap: (){
-      
-                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Chest"));
+                                          onTap: () {
+                                            NavigationHelpers.redirect(
+                                                context,
+                                                BodyDetailScreen(
+                                                    appBarName: "Chest"));
                                           },
                                           child: Container(
                                             height: 12,
@@ -269,11 +273,14 @@ class _BodyScreenState extends State<BodyScreen> {
                                         ),
                                       ),
                                       Positioned(
-                                        top: 80,left: 120,
+                                        top: 80,
+                                        left: 120,
                                         child: InkWell(
-                                          onTap: (){
-                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Shoulder"));
-
+                                          onTap: () {
+                                            NavigationHelpers.redirect(
+                                                context,
+                                                BodyDetailScreen(
+                                                    appBarName: "Shoulder"));
                                           },
                                           child: Container(
                                             height: 12,
@@ -285,11 +292,14 @@ class _BodyScreenState extends State<BodyScreen> {
                                         ),
                                       ),
                                       Positioned(
-                                        top: 130,left: 102,
+                                        top: 130,
+                                        left: 102,
                                         child: InkWell(
-                                          onTap: (){
-                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Belly"));
-
+                                          onTap: () {
+                                            NavigationHelpers.redirect(
+                                                context,
+                                                BodyDetailScreen(
+                                                    appBarName: "Belly"));
                                           },
                                           child: Container(
                                             height: 12,
@@ -301,11 +311,14 @@ class _BodyScreenState extends State<BodyScreen> {
                                         ),
                                       ),
                                       Positioned(
-                                        top: 245,left: 113,
+                                        top: 245,
+                                        left: 113,
                                         child: InkWell(
-                                          onTap: (){
-                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Knee"));
-
+                                          onTap: () {
+                                            NavigationHelpers.redirect(
+                                                context,
+                                                BodyDetailScreen(
+                                                    appBarName: "Knee"));
                                           },
                                           child: Container(
                                             height: 20,
@@ -316,7 +329,6 @@ class _BodyScreenState extends State<BodyScreen> {
                                           ),
                                         ),
                                       ),
-
                                     ],
                                   ),
                                 ),
@@ -327,14 +339,16 @@ class _BodyScreenState extends State<BodyScreen> {
                                     children: [
                                       Image.asset(
                                         "assets/images/human_body_back.png",
-
                                       ),
                                       Positioned(
-                                        top: 57,left: 75,
+                                        top: 57,
+                                        left: 75,
                                         child: InkWell(
-                                          onTap: (){
-
-                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Chest"));
+                                          onTap: () {
+                                            NavigationHelpers.redirect(
+                                                context,
+                                                BodyDetailScreen(
+                                                    appBarName: "Chest"));
                                           },
                                           child: Container(
                                             height: 12,
@@ -346,11 +360,14 @@ class _BodyScreenState extends State<BodyScreen> {
                                         ),
                                       ),
                                       Positioned(
-                                        top: 80,left: 120,
+                                        top: 80,
+                                        left: 120,
                                         child: InkWell(
-                                          onTap: (){
-                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Shoulder"));
-
+                                          onTap: () {
+                                            NavigationHelpers.redirect(
+                                                context,
+                                                BodyDetailScreen(
+                                                    appBarName: "Shoulder"));
                                           },
                                           child: Container(
                                             height: 12,
@@ -362,11 +379,14 @@ class _BodyScreenState extends State<BodyScreen> {
                                         ),
                                       ),
                                       Positioned(
-                                        top: 130,left: 102,
+                                        top: 130,
+                                        left: 102,
                                         child: InkWell(
-                                          onTap: (){
-                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Belly"));
-
+                                          onTap: () {
+                                            NavigationHelpers.redirect(
+                                                context,
+                                                BodyDetailScreen(
+                                                    appBarName: "Belly"));
                                           },
                                           child: Container(
                                             height: 12,
@@ -378,11 +398,14 @@ class _BodyScreenState extends State<BodyScreen> {
                                         ),
                                       ),
                                       Positioned(
-                                        top: 245,left: 113,
+                                        top: 245,
+                                        left: 113,
                                         child: InkWell(
-                                          onTap: (){
-                                            NavigationHelpers.redirect(context, BodyDetailScreen(appBarName: "Knee"));
-
+                                          onTap: () {
+                                            NavigationHelpers.redirect(
+                                                context,
+                                                BodyDetailScreen(
+                                                    appBarName: "Knee"));
                                           },
                                           child: Container(
                                             height: 20,
@@ -393,13 +416,12 @@ class _BodyScreenState extends State<BodyScreen> {
                                           ),
                                         ),
                                       ),
-
                                     ],
                                   ),
                                 ),
+                              ),
+                            ),
                           ),
-                             ),
-                           ),
                         ],
                       ),
                     ],
@@ -407,105 +429,152 @@ class _BodyScreenState extends State<BodyScreen> {
                   Column(
                     children: [
                       SizedBox(
-                        height: 300,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            height: 12,
-                            width: 12,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.greenAccent),
-                          ),
-                          SizedBox(
-                            width: 6,
-                          ),
-                          Text(
-                            "Arms",
-                            style: GoogleFonts.heebo(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                          ),
-                        ],
+                        height: 270,
                       ),
                       SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Chest",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Shoulders",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Ankle",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Leg",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Foot",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Knee",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Elbow",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Heel",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Thigh",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
+                        width: 90,
+                          height: 320,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemCount: Constants.BodyPartsList.length,
+                           itemBuilder: (BuildContext context, int index) {
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: 12,
+                                      width: 12,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.greenAccent),
+                                    ),
+                                    SizedBox(
+                                      width: 6,
+                                    ),
+                                    Text(
+                                      Constants.BodyPartsList[index].bodyPart.toString(),
+                                      style: GoogleFonts.heebo(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey),
+                                    ),
+
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                              ],
+                            );
+                           },
+                      )),
+
                     ],
                   )
+
+                  // Column(
+                  //   children: [
+                  //     SizedBox(
+                  //       height: 300,
+                  //     ),
+                  //     Row(
+                  //       children: [
+                  //         Container(
+                  //           height: 12,
+                  //           width: 12,
+                  //           decoration: BoxDecoration(
+                  //               shape: BoxShape.circle,
+                  //               color: Colors.greenAccent),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 6,
+                  //         ),
+                  //         Text(
+                  //           "Arms",
+                  //           style: GoogleFonts.heebo(
+                  //               fontWeight: FontWeight.bold,
+                  //               color: Colors.grey),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     Text(
+                  //       "Chest",
+                  //       style: GoogleFonts.heebo(
+                  //           fontWeight: FontWeight.bold, color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     Text(
+                  //       "Shoulders",
+                  //       style: GoogleFonts.heebo(
+                  //           fontWeight: FontWeight.bold, color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     Text(
+                  //       "Ankle",
+                  //       style: GoogleFonts.heebo(
+                  //           fontWeight: FontWeight.bold, color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     Text(
+                  //       "Leg",
+                  //       style: GoogleFonts.heebo(
+                  //           fontWeight: FontWeight.bold, color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     Text(
+                  //       "Foot",
+                  //       style: GoogleFonts.heebo(
+                  //           fontWeight: FontWeight.bold, color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     Text(
+                  //       "Knee",
+                  //       style: GoogleFonts.heebo(
+                  //           fontWeight: FontWeight.bold, color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     Text(
+                  //       "Elbow",
+                  //       style: GoogleFonts.heebo(
+                  //           fontWeight: FontWeight.bold, color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     Text(
+                  //       "Heel",
+                  //       style: GoogleFonts.heebo(
+                  //           fontWeight: FontWeight.bold, color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     Text(
+                  //       "Thigh",
+                  //       style: GoogleFonts.heebo(
+                  //           fontWeight: FontWeight.bold, color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //   ],
+                  // )
                 ],
               ),
             )
@@ -517,7 +586,8 @@ class _BodyScreenState extends State<BodyScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => BodyDetailScreen(appBarName: "Chest")),
+            MaterialPageRoute(
+                builder: (context) => BodyDetailScreen(appBarName: "Chest")),
           );
         },
         child: Icon(Icons.add),
