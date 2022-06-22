@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Model/otp_verification_model.dart';
+
 
 
 class PreferenceUtils {
@@ -31,18 +33,18 @@ class PreferenceUtils {
     return prefs.setString(key, json.encode(value));
   }
 
-  // static Future<LoginModel?> getLoginObject(String key) async {
-  //   var prefs = await _instance;
-  //   String? _data = prefs.getString(key);
-  //   return (_data == null || _data.isEmpty) ? null : LoginModel.fromJson(jsonDecode(_data));
-  // }
-  //
-  // static Future<SocialSignUpModel?> getSocialLoginObject(String key) async {
-  //   var prefs = await _instance;
-  //   String? _data = prefs.getString(key);
-  //   return (_data == null || _data.isEmpty) ? null : SocialSignUpModel.fromJson(jsonDecode(_data));
-  // }
+  static Future<OtpVerificationModel?> getDataObject(String key) async {
+    var prefs = await _instance;
+    String? _data = prefs.getString(key);
+    return (_data == null || _data.isEmpty) ? null : OtpVerificationModel.fromJson(jsonDecode(_data));
+  }
 
+ /* static Future<SocialSignUpModel?> getSocialLoginObject(String key) async {
+    var prefs = await _instance;
+    String? _data = prefs.getString(key);
+    return (_data == null || _data.isEmpty) ? null : SocialSignUpModel.fromJson(jsonDecode(_data));
+  }
+*/
   ///clear
   static Future<bool>? clear() {
     if (_prefsInstance == null) return null;

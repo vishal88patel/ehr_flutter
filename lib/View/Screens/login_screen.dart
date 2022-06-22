@@ -184,7 +184,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                 keyboardTYPE: TextInputType.number,
                                 validators: (String? value) {
                                   if (ccController.text.isEmpty) {
-                                    return "Please enter detail";
+                                    return "Please enter mobile number";
                                   } else if (ccController.text.length < 10) {
                                     return "Please valid mobile number";
                                   }

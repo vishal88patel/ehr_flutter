@@ -1,12 +1,19 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
+import 'package:ehr/View/Screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import '../../Constants/api_endpoint.dart';
+import '../../Model/otp_verification_model.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_textform_field.dart';
 import 'otp_screen.dart';
@@ -25,6 +32,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   var _selectedGender = "male";
+  OtpVerificationModel? otpModel;
+
+  @override
+  void initState() {
+   getProfile();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,8 +167,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       SizedBox(height: D.H / 36),
                       CustomButton(
                         color: ColorConstants.blueBtn,
-                        onTap: () {
-                          NavigationHelpers.redirect(context, OtpVerificationScreen());
+                        onTap: () async {
+                          updateProfile(
+                            lastName: lNameController.text.toString(),
+                              firstName: fNameController.text.toString(),
+                               birthdate: 17081999,
+                            email: emailController.text,
+                            gender: 1
+                          );
                         },
                         text: "Update",
                         textColor: Colors.white,
@@ -168,5 +188,76 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> getProfile() async {
+
+    final uri = ApiEndPoint.getProfile;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      OtpVerificationModel model=OtpVerificationModel();
+      model=OtpVerificationModel.fromJson(res);
+      fNameController.text=model.firstName!;
+      lNameController.text=model.lastName!;
+      emailController.text=model.email!;
+      phoneController.text=model.phoneNumber!;
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("Success");
+
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> updateProfile({
+    required String firstName,
+    required String lastName,
+    required int birthdate,
+    required int gender,
+    required String email,
+  }) async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.updateProfile;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Map<String, dynamic> body = {
+      "firstName": firstName,
+      "lastName": lastName,
+      "Birthdate": birthdate,
+      "gender": gender,
+      "email": email
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("Register Successfully");
+      NavigationHelpers.redirect(context, OtpVerificationScreen());
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }

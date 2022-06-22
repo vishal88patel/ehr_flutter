@@ -145,11 +145,16 @@ class _OtpScreenState extends State<OtpScreen> {
                                       fontSize: D.H / 52,
                                       fontWeight: FontWeight.w400),
                                 ),
-                                Text(
-                                  "Resend",
-                                  style: GoogleFonts.heebo(
-                                      fontSize: D.H / 44,
-                                      fontWeight: FontWeight.w700),
+                                InkWell(
+                                  child: Text(
+                                    "Resend",
+                                    style: GoogleFonts.heebo(
+                                        fontSize: D.H / 44,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  onTap: (){
+                                    callResendOtpVerificationApi();
+                                  },
                                 ),
                               ],
                             ),
@@ -214,6 +219,30 @@ class _OtpScreenState extends State<OtpScreen> {
       CommonUtils.showGreenToastMessage("Login Successfully");
       NavigationHelpers.redirect(context, RegisterScreen());
 
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> callResendOtpVerificationApi() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.resendOtp;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("Otp Send Successfully");
+      //NavigationHelpers.redirect(context, RegisterScreen());
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
