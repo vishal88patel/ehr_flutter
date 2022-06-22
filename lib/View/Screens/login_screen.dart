@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Model/country_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,6 +18,7 @@ import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
+import '../../customWidgets/custom_phone_textform_field.dart';
 import 'otp_screen.dart';
 import 'package:flutter/services.dart';
 
@@ -35,12 +37,13 @@ class _LogInScreenState extends State<LogInScreen> {
   Map<String, dynamic> _deviceData = <String, dynamic>{};
   String platform="";
   String? token="";
+  String? _chosenValue;
+  List<String>? countryCode=  ['+91', '+1', '+49', '+44'] ;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
+    getCountryCode();
     FirebaseMessaging.instance.getToken().then((value) {
        token = value;
       initPlatformState();
@@ -180,18 +183,84 @@ class _LogInScreenState extends State<LogInScreen> {
                                   fontSize: D.H / 52,
                                   fontWeight: FontWeight.w400),),
                               SizedBox(height: D.H / 120),
-                              CustomTextFormField(
-                                keyboardTYPE: TextInputType.number,
-                                validators: (String? value) {
-                                  if (ccController.text.isEmpty) {
-                                    return "Please enter mobile number";
-                                  } else if (ccController.text.length < 10) {
-                                    return "Please valid mobile number";
-                                  }
-                                },
-                                obscured: false,
-                                readOnly: false,
-                                controller: ccController,),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        left: D.W / 30, right: D.W / 60),
+                                    width: MediaQuery.of(context).size.width / 1.25,
+                                    decoration: BoxDecoration(
+                                      color: ColorConstants.innerColor,
+                                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      border: Border.all(
+                                        width: 2,
+                                        color: Colors.white,
+                                        style: BorderStyle.solid,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width / 6,
+                                          height: D.H/20,
+                                          child: DropdownButton<String>(
+                                            isExpanded: true,
+                                            focusColor: Colors.white,
+                                            value: _chosenValue,
+                                            style: TextStyle(color: Colors.white),
+                                            iconEnabledColor: ColorConstants.lightGrey,
+                                            icon: Icon(Icons.arrow_drop_down_sharp),
+                                            iconSize: 32,
+                                            underline: Container(color: Colors.transparent),
+                                            items:countryCode?.map<DropdownMenuItem<String>>((String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: TextStyle(color: Colors.black),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            hint: Text(
+                                              "+91",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: D.H / 48,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                            onChanged: (String? value) {
+                                              setState(() {
+                                                _chosenValue = value;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                        Container(width: 1.0,color: ColorConstants.line,height:D.H/22,),
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: D.H/80),
+                                          child: SizedBox(
+                                            height: D.H/20,
+                                            width: MediaQuery.of(context).size.width / 1.8,
+                                            child: CustomPhoneTextFormField(
+                                              controller: ccController,
+                                              readOnly: false,
+                                              validators: (String? value) {
+                                                if (ccController.text == null ||
+                                                    ccController.text == '') {
+                                                  return '*Value';
+                                                }
+                                              },
+                                              keyboardTYPE: TextInputType.text,
+                                              obscured: false,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                               SizedBox(height: D.H / 22),
                               CustomButton(
                                 color: ColorConstants.blueBtn, onTap: () async {
@@ -266,6 +335,31 @@ class _LogInScreenState extends State<LogInScreen> {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage("Otp Sent Successfully");
       NavigationHelpers.redirectto(context, OtpScreen());
+
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> getCountryCode() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.countryCode;
+    final headers = {'Content-Type': 'application/json',};
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      CountryModel model=CountryModel();
+      model=CountryModel.fromJson(res);
+
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("Get Country Successful");
 
     } else {
       CommonUtils.hideProgressDialog(context);
