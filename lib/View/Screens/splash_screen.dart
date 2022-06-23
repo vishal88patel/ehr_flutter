@@ -82,11 +82,11 @@ class _SplashScreenState extends State<SplashScreen> {
     OtpVerificationModel? loginModel=OtpVerificationModel();
     loginModel=await PreferenceUtils.getDataObject("OtpVerificationResponse");
     if(loginModel!=null && loginModel.registrationCompleted!){
-      await Future.delayed(Duration(milliseconds: 2000), () {
+      await Future.delayed(Duration(milliseconds: 1500), () {
         NavigationHelpers.redirectFromSplash(context, DashBoardScreen(1));
       });
     }else{
-      await Future.delayed(Duration(milliseconds: 2000), () {
+      await Future.delayed(Duration(milliseconds: 1500), () {
         NavigationHelpers.redirectFromSplash(context, LogInScreen());
       });
     }

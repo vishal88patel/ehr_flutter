@@ -38,7 +38,7 @@ class _LogInScreenState extends State<LogInScreen> {
   String platform="";
   String? token="";
   String? _chosenValue;
-  List<String>? countryCode=  ['+91', '+1', '+49', '+44'] ;
+  List<String>? countryCode=  ['+91'] ;
 
   @override
   void initState() {
@@ -343,7 +343,6 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   Future<void> getCountryCode() async {
-    CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.countryCode;
     final headers = {'Content-Type': 'application/json',};
 
@@ -355,14 +354,16 @@ class _LogInScreenState extends State<LogInScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200 ) {
-      CountryModel model=CountryModel();
-      model=CountryModel.fromJson(res);
+      countryCode!.clear();
+      for(int i=0;i<res.length; i++){
+        countryCode!.add(res[i]["mobileCode"]);
+      }
+      setState(() {
 
-      CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Get Country Successful");
+      });
+
 
     } else {
-      CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
     }
   }
