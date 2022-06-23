@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ehr/Constants/api_endpoint.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:ehr/Constants/color_constants.dart';
@@ -40,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
    String uploadedphoto = "";
   String pickedfilepath = '';
   bool photouploaded = false;
+  var bytesss;
 
   @override
   void initState() {
@@ -88,19 +92,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             _getFromGallery();
                           },
                           child: Center(
-                            child: uploadedphoto!=null?Container(
+                            child: bytesss!=null?Container(
                               height: D.H/7,
                               width: D.H/7,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                 borderRadius: BorderRadius.circular(80)
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(80.0),
-                                child: Image.network(
-                                  imageUrl,
-                                  fit: BoxFit.cover,
-                                ),
+                              child: CachedNetworkImage(
+                                imageUrl: "http://via.placeholder.com/350x150",
+                                placeholder: (context, url) => CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
                               ),
                             ):Container(
                               height: D.H/7,
@@ -304,6 +306,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if(dataModel!=null){
       imageUrl=dataModel.profilePicture!;
+
+
     }else{
 
     }
