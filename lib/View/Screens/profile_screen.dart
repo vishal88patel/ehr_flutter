@@ -15,6 +15,8 @@ import 'package:ehr/View/Screens/otp_verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import 'package:image_downloader/image_downloader.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
@@ -39,7 +41,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final ccController = TextEditingController();
   late OtpVerificationModel dataModel;
-  String imageUrl="";
+  String imageUrll="";
    String uploadedphoto = "";
   String pickedfilepath = '';
   bool photouploaded = false;
@@ -92,17 +94,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             _getFromGallery();
                           },
                           child: Center(
-                            child: bytesss!=null?Container(
+                            child: imageUrll!=null?Container(
                               height: D.H/7,
                               width: D.H/7,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                 borderRadius: BorderRadius.circular(80)
                               ),
-                              child: CachedNetworkImage(
-                                imageUrl: "http://via.placeholder.com/350x150",
-                                placeholder: (context, url) => CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => Icon(Icons.error),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(80.0),
+                                child: Image.file(File(imageUrll),fit: BoxFit.fill,),
                               ),
                             ):Container(
                               height: D.H/7,
@@ -115,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.all(16.0),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(80.0),
-                                  child: Image.asset(
+                                  child: SvgPicture.asset(
                                     "assets/images/profile_pic.svg",
                                     fit: BoxFit.cover,
 
@@ -302,18 +303,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
   getData() async {
-    dataModel = (await PreferenceUtils.getDataObject('OtpVerificationResponse'))!;
+    final uri = ApiEndPoint.getProfile;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
 
-    if(dataModel!=null){
-      imageUrl=dataModel.profilePicture!;
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
+    //
+    // if(dataModel!=null){
+    //   imageUrl=dataModel.profilePicture!;
+      try {
+        var imageId = await ImageDownloader.downloadImage(dataModel.profilePicture.toString());
+        if (imageId == null) {
+          return;
+        }
+         imageUrll = (await ImageDownloader.findPath(imageId))!;
+        setState(() {
 
+        });
+      } on PlatformException catch (error) {
+        print(error);
+      }
 
-    }else{
-
-    }
-    setState(() {
-
-    });
   }
 
   multipartProdecudre() async {
