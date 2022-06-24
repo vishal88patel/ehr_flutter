@@ -1,17 +1,25 @@
+import 'dart:convert';
+
 import 'package:ehr/View/Screens/comment_screen.dart';
 import 'package:ehr/View/Screens/medication_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
 import '../../CustomWidgets/chart_widget.dart';
 import '../../CustomWidgets/custom_search_bar.dart';
 import '../../CustomWidgets/custom_search_bar2.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
+import '../../Model/imageType_model.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_white_textform_field.dart';
 import 'add_medication_screen.dart';
@@ -32,11 +40,16 @@ class _LabScreenState extends State<LabScreen>
   final commentController = TextEditingController();
   final valueController = TextEditingController();
   final discController = TextEditingController();
+  var imageId = 0;
+  List<ImageTypeModel> imageTypesData=[];
+  String pickedfilepath1 = '';
+  String pickedfilepath2 = '';
+  String pickedfilepath3 = '';
 
   @override
   void initState() {
     _tabController = new TabController(length: 3, vsync: this);
-
+    getImagineTypes();
     super.initState();
   }
 
@@ -1330,26 +1343,13 @@ class _LabScreenState extends State<LabScreen>
                                                   underline: Container(
                                                       color:
                                                           Colors.transparent),
-                                                  items: <String>[
-                                                    'Abc',
-                                                    'Bcd',
-                                                    'Cde',
-                                                    'Def',
-                                                    'Efg',
-                                                    'Fgh',
-                                                    'Ghi',
-                                                  ].map<
-                                                          DropdownMenuItem<
-                                                              String>>(
-                                                      (String value) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      value: value,
-                                                      child: Text(
-                                                        value,
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black),
+                                                  items:imageTypesData.map((items) {
+                                                    return DropdownMenuItem(
+                                                      value: items.imageType,
+                                                      child: Padding(
+                                                        padding: EdgeInsets.only(left: 10),
+                                                        child: Text(
+                                                          items.imageType.toString(), style: TextStyle(fontSize: 12),),
                                                       ),
                                                     );
                                                   }).toList(),
@@ -1364,6 +1364,12 @@ class _LabScreenState extends State<LabScreen>
                                                   onChanged: (String? value) {
                                                     setState(() {
                                                       _chosenValue = value;
+                                                      for(int i=0;i<imageTypesData.length;i++){
+                                                        if(imageTypesData[i].imageType==_chosenValue){
+                                                          imageId=imageTypesData[i].imageTypeId!;
+                                                          print("dropdownvalueId:"+imageId.toString());
+                                                        }
+                                                      }
                                                     });
                                                   },
                                                 ),
@@ -1801,4 +1807,85 @@ class _LabScreenState extends State<LabScreen>
           );
         });
   }
+
+
+  _getFromGallery(String path) async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        path = pickedFile.path;
+      });
+    }
+  }
+
+
+  Future<void> getImagineTypes() async {
+    final uri = ApiEndPoint.getImagineTypes;
+    final headers = {'Content-Type': 'application/json','Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',};
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      for(int i=0;i<res.length; i++){
+        imageTypesData.add(ImageTypeModel(imageType: res[i]["imageType"],imageTypeId: res[i]["imageTypeId"]));
+      }
+      print("imageTypesData"+imageTypesData.toString());
+      setState(() {
+
+      });
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  multipartProdecudre() async {
+    CommonUtils.showProgressDialog(context);
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    var request = http.MultipartRequest('POST', ApiEndPoint.saveTestImagine);
+
+    request.headers.addAll(headers);
+
+    request.files.add(await http.MultipartFile.fromPath("media1", pickedfilepath1));
+    request.files.add(await http.MultipartFile.fromPath("media2", pickedfilepath2));
+    request.files.add(await http.MultipartFile.fromPath("media3", pickedfilepath3));
+    Map<String, dynamic> body = {
+      "UsersImagineId": 0,
+      "ImagineTypeId": imageId,
+      "Description": discController.text.toString(),
+    };
+
+    var response =await request.send();
+
+    var responsed = await http.Response.fromStream(response);
+    final responseData = json.decode(responsed.body);
+
+
+    if (response.statusCode==200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage(responseData["message"]);
+      setState(() {
+
+      });
+
+    }
+    else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(responseData["message"]);
+
+    }
+  }
+
+
 }

@@ -10,7 +10,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
 import '../../Constants/api_endpoint.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
 import '../../Utils/common_utils.dart';
@@ -367,5 +366,4 @@ class _LogInScreenState extends State<LogInScreen> {
       CommonUtils.showRedToastMessage(res["message"]);
     }
   }
-
 }
