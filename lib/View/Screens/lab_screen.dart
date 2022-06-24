@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ehr/View/Screens/comment_screen.dart';
 import 'package:ehr/View/Screens/medication_screen.dart';
@@ -9,18 +10,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+
 import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
 import '../../CustomWidgets/chart_widget.dart';
 import '../../CustomWidgets/custom_search_bar.dart';
 import '../../CustomWidgets/custom_search_bar2.dart';
-import '../../CustomWidgets/custom_textform_field.dart';
 import '../../Model/imageType_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
-import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_white_textform_field.dart';
 import 'add_medication_screen.dart';
 
@@ -41,10 +41,12 @@ class _LabScreenState extends State<LabScreen>
   final valueController = TextEditingController();
   final discController = TextEditingController();
   var imageId = 0;
-  List<ImageTypeModel> imageTypesData=[];
+  List<ImageTypeModel> imageTypesData = [];
   String pickedfilepath1 = '';
   String pickedfilepath2 = '';
   String pickedfilepath3 = '';
+
+  List<String> selectedImagesList = [];
 
   @override
   void initState() {
@@ -531,9 +533,8 @@ class _LabScreenState extends State<LabScreen>
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
                                   return Container(
-                                        padding: EdgeInsets.only(
-                                            left: D.W / 40.0,
-                                            top: D.H / 80),
+                                    padding: EdgeInsets.only(
+                                        left: D.W / 40.0, top: D.H / 80),
                                     child: Center(
                                       child: Column(
                                         children: [
@@ -758,209 +759,211 @@ class _LabScreenState extends State<LabScreen>
                                   showDialog<String>(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        AlertDialog(
+                                        StatefulBuilder(
+                                          builder: (BuildContext context, void Function(void Function()) setState)=> AlertDialog(
                                       contentPadding: EdgeInsets.all(0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(18),
-                                        ),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(18),
+                                          ),
                                       ),
                                       content: Container(
-                                        width: D.W / 1.25,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: D.W / 40,
-                                                  right: D.W / 40),
-                                              child: Row(
+                                          width: D.W / 1.25,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: D.W / 40,
+                                                    right: D.W / 40),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        size: D.W / 20,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.end,
+                                                    MainAxisAlignment.center,
                                                 children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Icon(
-                                                      Icons.close,
-                                                      size: D.W / 20,
-                                                    ),
-                                                  )
+                                                  Text(
+                                                    "Add Test results",
+                                                    style: GoogleFonts.heebo(
+                                                        fontSize: D.H / 38,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
                                                 ],
                                               ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "Add Test results",
-                                                  style: GoogleFonts.heebo(
-                                                      fontSize: D.H / 38,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: D.H / 60),
-                                            Container(
-                                              height: 1,
-                                              color: ColorConstants.line,
-                                            ),
-                                            SizedBox(height: D.H / 60),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: Text(
-                                                "Type",
-                                                style: GoogleFonts.heebo(
-                                                    fontSize: D.H / 52,
-                                                    fontWeight:
-                                                        FontWeight.w400),
+                                              SizedBox(height: D.H / 60),
+                                              Container(
+                                                height: 1,
+                                                color: ColorConstants.line,
                                               ),
-                                            ),
-                                            SizedBox(height: D.H / 240),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: Container(
+                                              SizedBox(height: D.H / 60),
+                                              Padding(
                                                 padding: EdgeInsets.only(
-                                                    left: D.W / 30,
-                                                    right: D.W / 60),
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                        color: ColorConstants
-                                                            .border),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8))),
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  focusColor: Colors.white,
-                                                  value: _chosenValue,
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                  iconEnabledColor:
-                                                      ColorConstants.lightGrey,
-                                                  icon: Icon(Icons
-                                                      .arrow_drop_down_sharp),
-                                                  iconSize: 32,
-                                                  underline: Container(
-                                                      color:
-                                                          Colors.transparent),
-                                                  items: <String>[
-                                                    'Abc',
-                                                    'Bcd',
-                                                    'Cde',
-                                                    'Def',
-                                                    'Efg',
-                                                    'Fgh',
-                                                    'Ghi',
-                                                  ].map<
-                                                          DropdownMenuItem<
-                                                              String>>(
-                                                      (String value) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      value: value,
-                                                      child: Text(
-                                                        value,
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  hint: Text(
-                                                    "Type",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: D.H / 48,
-                                                        fontWeight:
-                                                            FontWeight.w400),
-                                                  ),
-                                                  onChanged: (String? value) {
-                                                    setState(() {
-                                                      _chosenValue = value;
-                                                    });
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(height: D.H / 60),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: Text(
-                                                "Value",
-                                                style: GoogleFonts.heebo(
-                                                    fontSize: D.H / 52,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ),
-                                            ),
-                                            SizedBox(height: D.H / 240),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: CustomWhiteTextFormField(
-                                                controller: valueController,
-                                                readOnly: false,
-                                                validators: (e) {
-                                                  if (valueController.text ==
-                                                          null ||
-                                                      valueController.text ==
-                                                          '') {
-                                                    return '*Value';
-                                                  }
-                                                },
-                                                keyboardTYPE:
-                                                    TextInputType.text,
-                                                obscured: false,
-                                                maxlength: 100,
-                                                maxline: 1,
-                                              ),
-                                            ),
-                                            SizedBox(height: D.H / 40),
-                                            Container(
-                                              height: 1,
-                                              color: ColorConstants.line,
-                                            ),
-                                            SizedBox(height: D.H / 80),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "OK",
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
+                                                child: Text(
+                                                  "Type",
                                                   style: GoogleFonts.heebo(
-                                                      fontSize: D.H / 33,
-                                                      color: ColorConstants
-                                                          .skyBlue,
+                                                      fontSize: D.H / 52,
                                                       fontWeight:
                                                           FontWeight.w400),
                                                 ),
-                                              ],
-                                            ),
-                                            SizedBox(height: D.H / 80),
-                                          ],
-                                        ),
+                                              ),
+                                              SizedBox(height: D.H / 240),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: D.W / 30,
+                                                      right: D.W / 60),
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                          color: ColorConstants
+                                                              .border),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  8))),
+                                                  child: DropdownButton<String>(
+                                                    isExpanded: true,
+                                                    focusColor: Colors.white,
+                                                    value: _chosenValue,
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                    iconEnabledColor:
+                                                        ColorConstants.lightGrey,
+                                                    icon: Icon(Icons
+                                                        .arrow_drop_down_sharp),
+                                                    iconSize: 32,
+                                                    underline: Container(
+                                                        color:
+                                                            Colors.transparent),
+                                                    items: <String>[
+                                                      'Abc',
+                                                      'Bcd',
+                                                      'Cde',
+                                                      'Def',
+                                                      'Efg',
+                                                      'Fgh',
+                                                      'Ghi',
+                                                    ].map<
+                                                            DropdownMenuItem<
+                                                                String>>(
+                                                        (String value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: value,
+                                                        child: Text(
+                                                          value,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                    hint: Text(
+                                                      "Type",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: D.H / 48,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                    onChanged: (String? value) {
+                                                      setState(() {
+                                                        _chosenValue = value;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: D.H / 60),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
+                                                child: Text(
+                                                  "Value",
+                                                  style: GoogleFonts.heebo(
+                                                      fontSize: D.H / 52,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ),
+                                              SizedBox(height: D.H / 240),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
+                                                child: CustomWhiteTextFormField(
+                                                  controller: valueController,
+                                                  readOnly: false,
+                                                  validators: (e) {
+                                                    if (valueController.text ==
+                                                            null ||
+                                                        valueController.text ==
+                                                            '') {
+                                                      return '*Value';
+                                                    }
+                                                  },
+                                                  keyboardTYPE:
+                                                      TextInputType.text,
+                                                  obscured: false,
+                                                  maxlength: 100,
+                                                  maxline: 1,
+                                                ),
+                                              ),
+                                              SizedBox(height: D.H / 40),
+                                              Container(
+                                                height: 1,
+                                                color: ColorConstants.line,
+                                              ),
+                                              SizedBox(height: D.H / 80),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "OK",
+                                                    style: GoogleFonts.heebo(
+                                                        fontSize: D.H / 33,
+                                                        color: ColorConstants
+                                                            .skyBlue,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: D.H / 80),
+                                            ],
+                                          ),
                                       ),
                                     ),
+                                        ),
                                   );
                                 },
                                 child: SvgPicture.asset(
@@ -1047,7 +1050,7 @@ class _LabScreenState extends State<LabScreen>
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            top: D.W / 30.0, left: D.W / 30.0,right:D.W/26),
+                            top: D.W / 30.0, left: D.W / 30.0, right: D.W / 26),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1063,377 +1066,554 @@ class _LabScreenState extends State<LabScreen>
                                   showDialog<String>(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        AlertDialog(
-                                      contentPadding: EdgeInsets.all(0),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(18),
+                                        StatefulBuilder(
+                                      builder: (BuildContext context,
+                                              void Function(void Function())
+                                                  State) =>
+                                          AlertDialog(
+                                        contentPadding: EdgeInsets.all(0),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(18),
+                                          ),
                                         ),
-                                      ),
-                                      content: Container(
-                                        width: D.W / 1.25,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: D.W / 40,
-                                                  right: D.W / 40),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Icon(
-                                                      Icons.close,
-                                                      size: D.W / 20,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "Imaging",
-                                                  style: GoogleFonts.heebo(
-                                                      fontSize: D.H / 38,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: D.H / 60),
-                                            Container(
-                                              height: 1,
-                                              color: ColorConstants.line,
-                                            ),
-                                            SizedBox(height: D.H / 60),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: Row(
-                                                children: [
-                                                  Card(
-                                                      color: ColorConstants
-                                                          .bgImage,
-                                                      shape:
-                                                          const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  8),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  8),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  8),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  8),
-                                                        ),
+                                        content: Container(
+                                          width: D.W / 1.25,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: D.W / 40,
+                                                    right: D.W / 40),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        size: D.W / 20,
                                                       ),
-                                                      elevation: 0,
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: D.W / 50,
-                                                                right: D.W / 70,
-                                                                top: D.W / 50,
-                                                                bottom:
-                                                                    D.W / 50),
-                                                        child: SvgPicture.asset(
-                                                            "assets/images/ic_upload_image.svg"),
-                                                      )),
-                                                  SizedBox(width: D.H / 80),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
                                                   Text(
-                                                    "Upload Image",
+                                                    "Imaging",
                                                     style: GoogleFonts.heebo(
                                                         fontSize: D.H / 38,
-                                                        color: ColorConstants
-                                                            .skyBlue,
                                                         fontWeight:
-                                                            FontWeight.w400),
+                                                            FontWeight.w600),
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                            SizedBox(height: D.H / 60),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: Row(
-                                                children: [
-                                                  Stack(
-                                                    children: [
-                                                      Card(
-                                                          color: ColorConstants
-                                                              .bgImage,
-                                                          shape:
-                                                              const RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                              topLeft: Radius
-                                                                  .circular(8),
-                                                              topRight: Radius
-                                                                  .circular(8),
-                                                              bottomLeft: Radius
-                                                                  .circular(8),
-                                                              bottomRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          8),
-                                                            ),
-                                                          ),
-                                                          elevation: 0,
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: D.W /
-                                                                        34,
-                                                                    right: D.W /
-                                                                        34,
-                                                                    top: D.W /
-                                                                        34,
-                                                                    bottom:
-                                                                        D.W /
-                                                                            34),
-                                                            child: SvgPicture.asset(
-                                                                "assets/images/ic_gallary.svg"),
-                                                          )),
-                                                      Positioned(
-                                                          right: 0,
-                                                          child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20),
-                                                              child: Container(
-                                                                  color: ColorConstants
-                                                                      .skyBlue,
-                                                                  child: Icon(
-                                                                    Icons.close,
-                                                                    size: 20,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ))))
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    width: D.W / 30,
-                                                  ),
-                                                  Stack(
-                                                    children: [
-                                                      Card(
-                                                          color: ColorConstants
-                                                              .bgImage,
-                                                          shape:
-                                                              const RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                              topLeft: Radius
-                                                                  .circular(8),
-                                                              topRight: Radius
-                                                                  .circular(8),
-                                                              bottomLeft: Radius
-                                                                  .circular(8),
-                                                              bottomRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          8),
-                                                            ),
-                                                          ),
-                                                          elevation: 0,
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: D.W /
-                                                                        34,
-                                                                    right: D.W /
-                                                                        34,
-                                                                    top: D.W /
-                                                                        34,
-                                                                    bottom:
-                                                                        D.W /
-                                                                            34),
-                                                            child: SvgPicture.asset(
-                                                                "assets/images/ic_gallary.svg"),
-                                                          )),
-                                                      Positioned(
-                                                          right: 0,
-                                                          child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20),
-                                                              child: Container(
-                                                                  color: ColorConstants
-                                                                      .skyBlue,
-                                                                  child: Icon(
-                                                                    Icons.close,
-                                                                    size: 20,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ))))
-                                                    ],
-                                                  ),
-                                                ],
+                                              SizedBox(height: D.H / 60),
+                                              Container(
+                                                height: 1,
+                                                color: ColorConstants.line,
                                               ),
-                                            ),
-                                            SizedBox(height: D.H / 60),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: Text(
-                                                "Tests",
-                                                style: GoogleFonts.heebo(
-                                                    fontSize: D.H / 52,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ),
-                                            ),
-                                            SizedBox(height: D.H / 240),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: Container(
+                                              SizedBox(height: D.H / 60),
+                                              Padding(
                                                 padding: EdgeInsets.only(
-                                                    left: D.W / 30,
-                                                    right: D.W / 60),
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                        color: ColorConstants
-                                                            .border),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8))),
-                                                child: DropdownButton<String>(
-                                                  isExpanded: true,
-                                                  focusColor: Colors.white,
-                                                  value: _chosenValue,
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                  iconEnabledColor:
-                                                      ColorConstants.lightGrey,
-                                                  icon: Icon(Icons
-                                                      .arrow_drop_down_sharp),
-                                                  iconSize: 32,
-                                                  underline: Container(
-                                                      color:
-                                                          Colors.transparent),
-                                                  items:imageTypesData.map((items) {
-                                                    return DropdownMenuItem(
-                                                      value: items.imageType,
-                                                      child: Padding(
-                                                        padding: EdgeInsets.only(left: 10),
-                                                        child: Text(
-                                                          items.imageType.toString(), style: TextStyle(fontSize: 12),),
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    PickedFile? pickedFile =
+                                                        await ImagePicker()
+                                                            .getImage(
+                                                      source:
+                                                          ImageSource.gallery,
+                                                      maxWidth: 1800,
+                                                      maxHeight: 1800,
+                                                    );
+                                                    if (pickedFile != null) {
+                                                      State(() {
+                                                        var path =
+                                                            pickedFile.path;
+                                                        selectedImagesList
+                                                            .add(path);
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Card(
+                                                          color: ColorConstants
+                                                              .bgImage,
+                                                          shape:
+                                                              const RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(8),
+                                                              topRight: Radius
+                                                                  .circular(8),
+                                                              bottomLeft: Radius
+                                                                  .circular(8),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          8),
+                                                            ),
+                                                          ),
+                                                          elevation: 0,
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: D.W /
+                                                                        50,
+                                                                    right: D.W /
+                                                                        70,
+                                                                    top: D.W /
+                                                                        50,
+                                                                    bottom:
+                                                                        D.W /
+                                                                            50),
+                                                            child: SvgPicture.asset(
+                                                                "assets/images/ic_upload_image.svg"),
+                                                          )),
+                                                      SizedBox(width: D.H / 80),
+                                                      Text(
+                                                        "Upload Image",
+                                                        style: GoogleFonts.heebo(
+                                                            fontSize: D.H / 38,
+                                                            color:
+                                                                ColorConstants
+                                                                    .skyBlue,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: D.H / 60),
+                                              Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 12),
+                                                height: 60,
+                                                width: D.W / 1.25,
+                                                child: ListView.builder(
+                                                  physics: BouncingScrollPhysics(),
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      selectedImagesList.length+1,
+                                                  itemBuilder:
+                                                      (context, position) {
+                                                    if(position== selectedImagesList.length){
+                                                      return InkWell(
+                                                        onTap: () async {
+                                                          PickedFile? pickedFile =
+                                                              await ImagePicker()
+                                                              .getImage(
+                                                            source:
+                                                            ImageSource.gallery,
+                                                            maxWidth: 1800,
+                                                            maxHeight: 1800,
+                                                          );
+                                                          if (pickedFile != null) {
+                                                            State(() {
+                                                              var path =
+                                                                  pickedFile.path;
+                                                              selectedImagesList
+                                                                  .add(path);
+                                                            });
+                                                          }
+                                                        },
+                                                        child: Stack(
+                                                          clipBehavior: Clip.none,
+                                                          children: [
+                                                            Card(
+                                                              margin: EdgeInsets.zero,
+                                                                color: ColorConstants
+                                                                    .bgImage,
+                                                                shape:
+                                                                 RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.all(Radius.circular(10)),
+                                                                ),
+                                                                elevation: 0,
+                                                                child: Container(
+                                                                  height: 65,width: 38,
+                                                                  margin: EdgeInsets.all(12),
+                                                                  child: SvgPicture.asset(
+                                                                      "assets/images/ic_gallary.svg"),
+                                                                )),
+                                                            Positioned(
+                                                                right: -5,
+                                                                top:-5,
+                                                                child: ClipRRect(
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        20),
+                                                                    child: Container(
+                                                                        color: ColorConstants
+                                                                            .skyBlue,
+                                                                        child: Icon(
+                                                                          Icons.close,
+                                                                          size: 20,
+                                                                          color: Colors
+                                                                              .white,
+                                                                        ))))
+                                                          ],
+                                                        ),
+                                                      );
+                                                    }
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 12.0),
+                                                      child: Stack(
+                                                        clipBehavior: Clip.none,
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10)),
+                                                            child: Image.file(
+                                                              File(selectedImagesList[
+                                                                  position]),
+                                                              fit: BoxFit.cover,
+                                                              width: 55,
+                                                              height: 60,
+                                                            ),
+                                                          ),
+                                                          Positioned(
+                                                              right: -5,
+                                                              top: -5,
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  selectedImagesList
+                                                                      .removeAt(
+                                                                          position);
+                                                                  State(() {});
+                                                                },
+                                                                child: ClipRRect(
+                                                                    borderRadius: BorderRadius.circular(20),
+                                                                    child: Container(
+                                                                        color: ColorConstants.skyBlue,
+                                                                        child: Icon(
+                                                                          Icons
+                                                                              .close,
+                                                                          size:
+                                                                              20,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ))),
+                                                              ))
+                                                        ],
                                                       ),
                                                     );
-                                                  }).toList(),
-                                                  hint: Text(
-                                                    "Type",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: D.H / 48,
-                                                        fontWeight:
-                                                            FontWeight.w400),
-                                                  ),
-                                                  onChanged: (String? value) {
-                                                    setState(() {
-                                                      _chosenValue = value;
-                                                      for(int i=0;i<imageTypesData.length;i++){
-                                                        if(imageTypesData[i].imageType==_chosenValue){
-                                                          imageId=imageTypesData[i].imageTypeId!;
-                                                          print("dropdownvalueId:"+imageId.toString());
-                                                        }
-                                                      }
-                                                    });
                                                   },
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(height: D.H / 60),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: Text(
-                                                "Description",
-                                                style: GoogleFonts.heebo(
-                                                    fontSize: D.H / 52,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ),
-                                            ),
-                                            SizedBox(height: D.H / 240),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 18,
-                                                  right: D.W / 18),
-                                              child: CustomWhiteTextFormField(
-                                                controller: discController,
-                                                readOnly: false,
-                                                validators: (e) {
-                                                  if (discController.text ==
-                                                          null ||
-                                                      discController.text ==
-                                                          '') {
-                                                    return '*Description';
-                                                  }
-                                                },
-                                                keyboardTYPE:
-                                                    TextInputType.text,
-                                                obscured: false,
-                                                maxline: 1,
-                                                maxlength: 100,
-                                              ),
-                                            ),
-                                            SizedBox(height: D.H / 40),
-                                            Container(
-                                              height: 1,
-                                              color: ColorConstants.line,
-                                            ),
-                                            SizedBox(height: D.H / 80),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "OK",
+                                              // Padding(
+                                              //   padding: EdgeInsets.only(
+                                              //       left: D.W / 18,
+                                              //       right: D.W / 18),
+                                              //   child: Row(
+                                              //     children: [
+                                              //       Stack(
+                                              //         children: [
+                                              //           Card(
+                                              //               color: ColorConstants
+                                              //                   .bgImage,
+                                              //               shape:
+                                              //                   const RoundedRectangleBorder(
+                                              //                 borderRadius:
+                                              //                     BorderRadius
+                                              //                         .only(
+                                              //                   topLeft: Radius
+                                              //                       .circular(8),
+                                              //                   topRight: Radius
+                                              //                       .circular(8),
+                                              //                   bottomLeft: Radius
+                                              //                       .circular(8),
+                                              //                   bottomRight:
+                                              //                       Radius
+                                              //                           .circular(
+                                              //                               8),
+                                              //                 ),
+                                              //               ),
+                                              //               elevation: 0,
+                                              //               child: Padding(
+                                              //                 padding:
+                                              //                     EdgeInsets.only(
+                                              //                         left: D.W /
+                                              //                             34,
+                                              //                         right: D.W /
+                                              //                             34,
+                                              //                         top: D.W /
+                                              //                             34,
+                                              //                         bottom:
+                                              //                             D.W /
+                                              //                                 34),
+                                              //                 child: SvgPicture.asset(
+                                              //                     "assets/images/ic_gallary.svg"),
+                                              //               )),
+                                              //           Positioned(
+                                              //               right: 0,
+                                              //               child: ClipRRect(
+                                              //                   borderRadius:
+                                              //                       BorderRadius
+                                              //                           .circular(
+                                              //                               20),
+                                              //                   child: Container(
+                                              //                       color: ColorConstants
+                                              //                           .skyBlue,
+                                              //                       child: Icon(
+                                              //                         Icons.close,
+                                              //                         size: 20,
+                                              //                         color: Colors
+                                              //                             .white,
+                                              //                       ))))
+                                              //         ],
+                                              //       ),
+                                              //       SizedBox(
+                                              //         width: D.W / 30,
+                                              //       ),
+                                              //       Stack(
+                                              //         children: [
+                                              //           Card(
+                                              //               color: ColorConstants
+                                              //                   .bgImage,
+                                              //               shape:
+                                              //                   const RoundedRectangleBorder(
+                                              //                 borderRadius:
+                                              //                     BorderRadius
+                                              //                         .only(
+                                              //                   topLeft: Radius
+                                              //                       .circular(8),
+                                              //                   topRight: Radius
+                                              //                       .circular(8),
+                                              //                   bottomLeft: Radius
+                                              //                       .circular(8),
+                                              //                   bottomRight:
+                                              //                       Radius
+                                              //                           .circular(
+                                              //                               8),
+                                              //                 ),
+                                              //               ),
+                                              //               elevation: 0,
+                                              //               child: Padding(
+                                              //                 padding:
+                                              //                     EdgeInsets.only(
+                                              //                         left: D.W /
+                                              //                             34,
+                                              //                         right: D.W /
+                                              //                             34,
+                                              //                         top: D.W /
+                                              //                             34,
+                                              //                         bottom:
+                                              //                             D.W /
+                                              //                                 34),
+                                              //                 child: SvgPicture.asset(
+                                              //                     "assets/images/ic_gallary.svg"),
+                                              //               )),
+                                              //           Positioned(
+                                              //               right: 0,
+                                              //               child: ClipRRect(
+                                              //                   borderRadius:
+                                              //                       BorderRadius
+                                              //                           .circular(
+                                              //                               20),
+                                              //                   child: Container(
+                                              //                       color: ColorConstants
+                                              //                           .skyBlue,
+                                              //                       child: Icon(
+                                              //                         Icons.close,
+                                              //                         size: 20,
+                                              //                         color: Colors
+                                              //                             .white,
+                                              //                       ))))
+                                              //         ],
+                                              //       ),
+                                              //     ],
+                                              //   ),
+                                              // ),
+                                              SizedBox(height: D.H / 60),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
+                                                child: Text(
+                                                  "Tests",
                                                   style: GoogleFonts.heebo(
-                                                      fontSize: D.H / 33,
-                                                      color: ColorConstants
-                                                          .skyBlue,
+                                                      fontSize: D.H / 52,
                                                       fontWeight:
                                                           FontWeight.w400),
                                                 ),
-                                              ],
-                                            ),
-                                            SizedBox(height: D.H / 80),
-                                          ],
+                                              ),
+                                              SizedBox(height: D.H / 240),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: D.W / 30,
+                                                      right: D.W / 60),
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                          color: ColorConstants
+                                                              .border),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  8))),
+                                                  child: DropdownButton<String>(
+                                                    isExpanded: true,
+                                                    focusColor: Colors.white,
+                                                    value: _chosenValue,
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                    iconEnabledColor:
+                                                        ColorConstants
+                                                            .lightGrey,
+                                                    icon: Icon(Icons
+                                                        .arrow_drop_down_sharp),
+                                                    iconSize: 32,
+                                                    underline: Container(
+                                                        color:
+                                                            Colors.transparent),
+                                                    items: imageTypesData
+                                                        .map((items) {
+                                                      return DropdownMenuItem(
+                                                        value: items.imageType,
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 10),
+                                                          child: Text(
+                                                            items.imageType
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 12),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                    hint: Text(
+                                                      "Type",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: D.H / 48,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                    onChanged: (String? value) {
+                                                      setState(() {
+                                                        _chosenValue = value;
+                                                        for (int i = 0;
+                                                            i <
+                                                                imageTypesData
+                                                                    .length;
+                                                            i++) {
+                                                          if (imageTypesData[i]
+                                                                  .imageType ==
+                                                              _chosenValue) {
+                                                            imageId =
+                                                                imageTypesData[
+                                                                        i]
+                                                                    .imageTypeId!;
+                                                            print("dropdownvalueId:" +
+                                                                imageId
+                                                                    .toString());
+                                                          }
+                                                        }
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: D.H / 60),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
+                                                child: Text(
+                                                  "Description",
+                                                  style: GoogleFonts.heebo(
+                                                      fontSize: D.H / 52,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ),
+                                              SizedBox(height: D.H / 240),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: D.W / 18,
+                                                    right: D.W / 18),
+                                                child: CustomWhiteTextFormField(
+                                                  controller: discController,
+                                                  readOnly: false,
+                                                  validators: (e) {
+                                                    if (discController.text ==
+                                                            null ||
+                                                        discController.text ==
+                                                            '') {
+                                                      return '*Description';
+                                                    }
+                                                  },
+                                                  keyboardTYPE:
+                                                      TextInputType.text,
+                                                  obscured: false,
+                                                  maxline: 1,
+                                                  maxlength: 100,
+                                                ),
+                                              ),
+                                              SizedBox(height: D.H / 40),
+                                              Container(
+                                                height: 1,
+                                                color: ColorConstants.line,
+                                              ),
+                                              SizedBox(height: D.H / 80),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  InkWell(
+                                                    onTap:(){
+                                                      multipartProdecudre();
+                                                    },
+                                                    child: Text(
+                                                      "OK",
+                                                      style: GoogleFonts.heebo(
+                                                          fontSize: D.H / 33,
+                                                          color: ColorConstants
+                                                              .skyBlue,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: D.H / 80),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1444,7 +1624,9 @@ class _LabScreenState extends State<LabScreen>
                           ],
                         ),
                       ),
-                      SizedBox(height: 8,),
+                      SizedBox(
+                        height: 8,
+                      ),
                       Row(
                         children: [
                           Expanded(
@@ -1809,23 +1991,14 @@ class _LabScreenState extends State<LabScreen>
   }
 
 
-  _getFromGallery(String path) async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        path = pickedFile.path;
-      });
-    }
-  }
-
 
   Future<void> getImagineTypes() async {
     final uri = ApiEndPoint.getImagineTypes;
-    final headers = {'Content-Type': 'application/json','Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',};
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
 
     Response response = await get(
       uri,
@@ -1834,14 +2007,14 @@ class _LabScreenState extends State<LabScreen>
     int statusCode = response.statusCode;
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
-    if (statusCode == 200 ) {
-      for(int i=0;i<res.length; i++){
-        imageTypesData.add(ImageTypeModel(imageType: res[i]["imageType"],imageTypeId: res[i]["imageTypeId"]));
+    if (statusCode == 200) {
+      for (int i = 0; i < res.length; i++) {
+        imageTypesData.add(ImageTypeModel(
+            imageType: res[i]["imageType"],
+            imageTypeId: res[i]["imageTypeId"]));
       }
-      print("imageTypesData"+imageTypesData.toString());
-      setState(() {
-
-      });
+      print("imageTypesData" + imageTypesData.toString());
+      setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
     }
@@ -1849,43 +2022,35 @@ class _LabScreenState extends State<LabScreen>
 
   multipartProdecudre() async {
     CommonUtils.showProgressDialog(context);
-    final headers = {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     var request = http.MultipartRequest('POST', ApiEndPoint.saveTestImagine);
 
     request.headers.addAll(headers);
+    request.fields['UsersImagineId'] = '0';
+    request.fields['ImagineTypeId'] = imageId.toString();
+    var count=1;
+    for(int i=0;i<selectedImagesList.length;i++){
 
-    request.files.add(await http.MultipartFile.fromPath("media1", pickedfilepath1));
-    request.files.add(await http.MultipartFile.fromPath("media2", pickedfilepath2));
-    request.files.add(await http.MultipartFile.fromPath("media3", pickedfilepath3));
-    Map<String, dynamic> body = {
-      "UsersImagineId": 0,
-      "ImagineTypeId": imageId,
-      "Description": discController.text.toString(),
+      request.files.add(await http.MultipartFile.fromPath("media$count", selectedImagesList[i]));
+      count++;
     };
-
-    var response =await request.send();
+    var response = await request.send();
 
     var responsed = await http.Response.fromStream(response);
     final responseData = json.decode(responsed.body);
 
-
-    if (response.statusCode==200) {
+    if (response.statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage(responseData["message"]);
-      setState(() {
-
-      });
-
-    }
-    else {
+      setState(() {});
+    } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(responseData["message"]);
-
     }
   }
-
-
 }
