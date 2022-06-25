@@ -14,8 +14,8 @@ class ApiEndPoint {
 
   static Uri countryCode = Uri.parse(BASE_URL + "shared/get-country-codes");
   static Uri getBodyParts = Uri.parse(BASE_URL + "shared/get-body-parts");
-  static Uri getTestResultType = Uri.parse(BASE_URL + "shared/get-test-result-types");
-  static Uri getMedicationContent = Uri.parse(BASE_URL + "shared/get-medication-content");
+  static Uri getTestResultType = Uri.parse(BASE_URL + "shares/get-test-result-types");
+  static Uri getMedicationContent = Uri.parse(BASE_URL + "shares/get-medication-content");
   static Uri getImagineTypes = Uri.parse(BASE_URL + "shares/get-imagine-types");
 
 

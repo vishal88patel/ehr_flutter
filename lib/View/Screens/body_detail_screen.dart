@@ -191,6 +191,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                 Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
+                                    onTap: (){},
                                     controller: sDateController,
                                     iconPath: "assets/images/ic_date.svg",
                                     readOnly: false,
@@ -219,6 +220,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                 Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
+                                    onTap: (){},
                                     controller: eDateController,
                                     iconPath: "assets/images/ic_date.svg",
                                     readOnly: false,

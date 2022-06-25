@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ehr/Model/testResultType_model.dart';
 import 'package:ehr/View/Screens/comment_screen.dart';
 import 'package:ehr/View/Screens/medication_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
@@ -36,12 +37,16 @@ class _LabScreenState extends State<LabScreen>
   TextEditingController controller = TextEditingController();
   late TabController _tabController;
   var _selectedFood = "after";
-  String? _chosenValue;
+  String? _choosenCommentValue;
+  String? _choosenLabValue;
+  String? _choosenimageValue;
   final commentController = TextEditingController();
   final valueController = TextEditingController();
   final discController = TextEditingController();
   var imageId = 0;
+  var testTypeId = 0;
   List<ImageTypeModel> imageTypesData = [];
+  List<TestResultData> testResultTypesData = [];
   String pickedfilepath1 = '';
   String pickedfilepath2 = '';
   String pickedfilepath3 = '';
@@ -51,6 +56,7 @@ class _LabScreenState extends State<LabScreen>
   @override
   void initState() {
     _tabController = new TabController(length: 3, vsync: this);
+    getTestResultTypes();
     getImagineTypes();
     super.initState();
   }
@@ -241,7 +247,7 @@ class _LabScreenState extends State<LabScreen>
                                                   child: DropdownButton<String>(
                                                     isExpanded: true,
                                                     focusColor: Colors.white,
-                                                    value: _chosenValue,
+                                                    value: _choosenCommentValue,
                                                     style: TextStyle(
                                                         color: Colors.white),
                                                     iconEnabledColor:
@@ -286,7 +292,7 @@ class _LabScreenState extends State<LabScreen>
                                                     ),
                                                     onChanged: (String? value) {
                                                       setState(() {
-                                                        _chosenValue = value;
+                                                        _choosenCommentValue = value;
                                                       });
                                                     },
                                                   ),
@@ -760,14 +766,17 @@ class _LabScreenState extends State<LabScreen>
                                     context: context,
                                     builder: (BuildContext context) =>
                                         StatefulBuilder(
-                                          builder: (BuildContext context, void Function(void Function()) setState)=> AlertDialog(
-                                      contentPadding: EdgeInsets.all(0),
-                                      shape: RoundedRectangleBorder(
+                                      builder: (BuildContext context,
+                                              void Function(void Function())
+                                                  setState) =>
+                                          AlertDialog(
+                                        contentPadding: EdgeInsets.all(0),
+                                        shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(18),
                                           ),
-                                      ),
-                                      content: Container(
+                                        ),
+                                        content: Container(
                                           width: D.W / 1.25,
                                           child: Column(
                                             crossAxisAlignment:
@@ -850,38 +859,32 @@ class _LabScreenState extends State<LabScreen>
                                                                   8))),
                                                   child: DropdownButton<String>(
                                                     isExpanded: true,
-                                                    focusColor: Colors.white,
-                                                    value: _chosenValue,
+                                                    focusColor: Colors.black,
+                                                    value: _choosenLabValue,
                                                     style: TextStyle(
-                                                        color: Colors.white),
+                                                        color: Colors.black),
                                                     iconEnabledColor:
-                                                        ColorConstants.lightGrey,
+                                                        ColorConstants
+                                                            .lightGrey,
                                                     icon: Icon(Icons
                                                         .arrow_drop_down_sharp),
                                                     iconSize: 32,
                                                     underline: Container(
                                                         color:
                                                             Colors.transparent),
-                                                    items: <String>[
-                                                      'Abc',
-                                                      'Bcd',
-                                                      'Cde',
-                                                      'Def',
-                                                      'Efg',
-                                                      'Fgh',
-                                                      'Ghi',
-                                                    ].map<
-                                                            DropdownMenuItem<
-                                                                String>>(
-                                                        (String value) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: value,
-                                                        child: Text(
-                                                          value,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black),
+                                                    items: testResultTypesData.map((items) {
+                                                      return DropdownMenuItem(
+                                                        value: items.testType,
+                                                        child: Padding(
+                                                          padding:
+                                                          EdgeInsets.only(
+                                                              left: 10),
+                                                          child: Text(
+                                                            items.testType
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 15.0),
+                                                          ),
                                                         ),
                                                       );
                                                     }).toList(),
@@ -895,7 +898,13 @@ class _LabScreenState extends State<LabScreen>
                                                     ),
                                                     onChanged: (String? value) {
                                                       setState(() {
-                                                        _chosenValue = value;
+                                                        _choosenLabValue = value;
+                                                        for (int i = 0; i < testResultTypesData.length; i++) {
+                                                          if (testResultTypesData[i].testType == _choosenLabValue) {
+                                                            testTypeId = testResultTypesData[i].testTypeId!;
+                                                            print("dropdownvalueId:" + testTypeId.toString());
+                                                          }
+                                                        }
                                                       });
                                                     },
                                                   ),
@@ -947,23 +956,28 @@ class _LabScreenState extends State<LabScreen>
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  Text(
-                                                    "OK",
-                                                    style: GoogleFonts.heebo(
-                                                        fontSize: D.H / 33,
-                                                        color: ColorConstants
-                                                            .skyBlue,
-                                                        fontWeight:
-                                                            FontWeight.w400),
+                                                  InkWell(
+                                                    onTap:(){
+                                                      saveTestResult();
+                                                    },
+                                                    child: Text(
+                                                      "OK",
+                                                      style: GoogleFonts.heebo(
+                                                          fontSize: D.H / 33,
+                                                          color: ColorConstants
+                                                              .skyBlue,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
                                               SizedBox(height: D.H / 80),
                                             ],
                                           ),
+                                        ),
                                       ),
                                     ),
-                                        ),
                                   );
                                 },
                                 child: SvgPicture.asset(
@@ -1209,68 +1223,85 @@ class _LabScreenState extends State<LabScreen>
                                                 height: 60,
                                                 width: D.W / 1.25,
                                                 child: ListView.builder(
-                                                  physics: BouncingScrollPhysics(),
+                                                  physics:
+                                                      BouncingScrollPhysics(),
                                                   scrollDirection:
                                                       Axis.horizontal,
-                                                  itemCount:
-                                                      selectedImagesList.length+1,
+                                                  itemCount: selectedImagesList
+                                                          .length +
+                                                      1,
                                                   itemBuilder:
                                                       (context, position) {
-                                                    if(position== selectedImagesList.length){
+                                                    if (position ==
+                                                        selectedImagesList
+                                                            .length) {
                                                       return InkWell(
                                                         onTap: () async {
-                                                          PickedFile? pickedFile =
+                                                          PickedFile?
+                                                              pickedFile =
                                                               await ImagePicker()
-                                                              .getImage(
-                                                            source:
-                                                            ImageSource.gallery,
+                                                                  .getImage(
+                                                            source: ImageSource
+                                                                .gallery,
                                                             maxWidth: 1800,
                                                             maxHeight: 1800,
                                                           );
-                                                          if (pickedFile != null) {
+                                                          if (pickedFile !=
+                                                              null) {
                                                             State(() {
                                                               var path =
-                                                                  pickedFile.path;
+                                                                  pickedFile
+                                                                      .path;
                                                               selectedImagesList
                                                                   .add(path);
                                                             });
                                                           }
                                                         },
                                                         child: Stack(
-                                                          clipBehavior: Clip.none,
+                                                          clipBehavior:
+                                                              Clip.none,
                                                           children: [
                                                             Card(
-                                                              margin: EdgeInsets.zero,
-                                                                color: ColorConstants
-                                                                    .bgImage,
+                                                                margin:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                color:
+                                                                    ColorConstants
+                                                                        .bgImage,
                                                                 shape:
-                                                                 RoundedRectangleBorder(
+                                                                    RoundedRectangleBorder(
                                                                   borderRadius:
-                                                                  BorderRadius.all(Radius.circular(10)),
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              10)),
                                                                 ),
                                                                 elevation: 0,
-                                                                child: Container(
-                                                                  height: 65,width: 38,
-                                                                  margin: EdgeInsets.all(12),
-                                                                  child: SvgPicture.asset(
-                                                                      "assets/images/ic_gallary.svg"),
+                                                                child:
+                                                                    Container(
+                                                                  height: 65,
+                                                                  width: 38,
+                                                                  margin:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              12),
+                                                                  child: SvgPicture
+                                                                      .asset(
+                                                                          "assets/images/ic_gallary.svg"),
                                                                 )),
                                                             Positioned(
                                                                 right: -5,
-                                                                top:-5,
+                                                                top: -5,
                                                                 child: ClipRRect(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        20),
+                                                                    borderRadius: BorderRadius.circular(20),
                                                                     child: Container(
-                                                                        color: ColorConstants
-                                                                            .skyBlue,
+                                                                        color: ColorConstants.skyBlue,
                                                                         child: Icon(
-                                                                          Icons.close,
-                                                                          size: 20,
-                                                                          color: Colors
-                                                                              .white,
+                                                                          Icons
+                                                                              .close,
+                                                                          size:
+                                                                              20,
+                                                                          color:
+                                                                              Colors.white,
                                                                         ))))
                                                           ],
                                                         ),
@@ -1486,21 +1517,18 @@ class _LabScreenState extends State<LabScreen>
                                                                   8))),
                                                   child: DropdownButton<String>(
                                                     isExpanded: true,
-                                                    focusColor: Colors.white,
-                                                    value: _chosenValue,
+                                                    focusColor: Colors.black,
+                                                    value: _choosenimageValue,
                                                     style: TextStyle(
-                                                        color: Colors.white),
+                                                        color: Colors.black),
                                                     iconEnabledColor:
                                                         ColorConstants
                                                             .lightGrey,
-                                                    icon: Icon(Icons
-                                                        .arrow_drop_down_sharp),
+                                                    icon: Icon(Icons.arrow_drop_down_sharp),
                                                     iconSize: 32,
                                                     underline: Container(
-                                                        color:
-                                                            Colors.transparent),
-                                                    items: imageTypesData
-                                                        .map((items) {
+                                                        color: Colors.transparent),
+                                                    items: imageTypesData.map((items) {
                                                       return DropdownMenuItem(
                                                         value: items.imageType,
                                                         child: Padding(
@@ -1511,7 +1539,7 @@ class _LabScreenState extends State<LabScreen>
                                                             items.imageType
                                                                 .toString(),
                                                             style: TextStyle(
-                                                                fontSize: 12),
+                                                                fontSize: 15.0),
                                                           ),
                                                         ),
                                                       );
@@ -1525,23 +1553,12 @@ class _LabScreenState extends State<LabScreen>
                                                               FontWeight.w400),
                                                     ),
                                                     onChanged: (String? value) {
-                                                      setState(() {
-                                                        _chosenValue = value;
-                                                        for (int i = 0;
-                                                            i <
-                                                                imageTypesData
-                                                                    .length;
-                                                            i++) {
-                                                          if (imageTypesData[i]
-                                                                  .imageType ==
-                                                              _chosenValue) {
-                                                            imageId =
-                                                                imageTypesData[
-                                                                        i]
-                                                                    .imageTypeId!;
-                                                            print("dropdownvalueId:" +
-                                                                imageId
-                                                                    .toString());
+                                                      State(() {
+                                                        _choosenimageValue = value;
+                                                        for (int i = 0; i < imageTypesData.length; i++) {
+                                                          if (imageTypesData[i].imageType == _choosenimageValue) {
+                                                            imageId = imageTypesData[i].imageTypeId!;
+                                                            print("dropdownvalueId:" + imageId.toString());
                                                           }
                                                         }
                                                       });
@@ -1596,8 +1613,8 @@ class _LabScreenState extends State<LabScreen>
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   InkWell(
-                                                    onTap:(){
-                                                      multipartProdecudre();
+                                                    onTap: () {
+                                                      saveTestImagine();
                                                     },
                                                     child: Text(
                                                       "OK",
@@ -1990,8 +2007,6 @@ class _LabScreenState extends State<LabScreen>
         });
   }
 
-
-
   Future<void> getImagineTypes() async {
     final uri = ApiEndPoint.getImagineTypes;
     final headers = {
@@ -2020,7 +2035,7 @@ class _LabScreenState extends State<LabScreen>
     }
   }
 
-  multipartProdecudre() async {
+  saveTestImagine() async {
     CommonUtils.showProgressDialog(context);
     final headers = {
       'Content-Type': 'application/json',
@@ -2033,12 +2048,14 @@ class _LabScreenState extends State<LabScreen>
     request.headers.addAll(headers);
     request.fields['UsersImagineId'] = '0';
     request.fields['ImagineTypeId'] = imageId.toString();
-    var count=1;
-    for(int i=0;i<selectedImagesList.length;i++){
-
-      request.files.add(await http.MultipartFile.fromPath("media$count", selectedImagesList[i]));
+    request.fields['Description'] = discController.text.toString();
+    var count = 1;
+    for (int i = 0; i < selectedImagesList.length; i++) {
+      request.files.add(await http.MultipartFile.fromPath(
+          "media$count", selectedImagesList[i]));
       count++;
-    };
+    }
+    ;
     var response = await request.send();
 
     var responsed = await http.Response.fromStream(response);
@@ -2053,4 +2070,66 @@ class _LabScreenState extends State<LabScreen>
       CommonUtils.showRedToastMessage(responseData["message"]);
     }
   }
+
+  Future<void> getTestResultTypes() async {
+    final uri = ApiEndPoint.getTestResultType;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      for (int i = 0; i < res.length; i++) {
+        testResultTypesData.add(TestResultData(
+            testType: res[i]["testType"],
+            testTypeId: res[i]["testTypeId"]));
+      }
+      print("testResultTypesData" + testResultTypesData.toString());
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> saveTestResult() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.saveTestResult;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersTestResultId": 0,
+      "testResultId": testTypeId,
+      "testResultValue": valueController.text.toString(),
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage(res["message"]);
+      Navigator.of(context).pop();
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
 }

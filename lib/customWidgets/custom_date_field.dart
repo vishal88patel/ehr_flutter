@@ -13,6 +13,7 @@ class CustomDateField extends StatefulWidget {
         required this.keyboardTYPE,
         required this.iconPath,
         this.maxlength, this.onChanged,
+        required this.onTap,
         required this.obscured,});
 
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class CustomDateField extends StatefulWidget {
   bool obscured;
   TextInputType? keyboardTYPE;
   String iconPath;
+  Function onTap;
   final FormFieldValidator<String> validators;
   final FormFieldValidator<String>? onChanged;
 
@@ -60,9 +62,9 @@ class _CustomDateFieldState extends State<CustomDateField> {
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: SvgPicture.asset(widget.iconPath),
-            onPressed: () {  },
+              onPressed: () => widget.onTap(),
           ),
-          contentPadding: EdgeInsets.only(left:D.W/30,right: D.W/30),
+          contentPadding: EdgeInsets.only(left:D.W/40),
           focusColor: ColorConstants.innerColor,
           filled: true,
           fillColor: ColorConstants.innerColor,

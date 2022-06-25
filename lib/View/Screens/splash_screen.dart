@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
     int statusCode = response.statusCode;
     String responseBody = response.body;
-    changeRoute();
+   // changeRoute();
     var res = jsonDecode(responseBody);
     if (statusCode == 200 ) {
       List<BodyPartListResponseModel> ll=[];

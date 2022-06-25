@@ -1,11 +1,19 @@
+import 'dart:convert';
+
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Model/medicationData_model.dart';
 import 'package:ehr/View/Screens/otp_verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
+import '../../Constants/api_endpoint.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_date_field.dart';
 import 'change_pass_screen.dart';
@@ -24,8 +32,19 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   final dosageController = TextEditingController();
   final sDateController = TextEditingController();
   final eDateController = TextEditingController();
+  List<FoodType> foodTypeData = [];
+  List<Dosage> dosageTypeData = [];
+  List<Frequency> frequencyTypeData = [];
+
   var _selectedFood = "after";
   String? _chosenValue;
+  DateTime selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    getMedicationContent();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +84,14 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                 children: [
                   SizedBox(height: D.H / 22),
                   Center(
-                      child:
-                          SvgPicture.asset("assets/images/bg_add_medication.svg")),
+                      child: SvgPicture.asset(
+                          "assets/images/bg_add_medication.svg")),
                   SizedBox(height: D.H / 24),
                 ],
               ),
             ),
             Card(
-              margin: const EdgeInsets.symmetric(horizontal:0),
+              margin: const EdgeInsets.symmetric(horizontal: 0),
               color: ColorConstants.lightPurple,
               elevation: 5,
               shape: RoundedRectangleBorder(
@@ -96,17 +115,17 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         ),
                         SizedBox(height: D.H / 120),
                         Container(
-                          padding: EdgeInsets.only(left:D.W/30,right: D.W/60),
+                          padding:
+                              EdgeInsets.only(left: D.W / 30, right: D.W / 60),
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              color: ColorConstants.innerColor,
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                            color: ColorConstants.innerColor,
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
                             border: Border.all(
                               width: 2,
                               color: Colors.white,
                               style: BorderStyle.solid,
                             ),
-
                           ),
                           child: DropdownButton<String>(
                             isExpanded: true,
@@ -138,7 +157,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                               "Please choose a Type",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: D.H/48,
+                                  fontSize: D.H / 48,
                                   fontWeight: FontWeight.w400),
                             ),
                             onChanged: (String? value) {
@@ -197,8 +216,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height:D.W/19,
-                              width: D.W/19,
+                              height: D.W / 19,
+                              width: D.W / 19,
                               decoration: new BoxDecoration(
                                 color: ColorConstants.innerColor,
                                 shape: BoxShape.circle,
@@ -213,15 +232,14 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             Text(
                               "With Food",
                               style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  color: Colors.black),
+                                  fontSize: 14, color: Colors.black),
                             ),
                             SizedBox(
                               width: 29,
                             ),
                             Container(
-                              height:D.W/19,
-                              width: D.W/19,
+                              height: D.W / 19,
+                              width: D.W / 19,
                               decoration: new BoxDecoration(
                                 color: ColorConstants.innerColor,
                                 shape: BoxShape.circle,
@@ -236,15 +254,14 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             Text(
                               "Before",
                               style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  color: Colors.black),
+                                  fontSize: 14, color: Colors.black),
                             ),
                             SizedBox(
                               width: 29,
                             ),
                             Container(
-                              height:D.W/19,
-                              width: D.W/19,
+                              height: D.W / 19,
+                              width: D.W / 19,
                               decoration: new BoxDecoration(
                                 color: ColorConstants.innerColor,
                                 shape: BoxShape.circle,
@@ -259,8 +276,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             Text(
                               "After",
                               style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  color: Colors.black),
+                                  fontSize: 14, color: Colors.black),
                             ),
                           ],
                         ),
@@ -280,11 +296,13 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                 SizedBox(height: D.H / 120),
                                 Container(
                                   width: D.W / 2.9,
-
                                   child: CustomDateField(
+                                    onTap: (){
+                                      _selectDate(context,sDateController);
+                                    },
                                     controller: sDateController,
                                     iconPath: "assets/images/ic_date.svg",
-                                    readOnly: false,
+                                    readOnly: true,
                                     validators: (e) {
                                       if (sDateController.text == null ||
                                           sDateController.text == '') {
@@ -310,6 +328,9 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                 Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
+                                    onTap: (){
+                                      _selectDate(context,eDateController);
+                                    },
                                     controller: eDateController,
                                     iconPath: "assets/images/ic_date.svg",
                                     readOnly: false,
@@ -331,8 +352,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         CustomButton(
                           color: ColorConstants.blueBtn,
                           onTap: () {
-                            NavigationHelpers.redirect(
-                                context, OtpVerificationScreen());
+                            saveMedication();
                           },
                           text: "Done",
                           textColor: Colors.white,
@@ -346,5 +366,83 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         ),
       ),
     );
+  }
+  Future<void> _selectDate(BuildContext context,final controller) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        final DateFormat formatter = DateFormat('dd-MM-yy');
+        final String startDate = formatter.format(picked);
+        controller.text= startDate.toString();
+      });
+    }
+  }
+
+  Future<void> getMedicationContent() async {
+    final uri = ApiEndPoint.getMedicationContent;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      for (int i = 0; i < res.length; i++) {
+
+      }
+
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> saveMedication() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.saveMedication;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersMedicationId": 0,
+      "medicationName": "Disprin",
+      "dosage": "10",
+      "dosageId": 1,
+      "foodId": 1,
+      "startDate": 1655922600000,
+      "endDate": 1658514600000,
+      "frequencyId": 2,
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage(res["message"]);
+      Navigator.of(context).pop();
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }
