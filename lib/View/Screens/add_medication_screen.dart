@@ -29,15 +29,19 @@ class AddMedicationScreen extends StatefulWidget {
 
 class _AddMedicationScreenState extends State<AddMedicationScreen> {
   final mNameController = TextEditingController();
-  final dosageController = TextEditingController();
   final sDateController = TextEditingController();
   final eDateController = TextEditingController();
+  String? _choosenDosageValue;
+  String? _choosenFoodValue;
+  String? _choosenFreqValue;
+
+  var dosageId = 0;
+  var frequencyId = 0;
+
   List<FoodType> foodTypeData = [];
   List<Dosage> dosageTypeData = [];
   List<Frequency> frequencyTypeData = [];
-
   var _selectedFood = "after";
-  String? _chosenValue;
   DateTime selectedDate = DateTime.now();
 
   @override
@@ -109,66 +113,6 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Type",
-                          style: GoogleFonts.heebo(
-                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                        ),
-                        SizedBox(height: D.H / 120),
-                        Container(
-                          padding:
-                              EdgeInsets.only(left: D.W / 30, right: D.W / 60),
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: ColorConstants.innerColor,
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.white,
-                              style: BorderStyle.solid,
-                            ),
-                          ),
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            value: _chosenValue,
-                            style: TextStyle(color: Colors.white),
-                            iconEnabledColor: ColorConstants.lightGrey,
-                            icon: Icon(Icons.arrow_drop_down_sharp),
-                            iconSize: 32,
-                            underline: Container(color: Colors.transparent),
-                            items: <String>[
-                              'Abc',
-                              'Bcd',
-                              'Cde',
-                              'Def',
-                              'Efg',
-                              'Fgh',
-                              'Ghi',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              );
-                            }).toList(),
-                            hint: Text(
-                              "Please choose a Type",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: D.H / 48,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _chosenValue = value;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(height: D.H / 60),
-                        Text(
                           "Medication Name",
                           style: GoogleFonts.heebo(
                               fontSize: D.H / 52, fontWeight: FontWeight.w400),
@@ -193,17 +137,62 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                               fontSize: D.H / 52, fontWeight: FontWeight.w400),
                         ),
                         SizedBox(height: D.H / 120),
-                        CustomTextFormField(
-                          controller: dosageController,
-                          readOnly: false,
-                          validators: (e) {
-                            if (dosageController.text == null ||
-                                dosageController.text == '') {
-                              return '*Please enter Dosage';
-                            }
-                          },
-                          keyboardTYPE: TextInputType.text,
-                          obscured: false,
+                        Container(
+                          padding:
+                          EdgeInsets.only(left: D.W / 30, right: D.W / 60),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: ColorConstants.innerColor,
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            focusColor: Colors.white,
+                            value: _choosenDosageValue,
+                            style: TextStyle(color: Colors.white),
+                            iconEnabledColor: ColorConstants.lightGrey,
+                            icon: Icon(Icons.arrow_drop_down_sharp),
+                            iconSize: 32,
+                            underline: Container(color: Colors.transparent),
+                            items: dosageTypeData.map((items) {
+                              return DropdownMenuItem(
+                                value: items.dosageType,
+                                child: Padding(
+                                  padding:
+                                  EdgeInsets.only(
+                                      left: 10),
+                                  child: Text(
+                                    items.dosageType
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 15.0),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            hint: Text(
+                              "Please choose a Type",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: D.H / 48,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            onChanged: (String? value) {
+                              setState(() {
+                                _choosenDosageValue = value;
+                                for (int i = 0; i < dosageTypeData.length; i++) {
+                                  if (dosageTypeData[i].dosageType == _choosenDosageValue) {
+                                    dosageId = dosageTypeData[i].dosageTypeId!;
+                                  }
+                                }
+                              });
+                            },
+                          ),
                         ),
                         SizedBox(height: D.H / 60),
                         Text(
@@ -348,6 +337,70 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             )
                           ],
                         ),
+                        SizedBox(height: D.H / 60),
+                        Text(
+                          "Add Frequency",
+                          style: GoogleFonts.heebo(
+                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(height: D.H / 120),
+                        Container(
+                          padding:
+                          EdgeInsets.only(left: D.W / 30, right: D.W / 60),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: ColorConstants.innerColor,
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            focusColor: Colors.white,
+                            value: _choosenFreqValue,
+                            style: TextStyle(color: Colors.white),
+                            iconEnabledColor: ColorConstants.lightGrey,
+                            icon: Icon(Icons.arrow_drop_down_sharp),
+                            iconSize: 24,
+                            underline: Container(color: Colors.transparent),
+                            items: frequencyTypeData.map((items) {
+                              return DropdownMenuItem(
+                                value: items.frequencyType,
+                                child: Padding(
+                                  padding:
+                                  EdgeInsets.only(
+                                      left: 10),
+                                  child: Text(
+                                    items.frequencyType
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 15.0),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            hint: Text(
+                              "Please choose a Type",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: D.H / 48,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            onChanged: (String? value) {
+                              setState(() {
+                                _choosenFreqValue = value;
+                                for (int i = 0; i < frequencyTypeData.length; i++) {
+                                  if (frequencyTypeData[i].frequencyType == _choosenFreqValue) {
+                                    frequencyId = frequencyTypeData[i].frequencyTypeId!;
+                                  }
+                                }
+                              });
+                            },
+                          ),
+                        ),
                         SizedBox(height: D.H / 32),
                         CustomButton(
                           color: ColorConstants.blueBtn,
@@ -416,13 +469,13 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     };
     Map<String, dynamic> body = {
       "usersMedicationId": 0,
-      "medicationName": "Disprin",
+      "medicationName": mNameController,
       "dosage": "10",
-      "dosageId": 1,
+      "dosageId": dosageId,
       "foodId": 1,
       "startDate": 1655922600000,
       "endDate": 1658514600000,
-      "frequencyId": 2,
+      "frequencyId": frequencyId,
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -439,7 +492,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     if (statusCode == 200 ) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage(res["message"]);
-      Navigator.of(context).pop();
+
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
