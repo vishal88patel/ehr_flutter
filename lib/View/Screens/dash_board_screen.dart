@@ -6,8 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
+import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
+import '../../Model/lab_screen_response_model.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
+import '../../Utils/preferences.dart';
 import 'body_screen.dart';
 import 'lab_screen.dart';
 
@@ -15,6 +19,7 @@ import 'lab_screen.dart';
 class DashBoardScreen extends StatefulWidget {
   int? _currentIndex = 0;
   int? savePrevIndex;
+
 
   DashBoardScreen(_currentIndex) {
     this._currentIndex = _currentIndex;
@@ -26,19 +31,22 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
 
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  //
   final List<Widget> _children = [
     LabScreen(),
-    BodyScreen(),
+     BodyScreen(),
     SchedualScreen(),
   ];
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  // late LoginModel loginModel;
 
   @override
   void initState() {
-    // getprefrences();
+    //
+
     super.initState();
   }
+
 
   // getprefrences() async {
   //   loginModel = (await PreferenceUtils.getLoginObject('LoginResponse'))!;
