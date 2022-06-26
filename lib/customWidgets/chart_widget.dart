@@ -1,27 +1,41 @@
+import 'package:ehr/Model/lab_screen_response_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class GraphWidget extends StatefulWidget {
-  // ignore: prefer_const_constructors_in_immutables
-  GraphWidget({Key? key}) : super(key: key);
+  List<TestResults> graphList;
+  GraphWidget( {required this.graphList});
 
   @override
   GraphWidgetState createState() => GraphWidgetState();
 }
 
 class GraphWidgetState extends State<GraphWidget> {
+
+
   List<_SalesData> data = [
-    _SalesData('10',120,),
-    _SalesData('20', 121),
-    _SalesData('30', 122),
-    _SalesData('40', 123),
-    _SalesData('50', 120),
-    _SalesData('60', 119),
-    _SalesData('70', 126),
-    _SalesData('80', 126),
-    _SalesData('90', 123),
+    // _SalesData('10',120,),
+    // _SalesData('20', 121),
+    // _SalesData('30', 122),
+    // _SalesData('40', 123),
+    // _SalesData('50', 120),
+    // _SalesData('60', 119),
+    // _SalesData('70', 126),
+    // _SalesData('80', 126),
+    // _SalesData('90', 123),
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    for(int i=0;i<widget.graphList[0].values!.length;i++){
+      var dt = DateTime.fromMillisecondsSinceEpoch(widget.graphList[0].values![i].created!);
+      var d24 = DateFormat('dd/MM/yyyy').format(dt);
+      data.add(_SalesData('${d24}', double.parse(widget.graphList[0].values![i].testResultValue.toString())));
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
