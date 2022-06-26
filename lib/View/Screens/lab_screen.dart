@@ -2143,58 +2143,63 @@ class _LabScreenState extends State<LabScreen>
                               itemCount:
                                   _labScreenResponseModelodel.imagine!.length,
                               itemBuilder: (context, index) {
-                                return Card(
-                                  elevation: 4,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(18),
-                                          bottomLeft: Radius.circular(18),
-                                          topLeft: Radius.circular(18),
-                                          topRight: Radius.circular(18))),
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
+                                return InkWell(
+                                  onTap: (){
+                                    showDialouge(imagine: _labScreenResponseModelodel.imagine![index] ,name: _labScreenResponseModelodel.imagine![index].description.toString() );
+                                  },
+                                  child: Card(
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(18),
+                                            bottomLeft: Radius.circular(18),
                                             topLeft: Radius.circular(18),
-                                            topRight: Radius.circular(18)),
-                                        child: CachedNetworkImage(
-                                          height: 110,
-                                          width: 120,
-                                          fit: BoxFit.fill,
-                                          imageUrl: _labScreenResponseModelodel
-                                              .imagine![index]
-                                              .media![0]
-                                              .mediaFileName
-                                              .toString(),
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Center(
-                                            child: SizedBox(
-                                              height: 50,
-                                              width: 50,
-                                              child: CircularProgressIndicator(
-                                                  color: ColorConstants
-                                                      .primaryBlueColor,
-                                                  value: downloadProgress
-                                                      .progress),
+                                            topRight: Radius.circular(18))),
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(18),
+                                              topRight: Radius.circular(18)),
+                                          child: CachedNetworkImage(
+                                            height: 110,
+                                            width: 120,
+                                            fit: BoxFit.fill,
+                                            imageUrl: _labScreenResponseModelodel
+                                                .imagine![index]
+                                                .media![0]
+                                                .mediaFileName
+                                                .toString(),
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Center(
+                                              child: SizedBox(
+                                                height: 50,
+                                                width: 50,
+                                                child: CircularProgressIndicator(
+                                                    color: ColorConstants
+                                                        .primaryBlueColor,
+                                                    value: downloadProgress
+                                                        .progress),
+                                              ),
                                             ),
+                                            errorWidget: (context, url, error) =>
+                                                Icon(Icons.error),
                                           ),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Text(
-                                        _labScreenResponseModelodel
-                                            .imagine![index].imageType
-                                            .toString(),
-                                        style: GoogleFonts.heebo(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 16),
-                                      )
-                                    ],
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                          _labScreenResponseModelodel
+                                              .imagine![index].imageType
+                                              .toString(),
+                                          style: GoogleFonts.heebo(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 );
                               },
@@ -2483,80 +2488,141 @@ class _LabScreenState extends State<LabScreen>
             : Container());
   }
 
-  showDialouge({name, image}) {
+  showDialouge({required String name, required Imagine imagine, }) {
+    int activePage = 0;
+
+    PageController _pageController = PageController(viewportFraction: 1,initialPage: 0);
+    List<Widget> indicators(imagesLength,currentIndex) {
+      return List<Widget>.generate(imagesLength, (index) {
+        return Container(
+          margin: EdgeInsets.all(3),
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+              color: currentIndex == index ? ColorConstants.primaryBlueColor : Colors.white,
+              shape: BoxShape.circle),
+        );
+      });
+    }
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0)),
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 14),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              name,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          child: Text(
-                            "Lorem Ipsum has been the industry's standarddummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                            style: GoogleFonts.heebo(
-                                color: ColorConstants.light, fontSize: 14),
+          return StatefulBuilder(
+            builder: (BuildContext context, void Function(void Function()) setState)
+            => Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0)),
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 14),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 12,
                           ),
-                        ),
-                        SizedBox(
-                          height: 26,
-                        ),
-                        Container(
-                            height: 320,
-                            child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                                child: Image.asset(
-                                  image,
-                                  fit: BoxFit.cover,
-                                ))),
-                        SizedBox(
-                          height: 18,
-                        ),
-                      ],
+                          Row(
+                            children: [
+                              Text(
+                                imagine.imageType.toString(),
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            child: Text(
+                              name,
+                              style: GoogleFonts.heebo(
+                                  color: ColorConstants.light, fontSize: 14),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 26,
+                          ),
+                          Container(
+                            height: 350,
+                            child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                PageView.builder(
+                                  controller: _pageController,
+                                    onPageChanged: (page) {
+                                      setState(() {
+                                        activePage = page;
+                                      });
+                                    },
+                                    itemCount: imagine.media!.length,
+                                    pageSnapping: true,
+                                    itemBuilder: (context,pagePosition){
+                                      return  Container(
+                                          height: 340,
+                                          child: ClipRRect(
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(25)),
+                                              child:  CachedNetworkImage(
+                                                height: 120,
+                                                width: double.infinity,
+                                                fit: BoxFit.fill,
+                                                imageUrl:imagine.media![pagePosition].mediaFileName
+                                                    .toString(),
+                                                progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                    Center(
+                                                      child: SizedBox(
+                                                        height: 50,
+                                                        width: 50,
+                                                        child: CircularProgressIndicator(
+                                                            color: ColorConstants
+                                                                .primaryBlueColor,
+                                                            value: downloadProgress
+                                                                .progress),
+                                                      ),
+                                                    ),
+                                                errorWidget: (context, url, error) =>
+                                                    Icon(Icons.error),
+                                              )));
+                                    }),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: indicators(imagine.media!.length,activePage))
+                              ],
+                            ),
+                          ),
+
+                          SizedBox(
+                            height: 18
+                            ,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 1,
-                    color: ColorConstants.line,
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        "OK",
-                        style:
-                            GoogleFonts.heebo(color: Colors.blue, fontSize: 25),
-                      )),
-                  SizedBox(
-                    height: 15,
-                  ),
-                ],
+                    Container(
+                      height: 1,
+                      color: ColorConstants.line,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "OK",
+                          style:
+                              GoogleFonts.heebo(color: Colors.blue, fontSize: 25),
+                        )),
+                    SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
               ),
             ),
           );
