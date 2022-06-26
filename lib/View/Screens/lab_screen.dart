@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ehr/Model/testResultType_model.dart';
 import 'package:ehr/View/Screens/comment_screen.dart';
+import 'package:ehr/View/Screens/login_screen.dart';
 import 'package:ehr/View/Screens/medication_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class LabScreen extends StatefulWidget {
 }
 
 class _LabScreenState extends State<LabScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   TextEditingController controller = TextEditingController();
   late TabController _tabController;
   var _selectedFood = "after";
@@ -96,7 +97,9 @@ class _LabScreenState extends State<LabScreen>
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
-
+      bloodPressureList.clear();
+      hemoglobinList.clear();
+      heartRateList.clear();
       for (int i = 0;
           i < _labScreenResponseModelodel.testResults!.length;
           i++) {
@@ -118,27 +121,36 @@ class _LabScreenState extends State<LabScreen>
             child: Text(
               "Hemoglobin",
               style: GoogleFonts.heebo(
-                  fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal),
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
             ),
           ),
         ));
-        tabbodyList.add(GraphWidget( graphList: hemoglobinList,));
-      };
+        tabbodyList.add(GraphWidget(
+          graphList: hemoglobinList,
+        ));
+      }
+      ;
       if (bloodPressureList.isNotEmpty) {
         tabList.add(Container(
           height: 45,
           child: Center(
             child: Text(
               "Blood Pressure",
-                textAlign:TextAlign.center,
+              textAlign: TextAlign.center,
               style: GoogleFonts.heebo(
-
-                  fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal),
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
             ),
           ),
         ));
-        tabbodyList.add(GraphWidget(graphList: bloodPressureList,));
-      };
+        tabbodyList.add(GraphWidget(
+          graphList: bloodPressureList,
+        ));
+      }
+      ;
       if (heartRateList.isNotEmpty) {
         tabList.add(Container(
           height: 45,
@@ -146,12 +158,17 @@ class _LabScreenState extends State<LabScreen>
             child: Text(
               "Heart Rate",
               style: GoogleFonts.heebo(
-                  fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal),
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
             ),
           ),
         ));
-        tabbodyList.add(GraphWidget(graphList: heartRateList,));
-      };
+        tabbodyList.add(GraphWidget(
+          graphList: heartRateList,
+        ));
+      }
+      ;
 
       tabItemCount = tabList.length;
       _tabController = new TabController(length: tabItemCount, vsync: this);
@@ -185,8 +202,89 @@ class _LabScreenState extends State<LabScreen>
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      Navigator.pop(context);
       _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
+      bloodPressureList.clear();
+      hemoglobinList.clear();
+      heartRateList.clear();
+      tabbodyList.clear();
+      tabList.clear();
+      for (int i = 0;
+      i < _labScreenResponseModelodel.testResults!.length;
+      i++) {
+        if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Blood Pressure") {
+          bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Hemoglobin") {
+          hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Heart Rate") {
+          heartRateList.add(_labScreenResponseModelodel.testResults![i]);
+        }
+      }
+      if (hemoglobinList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Hemoglobin",
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: hemoglobinList,
+        ));
+      }
+      ;
+      if (bloodPressureList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Blood Pressure",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: bloodPressureList,
+        ));
+      }
+      ;
+      if (heartRateList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Heart Rate",
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: heartRateList,
+        ));
+      }
+      ;
+
+      tabItemCount = tabList.length;
+      _tabController = new TabController(length: tabItemCount, vsync: this);
+
+      CommonUtils.showGreenToastMessage("Result Saved");
+      CommonUtils.hideProgressDialog(context);
+
+      Navigator.pop(context);
       setState(() {});
     } else {
       Navigator.pop(context);
@@ -737,10 +835,13 @@ class _LabScreenState extends State<LabScreen>
                                       physics: NeverScrollableScrollPhysics(),
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                            var millis =   _labScreenResponseModelodel
-                                                .medications![index].created;
-                                            var dt = DateTime.fromMillisecondsSinceEpoch(millis!);
-                                            var d24 = DateFormat('dd/MM/yyyy').format(dt); // 31/12/2000, 22:00
+                                        var millis = _labScreenResponseModelodel
+                                            .medications![index].created;
+                                        var dt =
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                millis!);
+                                        var d24 = DateFormat('dd/MM/yyyy')
+                                            .format(dt); // 31/12/2000, 22:00
 
                                         var userName =
                                             getUserName!.firstName.toString();
@@ -991,6 +1092,8 @@ class _LabScreenState extends State<LabScreen>
                                   ),
                                   InkWell(
                                       onTap: () {
+                                        valueController.text="";
+                                        _choosenLabValue=testResultTypesData[0].testType;
                                         showDialog<String>(
                                           context: context,
                                           builder: (BuildContext context) =>
@@ -1243,15 +1346,14 @@ class _LabScreenState extends State<LabScreen>
                                                                 .isEmpty) {
                                                               CommonUtils
                                                                   .showRedToastMessage(
-                                                                  "Please Select Type");
+                                                                      "Please Select Type");
                                                             } else if (valueController
                                                                 .text.isEmpty) {
                                                               CommonUtils
                                                                   .showRedToastMessage(
-                                                                  "Please add Value");
+                                                                      "Please add Value");
                                                             } else {
                                                               saveTestResult();
-
                                                             }
                                                           },
                                                           child: Text(
@@ -1327,7 +1429,6 @@ class _LabScreenState extends State<LabScreen>
                                 ),
                               ),
                             ),
-
                             Container(
                               height: 300,
                               child: TabBarView(
@@ -1595,7 +1696,7 @@ class _LabScreenState extends State<LabScreen>
                                                                       color: ColorConstants
                                                                           .bgImage,
                                                                       shape:
-                                                                          RoundedRectangleBorder(
+                                                                          const RoundedRectangleBorder(
                                                                         borderRadius:
                                                                             BorderRadius.all(Radius.circular(10)),
                                                                       ),
@@ -1619,7 +1720,7 @@ class _LabScreenState extends State<LabScreen>
                                                                           borderRadius: BorderRadius.circular(20),
                                                                           child: Container(
                                                                               color: ColorConstants.skyBlue,
-                                                                              child: Icon(
+                                                                              child: const Icon(
                                                                                 Icons.close,
                                                                                 size: 20,
                                                                                 color: Colors.white,
@@ -1640,7 +1741,7 @@ class _LabScreenState extends State<LabScreen>
                                                               children: [
                                                                 ClipRRect(
                                                                   borderRadius:
-                                                                      BorderRadius.all(
+                                                                      const BorderRadius.all(
                                                                           Radius.circular(
                                                                               10)),
                                                                   child: Image
@@ -2580,8 +2681,6 @@ class _LabScreenState extends State<LabScreen>
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage(res["message"]);
       getLabScreenApiWithoutLoader();
     } else {
       CommonUtils.hideProgressDialog(context);
