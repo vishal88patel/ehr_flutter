@@ -170,6 +170,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                     items.dosageType
                                         .toString(),
                                     style: TextStyle(
+                                        color: Colors.black,
                                         fontSize: 15.0),
                                   ),
                                 ),
@@ -361,7 +362,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             isExpanded: true,
                             focusColor: Colors.white,
                             value: _choosenFreqValue,
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.black),
                             iconEnabledColor: ColorConstants.lightGrey,
                             icon: Icon(Icons.arrow_drop_down_sharp),
                             iconSize: 24,
@@ -377,6 +378,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                     items.frequencyType
                                         .toString(),
                                     style: TextStyle(
+                                      color: Colors.black,
                                         fontSize: 15.0),
                                   ),
                                 ),
@@ -450,8 +452,12 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      for (int i = 0; i < res.length; i++) {
-
+      MedicationData data=MedicationData();
+      data=MedicationData.fromJson(res);
+      if(data!=null){
+        foodTypeData=data.foodType!;
+        frequencyTypeData=data.frequency!;
+        dosageTypeData=data.dosage!;
       }
 
       setState(() {});

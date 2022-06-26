@@ -13,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
@@ -56,9 +57,16 @@ class _LabScreenState extends State<LabScreen>
   OtpVerificationModel? getUserName = OtpVerificationModel();
   List<String> selectedImagesList = [];
 
+  List<TestResults> hemoglobinList = [];
+  List<TestResults> bloodPressureList = [];
+  List<TestResults> heartRateList = [];
+
+  List<Widget> tabList = [];
+  List<Widget> tabbodyList = [];
+  int tabItemCount = 0;
+
   @override
   void initState() {
-    _tabController = new TabController(length: 3, vsync: this);
     getTestResultTypes();
     getImagineTypes();
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -87,20 +95,80 @@ class _LabScreenState extends State<LabScreen>
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      CommonUtils.hideProgressDialog(context);
       _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
+
+      for (int i = 0;
+          i < _labScreenResponseModelodel.testResults!.length;
+          i++) {
+        if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Blood Pressure") {
+          bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Hemoglobin") {
+          hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Heart Rate") {
+          heartRateList.add(_labScreenResponseModelodel.testResults![i]);
+        }
+      }
+      if (hemoglobinList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Hemoglobin",
+              style: GoogleFonts.heebo(
+                  fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget( graphList: hemoglobinList,));
+      };
+      if (bloodPressureList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Blood Pressure",
+                textAlign:TextAlign.center,
+              style: GoogleFonts.heebo(
+
+                  fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(graphList: bloodPressureList,));
+      };
+      if (heartRateList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Heart Rate",
+              style: GoogleFonts.heebo(
+                  fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(graphList: heartRateList,));
+      };
+
+      tabItemCount = tabList.length;
+      _tabController = new TabController(length: tabItemCount, vsync: this);
+
+      CommonUtils.hideProgressDialog(context);
       setState(() {});
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Login Successfully");
+      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
     }
   }
+
   Future<void> getLabScreenApiWithoutLoader() async {
     getUserName =
         await PreferenceUtils.getDataObject("OtpVerificationResponse");
-
 
     final uri = ApiEndPoint.getDashboard;
     final headers = {
@@ -117,11 +185,9 @@ class _LabScreenState extends State<LabScreen>
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-     Navigator.pop(context);
+      Navigator.pop(context);
       _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
       setState(() {});
-
-
     } else {
       Navigator.pop(context);
     }
@@ -671,9 +737,14 @@ class _LabScreenState extends State<LabScreen>
                                       physics: NeverScrollableScrollPhysics(),
                                       itemBuilder:
                                           (BuildContext context, int index) {
+                                            var millis =   _labScreenResponseModelodel
+                                                .medications![index].created;
+                                            var dt = DateTime.fromMillisecondsSinceEpoch(millis!);
+                                            var d24 = DateFormat('dd/MM/yyyy').format(dt); // 31/12/2000, 22:00
+
                                         var userName =
                                             getUserName!.firstName.toString();
-                                        var date = "27-05-2020";
+                                        var date = d24.toString();
                                         return Container(
                                           padding: EdgeInsets.only(
                                               left: D.W / 40.0, top: D.H / 80),
@@ -742,7 +813,7 @@ class _LabScreenState extends State<LabScreen>
                                                                             .w400),
                                                               ),
                                                               SizedBox(
-                                                                width: 65,
+                                                                width: 90,
                                                               ),
                                                               Row(
                                                                 children: [
@@ -789,7 +860,7 @@ class _LabScreenState extends State<LabScreen>
                                                                             .w500),
                                                               ),
                                                               SizedBox(
-                                                                width: 57,
+                                                                width: 10,
                                                               ),
                                                               Text(
                                                                 date.toString(),
@@ -1168,7 +1239,20 @@ class _LabScreenState extends State<LabScreen>
                                                       children: [
                                                         InkWell(
                                                           onTap: () {
-                                                            saveTestResult();
+                                                            if (_choosenLabValue!
+                                                                .isEmpty) {
+                                                              CommonUtils
+                                                                  .showRedToastMessage(
+                                                                  "Please Select Type");
+                                                            } else if (valueController
+                                                                .text.isEmpty) {
+                                                              CommonUtils
+                                                                  .showRedToastMessage(
+                                                                  "Please add Value");
+                                                            } else {
+                                                              saveTestResult();
+
+                                                            }
                                                           },
                                                           child: Text(
                                                             "OK",
@@ -1210,51 +1294,52 @@ class _LabScreenState extends State<LabScreen>
                                   indicatorColor:
                                       ColorConstants.primaryBlueColor,
                                   controller: _tabController,
-                                  tabs: [
-                                    Tab(
-                                      child: Text(
-                                        "Hemoglobin",
-                                        style: GoogleFonts.heebo(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ),
-                                    Tab(
-                                      child: Text(
-                                        "Blood Pressure",
-                                        style: GoogleFonts.heebo(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ),
-                                    Tab(
-                                      child: Text(
-                                        "Heart Rate",
-                                        style: GoogleFonts.heebo(
-                                            fontSize: 12,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ),
-                                  ],
+                                  // tabs: [
+                                  //   hemoglobinList.isNotEmpty?Tab(
+                                  //     child: Text(
+                                  //       "Hemoglobin",
+                                  //       style: GoogleFonts.heebo(
+                                  //           fontSize: 12,
+                                  //           color: Colors.black,
+                                  //           fontWeight: FontWeight.normal),
+                                  //     ),
+                                  //   ):Container(),
+                                  //   bloodPressureList.isNotEmpty?Tab(
+                                  //     child: Text(
+                                  //       "Blood Pressure",
+                                  //       style: GoogleFonts.heebo(
+                                  //           fontSize: 12,
+                                  //           color: Colors.black,
+                                  //           fontWeight: FontWeight.normal),
+                                  //     ),
+                                  //   ):Container(),
+                                  //   heartRateList.isNotEmpty?Tab(
+                                  //     child: Text(
+                                  //       "Heart Rate",
+                                  //       style: GoogleFonts.heebo(
+                                  //           fontSize: 12,
+                                  //           color: Colors.black,
+                                  //           fontWeight: FontWeight.normal),
+                                  //     ),
+                                  //   ):Container(),
+                                  // ],
+                                  tabs: tabList,
                                 ),
                               ),
                             ),
 
-                            // create widgets for each tab bar here
                             Container(
                               height: 300,
                               child: TabBarView(
                                 controller: _tabController,
-                                children: [
-                                  // first tab bar view widget
-                                  Container(),
-                                  GraphWidget(),
-                                  // second tab bar viiew widget
-                                  Container(),
-                                ],
+                                children: tabbodyList,
+                                // children: [
+                                //   // first tab bar view widget
+                                //   Container(),
+                                //   GraphWidget(),
+                                //   // second tab bar viiew widget
+                                //   Container(),
+                                // ],
                               ),
                             ),
                           ],
@@ -1295,7 +1380,7 @@ class _LabScreenState extends State<LabScreen>
                                   InkWell(
                                       onTap: () {
                                         selectedImagesList.clear();
-                                        discController.text="";
+                                        discController.text = "";
                                         showDialog<String>(
                                           context: context,
                                           builder: (BuildContext context) =>
@@ -1898,11 +1983,17 @@ class _LabScreenState extends State<LabScreen>
                                                       children: [
                                                         InkWell(
                                                           onTap: () {
-                                                            if(selectedImagesList.isEmpty){
-                                                              CommonUtils.showRedToastMessage("Please Select Image");
-                                                            }else if(discController.text.isEmpty){
-                                                              CommonUtils.showRedToastMessage("Please add description");
-                                                            }else{
+                                                            if (selectedImagesList
+                                                                .isEmpty) {
+                                                              CommonUtils
+                                                                  .showRedToastMessage(
+                                                                      "Please Select Image");
+                                                            } else if (discController
+                                                                .text.isEmpty) {
+                                                              CommonUtils
+                                                                  .showRedToastMessage(
+                                                                      "Please add description");
+                                                            } else {
                                                               saveTestImagine();
                                                             }
                                                           },
@@ -1968,28 +2059,27 @@ class _LabScreenState extends State<LabScreen>
                                         child: CachedNetworkImage(
                                           height: 110,
                                           width: 120,
-                                          fit:BoxFit.fill,
-                                          imageUrl:
-                                              _labScreenResponseModelodel
-                                                  .imagine![index]
-                                                  .media![0]
-                                                  .mediaFileName
-                                                  .toString(),
+                                          fit: BoxFit.fill,
+                                          imageUrl: _labScreenResponseModelodel
+                                              .imagine![index]
+                                              .media![0]
+                                              .mediaFileName
+                                              .toString(),
                                           progressIndicatorBuilder: (context,
                                                   url, downloadProgress) =>
                                               Center(
-                                                child: SizedBox(
-                                                  height:50,
-                                                  width:50,
-                                                  child: CircularProgressIndicator(
-                                                    color: ColorConstants.primaryBlueColor,
-                                                      value: downloadProgress
-                                                          .progress),
-                                                ),
-                                              ),
-                                          errorWidget:
-                                              (context, url, error) =>
-                                                  Icon(Icons.error),
+                                            child: SizedBox(
+                                              height: 50,
+                                              width: 50,
+                                              child: CircularProgressIndicator(
+                                                  color: ColorConstants
+                                                      .primaryBlueColor,
+                                                  value: downloadProgress
+                                                      .progress),
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
                                         ),
                                       ),
                                       SizedBox(
@@ -2492,7 +2582,7 @@ class _LabScreenState extends State<LabScreen>
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage(res["message"]);
-      Navigator.of(context).pop();
+      getLabScreenApiWithoutLoader();
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
