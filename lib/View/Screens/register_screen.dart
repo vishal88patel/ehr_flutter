@@ -28,8 +28,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final lNameController = TextEditingController();
   final emailController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
-  int _groupValue = -1;
-  var _selectedGender = "male";
+  int genderId=1;
+  bool male=true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -147,18 +148,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    height: D.W / 19,
-                                    width: D.W / 19,
-                                    decoration: new BoxDecoration(
-                                      color: ColorConstants.innerColor,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        width: 2,
-                                        color: Colors.white.withOpacity(0.5),
-                                        style: BorderStyle.solid,
+                                  InkWell(
+                                    child: Container(
+                                      height: D.W / 19,
+                                      width: D.W / 19,
+                                      decoration: new BoxDecoration(
+                                        color: male?ColorConstants.primaryBlueColor:ColorConstants.innerColor,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          width: 2,
+                                          color: Colors.white,
+                                          style: BorderStyle.solid,
+                                        ),
                                       ),
                                     ),
+                                    onTap: (){
+                                      setState(() {
+                                        male=true;
+                                        genderId=1;
+                                      });
+                                    },
                                   ),
                                   SizedBox(width: D.W / 60),
                                   Text(
@@ -169,18 +178,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   SizedBox(
                                     width: 29,
                                   ),
-                                  Container(
-                                    height: D.W / 19,
-                                    width: D.W / 19,
-                                    decoration: new BoxDecoration(
-                                      color: ColorConstants.innerColor,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        width: 2,
-                                        color: Colors.white.withOpacity(0.5),
-                                        style: BorderStyle.solid,
+                                  InkWell(
+                                    child: Container(
+                                      height: D.W / 19,
+                                      width: D.W / 19,
+                                      decoration: new BoxDecoration(
+                                        color: male?ColorConstants.innerColor:ColorConstants.primaryBlueColor,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          width: 2,
+                                          color: Colors.white,
+                                          style: BorderStyle.solid,
+                                        ),
                                       ),
                                     ),
+                                    onTap: (){
+                                      setState(() {
+                                        male=false;
+                                        genderId=2;
+                                      });
+                                    },
                                   ),
                                   SizedBox(width: D.W / 60),
                                   Text(
@@ -199,7 +216,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       firstName: fNameController.text.toString(),
                                       lastName: lNameController.text.toString(),
                                       birthdate: 630873000000,
-                                      gender: 1,
+                                      gender: genderId,
                                       email: emailController.text.toString()
                                     );
                                   }

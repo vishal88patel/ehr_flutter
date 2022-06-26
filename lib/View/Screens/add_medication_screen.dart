@@ -4,6 +4,7 @@ import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/Model/medicationData_model.dart';
 import 'package:ehr/View/Screens/otp_verification_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
@@ -29,14 +30,23 @@ class AddMedicationScreen extends StatefulWidget {
 
 class _AddMedicationScreenState extends State<AddMedicationScreen> {
   final mNameController = TextEditingController();
+  final dosageController = TextEditingController();
   final sDateController = TextEditingController();
   final eDateController = TextEditingController();
+
+
+
   String? _choosenDosageValue;
   String? _choosenFoodValue;
   String? _choosenFreqValue;
 
+  bool withFood = true;
+  bool before = false;
+  bool after = false;
+
   var dosageId = 0;
   var frequencyId = 0;
+  var foodId = 0;
 
   List<FoodType> foodTypeData = [];
   List<Dosage> dosageTypeData = [];
@@ -46,13 +56,16 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
   @override
   void initState() {
-    getMedicationContent();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      getMedicationContent();
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return foodTypeData!=null?Scaffold(
       appBar: AppBar(
         toolbarHeight: 45,
         leading: InkWell(
@@ -137,63 +150,85 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                               fontSize: D.H / 52, fontWeight: FontWeight.w400),
                         ),
                         SizedBox(height: D.H / 120),
-                        Container(
-                          padding:
-                          EdgeInsets.only(left: D.W / 30, right: D.W / 60),
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: ColorConstants.innerColor,
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.white,
-                              style: BorderStyle.solid,
-                            ),
-                          ),
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            value: _choosenDosageValue,
-                            style: TextStyle(color: Colors.white),
-                            iconEnabledColor: ColorConstants.lightGrey,
-                            icon: Icon(Icons.arrow_drop_down_sharp),
-                            iconSize: 32,
-                            underline: Container(color: Colors.transparent),
-                            items: dosageTypeData.map((items) {
-                              return DropdownMenuItem(
-                                value: items.dosageType,
-                                child: Padding(
-                                  padding:
-                                  EdgeInsets.only(
-                                      left: 10),
-                                  child: Text(
-                                    items.dosageType
-                                        .toString(),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15.0),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            hint: Text(
-                              "Please choose a Type",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: D.H / 48,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _choosenDosageValue = value;
-                                for (int i = 0; i < dosageTypeData.length; i++) {
-                                  if (dosageTypeData[i].dosageType == _choosenDosageValue) {
-                                    dosageId = dosageTypeData[i].dosageTypeId!;
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: D.W / 2,
+                              child: CustomTextFormField(
+                                controller: dosageController,
+                                readOnly: false,
+                                validators: (e) {
+                                  if (dosageController.text == null ||
+                                      dosageController.text == '') {
+                                    return '*Dosage';
                                   }
-                                }
-                              });
-                            },
-                          ),
+                                },
+                                keyboardTYPE: TextInputType.number,
+                                obscured: false,
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: D.W / 30, right: D.W / 60),
+                              width: D.W / 4,
+                              decoration: BoxDecoration(
+                                color: ColorConstants.innerColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                border: Border.all(
+                                  width: 2,
+                                  color: Colors.white,
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                focusColor: Colors.white,
+                                value: _choosenDosageValue,
+                                style: TextStyle(color: Colors.white),
+                                iconEnabledColor: ColorConstants.lightGrey,
+                                icon: Icon(Icons.arrow_drop_down_sharp),
+                                iconSize: 32,
+                                underline: Container(color: Colors.transparent),
+                                items: dosageTypeData.map((items) {
+                                  return DropdownMenuItem(
+                                    value: items.dosageType,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        items.dosageType.toString(),
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                hint: Text(
+                                  " ",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: D.H / 48,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    _choosenDosageValue = value;
+                                    for (int i = 0;
+                                        i < dosageTypeData.length;
+                                        i++) {
+                                      if (dosageTypeData[i].dosageType ==
+                                          _choosenDosageValue) {
+                                        dosageId =
+                                            dosageTypeData[i].dosageTypeId!;
+                                      }
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: D.H / 60),
                         Text(
@@ -205,66 +240,104 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              height: D.W / 19,
-                              width: D.W / 19,
-                              decoration: new BoxDecoration(
-                                color: ColorConstants.innerColor,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  width: 2,
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  withFood = true;
+                                  before = false;
+                                  after = false;
+                                  foodId = foodTypeData[0].medicationFoodTypeId!;
+                                });
+                              },
+                              child: Container(
+                                height: D.W / 19,
+                                width: D.W / 19,
+                                decoration: new BoxDecoration(
+                                  color: withFood
+                                      ? ColorConstants.primaryBlueColor
+                                      : ColorConstants.innerColor,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 2,
+                                    color: Colors.white,
+                                    style: BorderStyle.solid,
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(width: D.W / 60),
                             Text(
-                              "With Food",
+                              foodTypeData[0].medicationFood.toString(),
                               style: GoogleFonts.roboto(
                                   fontSize: 14, color: Colors.black),
                             ),
                             SizedBox(
                               width: 29,
                             ),
-                            Container(
-                              height: D.W / 19,
-                              width: D.W / 19,
-                              decoration: new BoxDecoration(
-                                color: ColorConstants.innerColor,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  width: 2,
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  withFood = false;
+                                  before = true;
+                                  after = false;
+                                  foodId =
+                                      foodTypeData[1].medicationFoodTypeId!;
+                                });
+                              },
+                              child: Container(
+                                height: D.W / 19,
+                                width: D.W / 19,
+                                decoration: new BoxDecoration(
+                                  color: before
+                                      ? ColorConstants.primaryBlueColor
+                                      : ColorConstants.innerColor,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 2,
+                                    color: Colors.white,
+                                    style: BorderStyle.solid,
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(width: D.W / 60),
                             Text(
-                              "Before",
+                              foodTypeData[1].medicationFood.toString(),
                               style: GoogleFonts.roboto(
                                   fontSize: 14, color: Colors.black),
                             ),
                             SizedBox(
                               width: 29,
                             ),
-                            Container(
-                              height: D.W / 19,
-                              width: D.W / 19,
-                              decoration: new BoxDecoration(
-                                color: ColorConstants.innerColor,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  width: 2,
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  withFood = false;
+                                  before = false;
+                                  after = true;
+                                  foodId =
+                                      foodTypeData[2].medicationFoodTypeId!;
+                                });
+                              },
+                              child: Container(
+                                height: D.W / 19,
+                                width: D.W / 19,
+                                decoration: new BoxDecoration(
+                                  color: after
+                                      ? ColorConstants.primaryBlueColor
+                                      : ColorConstants.innerColor,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 2,
+                                    color: Colors.white,
+                                    style: BorderStyle.solid,
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(width: D.W / 60),
                             Text(
-                              "After",
+                              foodTypeData[2].medicationFood.toString(),
                               style: GoogleFonts.roboto(
                                   fontSize: 14, color: Colors.black),
                             ),
@@ -287,8 +360,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                 Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
-                                    onTap: (){
-                                      _selectDate(context,sDateController);
+                                    onTap: () {
+                                      _selectDate(context, sDateController);
                                     },
                                     controller: sDateController,
                                     iconPath: "assets/images/ic_date.svg",
@@ -318,12 +391,12 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                 Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
-                                    onTap: (){
-                                      _selectDate(context,eDateController);
+                                    onTap: () {
+                                      _selectDate(context, eDateController);
                                     },
                                     controller: eDateController,
                                     iconPath: "assets/images/ic_date.svg",
-                                    readOnly: false,
+                                    readOnly: true,
                                     validators: (e) {
                                       if (eDateController.text == null ||
                                           eDateController.text == '') {
@@ -347,7 +420,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         SizedBox(height: D.H / 120),
                         Container(
                           padding:
-                          EdgeInsets.only(left: D.W / 30, right: D.W / 60),
+                              EdgeInsets.only(left: D.W / 30, right: D.W / 60),
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                             color: ColorConstants.innerColor,
@@ -371,21 +444,17 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                               return DropdownMenuItem(
                                 value: items.frequencyType,
                                 child: Padding(
-                                  padding:
-                                  EdgeInsets.only(
-                                      left: 10),
+                                  padding: EdgeInsets.only(left: 10),
                                   child: Text(
-                                    items.frequencyType
-                                        .toString(),
+                                    items.frequencyType.toString(),
                                     style: TextStyle(
-                                      color: Colors.black,
-                                        fontSize: 15.0),
+                                        color: Colors.black, fontSize: 15.0),
                                   ),
                                 ),
                               );
                             }).toList(),
                             hint: Text(
-                              "Please choose a Type",
+                              "",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: D.H / 48,
@@ -394,9 +463,13 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             onChanged: (String? value) {
                               setState(() {
                                 _choosenFreqValue = value;
-                                for (int i = 0; i < frequencyTypeData.length; i++) {
-                                  if (frequencyTypeData[i].frequencyType == _choosenFreqValue) {
-                                    frequencyId = frequencyTypeData[i].frequencyTypeId!;
+                                for (int i = 0;
+                                    i < frequencyTypeData.length;
+                                    i++) {
+                                  if (frequencyTypeData[i].frequencyType ==
+                                      _choosenFreqValue) {
+                                    frequencyId =
+                                        frequencyTypeData[i].frequencyTypeId!;
                                   }
                                 }
                               });
@@ -407,7 +480,23 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         CustomButton(
                           color: ColorConstants.blueBtn,
                           onTap: () {
-                            saveMedication();
+                            if (mNameController.text.isEmpty) {
+                              CommonUtils.showRedToastMessage("Please enter Madication Name");
+                            }else if(dosageController.text.isEmpty) {
+                              CommonUtils.showRedToastMessage("Please enter Dosage");
+                            } else if(dosageId==0){
+                              CommonUtils.showRedToastMessage("Please select Dosage Type");
+                            } else if(foodId==0) {
+                              CommonUtils.showRedToastMessage("Please select Food Type");
+                            } else if(sDateController.text.isEmpty) {
+                              CommonUtils.showRedToastMessage("Please enter Start Date");
+                            } else if(eDateController.text.isEmpty) {
+                              CommonUtils.showRedToastMessage("Please enter End date");
+                            } else if(frequencyId==0) {
+                              CommonUtils.showRedToastMessage("Please enter Frequency");
+                            } else {
+                              saveMedication();
+                            }
                           },
                           text: "Done",
                           textColor: Colors.white,
@@ -420,9 +509,10 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
           ],
         ),
       ),
-    );
+    ):Container();
   }
-  Future<void> _selectDate(BuildContext context,final controller) async {
+
+  Future<void> _selectDate(BuildContext context, final controller) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -432,16 +522,18 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
       setState(() {
         final DateFormat formatter = DateFormat('dd-MM-yy');
         final String startDate = formatter.format(picked);
-        controller.text= startDate.toString();
+        controller.text = startDate.toString();
       });
     }
   }
 
   Future<void> getMedicationContent() async {
+    CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.getMedicationContent;
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     Response response = await get(
@@ -452,16 +544,17 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      MedicationData data=MedicationData();
-      data=MedicationData.fromJson(res);
-      if(data!=null){
-        foodTypeData=data.foodType!;
-        frequencyTypeData=data.frequency!;
-        dosageTypeData=data.dosage!;
+      MedicationData data = MedicationData();
+      data = MedicationData.fromJson(res);
+      if (data != null) {
+        foodTypeData = data.foodType!;
+        frequencyTypeData = data.frequency!;
+        dosageTypeData = data.dosage!;
       }
-
+      CommonUtils.hideProgressDialog(context);
       setState(() {});
     } else {
+      CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
     }
   }
@@ -471,14 +564,15 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     final uri = ApiEndPoint.saveMedication;
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
       "usersMedicationId": 0,
-      "medicationName": mNameController,
-      "dosage": "10",
+      "medicationName": mNameController.text.toString(),
+      "dosage": dosageController.text.toString(),
       "dosageId": dosageId,
-      "foodId": 1,
+      "foodId": foodId,
       "startDate": 1655922600000,
       "endDate": 1658514600000,
       "frequencyId": frequencyId,
@@ -495,10 +589,9 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     int statusCode = response.statusCode;
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
-    if (statusCode == 200 ) {
+    if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage(res["message"]);
-
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
