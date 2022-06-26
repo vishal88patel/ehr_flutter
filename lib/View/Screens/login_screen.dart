@@ -173,116 +173,114 @@ class _LogInScreenState extends State<LogInScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(
                             left: D.W / 10, right: D.W / 10, top: D.H / 11),
-                        child: Form(
-                          key: _formkey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Mobile Number", style: GoogleFonts.heebo(
-                                  fontSize: D.H / 52,
-                                  fontWeight: FontWeight.w400),),
-                              SizedBox(height: D.H / 120),
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        left: D.W / 30, right: D.W / 60),
-                                    width: MediaQuery.of(context).size.width / 1.25,
-                                    decoration: BoxDecoration(
-                                      color: ColorConstants.innerColor,
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      border: Border.all(
-                                        width: 2,
-                                        color: Colors.white,
-                                        style: BorderStyle.solid,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width / 6,
-                                          height: D.H/20,
-                                          child: DropdownButton<String>(
-                                            isExpanded: true,
-                                            focusColor: Colors.white,
-                                            value: _chosenValue,
-                                            style: TextStyle(color: Colors.white),
-                                            iconEnabledColor: ColorConstants.lightGrey,
-                                            icon: Icon(Icons.arrow_drop_down_sharp),
-                                            iconSize: 32,
-                                            underline: Container(color: Colors.transparent),
-                                            items:countryCode?.map<DropdownMenuItem<String>>((String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(
-                                                  value,
-                                                  style: TextStyle(color: Colors.black),
-                                                ),
-                                              );
-                                            }).toList(),
-                                            hint: Text(
-                                              "+91",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: D.H / 48,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                _chosenValue = value;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        Container(width: 1.0,color: ColorConstants.line,height:D.H/22,),
-                                        Padding(
-                                          padding: EdgeInsets.only(bottom: D.H/80),
-                                          child: SizedBox(
-                                            height: D.H/20,
-                                            width: MediaQuery.of(context).size.width / 1.8,
-                                            child: CustomPhoneTextFormField(
-                                              controller: ccController,
-                                              readOnly: false,
-                                              validators: (String? value) {
-                                                if (ccController.text == null ||
-                                                    ccController.text == '') {
-                                                  return '*Value';
-                                                }
-                                              },
-                                              keyboardTYPE: TextInputType.text,
-                                              obscured: false,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Mobile Number", style: GoogleFonts.heebo(
+                                fontSize: D.H / 52,
+                                fontWeight: FontWeight.w400),),
+                            SizedBox(height: D.H / 120),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      left: D.W / 30, right: D.W / 60),
+                                  width: MediaQuery.of(context).size.width / 1.25,
+                                  decoration: BoxDecoration(
+                                    color: ColorConstants.innerColor,
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Colors.white,
+                                      style: BorderStyle.solid,
                                     ),
                                   ),
-                                ],
-                              ),
-                              SizedBox(height: D.H / 22),
-                              CustomButton(
-                                color: ColorConstants.blueBtn, onTap: () async {
-                                if (_formkey.currentState!.validate()) {
-                                  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-                                  String version = packageInfo.version;
-                                  signInByPhone(countryCode: "+91", appVersion:version,
-                                      deviceName:_deviceData["brand"]+" "+_deviceData["device"],
-                                      deviceToken: await PreferenceUtils.getString("FCMTOKEN"),
-                                      deviceType: platform,
-                                      deviceVersion:_deviceData["version.sdkInt"].toString() ,
-                                      mobile:ccController.text
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width / 6,
+                                        height: D.H/20,
+                                        child: DropdownButton<String>(
+                                          isExpanded: true,
+                                          focusColor: Colors.white,
+                                          value: _chosenValue,
+                                          style: TextStyle(color: Colors.white),
+                                          iconEnabledColor: ColorConstants.lightGrey,
+                                          icon: Icon(Icons.arrow_drop_down_sharp),
+                                          iconSize: 32,
+                                          underline: Container(color: Colors.transparent),
+                                          items:countryCode?.map<DropdownMenuItem<String>>((String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(
+                                                value,
+                                                style: TextStyle(color: Colors.black),
+                                              ),
+                                            );
+                                          }).toList(),
+                                          hint: Text(
+                                            "+91",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: D.H / 48,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          onChanged: (String? value) {
+                                            setState(() {
+                                              _chosenValue = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Container(width: 1.0,color: ColorConstants.line,height:D.H/22,),
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: D.H/80),
+                                        child: SizedBox(
+                                          height: D.H/20,
+                                          width: MediaQuery.of(context).size.width / 1.8,
+                                          child: CustomPhoneTextFormField(
+                                            controller: ccController,
+                                            readOnly: false,
+                                            validators: (String? value) {
+                                              // if (ccController.text == null ||
+                                              //     ccController.text == '') {
+                                              //   return '*Value';
+                                              // }
+                                            },
+                                            keyboardTYPE: TextInputType.text,
+                                            obscured: false,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: D.H / 22),
+                            CustomButton(
+                              color: ColorConstants.blueBtn, onTap: () async {
+                                if(ccController.text.isNotEmpty){
+                                PackageInfo packageInfo = await PackageInfo.fromPlatform();
+                                String version = packageInfo.version;
+                                signInByPhone(countryCode: "+91", appVersion:version,
+                                    deviceName:_deviceData["brand"]+" "+_deviceData["device"],
+                                    deviceToken: await PreferenceUtils.getString("FCMTOKEN"),
+                                    deviceType: platform,
+                                    deviceVersion:_deviceData["version.sdkInt"].toString() ,
+                                    mobile:ccController.text
 
-                                  );
-                                };
-                                setState(() {
+                                );}else{
+                                  CommonUtils.showRedToastMessage("Please Enter Mobile Number");
+                                }
+                              setState(() {
 
-                                });
-                                // NavigationHelpers.redirect(context, OtpScreen());
-                              }, text: "Login", textColor: Colors.white,),
-                              SizedBox(height: D.H / 4.3),
-                            ],
-                          ),
+                              });
+                              // NavigationHelpers.redirect(context, OtpScreen());
+                            }, text: "Login", textColor: Colors.white,),
+                            SizedBox(height: D.H / 4.3),
+                          ],
                         ),
                       )
                   ),
