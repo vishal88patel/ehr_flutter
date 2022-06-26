@@ -163,20 +163,46 @@ class Medications {
 }
 
 class TestResults {
+  String? testResultName;
+  List<Values>? values;
+
+  TestResults({this.testResultName, this.values});
+
+  TestResults.fromJson(Map<String, dynamic> json) {
+    testResultName = json['testResultName'];
+    if (json['values'] != null) {
+      values = <Values>[];
+      json['values'].forEach((v) {
+        values!.add(new Values.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['testResultName'] = this.testResultName;
+    if (this.values != null) {
+      data['values'] = this.values!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Values {
   int? usersTestResultId;
   int? testResultId;
   String? testResultType;
   String? testResultValue;
   int? created;
 
-  TestResults(
+  Values(
       {this.usersTestResultId,
         this.testResultId,
         this.testResultType,
         this.testResultValue,
         this.created});
 
-  TestResults.fromJson(Map<String, dynamic> json) {
+  Values.fromJson(Map<String, dynamic> json) {
     usersTestResultId = json['usersTestResultId'];
     testResultId = json['testResultId'];
     testResultType = json['testResultType'];
