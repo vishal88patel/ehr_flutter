@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/View/Screens/add_medication_screen.dart';
 import 'package:ehr/View/Screens/lab_screen.dart';
@@ -8,8 +10,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import '../../Constants/api_endpoint.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 import 'body_detail_screen.dart';
 import 'change_pass_screen.dart';
@@ -270,5 +276,36 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> getMedication() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.getMedications;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "pageNumber": "1",
+      "keyword": "Disprin",
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("feedback Successfully");
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }

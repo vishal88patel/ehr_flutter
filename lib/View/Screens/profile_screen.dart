@@ -131,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: D.H / 40),
                   Text(
-                    "Mark Peterson",
+                    "UserName",
                     style: GoogleFonts.inter(
                         fontSize: D.H / 40, fontWeight: FontWeight.w700),
                   ),
@@ -294,9 +294,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         photouploaded = true;
         uploadedphoto =  pickedFile.path;
         pickedfilepath = pickedFile.path;
-        if(pickedfilepath!=null){
-          multipartProdecudre();
-        }
+        multipartProdecudre();
       });
     }
   }

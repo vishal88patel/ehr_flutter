@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:ehr/Constants/color_constants.dart';
@@ -5,8 +6,12 @@ import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import '../../Constants/api_endpoint.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_textform_field.dart';
@@ -21,7 +26,7 @@ class HelpScreen extends StatefulWidget {
 }
 
 class _HelpScreenState extends State<HelpScreen> {
-  final fNameController = TextEditingController();
+  final commentController = TextEditingController();
   
   var _selectedGender = "male";
 
@@ -97,12 +102,12 @@ class _HelpScreenState extends State<HelpScreen> {
                             SizedBox(height: D.H / 120),
                             CustomBigTextFormField(
                               maxlength: 200,
-                              controller: fNameController,
+                              controller: commentController,
                               readOnly: false,
                               validators: (e) {
-                                if (fNameController.text == null ||
-                                    fNameController.text == '') {
-                                  return '*Please enter FirstName';
+                                if (commentController.text == null ||
+                                    commentController.text == '') {
+                                  return '*Please enter Comment';
                                 }
                               },
                               keyboardTYPE: TextInputType.text,
@@ -112,7 +117,8 @@ class _HelpScreenState extends State<HelpScreen> {
                             CustomButton(
                               color: ColorConstants.blueBtn,
                               onTap: () {
-                                NavigationHelpers.redirect(context, OtpVerificationScreen());
+                                saveFeedback();
+                               // NavigationHelpers.redirect(context, OtpVerificationScreen());
                               },
                               text: "Send",
                               textColor: Colors.white,
@@ -130,5 +136,35 @@ class _HelpScreenState extends State<HelpScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> saveFeedback() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.saveFeedback;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "feedback": commentController.text.toString(),
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("feedback Successfully");
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }

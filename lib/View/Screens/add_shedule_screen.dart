@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
+import '../../Constants/api_endpoint.dart';
 import '../../CustomWidgets/custom_calender.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 import 'otp_screen.dart';
 
@@ -18,8 +24,9 @@ class AddSheduleScreen extends StatefulWidget {
 }
 
 class _AddSheduleScreenState extends State<AddSheduleScreen> {
-  final valueController = TextEditingController();
-  String? _chosenValue;
+  final commentController = TextEditingController();
+  String? _chosenTime;
+  String? _chosenAmPm;
 
   @override
   Widget build(BuildContext context) {
@@ -93,20 +100,25 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                               child: DropdownButton<String>(
                                 isExpanded: true,
                                 focusColor: Colors.white,
-                                value: _chosenValue,
+                                value: _chosenTime,
                                 style: TextStyle(color: Colors.white),
                                 iconEnabledColor: ColorConstants.lightGrey,
                                 icon: Icon(Icons.arrow_drop_down_sharp),
                                 iconSize: 32,
                                 underline: Container(color: Colors.transparent),
                                 items: <String>[
-                                  'Abc',
-                                  'Bcd',
-                                  'Cde',
-                                  'Def',
-                                  'Efg',
-                                  'Fgh',
-                                  'Ghi',
+                                  '1.00',
+                                  '2.00',
+                                  '3.00',
+                                  '4.00',
+                                  '5.00',
+                                  '6.00',
+                                  '7.00',
+                                  '8.00',
+                                  '9.00',
+                                  '10.00',
+                                  '11.00',
+                                  '12.00',
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
@@ -125,7 +137,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                                 ),
                                 onChanged: (String? value) {
                                   setState(() {
-                                    _chosenValue = value;
+                                    _chosenTime = value;
                                   });
                                 },
                               ),
@@ -167,20 +179,15 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                               child: DropdownButton<String>(
                                 isExpanded: true,
                                 focusColor: Colors.white,
-                                value: _chosenValue,
+                                value: _chosenAmPm,
                                 style: TextStyle(color: Colors.white),
                                 iconEnabledColor: ColorConstants.lightGrey,
                                 icon: Icon(Icons.arrow_drop_down_sharp),
                                 iconSize: 32,
                                 underline: Container(color: Colors.transparent),
                                 items: <String>[
-                                  'Abc',
-                                  'Bcd',
-                                  'Cde',
-                                  'Def',
-                                  'Efg',
-                                  'Fgh',
-                                  'Ghi',
+                                  'AM',
+                                  'PM'
                                 ].map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
@@ -199,7 +206,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                                 ),
                                 onChanged: (String? value) {
                                   setState(() {
-                                    _chosenValue = value;
+                                    _chosenAmPm = value;
                                   });
                                 },
                               ),
@@ -230,11 +237,11 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                       child: CustomTextFormField(
-                        controller: valueController,
+                        controller: commentController,
                         readOnly: false,
                         validators: (e) {
-                          if (valueController.text == null ||
-                              valueController.text == '') {
+                          if (commentController.text == null ||
+                              commentController.text == '') {
                             return '*Value';
                           }
                         },
@@ -249,7 +256,8 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                     child: CustomButton(
                       color: ColorConstants.blueBtn,
                       onTap: () {
-                        NavigationHelpers.redirect(context, OtpScreen());
+                        saveSchedule();
+                        //NavigationHelpers.redirect(context, OtpScreen());
                       },
                       text: "Save",
                       textColor: Colors.white,
@@ -263,5 +271,37 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> saveSchedule() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.saveSchedule;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersScheduleId": 0,
+      "scheduleDateTime": DateTime.now().millisecond,
+      "comment": commentController.text.toString(),
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("saveSchedule Successfully");
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }

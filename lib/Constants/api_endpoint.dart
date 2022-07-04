@@ -28,4 +28,13 @@ class ApiEndPoint {
   static Uri saveMedication = Uri.parse(BASE_URL + "users/save-medication");
   static Uri saveTestImagine = Uri.parse(BASE_URL + "users/save-test-imagine");
 
+  static Uri getTestResult = Uri.parse(BASE_URL + "users/get-test-result");
+  static Uri getMedications = Uri.parse(BASE_URL + "users/get-medications");
+  static Uri getPain = Uri.parse(BASE_URL + "users/get-pains");
+  static Uri saveFeedback = Uri.parse(BASE_URL + "users/submit-feedback");
+  static Uri saveSchedule = Uri.parse(BASE_URL + "users/save-schedule");
+  static Uri deleteSchedule = Uri.parse(BASE_URL + "users/delete-schedule");
+  static Uri getSchedule = Uri.parse(BASE_URL + "users/get-schedules");
+  static Uri painDashboard = Uri.parse(BASE_URL + "users/pain-dashboard");
+
 }

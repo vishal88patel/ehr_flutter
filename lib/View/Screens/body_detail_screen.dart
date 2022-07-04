@@ -1,11 +1,18 @@
+import 'dart:convert';
+
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
+import '../../Constants/api_endpoint.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_button.dart';
 import 'otp_screen.dart';
@@ -36,6 +43,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
   final desController = TextEditingController();
   final sDateController = TextEditingController();
   final eDateController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
   var _selectedFood = "after";
   String? _chosenValue;
 
@@ -191,7 +199,9 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                 Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
-                                    onTap: (){},
+                                    onTap: (){
+                                      _selectDate(context, sDateController);
+                                    },
                                     controller: sDateController,
                                     iconPath: "assets/images/ic_date.svg",
                                     readOnly: false,
@@ -220,7 +230,9 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                 Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
-                                    onTap: (){},
+                                    onTap: (){
+                                      _selectDate(context, eDateController);
+                                    },
                                     controller: eDateController,
                                     iconPath: "assets/images/ic_date.svg",
                                     readOnly: false,
@@ -257,6 +269,57 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context, final controller) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        final DateFormat formatter = DateFormat('dd-MM-yy');
+        final String startDate = formatter.format(picked);
+        controller.text = startDate.toString();
+      });
+    }
+  }
+
+  Future<void> savePain() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.savePain;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersPainId": 0,
+      "bodyPartId": 1,
+      "locationX": 15.22,
+      "locationY": 153.55,
+      "description": desController.text.toString(),
+      "startDate": 1655620136070,
+      "endDate": 0,
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("saveSchedule Successfully");
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }
 

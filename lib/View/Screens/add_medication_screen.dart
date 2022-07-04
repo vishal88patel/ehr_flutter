@@ -56,7 +56,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
       getMedicationContent();
     });
 

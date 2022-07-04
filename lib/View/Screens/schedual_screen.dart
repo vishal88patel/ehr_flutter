@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/View/Screens/add_shedule_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
@@ -5,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:http/http.dart';
+import '../../Constants/api_endpoint.dart';
 import '../../CustomWidgets/custom_calender.dart';
-import '../../CustomWidgets/custom_textform_field.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
-import '../../customWidgets/custom_button.dart';
-import 'otp_screen.dart';
+import '../../Utils/preferences.dart';
 
 class SchedualScreen extends StatefulWidget {
   const SchedualScreen({Key? key}) : super(key: key);
@@ -197,5 +200,100 @@ class _SchedualScreenState extends State<SchedualScreen> {
   }
   void _showSnackBar(BuildContext context, String text) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  Future<void> getSchedule() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.getSchedule;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "monthNumber": "6",
+      "year": "2022",
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("feedback Successfully");
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> deleteSchedule() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.deleteSchedule;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersScheduleId": "1",
+
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("feedback Successfully");
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> saveSchedule() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.saveSchedule;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersScheduleId": "0",
+      "scheduleDateTime": 1656399600000,
+      "comment": "this schedule is added from Postman",
+
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("feedback Successfully");
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }

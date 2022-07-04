@@ -63,13 +63,13 @@ class _LabScreenState extends State<LabScreen>
 
   List<Widget> tabList = [];
   List<Widget> tabbodyList = [];
-  int tabItemCount = 0;
+  int tabItemCount = 3;
 
   @override
   void initState() {
     getTestResultTypes();
     getImagineTypes();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
       getLabScreenApi();
     });
     super.initState();
@@ -2035,7 +2035,7 @@ class _LabScreenState extends State<LabScreen>
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
-                                childAspectRatio: 0.8,
+                                childAspectRatio: 0.75,
                                 crossAxisSpacing: 5.0,
                                 mainAxisSpacing: 12.0,
                               ),
