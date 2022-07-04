@@ -46,6 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String pickedfilepath = '';
   bool photouploaded = false;
   var bytesss;
+  String isFromAnotherScreen="0";
 
   @override
   void initState() {
@@ -94,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             _getFromGallery();
                           },
                           child: Center(
-                            child: imageUrll!=null?Container(
+                            child: isFromAnotherScreen=="0"?Container(
                               height: D.H/7,
                               width: D.H/7,
                               decoration: BoxDecoration(
@@ -103,7 +104,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(80.0),
-                                child: Image.file(File(imageUrll),fit: BoxFit.fill,),
+                                child:CachedNetworkImage(
+                                  height: 110,
+                                  width: 120,
+                                  fit: BoxFit.fill,
+                                  imageUrl:imageUrll,
+                                  progressIndicatorBuilder: (context,
+                                      url, downloadProgress) =>
+                                      Center(
+                                        child: SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: CircularProgressIndicator(
+                                              color: ColorConstants
+                                                  .primaryBlueColor,
+                                              value: downloadProgress
+                                                  .progress),
+                                        ),
+                                      ),
+                                  errorWidget: (context, url, error) =>
+                                      Center(
+                                        child: SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: CircularProgressIndicator(
+                                              color: ColorConstants
+                                                  .primaryBlueColor,),
+                                        ),
+                                      ),
+                                ),
+                              ),
+                            ):isFromAnotherScreen=="1"?Container(
+                              height: D.H/7,
+                              width: D.H/7,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(80)
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(80.0),
+                                child: Image.file(
+                                  File(pickedfilepath),
+                                  fit: BoxFit.cover,
+
+                                ),
                               ),
                             ):Container(
                               height: D.H/7,
@@ -311,21 +355,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
       headers: headers,
     );
     dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
+    imageUrll=dataModel.profilePicture!;
+    setState(() {
+
+    });
     //
     // if(dataModel!=null){
     //   imageUrl=dataModel.profilePicture!;
-      try {
-        var imageId = await ImageDownloader.downloadImage(dataModel.profilePicture.toString());
-        if (imageId == null) {
-          return;
-        }
-         imageUrll = (await ImageDownloader.findPath(imageId))!;
-        setState(() {
-
-        });
-      } on PlatformException catch (error) {
-        print(error);
-      }
+    //   try {
+    //     var imageId = await ImageDownloader.downloadImage(dataModel.profilePicture.toString());
+    //     if (imageId == null) {
+    //       return;
+    //     }
+    //      imageUrll = (await ImageDownloader.findPath(imageId))!;
+    //     setState(() {
+    //
+    //     });
+    //   } on PlatformException catch (error) {
+    //     print(error);
+    //   }
 
   }
 
@@ -354,6 +402,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (response.statusCode==200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage(responseData["message"]);
+      isFromAnotherScreen="1";
       setState(() {
 
       });

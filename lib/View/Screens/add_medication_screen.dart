@@ -46,7 +46,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
   var dosageId = 0;
   var frequencyId = 0;
-  var foodId = 0;
+  var foodId = 1;
 
   List<FoodType> foodTypeData = [];
   List<Dosage> dosageTypeData = [];
@@ -65,7 +65,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return foodTypeData!=null?Scaffold(
+    return Scaffold(
       appBar: AppBar(
         toolbarHeight: 45,
         leading: InkWell(
@@ -91,7 +91,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         elevation: 0,
       ),
       backgroundColor: ColorConstants.background,
-      body: SingleChildScrollView(
+      body:foodTypeData.isNotEmpty? SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -508,8 +508,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
             )
           ],
         ),
-      ),
-    ):Container();
+      ):Container(),
+    );
   }
 
   Future<void> _selectDate(BuildContext context, final controller) async {
