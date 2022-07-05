@@ -1,18 +1,22 @@
+import 'dart:convert';
+
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Model/medication_model.dart';
 import 'package:ehr/View/Screens/add_medication_screen.dart';
 import 'package:ehr/View/Screens/medication_detail_screen.dart';
 import 'package:ehr/View/Screens/otp_verification_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../CustomWidgets/custom_textform_field.dart';
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
+import '../../Constants/api_endpoint.dart';
+import '../../Model/otp_verification_model.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
-import '../../customWidgets/custom_button.dart';
-import '../../customWidgets/custom_date_field.dart';
-import 'change_pass_screen.dart';
-import 'edit_profile_screen.dart';
-import 'otp_screen.dart';
+import '../../Utils/preferences.dart';
 
 class MedicationScreen extends StatefulWidget {
   const MedicationScreen({Key? key}) : super(key: key);
@@ -22,6 +26,18 @@ class MedicationScreen extends StatefulWidget {
 }
 
 class _MedicationScreenState extends State<MedicationScreen> {
+  List<MedicationModel> medicationData = [];
+  OtpVerificationModel? getUserName = OtpVerificationModel();
+
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      getMedicationData();
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +53,11 @@ class _MedicationScreenState extends State<MedicationScreen> {
               color: Colors.white,
             )),
         centerTitle: true,
-        title:Column(
+        title: Column(
           children: [
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               "Medication",
               style: GoogleFonts.heebo(
@@ -49,9 +67,12 @@ class _MedicationScreenState extends State<MedicationScreen> {
         ),
         actions: [
           GestureDetector(
-            onTap: (){
-              NavigationHelpers.redirect(
-                  context, AddMedicationScreen());
+            onTap: () {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddMedicationScreen()))
+                  .then((value) => getMedicationDataWithoutLoader());
             },
             child: SvgPicture.asset(
               "assets/images/ic_plus.svg",
@@ -66,8 +87,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
       ),
       backgroundColor: ColorConstants.background,
       body: Padding(
-        padding: EdgeInsets.only(
-            left: D.W / 22, right: D.W / 22, top: D.H / 30),
+        padding:
+            EdgeInsets.only(left: D.W / 22, right: D.W / 22, top: D.H / 30),
         child: Card(
           color: Colors.white,
           elevation: 5,
@@ -79,152 +100,148 @@ class _MedicationScreenState extends State<MedicationScreen> {
               bottomRight: Radius.circular(8),
             ),
           ),
-          child: GestureDetector(
-            onTap: (){
-              NavigationHelpers.redirect(
-                  context, MedicationDetailScreen());
-            },
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-                itemCount: 10,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
+          child: ListView.builder(
+              itemCount: medicationData.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                var millis = medicationData[index].created;
+                var dt = DateTime.fromMillisecondsSinceEpoch(millis!);
+                var d24 =
+                    DateFormat('dd/MM/yyyy').format(dt); // 31/12/2000, 22:00
+
+                var userName = getUserName!.firstName.toString();
+                var date = d24.toString();
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MedicationDetailScreen(
+                                  medicationName: medicationData[index]
+                                      .medicationName
+                                      .toString(),
+                                  dosage: medicationData[index]
+                                      .dosage
+                                      .toString(),
+                                  dosageType: medicationData[index]
+                                      .dosageType
+                                      .toString(),
+                                  medicationFood: medicationData[index]
+                                      .medicationFood
+                                      .toString(),
+                                  startDate: medicationData[index].startDate,
+                                  endDate: medicationData[index].endDate,
+                                  frequencyType: medicationData[index]
+                                      .frequencyType
+                                      .toString(),
+                                )));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: D.W / 40.0, top: D.H / 80),
                     child: Center(
                       child: Column(
                         children: [
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Card(
-                                  color: ColorConstants.bgImage,
-                                  shape:
-                                  const RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.only(
-                                      topLeft:
-                                      Radius.circular(8),
-                                      topRight:
-                                      Radius.circular(8),
-                                      bottomLeft:
-                                      Radius.circular(8),
-                                      bottomRight:
-                                      Radius.circular(8),
-                                    ),
+                              Row(
+                                children: [
+                                  Card(
+                                      color: ColorConstants.bgImage,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(8),
+                                          topRight: Radius.circular(8),
+                                          bottomLeft: Radius.circular(8),
+                                          bottomRight: Radius.circular(8),
+                                        ),
+                                      ),
+                                      elevation: 0,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(D.W / 60),
+                                        child: SvgPicture.asset(
+                                            "assets/images/ic_bowl.svg"),
+                                      )),
+                                  SizedBox(
+                                    width: D.W / 50,
                                   ),
-                                  elevation: 0,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(
-                                        D.W / 42),
-                                    child: SvgPicture.asset(
-                                        "assets/images/ic_bowl.svg"),
-                                  )),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        medicationData[index]
+                                            .medicationName
+                                            .toString(),
+                                        style: GoogleFonts.heebo(
+                                            fontSize: D.H / 52,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Text(
+                                        "Hill ${medicationData[index].dosage! + " " + "${medicationData[index].dosageType! + " "}" + "${medicationData[index].frequencyType}"}",
+                                        // "Hil 250 mg 2/Day",
+                                        style: GoogleFonts.heebo(
+                                            color: ColorConstants.blueBtn,
+                                            fontSize: D.H / 66,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                              "assets/images/ic_doctor.svg"),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 2.0, top: 2.0),
+                                            child: Text(
+                                              userName.toString(),
+                                              style: GoogleFonts.heebo(
+                                                  color:
+                                                      ColorConstants.darkText,
+                                                  fontSize: D.H / 66,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                               Padding(
-                                padding: EdgeInsets.only(
-                                    left: D.H / 100),
+                                padding: EdgeInsets.only(right: D.W / 30),
                                 child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .spaceBetween,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment
-                                          .spaceBetween,
                                       children: [
-                                        Text(
-                                          "Metformin",
-                                          style:
-                                          GoogleFonts.heebo(
-                                              fontSize:
-                                              D.H / 52,
-                                              fontWeight:
-                                              FontWeight
-                                                  .w400),
+                                        Container(
+                                          height: D.W / 30,
+                                          width: D.W / 30,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(25)),
+                                              color: ColorConstants.lightRed),
                                         ),
                                         SizedBox(
-                                          width: 65,
+                                          width: 3,
                                         ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: D.W / 30,
-                                              width: D.W / 30,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.all(
-                                                      Radius.circular(
-                                                          25)),
-                                                  color: ColorConstants
-                                                      .lightRed),
-                                            ),
-                                            SizedBox(
-                                              width: 6,
-                                            ),
-                                            Text(
-                                              "Lorem Dummy",
-                                              style: GoogleFonts.heebo(
-                                                  color: Colors
-                                                      .black
-                                                      .withOpacity(
-                                                      0.3)),
-                                            )
-                                          ],
+                                        Text(
+                                          medicationData[index]
+                                              .medicationFood
+                                              .toString(),
+                                          style: GoogleFonts.heebo(
+                                              color: Colors.black
+                                                  .withOpacity(0.3)),
                                         )
                                       ],
                                     ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Hil 250 mg 2/Day",
-                                          style: GoogleFonts.heebo(
-                                              color:
-                                              ColorConstants
-                                                  .blueBtn,
-                                              fontSize:
-                                              D.H / 66,
-                                              fontWeight:
-                                              FontWeight
-                                                  .w500),
-                                        ),
-                                        SizedBox(
-                                          width: 60,
-                                        ),
-                                        Text(
-                                          "27 -12-202",
-                                          style: GoogleFonts.heebo(
-                                              color: Colors
-                                                  .black
-                                                  .withOpacity(
-                                                  0.3)),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            "assets/images/ic_doctor.svg"),
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets
-                                              .only(
-                                              left: 2.0,
-                                              top: 2.0),
-                                          child: Text(
-                                            "Jhon Miler",
-                                            style: GoogleFonts.heebo(
-                                                color:
-                                                ColorConstants
-                                                    .darkText,
-                                                fontSize:
-                                                D.H / 66,
-                                                fontWeight:
-                                                FontWeight
-                                                    .w400),
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      date.toString(),
+                                      style: GoogleFonts.heebo(
+                                          color: Colors.black.withOpacity(0.3)),
                                     )
                                   ],
                                 ),
@@ -235,8 +252,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
                             height: D.H / 80,
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 4.0, right: 4.0),
+                            padding:
+                                const EdgeInsets.only(left: 4.0, right: 4.0),
                             child: Container(
                               height: 1.0,
                               color: ColorConstants.lineColor,
@@ -245,11 +262,112 @@ class _MedicationScreenState extends State<MedicationScreen> {
                         ],
                       ),
                     ),
-                  );
-                }),
-          ),
+                  ),
+                );
+              }),
         ),
       ),
     );
+  }
+
+  Future<void> getMedicationData() async {
+    getUserName =
+        await PreferenceUtils.getDataObject("OtpVerificationResponse");
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.getMedications;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "pageNumber": 1,
+      "keyword": "",
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      for (int i = 0; i < res.length; i++) {
+        medicationData.add(MedicationModel(
+          usersMedicationId: res[i]["usersMedicationId"],
+          medicationName: res[i]["medicationName"],
+          dosage: res[i]["dosage"],
+          dosageId: res[i]["dosageId"],
+          dosageType: res[i]["dosageType"],
+          foodId: res[i]["foodId"],
+          medicationFood: res[i]["medicationFood"],
+          startDate: res[i]["startDate"],
+          endDate: res[i]["endDate"],
+          frequencyId: res[i]["frequencyId"],
+          frequencyType: res[i]["frequencyType"],
+          created: res[i]["created"],
+        ));
+      }
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> getMedicationDataWithoutLoader() async {
+    getUserName =
+        await PreferenceUtils.getDataObject("OtpVerificationResponse");
+    final uri = ApiEndPoint.getMedications;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "pageNumber": 1,
+      "keyword": "",
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      medicationData.clear();
+      for (int i = 0; i < res.length; i++) {
+        medicationData.add(MedicationModel(
+          usersMedicationId: res[i]["usersMedicationId"],
+          medicationName: res[i]["medicationName"],
+          dosage: res[i]["dosage"],
+          dosageId: res[i]["dosageId"],
+          dosageType: res[i]["dosageType"],
+          foodId: res[i]["foodId"],
+          medicationFood: res[i]["medicationFood"],
+          startDate: res[i]["startDate"],
+          endDate: res[i]["endDate"],
+          frequencyId: res[i]["frequencyId"],
+          frequencyType: res[i]["frequencyType"],
+          created: res[i]["created"],
+        ));
+      }
+      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }

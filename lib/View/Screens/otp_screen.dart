@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:ehr/Constants/color_constants.dart';
@@ -23,6 +24,34 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   final pinController = TextEditingController();
+  Timer? _timer;
+  int _time = 60;
+  bool resend=false;
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+          (Timer timer) {
+        if (_time == 0) {
+          setState(() {
+            timer.cancel();
+            resend=true;
+          });
+        } else {
+          setState(() {
+            _time--;
+          });
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +174,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                       fontSize: D.H / 52,
                                       fontWeight: FontWeight.w400),
                                 ),
-                                InkWell(
+                                resend==true?InkWell(
                                   child: Text(
                                     "Resend",
                                     style: GoogleFonts.heebo(
@@ -154,7 +183,13 @@ class _OtpScreenState extends State<OtpScreen> {
                                   ),
                                   onTap: (){
                                     callResendOtpVerificationApi();
+
                                   },
+                                ):Text(
+                                  "00:"+_time.toString(),
+                                  style: GoogleFonts.heebo(
+                                      fontSize: D.H / 44,
+                                      fontWeight: FontWeight.w700),
                                 ),
                               ],
                             ),
@@ -242,6 +277,11 @@ class _OtpScreenState extends State<OtpScreen> {
     if (statusCode == 200 ) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage("Otp Send Successfully");
+      setState(() {
+        _time=60;
+        startTimer();
+        resend=false;
+      });
       //NavigationHelpers.redirect(context, RegisterScreen());
     } else {
       CommonUtils.hideProgressDialog(context);

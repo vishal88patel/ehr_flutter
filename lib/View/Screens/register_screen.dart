@@ -1,18 +1,20 @@
 import 'dart:convert';
 import 'dart:math';
-
+import 'package:email_validator/email_validator.dart';
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import '../../Constants/api_endpoint.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
+import '../../customWidgets/custom_date_field.dart';
 import '../../customWidgets/custom_textform_field.dart';
 import 'otp_screen.dart';
 
@@ -27,7 +29,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final fNameController = TextEditingController();
   final lNameController = TextEditingController();
   final emailController = TextEditingController();
+  final bDayController = TextEditingController();
+  int bDate=0;
   final _formkey = GlobalKey<FormState>();
+  DateTime selectedDate = DateTime.now();
   int genderId=1;
   bool male=true;
 
@@ -128,14 +133,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               CustomTextFormField(
                                 controller: emailController,
                                 readOnly: false,
-                                validators: (String? value) {
-                                  if (emailController.text == '') {
+                                validators: (e) {
+                                  if (emailController.text == null ||
+                                      emailController.text == '') {
                                     return '*Please enter Email';
+                                  } else if (!EmailValidator.validate(
+                                      emailController.text)) {
+                                    return '*Please enter valid Email';
                                   }
-                                  return null;
                                 },
                                 keyboardTYPE: TextInputType.text,
                                 obscured: false,
+                              ),
+                              SizedBox(height: D.H / 40),
+                              Text(
+                                "Date of birth",
+                                style: GoogleFonts.heebo(
+                                    fontSize: D.H / 52,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(height: D.H / 120),
+                              Container(
+                                width: D.W,
+                                child: CustomDateField(
+                                  onTap: () {
+                                    _selectDate(context, bDayController,bDate);
+                                  },
+                                  controller: bDayController,
+                                  iconPath: "assets/images/ic_date.svg",
+                                  readOnly: true,
+                                  validators: (e) {
+                                    if (bDayController.text == null ||
+                                        bDayController.text == '') {
+                                      return '*Please enter Start Date';
+                                    }
+                                  },
+                                  keyboardTYPE: TextInputType.text,
+                                  obscured: false,
+                                ),
                               ),
                               SizedBox(height: D.H / 40),
                               Text(
@@ -215,7 +250,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     updateProfile(
                                       firstName: fNameController.text.toString(),
                                       lastName: lNameController.text.toString(),
-                                      birthdate: 630873000000,
+                                      birthdate: bDate,
                                       gender: genderId,
                                       email: emailController.text.toString()
                                     );
@@ -236,6 +271,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+  Future<void> _selectDate(BuildContext context, final controller,int Date) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        final DateFormat formatter = DateFormat('dd-MM-yyy');
+        final String startDate = formatter.format(picked);
+        controller.text = startDate.toString();
+
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(startDate);
+        Date=dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:"+Date.toString());
+      });
+    }
   }
 
   Future<void> updateProfile({

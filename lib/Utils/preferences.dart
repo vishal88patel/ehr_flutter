@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ehr/Model/lab_screen_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Model/otp_verification_model.dart';
@@ -37,6 +38,12 @@ class PreferenceUtils {
     var prefs = await _instance;
     String? _data = prefs.getString(key);
     return (_data == null || _data.isEmpty) ? null : OtpVerificationModel.fromJson(jsonDecode(_data));
+  }
+
+  static Future<LabScreenResponseModel?> getDataLab(String key) async {
+    var prefs = await _instance;
+    String? _data = prefs.getString(key);
+    return (_data == null || _data.isEmpty) ? null : LabScreenResponseModel.fromJson(jsonDecode(_data));
   }
 
  /* static Future<SocialSignUpModel?> getSocialLoginObject(String key) async {

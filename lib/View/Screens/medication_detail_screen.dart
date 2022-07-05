@@ -24,7 +24,24 @@ import 'edit_profile_screen.dart';
 import 'otp_screen.dart';
 
 class MedicationDetailScreen extends StatefulWidget {
-  const MedicationDetailScreen({Key? key}) : super(key: key);
+  final String? medicationName;
+  final String? dosage;
+  final String? dosageType;
+  final String? medicationFood;
+  final int? startDate;
+  final int? endDate;
+  final String? frequencyType;
+
+  const MedicationDetailScreen({
+    Key? key,
+    required this.medicationName,
+    required this.dosage,
+    required this.dosageType,
+    required this.medicationFood,
+    required this.startDate,
+    required this.endDate,
+    required this.frequencyType,
+  }) : super(key: key);
 
   @override
   State<MedicationDetailScreen> createState() => _MedicationDetailScreenState();
@@ -40,7 +57,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
         title: Padding(
-          padding:  EdgeInsets.only(left: D.W/6),
+          padding: EdgeInsets.only(left: D.W / 6),
           child: Text(
             "Medication Detail",
             style: GoogleFonts.heebo(
@@ -54,12 +71,16 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(left:D.H / 24,right: D.H / 24),
+              padding: EdgeInsets.only(left: D.H / 24, right: D.H / 24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: D.H / 22),
-                  SvgPicture.asset("assets/images/bg_medication_detail.svg",height: D.H/5,fit: BoxFit.fill,),
+                  SvgPicture.asset(
+                    "assets/images/bg_medication_detail.svg",
+                    height: D.H / 5,
+                    fit: BoxFit.fill,
+                  ),
                   SizedBox(height: D.H / 16),
                 ],
               ),
@@ -74,31 +95,29 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
               child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child:Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 30,top: D.H / 24),
+                        padding: EdgeInsets.only(left: D.H / 30, top: D.H / 24),
                         child: Text(
-                          "Nandrolone",
+                          widget.medicationName.toString(),
                           style: GoogleFonts.heebo(
-                            color: ColorConstants.blueBtn,
-                              fontSize:D.H/40, fontWeight: FontWeight.w700),
+                              color: ColorConstants.blueBtn,
+                              fontSize: D.H / 40,
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 30,top: D.H / 45),
+                        padding: EdgeInsets.only(left: D.H / 30, top: D.H / 45),
                         child: Row(
                           children: [
-                            SvgPicture.asset(
-                                "assets/images/ic_dosage.svg"),
+                            SvgPicture.asset("assets/images/ic_dosage.svg"),
                             SizedBox(width: D.H / 50),
                             Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "Dosage",
@@ -108,7 +127,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                                       fontWeight: FontWeight.w400),
                                 ),
                                 Text(
-                                  "Hil 250 mg 2/Day",
+                                  "Hill "+widget.dosage.toString()+widget.dosageType.toString()+" "+widget.frequencyType.toString(),
                                   style: GoogleFonts.heebo(
                                       fontSize: D.H / 50,
                                       fontWeight: FontWeight.w400),
@@ -119,25 +138,23 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(left: 4.0,right: 4.0,top: D.H/60),
+                        padding: EdgeInsets.only(
+                            left: 4.0, right: 4.0, top: D.H / 60),
                         child: Container(
                           height: 1.0,
                           color: ColorConstants.lineColor,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 30,top: D.H / 45),
+                        padding: EdgeInsets.only(left: D.H / 30, top: D.H / 45),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SvgPicture.asset(
-                                "assets/images/ic_time.svg"),
+                            SvgPicture.asset("assets/images/ic_time.svg"),
                             SizedBox(width: D.H / 50),
                             Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "Time",
@@ -156,7 +173,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      "29-12-2021",
+                                      widget.startDate.toString(),
                                       style: GoogleFonts.heebo(
                                           fontSize: D.H / 50,
                                           color: ColorConstants.skyBlue,
@@ -174,7 +191,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      "01-01-2022",
+                                      widget.endDate.toString(),
                                       style: GoogleFonts.heebo(
                                           fontSize: D.H / 50,
                                           color: ColorConstants.skyBlue,
@@ -188,14 +205,16 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 4.0,right: 4.0,top: D.H/60),
+                        padding: EdgeInsets.only(
+                            left: 4.0, right: 4.0, top: D.H / 60),
                         child: Container(
                           height: 1.0,
                           color: ColorConstants.lineColor,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 30,top: D.H / 45,right : D.H / 30),
+                        padding: EdgeInsets.only(
+                            left: D.H / 30, top: D.H / 45, right: D.H / 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -207,9 +226,8 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                                 SizedBox(width: D.H / 50),
                                 Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Doctor",
@@ -228,18 +246,20 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                                 )
                               ],
                             ),
-                            Container(width: 1.0,height: D.H/16,color: ColorConstants.lineColor,),
+                            Container(
+                              width: 1.0,
+                              height: D.H / 16,
+                              color: ColorConstants.lineColor,
+                            ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SvgPicture.asset(
-                                    "assets/images/ic_food.svg"),
+                                SvgPicture.asset("assets/images/ic_food.svg"),
                                 SizedBox(width: D.H / 50),
                                 Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Food",
@@ -249,7 +269,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      "With Food",
+                                      widget.medicationFood.toString(),
                                       style: GoogleFonts.heebo(
                                           fontSize: D.H / 50,
                                           fontWeight: FontWeight.w400),
@@ -262,15 +282,15 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 4.0,right: 4.0,top: D.H/60),
+                        padding: EdgeInsets.only(
+                            left: 4.0, right: 4.0, top: D.H / 60),
                         child: Container(
                           height: 1.0,
                           color: ColorConstants.lineColor,
                         ),
                       ),
                     ],
-                  )
-              ),
+                  )),
             )
           ],
         ),
@@ -281,8 +301,10 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
   Future<void> getMedication() async {
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.getMedications;
-    final headers = {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
       "pageNumber": "1",

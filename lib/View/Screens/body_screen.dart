@@ -260,8 +260,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           onTap: () {
                                             NavigationHelpers.redirect(
                                                 context,
-                                                BodyDetailScreen(
-                                                    appBarName: "Chest"));
+                                                BodyDetailScreen());
                                           },
                                           child: Container(
                                             height: 12,
@@ -279,8 +278,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           onTap: () {
                                             NavigationHelpers.redirect(
                                                 context,
-                                                BodyDetailScreen(
-                                                    appBarName: "Shoulder"));
+                                                BodyDetailScreen());
                                           },
                                           child: Container(
                                             height: 12,
@@ -298,8 +296,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           onTap: () {
                                             NavigationHelpers.redirect(
                                                 context,
-                                                BodyDetailScreen(
-                                                    appBarName: "Belly"));
+                                                BodyDetailScreen());
                                           },
                                           child: Container(
                                             height: 12,
@@ -317,8 +314,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           onTap: () {
                                             NavigationHelpers.redirect(
                                                 context,
-                                                BodyDetailScreen(
-                                                    appBarName: "Knee"));
+                                                BodyDetailScreen());
                                           },
                                           child: Container(
                                             height: 20,
@@ -347,8 +343,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           onTap: () {
                                             NavigationHelpers.redirect(
                                                 context,
-                                                BodyDetailScreen(
-                                                    appBarName: "Chest"));
+                                                BodyDetailScreen());
                                           },
                                           child: Container(
                                             height: 12,
@@ -366,8 +361,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           onTap: () {
                                             NavigationHelpers.redirect(
                                                 context,
-                                                BodyDetailScreen(
-                                                    appBarName: "Shoulder"));
+                                                BodyDetailScreen());
                                           },
                                           child: Container(
                                             height: 12,
@@ -385,8 +379,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           onTap: () {
                                             NavigationHelpers.redirect(
                                                 context,
-                                                BodyDetailScreen(
-                                                    appBarName: "Belly"));
+                                                BodyDetailScreen());
                                           },
                                           child: Container(
                                             height: 12,
@@ -404,8 +397,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           onTap: () {
                                             NavigationHelpers.redirect(
                                                 context,
-                                                BodyDetailScreen(
-                                                    appBarName: "Knee"));
+                                                BodyDetailScreen());
                                           },
                                           child: Container(
                                             height: 20,
@@ -587,7 +579,7 @@ class _BodyScreenState extends State<BodyScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => BodyDetailScreen(appBarName: "Chest")),
+                builder: (context) => BodyDetailScreen()),
           );
         },
         child: Icon(Icons.add),

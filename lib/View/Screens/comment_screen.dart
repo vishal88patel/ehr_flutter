@@ -1,18 +1,18 @@
+
+import 'dart:convert';
+
 import 'package:ehr/Constants/color_constants.dart';
-import 'package:ehr/View/Screens/otp_verification_screen.dart';
+import 'package:ehr/Model/painModel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../CustomWidgets/custom_textform_field.dart';
+import 'package:http/http.dart';
+import '../../Constants/api_endpoint.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
-import '../../Utils/navigation_helper.dart';
-import '../../customWidgets/custom_big_textform_field.dart';
-import '../../customWidgets/custom_button.dart';
-import '../../customWidgets/custom_date_field.dart';
-import '../../customWidgets/custom_white_textform_field.dart';
-import 'change_pass_screen.dart';
-import 'edit_profile_screen.dart';
-import 'otp_screen.dart';
+import '../../Utils/preferences.dart';
+import 'body_detail_screen.dart';
 
 class CommentScreen extends StatefulWidget {
   const CommentScreen({Key? key}) : super(key: key);
@@ -27,6 +27,19 @@ class _CommentScreenState extends State<CommentScreen> {
   final commentController = TextEditingController();
   final valueController = TextEditingController();
   final discController = TextEditingController();
+  List<PainModel> painData = [];
+
+
+  @override
+  void initState() {
+
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
+      getPainData();
+    });
+
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,155 +72,7 @@ class _CommentScreenState extends State<CommentScreen> {
               "assets/images/ic_plus.svg",
             ),
             onTap: () {
-              showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  contentPadding: EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(18),
-                    ),
-                  ),
-                  content: Container(
-                    width: D.W / 1.25,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: D.W/40,right: D.W/40),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(
-                                Icons.close,
-                                size: D.W / 20,
-                              )
-                            ],
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Add Comment",
-                              style: GoogleFonts.heebo(
-                                  fontSize: D.H / 38,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: D.H / 40),
-                        Padding(
-                          padding: EdgeInsets.only(left: D.W/18,right: D.W/18),
-                          child: Text(
-                            "Body Parts",
-                            style: GoogleFonts.heebo(
-                                fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                        SizedBox(height: D.H / 120),
-                        Padding(
-                          padding: EdgeInsets.only(left: D.W/18,right: D.W/18),
-                          child: Container(
-                            padding:
-                            EdgeInsets.only(left: D.W / 30, right: D.W / 60),
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: ColorConstants.border),
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(8))),
-                            child: DropdownButton<String>(
-                              isExpanded: true,
-                              focusColor: Colors.white,
-                              value: _chosenValue,
-                              style: TextStyle(color: Colors.white),
-                              iconEnabledColor: ColorConstants.lightGrey,
-                              icon: Icon(Icons.arrow_drop_down_sharp),
-                              iconSize: 32,
-                              underline: Container(color: Colors.transparent),
-                              items: <String>[
-                                'Abc',
-                                'Bcd',
-                                'Cde',
-                                'Def',
-                                'Efg',
-                                'Fgh',
-                                'Ghi',
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                );
-                              }).toList(),
-                              hint: Text(
-                                "Type",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: D.H / 48,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              onChanged: (String? value) {
-                                setState(() {
-                                  _chosenValue = value;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: D.H / 60),
-                        Padding(
-                          padding: EdgeInsets.only(left: D.W/18,right: D.W/18),
-                          child: Text(
-                            "Comments",
-                            style: GoogleFonts.heebo(
-                                fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                        SizedBox(height: D.H / 120),
-                        Padding(
-                          padding: EdgeInsets.only(left: D.W/18,right: D.W/18),
-                          child: CustomWhiteTextFormField(
-                            maxlength: 3,
-                            controller: commentController,
-                            readOnly: false,
-                            maxline: 3,
-                            validators: (e) {
-                              if (commentController.text == null ||
-                                  commentController.text == '') {
-                                return '*Comments';
-                              }
-                            },
-                            keyboardTYPE: TextInputType.text,
-                            obscured: false,
-                          ),
-                        ),
-                        SizedBox(height: D.H / 60),
-                        Container(height: 1,color: ColorConstants.line,),
-                        SizedBox(height: D.H / 80),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "OK",
-                              style: GoogleFonts.heebo(
-                                  fontSize: D.H / 33,
-                                  color: ColorConstants.skyBlue,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: D.H / 80),
-                      ],
-                    ),
-                  ),
-                ),
-              );
+                Navigator.push(context, MaterialPageRoute(builder: (context) => BodyDetailScreen())).then((value) => getPainDataWithoutLoader());
             },
           ),
           Container(
@@ -219,10 +84,9 @@ class _CommentScreenState extends State<CommentScreen> {
       ),
       backgroundColor: ColorConstants.background,
       body: Container(
-        height: D.H,
         child: Padding(
           padding:
-              EdgeInsets.only(left: D.W / 22, right: D.W / 22, top: D.H / 30),
+          EdgeInsets.only(left: D.W / 22, right: D.W / 22, top: D.H / 30),
           child: Card(
             color: Colors.white,
             elevation: 5,
@@ -236,7 +100,7 @@ class _CommentScreenState extends State<CommentScreen> {
             ),
             child: ListView.builder(
                 physics: BouncingScrollPhysics(),
-                itemCount: 10,
+                itemCount: painData.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
@@ -267,17 +131,16 @@ class _CommentScreenState extends State<CommentScreen> {
                                 SizedBox(width: D.H / 80),
                                 Column(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Chest",
+                                    Text(painData[index].bodyPart.toString(),
                                       style: GoogleFonts.heebo(
                                           fontSize: D.H / 52,
                                           fontWeight: FontWeight.w700),
                                     ),
                                     Text(
-                                      "Mitral valve prolapse",
+                                      painData[index].description.toString(),
                                       style: GoogleFonts.heebo(
                                           fontSize: D.H / 52,
                                           fontWeight: FontWeight.w400),
@@ -292,7 +155,7 @@ class _CommentScreenState extends State<CommentScreen> {
                           ),
                           Padding(
                             padding:
-                                const EdgeInsets.only(left: 4.0, right: 4.0),
+                            const EdgeInsets.only(left: 4.0, right: 4.0),
                             child: Container(
                               height: 1.0,
                               color: ColorConstants.lineColor,
@@ -307,5 +170,94 @@ class _CommentScreenState extends State<CommentScreen> {
         ),
       ),
     );
+  }
+
+
+  Future<void> getPainData() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.getPain;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "pageNumber": 1,
+      "keyword": "",
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      for (int i = 0; i < res.length; i++) {
+        painData.add(PainModel(
+          usersPainId: res[i]["usersPainId"],
+          bodyPartId: res[i]["bodyPartId"],
+          bodyPart: res[i]["bodyPart"],
+          locationX: res[i]["locationX"],
+          locationY: res[i]["locationY"],
+          description: res[i]["description"],
+          startDate: res[i]["startDate"],
+          endDate: res[i]["endDate"],
+          created: res[i]["created"],
+
+        ));
+      }
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> getPainDataWithoutLoader() async {
+    final uri = ApiEndPoint.getPain;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "pageNumber": 1,
+      "keyword": "",
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      painData.clear();
+      for (int i = 0; i < res.length; i++) {
+        painData.add(PainModel(
+          usersPainId: res[i]["usersPainId"],
+          bodyPartId: res[i]["bodyPartId"],
+          bodyPart: res[i]["bodyPart"],
+          locationX: res[i]["locationX"],
+          locationY: res[i]["locationY"],
+          description: res[i]["description"],
+          startDate: res[i]["startDate"],
+          endDate: res[i]["endDate"],
+          created: res[i]["created"],
+        ));
+      }
+      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }

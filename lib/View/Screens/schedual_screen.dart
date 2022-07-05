@@ -274,7 +274,6 @@ class _SchedualScreenState extends State<SchedualScreen> {
       "usersScheduleId": "0",
       "scheduleDateTime": 1656399600000,
       "comment": "this schedule is added from Postman",
-
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');

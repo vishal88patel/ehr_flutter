@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 import '../../Constants/api_endpoint.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
+import '../../Model/body_part_response_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
@@ -32,8 +33,8 @@ import 'edit_profile_screen.dart';
 import 'otp_screen.dart';
 
 class BodyDetailScreen extends StatefulWidget {
-  String appBarName;
-  BodyDetailScreen({required this.appBarName}) ;
+
+  BodyDetailScreen({Key? key}) : super(key: key);
 
   @override
   State<BodyDetailScreen> createState() => _BodyDetailScreenState();
@@ -43,9 +44,18 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
   final desController = TextEditingController();
   final sDateController = TextEditingController();
   final eDateController = TextEditingController();
+  int sDate=0;
+  int eDate=0;
   DateTime selectedDate = DateTime.now();
-  var _selectedFood = "after";
-  String? _chosenValue;
+  List<BodyPartListResponseModel> bodyPartData=[];
+  String? _bodyPartValue;
+  var bodyPartId = 0;
+
+  @override
+  void initState() {
+    getBodyPartsApi();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +71,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
           children: [
             SizedBox(height: 10,),
             Text(
-              widget.appBarName,
+              "Add Comment",
               style: GoogleFonts.heebo(
                   fontSize: D.H / 44, fontWeight: FontWeight.w500),
             ),
@@ -117,27 +127,21 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                           ),
                           child: DropdownButton<String>(
                             isExpanded: true,
-                            focusColor: Colors.white,
-                            value: _chosenValue,
-                            style: TextStyle(color: Colors.white),
+                            focusColor: Colors.black,
+                            value: _bodyPartValue,
+                            style: TextStyle(color: Colors.black),
                             iconEnabledColor: ColorConstants.lightGrey,
                             icon: Icon(Icons.arrow_drop_down_sharp),
                             iconSize: 32,
                             underline: Container(color: Colors.transparent),
-                            items: <String>[
-                              'Abc',
-                              'Bcd',
-                              'Cde',
-                              'Def',
-                              'Efg',
-                              'Fgh',
-                              'Ghi',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: Colors.black),
+                            items: bodyPartData.map((items) {
+                              return DropdownMenuItem(
+                                value: items.bodyPart,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(items.bodyPart.toString(),
+                                    style: TextStyle(fontSize: 15.0),
+                                  ),
                                 ),
                               );
                             }).toList(),
@@ -148,9 +152,16 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                   fontSize: D.H/48,
                                   fontWeight: FontWeight.w400),
                             ),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _chosenValue = value;
+                            onChanged:
+                                (String? value) {
+                              setState(() {_bodyPartValue = value;
+                              for (int i = 0;
+                              i < bodyPartData.length; i++) {
+                                if (bodyPartData[i].bodyPart == _bodyPartValue) {
+                                  bodyPartId = bodyPartData[i].bodyPartId!;
+                                  print("dropdownvalueId:" + bodyPartId.toString());
+                                }
+                              }
                               });
                             },
                           ),
@@ -200,7 +211,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: (){
-                                      _selectDate(context, sDateController);
+                                      _selectDate(context, sDateController,sDate);
                                     },
                                     controller: sDateController,
                                     iconPath: "assets/images/ic_date.svg",
@@ -231,7 +242,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: (){
-                                      _selectDate(context, eDateController);
+                                      _selectDate(context, eDateController,eDate);
                                     },
                                     controller: eDateController,
                                     iconPath: "assets/images/ic_date.svg",
@@ -254,8 +265,21 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                         CustomButton(
                           color: ColorConstants.blueBtn,
                           onTap: () {
-                           /* NavigationHelpers.redirect(
-                                context, OtpVerificationScreen());*/
+                            if(bodyPartId==0){
+                              CommonUtils.showRedToastMessage("Please Select Body Part");
+                            }
+                            else if(desController.text.isEmpty){
+                              CommonUtils.showRedToastMessage("Please Enter Description");
+                            }
+                            else if(sDateController.text.isEmpty){
+                              CommonUtils.showRedToastMessage("Please Select StartDate");
+                            }
+                            else if(eDateController.text.isEmpty){
+                              CommonUtils.showRedToastMessage("Please Select EndDate");
+                            }
+                            else{
+                              savePain();
+                            }
                           },
                           text: "Save",
                           textColor: Colors.white,
@@ -271,7 +295,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context, final controller) async {
+  Future<void> _selectDate(BuildContext context, final controller,int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -282,7 +306,40 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
         final DateFormat formatter = DateFormat('dd-MM-yy');
         final String startDate = formatter.format(picked);
         controller.text = startDate.toString();
+
+
+        final DateFormat formatter2 = DateFormat('dd-MM-yyy');
+        final String sDate = formatter2.format(picked);
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDate);
+        Date=dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:"+Date.toString());
       });
+    }
+  }
+
+  Future<void> getBodyPartsApi() async {
+    final uri = ApiEndPoint.getBodyParts;
+    final headers = {'Content-Type': 'application/json',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    // changeRoute();
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200 ) {
+      for (int i = 0; i < res.length; i++) {
+        bodyPartData.add(BodyPartListResponseModel(
+            bodyPart: res[i]["bodyPart"], bodyPartId: res[i]["bodyPartId"]));
+      }
+      bodyPartId=bodyPartData[0].bodyPartId!;
+      setState(() {});
+    } else {
+
+       CommonUtils.showRedToastMessage(res["message"]);
     }
   }
 
@@ -294,12 +351,12 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     };
     Map<String, dynamic> body = {
       "usersPainId": 0,
-      "bodyPartId": 1,
+      "bodyPartId": bodyPartId,
       "locationX": 15.22,
       "locationY": 153.55,
       "description": desController.text.toString(),
-      "startDate": 1655620136070,
-      "endDate": 0,
+      "startDate": sDate,
+      "endDate": eDate,
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -315,7 +372,8 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("saveSchedule Successfully");
+      CommonUtils.showGreenToastMessage("save Pain Successfully");
+      Navigator.pop(context);
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);

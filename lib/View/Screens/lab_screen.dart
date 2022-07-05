@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ehr/Model/testResultType_model.dart';
+import 'package:ehr/View/Screens/body_detail_screen.dart';
 import 'package:ehr/View/Screens/comment_screen.dart';
 import 'package:ehr/View/Screens/login_screen.dart';
 import 'package:ehr/View/Screens/medication_screen.dart';
@@ -44,9 +45,13 @@ class _LabScreenState extends State<LabScreen>
   String? _choosenCommentValue;
   String? _choosenLabValue;
   String? _choosenimageValue;
+
+
   final commentController = TextEditingController();
   final valueController = TextEditingController();
   final discController = TextEditingController();
+
+
   var imageId = 0;
   var testTypeId = 0;
   List<ImageTypeModel> imageTypesData = [];
@@ -73,223 +78,11 @@ class _LabScreenState extends State<LabScreen>
     SchedulerBinding.instance?.addPostFrameCallback((_) {
       getLabScreenApi();
     });
+
     super.initState();
   }
 
-  Future<void> getLabScreenApi() async {
-    getUserName =
-        await PreferenceUtils.getDataObject("OtpVerificationResponse");
 
-    CommonUtils.showProgressDialog(context);
-    final uri = ApiEndPoint.getDashboard;
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
-    };
-
-    Response response = await get(
-      uri,
-      headers: headers,
-    );
-    int statusCode = response.statusCode;
-    String responseBody = response.body;
-    var res = jsonDecode(responseBody);
-    if (statusCode == 200) {
-      _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
-      bloodPressureList.clear();
-      hemoglobinList.clear();
-      heartRateList.clear();
-      for (int i = 0;
-          i < _labScreenResponseModelodel.testResults!.length;
-          i++) {
-        if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Blood Pressure") {
-          bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
-        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Hemoglobin") {
-          hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
-        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Heart Rate") {
-          heartRateList.add(_labScreenResponseModelodel.testResults![i]);
-        }
-      }
-      if (hemoglobinList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Hemoglobin",
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: hemoglobinList,
-        ));
-      }
-      ;
-      if (bloodPressureList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Blood Pressure",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: bloodPressureList,
-        ));
-      }
-      ;
-      if (heartRateList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Heart Rate",
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: heartRateList,
-        ));
-      }
-      ;
-
-      tabItemCount = tabList.length;
-      _tabController = new TabController(length: tabItemCount, vsync: this);
-
-      CommonUtils.hideProgressDialog(context);
-      setState(() {});
-      CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
-    } else {
-      CommonUtils.hideProgressDialog(context);
-      CommonUtils.showRedToastMessage(res["message"]);
-    }
-  }
-
-  Future<void> getLabScreenApiWithoutLoader() async {
-    getUserName =
-        await PreferenceUtils.getDataObject("OtpVerificationResponse");
-
-    final uri = ApiEndPoint.getDashboard;
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
-    };
-
-    Response response = await get(
-      uri,
-      headers: headers,
-    );
-    int statusCode = response.statusCode;
-    String responseBody = response.body;
-    var res = jsonDecode(responseBody);
-    if (statusCode == 200) {
-      _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
-      bloodPressureList.clear();
-      hemoglobinList.clear();
-      heartRateList.clear();
-      tabbodyList.clear();
-      tabList.clear();
-      for (int i = 0;
-      i < _labScreenResponseModelodel.testResults!.length;
-      i++) {
-        if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Blood Pressure") {
-          bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
-        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Hemoglobin") {
-          hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
-        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Heart Rate") {
-          heartRateList.add(_labScreenResponseModelodel.testResults![i]);
-        }
-      }
-      if (hemoglobinList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Hemoglobin",
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: hemoglobinList,
-        ));
-      }
-      ;
-      if (bloodPressureList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Blood Pressure",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: bloodPressureList,
-        ));
-      }
-      ;
-      if (heartRateList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Heart Rate",
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: heartRateList,
-        ));
-      }
-      ;
-
-      tabItemCount = tabList.length;
-      _tabController = new TabController(length: tabItemCount, vsync: this);
-
-      CommonUtils.showGreenToastMessage("Result Saved");
-      CommonUtils.hideProgressDialog(context);
-
-      Navigator.pop(context);
-      setState(() {});
-    } else {
-      Navigator.pop(context);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -333,16 +126,6 @@ class _LabScreenState extends State<LabScreen>
                     children: [
                       Row(
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: CUstomSearchBar(
-                                function: () {},
-                                controller: controller,
-                                readOnly: false,
-                                hint: "Search..",
-                                validators: (e) {},
-                                keyboardTYPE: TextInputType.name),
-                          ),
                           Expanded(
                             child: CUstomSearchBar2(
                                 function: () {},
@@ -390,245 +173,7 @@ class _LabScreenState extends State<LabScreen>
                                     ),
                                     InkWell(
                                         onTap: () {
-                                          showDialog<String>(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              contentPadding: EdgeInsets.all(0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(18),
-                                                ),
-                                              ),
-                                              content: Container(
-                                                width: D.W / 1.25,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: D.W / 40,
-                                                          right: D.W / 40),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Icon(
-                                                              Icons.close,
-                                                              size: D.W / 20,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "Add Comment",
-                                                          style:
-                                                              GoogleFonts.heebo(
-                                                                  fontSize:
-                                                                      D.H / 38,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: D.H / 40),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Text(
-                                                        "Body Parts",
-                                                        style:
-                                                            GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 52,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 120),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: D.W / 30,
-                                                                right:
-                                                                    D.W / 60),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            border: Border.all(
-                                                                color:
-                                                                    ColorConstants
-                                                                        .border),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8))),
-                                                        child: DropdownButton<
-                                                            String>(
-                                                          isExpanded: true,
-                                                          focusColor:
-                                                              Colors.white,
-                                                          value:
-                                                              _choosenCommentValue,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                          iconEnabledColor:
-                                                              ColorConstants
-                                                                  .lightGrey,
-                                                          icon: Icon(Icons
-                                                              .arrow_drop_down_sharp),
-                                                          iconSize: 32,
-                                                          underline: Container(
-                                                              color: Colors
-                                                                  .transparent),
-                                                          items: <String>[
-                                                            'Abc',
-                                                            'Bcd',
-                                                            'Cde',
-                                                            'Def',
-                                                            'Efg',
-                                                            'Fgh',
-                                                            'Ghi',
-                                                          ].map<
-                                                              DropdownMenuItem<
-                                                                  String>>((String
-                                                              value) {
-                                                            return DropdownMenuItem<
-                                                                String>(
-                                                              value: value,
-                                                              child: Text(
-                                                                value,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                              ),
-                                                            );
-                                                          }).toList(),
-                                                          hint: Text(
-                                                            "Type",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize:
-                                                                    D.H / 48,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                          ),
-                                                          onChanged:
-                                                              (String? value) {
-                                                            setState(() {
-                                                              _choosenCommentValue =
-                                                                  value;
-                                                            });
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Text(
-                                                        "Comments",
-                                                        style:
-                                                            GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 52,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 120),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child:
-                                                          CustomWhiteTextFormField(
-                                                        controller:
-                                                            commentController,
-                                                        readOnly: false,
-                                                        maxline: 3,
-                                                        validators: (e) {
-                                                          if (commentController
-                                                                      .text ==
-                                                                  null ||
-                                                              commentController
-                                                                      .text ==
-                                                                  '') {
-                                                            return '*Comments';
-                                                          }
-                                                        },
-                                                        keyboardTYPE:
-                                                            TextInputType.text,
-                                                        obscured: false,
-                                                        maxlength: 3,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Container(
-                                                      height: 1,
-                                                      color:
-                                                          ColorConstants.line,
-                                                    ),
-                                                    SizedBox(height: D.H / 80),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "OK",
-                                                          style: GoogleFonts.heebo(
-                                                              fontSize:
-                                                                  D.H / 33,
-                                                              color:
-                                                                  ColorConstants
-                                                                      .skyBlue,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: D.H / 80),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => BodyDetailScreen())).then((value) => getLabScreenApiWithoutPop());
                                         },
                                         child: SvgPicture.asset(
                                             "assets/images/ic_add_plus.svg"))
@@ -755,8 +300,7 @@ class _LabScreenState extends State<LabScreen>
                                               Radius.circular(4))),
                                       child: TextButton(
                                           onPressed: () {
-                                            NavigationHelpers.redirect(
-                                                context, CommentScreen());
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen())).then((value) => getLabScreenApiWithoutPop());
                                           },
                                           child: Text(
                                             "See more",
@@ -813,8 +357,9 @@ class _LabScreenState extends State<LabScreen>
                                     ),
                                     InkWell(
                                         onTap: () {
-                                          NavigationHelpers.redirect(
-                                              context, AddMedicationScreen());
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AddMedicationScreen())).then((value) {
+                                            getLabScreenApiWithoutPop();
+                                          });
                                         },
                                         child: SvgPicture.asset(
                                             "assets/images/ic_add_plus.svg"))
@@ -853,153 +398,148 @@ class _LabScreenState extends State<LabScreen>
                                             child: Column(
                                               children: [
                                                 Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Card(
-                                                        color: ColorConstants
-                                                            .bgImage,
-                                                        shape:
+                                                    Row(
+                                                      children: [
+                                                        Card(
+                                                            color: ColorConstants
+                                                                .bgImage,
+                                                            shape:
                                                             const RoundedRectangleBorder(
-                                                          borderRadius:
+                                                              borderRadius:
                                                               BorderRadius.only(
-                                                            topLeft:
+                                                                topLeft:
                                                                 Radius.circular(
                                                                     8),
-                                                            topRight:
+                                                                topRight:
                                                                 Radius.circular(
                                                                     8),
-                                                            bottomLeft:
+                                                                bottomLeft:
                                                                 Radius.circular(
                                                                     8),
-                                                            bottomRight:
+                                                                bottomRight:
                                                                 Radius.circular(
                                                                     8),
-                                                          ),
-                                                        ),
-                                                        elevation: 0,
-                                                        child: Padding(
-                                                          padding:
+                                                              ),
+                                                            ),
+                                                            elevation: 0,
+                                                            child: Padding(
+                                                              padding:
                                                               EdgeInsets.all(
                                                                   D.W / 60),
-                                                          child: SvgPicture.asset(
-                                                              "assets/images/ic_bowl.svg"),
-                                                        )),
+                                                              child: SvgPicture.asset(
+                                                                  "assets/images/ic_bowl.svg"),
+                                                            )),
+                                                        SizedBox(width: D.W/50,),
+                                                        Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              _labScreenResponseModelodel
+                                                                  .medications![
+                                                              index]
+                                                                  .medicationName
+                                                                  .toString(),
+                                                              style: GoogleFonts.heebo(
+                                                                  fontSize:
+                                                                  D.H /
+                                                                      52,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                            ),
+                                                            Text(
+                                                              "Hill ${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
+                                                              // "Hil 250 mg 2/Day",
+                                                              style: GoogleFonts.heebo(
+                                                                  color: ColorConstants
+                                                                      .blueBtn,
+                                                                  fontSize:
+                                                                  D.H /
+                                                                      66,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    "assets/images/ic_doctor.svg"),
+                                                                Padding(
+                                                                  padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left:
+                                                                      2.0,
+                                                                      top:
+                                                                      2.0),
+                                                                  child: Text(
+                                                                    userName
+                                                                        .toString(),
+                                                                    style: GoogleFonts.heebo(
+                                                                        color: ColorConstants
+                                                                            .darkText,
+                                                                        fontSize:
+                                                                        D.H /
+                                                                            66,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+
                                                     Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.H / 100),
+                                                      padding: EdgeInsets.only(right: D.W/30),
                                                       child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
                                                             children: [
+                                                              Container(
+                                                                height:
+                                                                D.W /
+                                                                    30,
+                                                                width: D.W /
+                                                                    30,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                    BorderRadius.all(Radius.circular(
+                                                                        25)),
+                                                                    color: ColorConstants
+                                                                        .lightRed),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 3,
+                                                              ),
                                                               Text(
                                                                 _labScreenResponseModelodel
                                                                     .medications![
-                                                                        index]
-                                                                    .medicationName
+                                                                index]
+                                                                    .medicationFood
                                                                     .toString(),
-                                                                style: GoogleFonts.heebo(
-                                                                    fontSize:
-                                                                        D.H /
-                                                                            52,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 90,
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Container(
-                                                                    height:
-                                                                        D.W /
-                                                                            30,
-                                                                    width: D.W /
-                                                                        30,
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.all(Radius.circular(
-                                                                                25)),
-                                                                        color: ColorConstants
-                                                                            .lightRed),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 3,
-                                                                  ),
-                                                                  Text(
-                                                                    "Lorem Dummy",
-                                                                    style: GoogleFonts.heebo(
-                                                                        color: Colors
-                                                                            .black
-                                                                            .withOpacity(0.3)),
-                                                                  )
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                "Hill ${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
-                                                                // "Hil 250 mg 2/Day",
-                                                                style: GoogleFonts.heebo(
-                                                                    color: ColorConstants
-                                                                        .blueBtn,
-                                                                    fontSize:
-                                                                        D.H /
-                                                                            66,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Text(
-                                                                date.toString(),
                                                                 style: GoogleFonts.heebo(
                                                                     color: Colors
                                                                         .black
-                                                                        .withOpacity(
-                                                                            0.3)),
+                                                                        .withOpacity(0.3)),
                                                               )
                                                             ],
                                                           ),
-                                                          Row(
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                  "assets/images/ic_doctor.svg"),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            2.0,
-                                                                        top:
-                                                                            2.0),
-                                                                child: Text(
-                                                                  userName
-                                                                      .toString(),
-                                                                  style: GoogleFonts.heebo(
-                                                                      color: ColorConstants
-                                                                          .darkText,
-                                                                      fontSize:
-                                                                          D.H /
-                                                                              66,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                          Text(
+                                                            date.toString(),
+                                                            style: GoogleFonts.heebo(
+                                                                color: Colors
+                                                                    .black
+                                                                    .withOpacity(
+                                                                        0.3)),
                                                           )
                                                         ],
                                                       ),
@@ -1036,8 +576,9 @@ class _LabScreenState extends State<LabScreen>
                                               Radius.circular(4))),
                                       child: TextButton(
                                           onPressed: () {
-                                            NavigationHelpers.redirect(
-                                                context, MedicationScreen());
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => MedicationScreen())).then((value) {
+                                                getLabScreenApiWithoutPop();
+                                              });
                                           },
                                           child: Text(
                                             "See more",
@@ -1225,23 +766,13 @@ class _LabScreenState extends State<LabScreen>
                                                           underline: Container(
                                                               color: Colors
                                                                   .transparent),
-                                                          items:
-                                                              testResultTypesData
-                                                                  .map((items) {
+                                                          items: testResultTypesData.map((items) {
                                                             return DropdownMenuItem(
-                                                              value: items
-                                                                  .testType,
+                                                              value: items.testType,
                                                               child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10),
-                                                                child: Text(
-                                                                  items.testType
-                                                                      .toString(),
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15.0),
+                                                                padding: EdgeInsets.only(left: 10),
+                                                                child: Text(items.testType.toString(),
+                                                                  style: TextStyle(fontSize: 15.0),
                                                                 ),
                                                               ),
                                                             );
@@ -1259,22 +790,11 @@ class _LabScreenState extends State<LabScreen>
                                                           ),
                                                           onChanged:
                                                               (String? value) {
-                                                            setState(() {
-                                                              _choosenLabValue =
-                                                                  value;
+                                                            setState(() {_choosenLabValue = value;
                                                               for (int i = 0;
-                                                                  i <
-                                                                      testResultTypesData
-                                                                          .length;
-                                                                  i++) {
-                                                                if (testResultTypesData[
-                                                                            i]
-                                                                        .testType ==
-                                                                    _choosenLabValue) {
-                                                                  testTypeId =
-                                                                      testResultTypesData[
-                                                                              i]
-                                                                          .testTypeId!;
+                                                                  i < testResultTypesData.length; i++) {
+                                                                if (testResultTypesData[i].testType == _choosenLabValue) {
+                                                                  testTypeId = testResultTypesData[i].testTypeId!;
                                                                   print("dropdownvalueId:" +
                                                                       testTypeId
                                                                           .toString());
@@ -2535,12 +2055,16 @@ class _LabScreenState extends State<LabScreen>
                           SizedBox(
                             height: 8,
                           ),
-                          Container(
-                            child: Text(
-                              name,
-                              style: GoogleFonts.heebo(
-                                  color: ColorConstants.light, fontSize: 14),
-                            ),
+                          Row(
+                            children: [
+                              Container(
+                                child: Text(
+                                  name,
+                                  style: GoogleFonts.heebo(
+                                      color: ColorConstants.light, fontSize: 14),
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
                             height: 26,
@@ -2629,6 +2153,359 @@ class _LabScreenState extends State<LabScreen>
         });
   }
 
+  Future<void> getLabScreenApi() async {
+    getUserName =
+    await PreferenceUtils.getDataObject("OtpVerificationResponse");
+
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.getDashboard;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
+      PreferenceUtils.putObject("LabResponse", _labScreenResponseModelodel);
+      bloodPressureList.clear();
+      hemoglobinList.clear();
+      heartRateList.clear();
+      for (int i = 0;
+      i < _labScreenResponseModelodel.testResults!.length;
+      i++) {
+        if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Blood Pressure") {
+          bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Hemoglobin") {
+          hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Heart Rate") {
+          heartRateList.add(_labScreenResponseModelodel.testResults![i]);
+        }
+      }
+      if (hemoglobinList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Hemoglobin",
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: hemoglobinList,
+        ));
+      }
+      ;
+      if (bloodPressureList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Blood Pressure",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: bloodPressureList,
+        ));
+      }
+      ;
+      if (heartRateList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Heart Rate",
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: heartRateList,
+        ));
+      }
+      ;
+
+      tabItemCount = tabList.length;
+      _tabController = new TabController(length: tabItemCount, vsync: this);
+
+      CommonUtils.hideProgressDialog(context);
+      setState(() {});
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> getLabScreenApiWithoutLoader() async {
+    getUserName =
+    await PreferenceUtils.getDataObject("OtpVerificationResponse");
+
+    final uri = ApiEndPoint.getDashboard;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
+      PreferenceUtils.putObject("LabResponse", _labScreenResponseModelodel);
+      bloodPressureList.clear();
+      hemoglobinList.clear();
+      heartRateList.clear();
+      tabbodyList.clear();
+      tabList.clear();
+      for (int i = 0;
+      i < _labScreenResponseModelodel.testResults!.length;
+      i++) {
+        if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Blood Pressure") {
+          bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Hemoglobin") {
+          hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Heart Rate") {
+          heartRateList.add(_labScreenResponseModelodel.testResults![i]);
+        }
+      }
+      if (hemoglobinList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Hemoglobin",
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: hemoglobinList,
+        ));
+      }
+      ;
+      if (bloodPressureList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Blood Pressure",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: bloodPressureList,
+        ));
+      }
+      ;
+      if (heartRateList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Heart Rate",
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: heartRateList,
+        ));
+      }
+      ;
+
+      tabItemCount = tabList.length;
+      _tabController = new TabController(length: tabItemCount, vsync: this);
+
+      CommonUtils.showGreenToastMessage("Result Saved");
+      CommonUtils.hideProgressDialog(context);
+
+      Navigator.pop(context);
+      setState(() {});
+    } else {
+      Navigator.pop(context);
+    }
+  }
+
+  Future<void> getLabScreenApiWithoutPop() async {
+    getUserName =
+    await PreferenceUtils.getDataObject("OtpVerificationResponse");
+
+    final uri = ApiEndPoint.getDashboard;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
+      PreferenceUtils.putObject("LabResponse", _labScreenResponseModelodel);
+      bloodPressureList.clear();
+      hemoglobinList.clear();
+      heartRateList.clear();
+      tabbodyList.clear();
+      tabList.clear();
+      for (int i = 0;
+      i < _labScreenResponseModelodel.testResults!.length;
+      i++) {
+        if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Blood Pressure") {
+          bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Hemoglobin") {
+          hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
+        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+            "Heart Rate") {
+          heartRateList.add(_labScreenResponseModelodel.testResults![i]);
+        }
+      }
+      if (hemoglobinList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Hemoglobin",
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: hemoglobinList,
+        ));
+      }
+      ;
+      if (bloodPressureList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Blood Pressure",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: bloodPressureList,
+        ));
+      }
+      ;
+      if (heartRateList.isNotEmpty) {
+        tabList.add(Container(
+          height: 45,
+          child: Center(
+            child: Text(
+              "Heart Rate",
+              style: GoogleFonts.heebo(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ));
+        tabbodyList.add(GraphWidget(
+          graphList: heartRateList,
+        ));
+      }
+      ;
+
+      tabItemCount = tabList.length;
+      _tabController = new TabController(length: tabItemCount, vsync: this);
+
+      CommonUtils.showGreenToastMessage("Result Saved");
+      CommonUtils.hideProgressDialog(context);
+
+      setState(() {});
+    } else {
+
+    }
+  }
+
+  Future<void> getTestResultTypes() async {
+    final uri = ApiEndPoint.getTestResultType;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      for (int i = 0; i < res.length; i++) {
+        testResultTypesData.add(TestResultData(
+            testType: res[i]["testType"], testTypeId: res[i]["testTypeId"]));
+      }
+      print("testResultTypesData" + testResultTypesData.toString());
+      testTypeId=testResultTypesData[0].testTypeId!;
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
   Future<void> getImagineTypes() async {
     final uri = ApiEndPoint.getImagineTypes;
     final headers = {
@@ -2653,6 +2530,39 @@ class _LabScreenState extends State<LabScreen>
       print("imageTypesData" + imageTypesData.toString());
       setState(() {});
     } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> saveTestResult() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.saveTestResult;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersTestResultId": 0,
+      "testResultId": testTypeId,
+      "testResultValue": valueController.text.toString(),
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      getLabScreenApiWithoutLoader();
+    } else {
+      CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
     }
   }
@@ -2686,71 +2596,12 @@ class _LabScreenState extends State<LabScreen>
     if (response.statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage(responseData["message"]);
+      FocusManager.instance.primaryFocus?.unfocus();
       getLabScreenApiWithoutLoader();
       setState(() {});
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(responseData["message"]);
-    }
-  }
-
-  Future<void> getTestResultTypes() async {
-    final uri = ApiEndPoint.getTestResultType;
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
-    };
-
-    Response response = await get(
-      uri,
-      headers: headers,
-    );
-    int statusCode = response.statusCode;
-    String responseBody = response.body;
-    var res = jsonDecode(responseBody);
-    if (statusCode == 200) {
-      for (int i = 0; i < res.length; i++) {
-        testResultTypesData.add(TestResultData(
-            testType: res[i]["testType"], testTypeId: res[i]["testTypeId"]));
-      }
-      print("testResultTypesData" + testResultTypesData.toString());
-      setState(() {});
-    } else {
-      CommonUtils.showRedToastMessage(res["message"]);
-    }
-  }
-
-  Future<void> saveTestResult() async {
-    CommonUtils.showProgressDialog(context);
-    final uri = ApiEndPoint.saveTestResult;
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
-    };
-    Map<String, dynamic> body = {
-      "usersTestResultId": 0,
-      "testResultId": testTypeId,
-      "testResultValue": valueController.text.toString(),
-    };
-    String jsonBody = json.encode(body);
-    final encoding = Encoding.getByName('utf-8');
-
-    Response response = await post(
-      uri,
-      headers: headers,
-      body: jsonBody,
-      encoding: encoding,
-    );
-    int statusCode = response.statusCode;
-    String responseBody = response.body;
-    var res = jsonDecode(responseBody);
-    if (statusCode == 200) {
-      getLabScreenApiWithoutLoader();
-    } else {
-      CommonUtils.hideProgressDialog(context);
-      CommonUtils.showRedToastMessage(res["message"]);
     }
   }
 }

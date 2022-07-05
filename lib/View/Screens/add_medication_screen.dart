@@ -18,6 +18,7 @@ import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_date_field.dart';
 import 'change_pass_screen.dart';
+import 'dash_board_screen.dart';
 import 'edit_profile_screen.dart';
 import 'otp_screen.dart';
 
@@ -34,7 +35,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   final sDateController = TextEditingController();
   final eDateController = TextEditingController();
 
-
+  int sDate=0;
+  int eDate=0;
 
   String? _choosenDosageValue;
   String? _choosenFoodValue;
@@ -361,7 +363,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: () {
-                                      _selectDate(context, sDateController);
+                                      _selectDate(context, sDateController,sDate);
                                     },
                                     controller: sDateController,
                                     iconPath: "assets/images/ic_date.svg",
@@ -392,7 +394,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: () {
-                                      _selectDate(context, eDateController);
+                                      _selectDate(context, eDateController,sDate);
                                     },
                                     controller: eDateController,
                                     iconPath: "assets/images/ic_date.svg",
@@ -481,7 +483,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                           color: ColorConstants.blueBtn,
                           onTap: () {
                             if (mNameController.text.isEmpty) {
-                              CommonUtils.showRedToastMessage("Please enter Madication Name");
+                              CommonUtils.showRedToastMessage("Please enter Medication Name");
                             }else if(dosageController.text.isEmpty) {
                               CommonUtils.showRedToastMessage("Please enter Dosage");
                             } else if(dosageId==0){
@@ -512,7 +514,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context, final controller) async {
+  Future<void> _selectDate(BuildContext context, final controller,int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -523,6 +525,13 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         final DateFormat formatter = DateFormat('dd-MM-yy');
         final String startDate = formatter.format(picked);
         controller.text = startDate.toString();
+
+
+        final DateFormat formatter2 = DateFormat('dd-MM-yyy');
+        final String sDate = formatter2.format(picked);
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDate);
+        Date=dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:"+Date.toString());
       });
     }
   }
@@ -573,8 +582,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
       "dosage": dosageController.text.toString(),
       "dosageId": dosageId,
       "foodId": foodId,
-      "startDate": 1655922600000,
-      "endDate": 1658514600000,
+      "startDate": sDate,
+      "endDate": eDate,
       "frequencyId": frequencyId,
     };
     String jsonBody = json.encode(body);
@@ -592,6 +601,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage(res["message"]);
+      Navigator.pop(context);
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
