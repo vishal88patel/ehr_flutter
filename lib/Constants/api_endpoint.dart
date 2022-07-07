@@ -21,8 +21,6 @@ class ApiEndPoint {
 
   static Uri getNotification = Uri.parse(BASE_URL + "users/get-notifications");
   static Uri savePain = Uri.parse(BASE_URL + "users/save-pain");
-  static Uri saveComment = Uri.parse(BASE_URL + "users/save-comment");
-  static Uri getComment = Uri.parse(BASE_URL + "users/get-comments");
   static Uri getDashboard = Uri.parse(BASE_URL + "users/dashboard");
   static Uri saveTestResult = Uri.parse(BASE_URL + "users/save-test-result");
   static Uri saveMedication = Uri.parse(BASE_URL + "users/save-medication");

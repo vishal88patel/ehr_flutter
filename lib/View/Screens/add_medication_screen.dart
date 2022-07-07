@@ -394,7 +394,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: () {
-                                      _selectDate(context, eDateController,sDate);
+                                      _selectDate(context, eDateController,eDate);
                                     },
                                     controller: eDateController,
                                     iconPath: "assets/images/ic_date.svg",
