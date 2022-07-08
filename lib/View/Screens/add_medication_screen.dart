@@ -363,6 +363,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: () {
+                                      FocusManager.instance.primaryFocus?.unfocus();
                                       _selectDate(context, sDateController,sDate);
                                     },
                                     controller: sDateController,
@@ -394,6 +395,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: () {
+                                      FocusManager.instance.primaryFocus?.unfocus();
                                       _selectDate(context, eDateController,eDate);
                                     },
                                     controller: eDateController,
@@ -569,6 +571,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   }
 
   Future<void> saveMedication() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.saveMedication;
     final headers = {

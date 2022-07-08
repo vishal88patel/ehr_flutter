@@ -56,6 +56,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
 
   var editDate;
   var editComment;
+  var date;
 
 
 
@@ -64,11 +65,12 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
   void initState() {
    if( widget.usersScheduleId!=null){
      editDate=widget.scheduleDateTime.toString();
+     date=editDate;
      editComment=widget.comment.toString();
      commentController.text=editComment;
      userScheduleId=widget.usersScheduleId;
-     var date = DateFormat.yMEd().add_jms().format(DateTime.fromMillisecondsSinceEpoch(int.parse(editDate)));
-     var parts = date.split(' ');
+     var datee = DateFormat.yMEd().add_jms().format(DateTime.fromMillisecondsSinceEpoch(int.parse(editDate)));
+     var parts = datee.split(' ');
      var showDate=DateFormat('MM/dd/yyyy').parse(parts[1]);
      _selectedDay=showDate;
      var showTime=parts[2].toString().split(":");
@@ -109,6 +111,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
@@ -128,254 +131,258 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
               fontSize: D.H / 44, fontWeight: FontWeight.w500),
         ),
       ),
-      backgroundColor: ColorConstants.background,
+      backgroundColor: ColorConstants.lightPurple,
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(D.W/28),
-              child: Center(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  elevation: 8,
-                  child: Container(
-                    height: D.H/2.35,
-                    child: Column(
-                      children: [
-                        ValueListenableBuilder<DateTime>(
-                          valueListenable: _focusedDay1,
-                          builder: (context, value, _) {
-                            return _CalendarHeader(
-                              focusedDay: value,
-                              clearButtonVisible: canClearSelection,
-                              onTodayButtonTap: () {
-                                setState(() => _focusedDay1.value = DateTime.now());
-                              },
-                              onClearButtonTap: () {
-                                setState(() {
-                                  _rangeStart = null;
-                                  _rangeEnd = null;
-                                  _selectedDays.clear();
-                                  // _selectedEvents.value = [];
-                                });
-                              },
-                              onLeftArrowTap: () {
-                                _pageController.previousPage(
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.easeOut,
+        child: Container(
+          color: ColorConstants.lightPurple,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.all(D.W/28),
+                  child: Center(
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      elevation: 8,
+                      child: Container(
+                        child: Column(
+                          children: [
+                            ValueListenableBuilder<DateTime>(
+                              valueListenable: _focusedDay1,
+                              builder: (context, value, _) {
+                                return _CalendarHeader(
+                                  focusedDay: value,
+                                  clearButtonVisible: canClearSelection,
+                                  onTodayButtonTap: () {
+                                    setState(() => _focusedDay1.value = DateTime.now());
+                                  },
+                                  onClearButtonTap: () {
+                                    setState(() {
+                                      _rangeStart = null;
+                                      _rangeEnd = null;
+                                      _selectedDays.clear();
+                                      // _selectedEvents.value = [];
+                                    });
+                                  },
+                                  onLeftArrowTap: () {
+                                    _pageController.previousPage(
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.easeOut,
+                                    );
+                                  },
+                                  onRightArrowTap: () {
+                                    _pageController.nextPage(
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.easeOut,
+                                    );
+                                  },
                                 );
                               },
-                              onRightArrowTap: () {
-                                _pageController.nextPage(
-                                  duration: Duration(milliseconds: 300),
-                                  curve: Curves.easeOut,
-                                );
+                            ),
+                            TableCalendar(
+                              rowHeight: D.H/18,
+                              calendarStyle: CalendarStyle(
+                                defaultTextStyle: TextStyle(color: ColorConstants.calenderFontColor,fontWeight: FontWeight.bold),
+                                weekendTextStyle:  TextStyle(color: ColorConstants.calenderFontColor,fontWeight: FontWeight.bold),
+                                todayDecoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorConstants.calenderFontColor
+                                ),
+                                selectedDecoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorConstants.calenderFontColor
+                                ),
+                              ),
+
+
+                              onCalendarCreated: (controller) => _pageController = controller,
+                              headerVisible: false,
+                              firstDay: kFirstDay,
+                              lastDay: kLastDay,
+                              focusedDay: _focusedDay,
+                              calendarFormat: _calendarFormat,
+                              selectedDayPredicate: (day) {
+                                return isSameDay(_selectedDay, day);
                               },
-                            );
-                          },
-                        ),
-                        TableCalendar(
-                          calendarStyle: CalendarStyle(
-
-                            defaultTextStyle: TextStyle(color: ColorConstants.calenderFontColor,fontWeight: FontWeight.bold),
-                            weekendTextStyle:  TextStyle(color: ColorConstants.calenderFontColor,fontWeight: FontWeight.bold),
-                            todayDecoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: ColorConstants.calenderFontColor
+                              onDaySelected: (selectedDay, focusedDay) {
+                                if (!isSameDay(_selectedDay, selectedDay)) {
+                                  // Call `setState()` when updating the selected day
+                                  setState(() {
+                                    _selectedDay = selectedDay;
+                                    print("Date:"+_selectedDay.toString().substring(0,10));
+                                    var date=DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+"10:10 AM");
+                                    print("date:"+date.millisecondsSinceEpoch.toString());
+                                  });
+                                }
+                              },
+                              onFormatChanged: (format) {
+                                if (_calendarFormat != format) {
+                                  // Call `setState()` when updating calendar format
+                                  setState(() {
+                                    _calendarFormat = format;
+                                  });
+                                }
+                              },
+                              onPageChanged: (focusedDay) {
+                                // No need to call `setState()` here
+                                _focusedDay = focusedDay;
+                              },
                             ),
-                            selectedDecoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: ColorConstants.calenderFontColor
-                            ),
-                          ),
-
-
-                          onCalendarCreated: (controller) => _pageController = controller,
-                          headerVisible: false,
-                          firstDay: kFirstDay,
-                          lastDay: kLastDay,
-                          focusedDay: _focusedDay,
-                          calendarFormat: _calendarFormat,
-                          selectedDayPredicate: (day) {
-                            return isSameDay(_selectedDay, day);
-                          },
-                          onDaySelected: (selectedDay, focusedDay) {
-                            if (!isSameDay(_selectedDay, selectedDay)) {
-                              // Call `setState()` when updating the selected day
-                              setState(() {
-                                _selectedDay = selectedDay;
-                                print("Date:"+_selectedDay.toString().substring(0,10));
-                                var date=DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+"10:10 AM");
-                                print("date:"+date.millisecondsSinceEpoch.toString());
-                              });
-                            }
-                          },
-                          onFormatChanged: (format) {
-                            if (_calendarFormat != format) {
-                              // Call `setState()` when updating calendar format
-                              setState(() {
-                                _calendarFormat = format;
-                              });
-                            }
-                          },
-                          onPageChanged: (focusedDay) {
-                            // No need to call `setState()` here
-                            _focusedDay = focusedDay;
-                          },
+                            const SizedBox(height: 8.0),
+                          ],
                         ),
-                        const SizedBox(height: 8.0),
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              color: ColorConstants.lightPurple,
-              child: Column(
-                children: [
-                  SizedBox(height: D.H / 26),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              _timePicker();
-                            },
-                            child: Padding(
+              Container(
+                color: ColorConstants.lightPurple,
+                child: Column(
+                  children: [
+                    SizedBox(height: D.H / 26),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                _timePicker();
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(left: D.W / 18),
+                                child: Text(
+                                  "Select Time",
+                                  style: GoogleFonts.heebo(
+                                      fontSize: D.H / 52,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: D.H / 240),
+                            Padding(
                               padding: EdgeInsets.only(left: D.W / 18),
+                              child: Container(
+                                width: D.W / 2,
+                                child: CustomTimeField(
+                                  onTap: () {
+                                    _timePicker();
+                                  },
+                                  controller: timeController,
+                                  iconPath: "assets/images/ic_time.svg",
+                                  readOnly: true,
+                                  validators: (e) {
+                                    if (timeController.text == null ||
+                                        timeController.text == '') {
+                                      return '*Please enter End Date';
+                                    }
+                                  },
+                                  keyboardTYPE: TextInputType.text,
+                                  obscured: false,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: D.W / 18, right: D.W / 18),
                               child: Text(
-                                "Select Time",
+                                "",
                                 style: GoogleFonts.heebo(
                                     fontSize: D.H / 52,
                                     fontWeight: FontWeight.w400),
                               ),
                             ),
-                          ),
-                          SizedBox(height: D.H / 240),
-                          Padding(
-                            padding: EdgeInsets.only(left: D.W / 18),
-                            child: Container(
-                              width: D.W / 2,
-                              child: CustomTimeField(
-                                onTap: () {
-                                  _timePicker();
-                                },
-                                controller: timeController,
-                                iconPath: "assets/images/ic_time.svg",
-                                readOnly: true,
-                                validators: (e) {
-                                  if (timeController.text == null ||
-                                      timeController.text == '') {
-                                    return '*Please enter End Date';
-                                  }
-                                },
-                                keyboardTYPE: TextInputType.text,
-                                obscured: false,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: D.W / 18, right: D.W / 18),
-                            child: Text(
-                              "",
-                              style: GoogleFonts.heebo(
-                                  fontSize: D.H / 52,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          SizedBox(height: D.H / 240),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: D.W / 18, right: D.W / 18),
-                            child: Container(
-                              width: D.W / 3.6,
-                              child: CustomTimeField(
-                                onTap: () {
+                            SizedBox(height: D.H / 240),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: D.W / 18, right: D.W / 18),
+                              child: Container(
+                                width: D.W / 3.6,
+                                child: CustomTimeField(
+                                  onTap: () {
 
-                                },
-                                controller: ampmController,
-                                readOnly: true,
-                                validators: (e) {
-                                  if (ampmController.text == null ||
-                                      ampmController.text == '') {
-                                    return '*Please enter End Date';
-                                  }
-                                },
-                                keyboardTYPE: TextInputType.text,
-                                obscured: false,
+                                  },
+                                  controller: ampmController,
+                                  readOnly: true,
+                                  validators: (e) {
+                                    if (ampmController.text == null ||
+                                        ampmController.text == '') {
+                                      return '*Please enter End Date';
+                                    }
+                                  },
+                                  keyboardTYPE: TextInputType.text,
+                                  obscured: false,
+                                ),
                               ),
                             ),
+                          ],
+                        )
+                      ],
+                    ),
+                    SizedBox(height: D.H / 60),
+                    Row(
+                      children: [
+                        Padding(
+                          padding:
+                              EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                          child: Text(
+                            "Comment",
+                            style: GoogleFonts.heebo(
+                                fontSize: D.H / 52, fontWeight: FontWeight.w400),
                           ),
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(height: D.H / 60),
-                  Row(
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: D.W / 18, right: D.W / 18),
-                        child: Text(
-                          "Comment",
-                          style: GoogleFonts.heebo(
-                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: CustomTextFormField(
+                          controller: commentController,
+                          readOnly: false,
+                          validators: (e) {
+                            if (commentController.text == null ||
+                                commentController.text == '') {
+                              return '*Value';
+                            }
+                          },
+                          keyboardTYPE: TextInputType.text,
+                          obscured: false,
                         ),
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: D.W / 18, right: D.W / 18),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      child: CustomTextFormField(
-                        controller: commentController,
-                        readOnly: false,
-                        validators: (e) {
-                          if (commentController.text == null ||
-                              commentController.text == '') {
-                            return '*Value';
-                          }
+                    ),
+                    SizedBox(height: D.H / 26),
+                    Padding(
+                      padding: EdgeInsets.only(left: D.W / 10, right: D.W / 10),
+                      child: CustomButton(
+                        color: ColorConstants.blueBtn,
+                        onTap: () {
+                          saveSchedule();
+                          //NavigationHelpers.redirect(context, OtpScreen());
                         },
-                        keyboardTYPE: TextInputType.text,
-                        obscured: false,
+                        text: "Save",
+                        textColor: Colors.white,
                       ),
                     ),
-                  ),
-                  SizedBox(height: D.H / 26),
-                  Padding(
-                    padding: EdgeInsets.only(left: D.W / 10, right: D.W / 10),
-                    child: CustomButton(
-                      color: ColorConstants.blueBtn,
-                      onTap: () {
-                        saveSchedule();
-                        //NavigationHelpers.redirect(context, OtpScreen());
-                      },
-                      text: "Save",
-                      textColor: Colors.white,
-                    ),
-                  ),
-                  SizedBox(height: D.H / 26),
-                ],
-              ),
-            )
-          ],
+                    SizedBox(height: D.H / 20),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -410,7 +417,13 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
     final headers = {'Content-Type': 'application/json',
       'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
-    var date=DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+_selectedTime.toString());
+    if(_selectedDay!=null){
+      date=widget.scheduleDateTime.toString();
+    }
+    else{
+      date=DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+_selectedTime.toString());
+    }
+   // date=DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+_selectedTime.toString());
     Map<String, dynamic> body = {
       "usersScheduleId": userScheduleId,
       "scheduleDateTime": date.millisecondsSinceEpoch,

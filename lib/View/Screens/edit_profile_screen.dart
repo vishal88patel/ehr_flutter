@@ -162,7 +162,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       CustomTextFormField(
                         controller: phoneController,
-                        readOnly: false,
+                        readOnly: true,
                         validators: (e) {
                           if (phoneController.text == null ||
                               phoneController.text == '') {

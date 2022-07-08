@@ -157,6 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 width: D.W,
                                 child: CustomDateField(
                                   onTap: () {
+                                    FocusManager.instance.primaryFocus?.unfocus();
                                     _selectDate(context, bDayController,bDate);
                                   },
                                   controller: bDayController,
@@ -298,6 +299,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     required int gender,
     required String email,
   }) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.updateProfile;
     final headers = {'Content-Type': 'application/json',
@@ -310,6 +312,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       "gender": gender,
       "email": email
     };
+
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
@@ -323,6 +326,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
+
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage("Register Successfully");
       NavigationHelpers.redirectto(context, DashBoardScreen(1));

@@ -211,6 +211,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: (){
+                                      FocusManager.instance.primaryFocus?.unfocus();
                                       _selectDate(context, sDateController,sDate);
                                     },
                                     controller: sDateController,
@@ -242,6 +243,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: (){
+                                      FocusManager.instance.primaryFocus?.unfocus();
                                       _selectDate(context, eDateController,eDate);
                                     },
                                     controller: eDateController,
@@ -344,6 +346,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
   }
 
   Future<void> savePain() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.savePain;
     final headers = {'Content-Type': 'application/json',
