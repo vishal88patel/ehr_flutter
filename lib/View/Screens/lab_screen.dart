@@ -124,19 +124,20 @@ class _LabScreenState extends State<LabScreen>
                   physics: BouncingScrollPhysics(),
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: CUstomSearchBar2(
-                                function: () {},
-                                controller: controller,
-                                readOnly: false,
-                                hint: "Type",
-                                validators: (e) {},
-                                keyboardTYPE: TextInputType.name),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: CUstomSearchBar2(
+                      //           function: () {},
+                      //           controller: controller,
+                      //           readOnly: false,
+                      //           hint: "Type",
+                      //           validators: (e) {},
+                      //           keyboardTYPE: TextInputType.name),
+                      //     ),
+                      //   ],
+                      // ),
+                      SizedBox(height: 8,),
                       Card(
                         color: Colors.white,
                         elevation: 5,
@@ -156,7 +157,7 @@ class _LabScreenState extends State<LabScreen>
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: D.W / 30.0, left: D.W / 30.0),
+                                    top: D.W / 30.0, left: D.W / 30.0,bottom: D.W / 30.0),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -180,7 +181,8 @@ class _LabScreenState extends State<LabScreen>
                                   ],
                                 ),
                               ),
-                              Column(
+                              _labScreenResponseModelodel
+                                  .pains!.isEmpty?Container() :Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   ListView.builder(
@@ -340,7 +342,7 @@ class _LabScreenState extends State<LabScreen>
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: D.W / 30.0, left: D.W / 30.0),
+                                    top: D.W / 30.0, left: D.W / 30.0,bottom: D.W / 30.0),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -366,7 +368,8 @@ class _LabScreenState extends State<LabScreen>
                                   ],
                                 ),
                               ),
-                              Column(
+                              _labScreenResponseModelodel
+                                  .medications!.isEmpty?Container():Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   ListView.builder(
@@ -616,6 +619,7 @@ class _LabScreenState extends State<LabScreen>
                               padding: EdgeInsets.only(
                                   top: D.W / 30.0,
                                   left: D.W / 30.0,
+                                  bottom: D.W / 30.0,
                                   right: D.W / 26),
                               child: Row(
                                 mainAxisAlignment:
@@ -907,7 +911,7 @@ class _LabScreenState extends State<LabScreen>
                             SizedBox(
                               height: D.H / 180,
                             ),
-                            SizedBox(
+                            tabList.isEmpty?Container():SizedBox(
                               height: 48,
                               child: AppBar(
                                 backgroundColor: Colors.white,
@@ -949,7 +953,7 @@ class _LabScreenState extends State<LabScreen>
                                 ),
                               ),
                             ),
-                            Container(
+                            tabbodyList.isEmpty?Container():Container(
                               height: 300,
                               child: TabBarView(
                                 controller: _tabController,
@@ -1650,7 +1654,7 @@ class _LabScreenState extends State<LabScreen>
                               height: 8,
                             ),
 
-                            GridView.builder(
+                            _labScreenResponseModelodel.imagine!.isEmpty?Container():GridView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               gridDelegate:
@@ -2254,7 +2258,7 @@ class _LabScreenState extends State<LabScreen>
       CommonUtils.hideProgressDialog(context);
       setState(() {});
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
+      // CommonUtils.showGreenToastMessage("Data Fetched Successfully");
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
@@ -2359,7 +2363,7 @@ class _LabScreenState extends State<LabScreen>
 
       tabItemCount = tabList.length;
       _tabController = new TabController(length: tabItemCount, vsync: this);
-
+      setState(() {});
       CommonUtils.showGreenToastMessage("Result Saved");
       CommonUtils.hideProgressDialog(context);
 
@@ -2469,7 +2473,7 @@ class _LabScreenState extends State<LabScreen>
       tabItemCount = tabList.length;
       _tabController = new TabController(length: tabItemCount, vsync: this);
 
-      CommonUtils.showGreenToastMessage("Result Saved");
+      // CommonUtils.showGreenToastMessage("Result Saved");
       CommonUtils.hideProgressDialog(context);
 
       setState(() {});

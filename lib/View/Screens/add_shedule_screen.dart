@@ -1,24 +1,22 @@
+
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Utils/dimensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../Constants/api_endpoint.dart';
-import '../../CustomWidgets/custom_calender.dart';
+import '../../Constants/color_constants.dart';
+import '../../CustomWidgets/custom_button.dart';
 import '../../CustomWidgets/custom_textform_field.dart';
-import '../../Model/schedule_model.dart';
+import '../../CustomWidgets/custom_time_field.dart';
 import '../../Utils/common_utils.dart';
-import '../../Utils/dimensions.dart';
 import '../../Utils/preferences.dart';
-import '../../customWidgets/custom_button.dart';
-import '../../customWidgets/custom_time_field.dart';
 
 class AddSheduleScreen extends StatefulWidget {
   final int? usersScheduleId;
@@ -38,6 +36,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
   String? _chosenAmPm;
   String? _selectedTime;
   int? userScheduleId=0;
+  var timee="";
 
   late final PageController _pageController;
   // late final ValueNotifier<List<Event>> _selectedEvents;
@@ -63,20 +62,20 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
 
   @override
   void initState() {
-   if( widget.usersScheduleId!=null){
-     editDate=widget.scheduleDateTime.toString();
-     date=editDate;
-     editComment=widget.comment.toString();
-     commentController.text=editComment;
-     userScheduleId=widget.usersScheduleId;
-     var datee = DateFormat.yMEd().add_jms().format(DateTime.fromMillisecondsSinceEpoch(int.parse(editDate)));
-     var parts = datee.split(' ');
-     var showDate=DateFormat('MM/dd/yyyy').parse(parts[1]);
-     _selectedDay=showDate;
-     var showTime=parts[2].toString().split(":");
-     timeController.text=showTime[0]+":"+showTime[1];
-     ampmController.text=parts[3];
-   }
+    if( widget.usersScheduleId!=null){
+      editDate=widget.scheduleDateTime.toString();
+      date=editDate;
+      editComment=widget.comment.toString();
+      commentController.text=editComment;
+      userScheduleId=widget.usersScheduleId;
+      var datee = DateFormat.yMEd().add_jms().format(DateTime.fromMillisecondsSinceEpoch(int.parse(editDate)));
+      var parts = datee.split(' ');
+      var showDate=DateFormat('MM/dd/yyyy').parse(parts[1]);
+      _selectedDay=showDate;
+      var showTime=parts[2].toString().split(":");
+      timeController.text=showTime[0]+":"+showTime[1];
+      ampmController.text=parts[3];
+    }
 
     super.initState();
     // _selectedDays.add(_focusedDay.value);
@@ -111,7 +110,6 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
@@ -335,7 +333,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                       children: [
                         Padding(
                           padding:
-                              EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                          EdgeInsets.only(left: D.W / 18, right: D.W / 18),
                           child: Text(
                             "Comment",
                             style: GoogleFonts.heebo(
@@ -370,7 +368,17 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                       child: CustomButton(
                         color: ColorConstants.blueBtn,
                         onTap: () {
-                          saveSchedule();
+                          if(_selectedDay==null){
+                            CommonUtils.showRedToastMessage("Please select a date");
+                          }else if(_selectedTime==null){
+                            CommonUtils.showRedToastMessage("Please select a time");
+
+                          }else if(commentController.text.isEmpty){
+                            CommonUtils.showRedToastMessage("Please select a comment");
+
+                          }else{
+                            saveSchedule();
+                          }
                           //NavigationHelpers.redirect(context, OtpScreen());
                         },
                         text: "Save",
@@ -403,10 +411,13 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
     if (result != null) {
       setState(() {
         _selectedTime = result.format(context);
-        var time=_selectedTime?.split(" ");
-        timeController.text=time![0];
+        DateTime tempDate = DateFormat("hh:mm").parse(_selectedTime.toString());
+        var dateFormat = DateFormat("h:mm a");
+         timee=dateFormat.format(tempDate);
+        var time=timee.toString().split(" ");
+        timeController.text=time[0];
         ampmController.text=time[1];
-        print(_selectedTime);
+        print(timee);
       });
     }
   }
@@ -421,12 +432,11 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
       date=widget.scheduleDateTime.toString();
     }
     else{
-      date=DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+_selectedTime.toString());
+      date=(DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+timee.toString()).millisecondsSinceEpoch);
     }
-   // date=DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+_selectedTime.toString());
     Map<String, dynamic> body = {
       "usersScheduleId": userScheduleId,
-      "scheduleDateTime": date.millisecondsSinceEpoch,
+      "scheduleDateTime": date.toString(),
       "comment": commentController.text.toString(),
     };
     String jsonBody = json.encode(body);

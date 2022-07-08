@@ -182,7 +182,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                               }
                             },
                             keyboardTYPE: TextInputType.text,
-                            maxlength: 6,
+                            maxlength: 100,
                             maxline: 6,
                             obscured: false),
 
