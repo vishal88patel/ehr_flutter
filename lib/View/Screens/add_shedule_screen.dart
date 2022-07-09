@@ -57,6 +57,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
   var editDate;
   var editComment;
   var date;
+  var timee;
 
 
 
@@ -70,12 +71,19 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
      commentController.text=editComment;
      userScheduleId=widget.usersScheduleId;
      var datee = DateFormat.yMEd().add_jms().format(DateTime.fromMillisecondsSinceEpoch(int.parse(editDate)));
+     print(datee);
      var parts = datee.split(' ');
+     print(parts);
      var showDate=DateFormat('MM/dd/yyyy').parse(parts[1]);
      _selectedDay=showDate;
+     print(_selectedDay);
      var showTime=parts[2].toString().split(":");
      timeController.text=showTime[0]+":"+showTime[1];
      ampmController.text=parts[3];
+     timee=showTime[0]+":"+showTime[1]+" "+parts[3];
+     print(timee);
+   }else{
+
    }
 
     super.initState();
@@ -111,7 +119,6 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         backgroundColor: ColorConstants.blueBtn,
         elevation: 0,
@@ -370,7 +377,19 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                       child: CustomButton(
                         color: ColorConstants.blueBtn,
                         onTap: () {
-                          saveSchedule();
+                          if(_selectedDay==null){
+                            CommonUtils.showRedToastMessage("Please Select Date");
+                          }
+                          else if (timee==null){
+                            CommonUtils.showRedToastMessage("Please Select Time");
+                          }
+                          else if (commentController.text.isEmpty){
+                            CommonUtils.showRedToastMessage("Please Enter Comment");
+                          }
+                          else{
+                            saveSchedule();
+                          }
+
                           //NavigationHelpers.redirect(context, OtpScreen());
                         },
                         text: "Save",
@@ -401,9 +420,20 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
               child: child!);
         });
     if (result != null) {
-      setState(() {
+     /* setState(() {
         _selectedTime = result.format(context);
         var time=_selectedTime?.split(" ");
+        timeController.text=time![0];
+        ampmController.text=time[1];
+        print(_selectedTime);
+      });*/
+
+      setState(() {
+        _selectedTime = result.format(context);
+        DateTime tempDate = DateFormat("hh:mm").parse(_selectedTime.toString());
+        var dateFormat = DateFormat("h:mm a");
+        timee=dateFormat.format(tempDate);
+        var time=timee.toString().split(" ");
         timeController.text=time![0];
         ampmController.text=time[1];
         print(_selectedTime);
@@ -417,16 +447,10 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
     final headers = {'Content-Type': 'application/json',
       'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
-    if(_selectedDay!=null){
-      date=widget.scheduleDateTime.toString();
-    }
-    else{
-      date=DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+_selectedTime.toString());
-    }
-   // date=DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+_selectedTime.toString());
+      date=(DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+timee.toString()).millisecondsSinceEpoch);
     Map<String, dynamic> body = {
       "usersScheduleId": userScheduleId,
-      "scheduleDateTime": date.millisecondsSinceEpoch,
+      "scheduleDateTime": date.toString(),
       "comment": commentController.text.toString(),
     };
     String jsonBody = json.encode(body);
