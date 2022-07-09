@@ -128,6 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 style: GoogleFonts.heebo(
                                     fontSize: D.H / 52,
                                     fontWeight: FontWeight.w400),
+
                               ),
                               SizedBox(height: D.H / 120),
                               CustomTextFormField(

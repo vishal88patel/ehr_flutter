@@ -1,17 +1,17 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:ehr/Constants/color_constants.dart';
-import 'package:ehr/Model/country_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+
 import '../../Constants/api_endpoint.dart';
-import '../../CustomWidgets/custom_textform_field.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
@@ -19,8 +19,6 @@ import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_phone_textform_field.dart';
 import 'otp_screen.dart';
-import 'package:flutter/services.dart';
-
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -34,10 +32,10 @@ class _LogInScreenState extends State<LogInScreen> {
   final _formkey = GlobalKey<FormState>();
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};
-  String platform="";
-  String? token="";
+  String platform = "";
+  String? token = "";
   String? _chosenValue;
-  List<String>? countryCode=  ['+91'] ;
+  List<String>? countryCode = ['+91'];
 
   @override
   void initState() {
@@ -55,11 +53,10 @@ class _LogInScreenState extends State<LogInScreen> {
 
     try {
       if (Platform.isAndroid) {
-        platform="Android";
-        deviceData =
-            _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+        platform = "Android";
+        deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
       } else if (Platform.isIOS) {
-        platform="Ios";
+        platform = "Ios";
         deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
       }
     } on PlatformException {
@@ -135,8 +132,11 @@ class _LogInScreenState extends State<LogInScreen> {
             SizedBox(height: D.H / 5),
             Center(child: SvgPicture.asset("assets/images/login_logo.svg")),
             SizedBox(height: D.H / 20),
-            Text("WELCOME BACK", style: GoogleFonts.heebo(
-                fontSize: D.H / 32, fontWeight: FontWeight.w700),),
+            Text(
+              "WELCOME BACK",
+              style: GoogleFonts.heebo(
+                  fontSize: D.H / 32, fontWeight: FontWeight.w700),
+            ),
             SizedBox(height: D.H / 24),
             Stack(
               children: [
@@ -148,15 +148,10 @@ class _LogInScreenState extends State<LogInScreen> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(48),
                           topRight: Radius.circular(48)),
-
                     ),
                     child: Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       height: 40,
-
                     ),
                   ),
                 ),
@@ -176,19 +171,24 @@ class _LogInScreenState extends State<LogInScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Mobile Number", style: GoogleFonts.heebo(
-                                fontSize: D.H / 52,
-                                fontWeight: FontWeight.w400),),
+                            Text(
+                              "Mobile Number",
+                              style: GoogleFonts.heebo(
+                                  fontSize: D.H / 52,
+                                  fontWeight: FontWeight.w400),
+                            ),
                             SizedBox(height: D.H / 120),
                             Row(
                               children: [
                                 Container(
                                   padding: EdgeInsets.only(
                                       left: D.W / 30, right: D.W / 60),
-                                  width: MediaQuery.of(context).size.width / 1.25,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.25,
                                   decoration: BoxDecoration(
                                     color: ColorConstants.innerColor,
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
                                     border: Border.all(
                                       width: 2,
                                       color: Colors.white,
@@ -199,23 +199,31 @@ class _LogInScreenState extends State<LogInScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        width: MediaQuery.of(context).size.width / 6,
-                                        height: D.H/20,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                6,
+                                        height: D.H / 20,
                                         child: DropdownButton<String>(
                                           isExpanded: true,
                                           focusColor: Colors.white,
                                           value: _chosenValue,
                                           style: TextStyle(color: Colors.white),
-                                          iconEnabledColor: ColorConstants.lightGrey,
-                                          icon: Icon(Icons.arrow_drop_down_sharp),
+                                          iconEnabledColor:
+                                              ColorConstants.lightGrey,
+                                          icon:
+                                              Icon(Icons.arrow_drop_down_sharp),
                                           iconSize: 32,
-                                          underline: Container(color: Colors.transparent),
-                                          items:countryCode?.map<DropdownMenuItem<String>>((String value) {
+                                          underline: Container(
+                                              color: Colors.transparent),
+                                          items: countryCode
+                                              ?.map<DropdownMenuItem<String>>(
+                                                  (String value) {
                                             return DropdownMenuItem<String>(
                                               value: value,
                                               child: Text(
                                                 value,
-                                                style: TextStyle(color: Colors.black),
+                                                style: TextStyle(
+                                                    color: Colors.black),
                                               ),
                                             );
                                           }).toList(),
@@ -233,12 +241,20 @@ class _LogInScreenState extends State<LogInScreen> {
                                           },
                                         ),
                                       ),
-                                      Container(width: 1.0,color: ColorConstants.line,height:D.H/22,),
+                                      Container(
+                                        width: 1.0,
+                                        color: ColorConstants.line,
+                                        height: D.H / 22,
+                                      ),
                                       Padding(
-                                        padding: EdgeInsets.only(bottom: D.H/80),
+                                        padding:
+                                            EdgeInsets.only(bottom: D.H / 80),
                                         child: SizedBox(
-                                          height: D.H/20,
-                                          width: MediaQuery.of(context).size.width / 1.8,
+                                          height: D.H / 20,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.8,
                                           child: CustomPhoneTextFormField(
                                             controller: ccController,
                                             readOnly: false,
@@ -260,30 +276,40 @@ class _LogInScreenState extends State<LogInScreen> {
                             ),
                             SizedBox(height: D.H / 22),
                             CustomButton(
-                              color: ColorConstants.blueBtn, onTap: () async {
-                                if(ccController.text.isNotEmpty){
-                                PackageInfo packageInfo = await PackageInfo.fromPlatform();
-                                String version = packageInfo.version;
-                                signInByPhone(countryCode: "+91", appVersion:version,
-                                    deviceName:_deviceData["brand"]+" "+_deviceData["device"],
-                                    deviceToken: await PreferenceUtils.getString("FCMTOKEN"),
-                                    deviceType: platform,
-                                    deviceVersion:_deviceData["version.sdkInt"].toString() ,
-                                    mobile:ccController.text
-
-                                );}else{
-                                  CommonUtils.showRedToastMessage("Please Enter Mobile Number");
+                              color: ColorConstants.blueBtn,
+                              onTap: () async {
+                                if (ccController.text.isNotEmpty) {
+                                  PackageInfo packageInfo =
+                                      await PackageInfo.fromPlatform();
+                                  String version = packageInfo.version;
+                                  signInByPhone(
+                                      countryCode: "+91",
+                                      appVersion: version,
+                                      deviceName: _deviceData["brand"] +
+                                          " " +
+                                          _deviceData["device"],
+                                      deviceToken:
+                                          await PreferenceUtils.getString(
+                                              "FCMTOKEN"),
+                                      deviceType: platform,
+                                      deviceVersion:
+                                          _deviceData["version.sdkInt"]
+                                              .toString(),
+                                      mobile: ccController.text);
+                                } else {
+                                  CommonUtils.showRedToastMessage(
+                                      "Please Enter Mobile Number");
                                 }
-                              setState(() {
-
-                              });
-                              // NavigationHelpers.redirect(context, OtpScreen());
-                            }, text: "Login", textColor: Colors.white,),
+                                setState(() {});
+                                // NavigationHelpers.redirect(context, OtpScreen());
+                              },
+                              text: "Login",
+                              textColor: Colors.white,
+                            ),
                             SizedBox(height: D.H / 4.3),
                           ],
                         ),
-                      )
-                  ),
+                      )),
                 ),
               ],
             )
@@ -293,14 +319,14 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  Future<void> signInByPhone({ required String countryCode,
+  Future<void> signInByPhone({
+    required String countryCode,
     required String mobile,
     required String deviceToken,
     required String deviceType,
     required String deviceName,
     required String appVersion,
     required String deviceVersion,
-
   }) async {
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.login;
@@ -326,13 +352,12 @@ class _LogInScreenState extends State<LogInScreen> {
     int statusCode = response.statusCode;
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
-    if (statusCode == 200 ) {
-      PreferenceUtils.setString("ACCESSTOKEN",res["accessToken"]);
+    if (statusCode == 200) {
+      PreferenceUtils.setString("ACCESSTOKEN", res["accessToken"]);
 
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage("Otp Sent Successfully");
       NavigationHelpers.redirectto(context, OtpScreen());
-
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
@@ -341,7 +366,9 @@ class _LogInScreenState extends State<LogInScreen> {
 
   Future<void> getCountryCode() async {
     final uri = ApiEndPoint.countryCode;
-    final headers = {'Content-Type': 'application/json',};
+    final headers = {
+      'Content-Type': 'application/json',
+    };
 
     Response response = await get(
       uri,
@@ -350,16 +377,12 @@ class _LogInScreenState extends State<LogInScreen> {
     int statusCode = response.statusCode;
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
-    if (statusCode == 200 ) {
+    if (statusCode == 200) {
       countryCode!.clear();
-      for(int i=0;i<res.length; i++){
+      for (int i = 0; i < res.length; i++) {
         countryCode!.add(res[i]["mobileCode"]);
       }
-      setState(() {
-
-      });
-
-
+      setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
     }

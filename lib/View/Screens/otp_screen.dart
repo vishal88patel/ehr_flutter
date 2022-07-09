@@ -178,7 +178,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                   child: Text(
                                     "Resend",
                                     style: GoogleFonts.heebo(
-                                        fontSize: D.H / 44,
+                                        fontSize: D.H / 52,
                                         fontWeight: FontWeight.w700),
                                   ),
                                   onTap: (){
@@ -188,7 +188,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                 ):Text(
                                   "00:"+_time.toString(),
                                   style: GoogleFonts.heebo(
-                                      fontSize: D.H / 44,
+                                      fontSize: D.H / 52,
                                       fontWeight: FontWeight.w700),
                                 ),
                               ],
