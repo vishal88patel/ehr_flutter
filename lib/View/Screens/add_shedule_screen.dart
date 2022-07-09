@@ -64,27 +64,27 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
 
   @override
   void initState() {
-   if( widget.usersScheduleId!=null){
-     editDate=widget.scheduleDateTime.toString();
-     date=editDate;
-     editComment=widget.comment.toString();
-     commentController.text=editComment;
-     userScheduleId=widget.usersScheduleId;
-     var datee = DateFormat.yMEd().add_jms().format(DateTime.fromMillisecondsSinceEpoch(int.parse(editDate)));
-     print(datee);
-     var parts = datee.split(' ');
-     print(parts);
-     var showDate=DateFormat('MM/dd/yyyy').parse(parts[1]);
-     _selectedDay=showDate;
-     print(_selectedDay);
-     var showTime=parts[2].toString().split(":");
-     timeController.text=showTime[0]+":"+showTime[1];
-     ampmController.text=parts[3];
-     timee=showTime[0]+":"+showTime[1]+" "+parts[3];
-     print(timee);
-   }else{
+    if( widget.usersScheduleId!=null){
+      editDate=widget.scheduleDateTime.toString();
+      date=editDate;
+      editComment=widget.comment.toString();
+      commentController.text=editComment;
+      userScheduleId=widget.usersScheduleId;
+      var datee = DateFormat.yMEd().add_jms().format(DateTime.fromMillisecondsSinceEpoch(int.parse(editDate)));
+      print(datee);
+      var parts = datee.split(' ');
+      print(parts);
+      var showDate=DateFormat('MM/dd/yyyy').parse(parts[1]);
+      _selectedDay=showDate;
+      print(_selectedDay);
+      var showTime=parts[2].toString().split(":");
+      timeController.text=showTime[0]+":"+showTime[1];
+      ampmController.text=parts[3];
+      timee=showTime[0]+":"+showTime[1]+" "+parts[3];
+      print(timee);
+    }else{
 
-   }
+    }
 
     super.initState();
     // _selectedDays.add(_focusedDay.value);
@@ -342,7 +342,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                       children: [
                         Padding(
                           padding:
-                              EdgeInsets.only(left: D.W / 18, right: D.W / 18),
+                          EdgeInsets.only(left: D.W / 18, right: D.W / 18),
                           child: Text(
                             "Comment",
                             style: GoogleFonts.heebo(
@@ -377,19 +377,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                       child: CustomButton(
                         color: ColorConstants.blueBtn,
                         onTap: () {
-                          if(_selectedDay==null){
-                            CommonUtils.showRedToastMessage("Please Select Date");
-                          }
-                          else if (timee==null){
-                            CommonUtils.showRedToastMessage("Please Select Time");
-                          }
-                          else if (commentController.text.isEmpty){
-                            CommonUtils.showRedToastMessage("Please Enter Comment");
-                          }
-                          else{
-                            saveSchedule();
-                          }
-
+                          saveSchedule();
                           //NavigationHelpers.redirect(context, OtpScreen());
                         },
                         text: "Save",
@@ -420,7 +408,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
               child: child!);
         });
     if (result != null) {
-     /* setState(() {
+      /* setState(() {
         _selectedTime = result.format(context);
         var time=_selectedTime?.split(" ");
         timeController.text=time![0];
@@ -447,7 +435,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
     final headers = {'Content-Type': 'application/json',
       'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
-      date=(DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+timee.toString()).millisecondsSinceEpoch);
+    date=(DateFormat('yyyy-MM-dd hh:mm aaa').parse(_selectedDay.toString().substring(0,10)+" "+timee.toString()).millisecondsSinceEpoch);
     Map<String, dynamic> body = {
       "usersScheduleId": userScheduleId,
       "scheduleDateTime": date.toString(),
