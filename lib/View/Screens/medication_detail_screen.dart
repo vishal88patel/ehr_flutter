@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import '../../Constants/api_endpoint.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
@@ -49,6 +50,21 @@ class MedicationDetailScreen extends StatefulWidget {
 
 class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
   final ccController = TextEditingController();
+  var startDate="";
+  var endDate="";
+  @override
+  void initState() {
+    var millis = widget.startDate;
+    var millisE = widget.endDate;
+    var dt = DateTime.fromMillisecondsSinceEpoch(millis!);
+    var dtE = DateTime.fromMillisecondsSinceEpoch(millisE!);
+    var d24 = DateFormat('dd/MM/yyyy').format(dt); // 31/12/2000, 22:00
+    var d24E = DateFormat('dd/MM/yyyy').format(dtE); // 31/12/2000, 22:00
+
+    startDate = d24.toString();
+    endDate = d24E.toString();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,14 +182,14 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      "Start Time",
+                                      "Start Time  ",
                                       style: GoogleFonts.heebo(
                                           fontSize: D.H / 50,
                                           color: ColorConstants.blueBtn,
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      widget.startDate.toString(),
+                                      startDate,
                                       style: GoogleFonts.heebo(
                                           fontSize: D.H / 50,
                                           color: ColorConstants.skyBlue,
@@ -184,14 +200,14 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      "End Time",
+                                      "End Time    ",
                                       style: GoogleFonts.heebo(
                                           fontSize: D.H / 50,
                                           color: ColorConstants.blueBtn,
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      widget.endDate.toString(),
+                                      endDate,
                                       style: GoogleFonts.heebo(
                                           fontSize: D.H / 50,
                                           color: ColorConstants.skyBlue,

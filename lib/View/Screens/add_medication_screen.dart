@@ -58,7 +58,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
   @override
   void initState() {
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       getMedicationContent();
     });
 
@@ -364,7 +364,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                   child: CustomDateField(
                                     onTap: () {
                                       FocusManager.instance.primaryFocus?.unfocus();
-                                      _selectDate(context, sDateController,sDate);
+                                      _selectDateS(context, sDateController,sDate);
                                     },
                                     controller: sDateController,
                                     iconPath: "assets/images/ic_date.svg",
@@ -396,7 +396,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                   child: CustomDateField(
                                     onTap: () {
                                       FocusManager.instance.primaryFocus?.unfocus();
-                                      _selectDate(context, eDateController,eDate);
+                                      _selectDateSE(context, eDateController,eDate);
                                     },
                                     controller: eDateController,
                                     iconPath: "assets/images/ic_date.svg",
@@ -516,7 +516,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context, final controller,int Date) async {
+  Future<void> _selectDateS(BuildContext context, final controller,int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -530,9 +530,31 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
 
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
-        final String sDate = formatter2.format(picked);
-        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDate);
-        Date=dateTimeFormat.millisecondsSinceEpoch;
+        final String sDatee = formatter2.format(picked);
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
+        sDate=dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:"+Date.toString());
+      });
+    }
+  }
+
+  Future<void> _selectDateSE(BuildContext context, final controller,int Date) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        final DateFormat formatter = DateFormat('dd-MM-yy');
+        final String startDate = formatter.format(picked);
+        controller.text = startDate.toString();
+
+
+        final DateFormat formatter2 = DateFormat('dd-MM-yyy');
+        final String sDatee = formatter2.format(picked);
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
+        eDate=dateTimeFormat.millisecondsSinceEpoch;
         print("Date:"+Date.toString());
       });
     }

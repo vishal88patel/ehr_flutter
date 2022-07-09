@@ -33,7 +33,7 @@ class _CommentScreenState extends State<CommentScreen> {
   @override
   void initState() {
 
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       getPainData();
     });
 

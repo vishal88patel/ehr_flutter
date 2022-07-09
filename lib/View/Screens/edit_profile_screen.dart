@@ -5,6 +5,7 @@ import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:ehr/View/Screens/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
@@ -44,7 +45,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void initState() {
-   getData();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      getDataa();
+    });
+
     super.initState();
   }
 
@@ -177,11 +181,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         color: ColorConstants.blueBtn,
                         onTap: () async {
                           updateProfile(
-                            lastName: lNameController.text.toString(),
+                              lastName: lNameController.text.toString(),
                               firstName: fNameController.text.toString(),
-                               birthdate: birthdate,
-                            email: emailController.text,
-                            gender: 1
+                              birthdate: birthdate,
+                              email: emailController.text,
+                              gender: 1
                           );
                         },
                         text: "Update",
@@ -198,28 +202,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  getData() async {
-    dataModel = (await PreferenceUtils.getDataObject('OtpVerificationResponse'))!;
+  getDataa() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.getProfile;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString(
+          "ACCESSTOKEN")}',
+    };
 
-    if(dataModel!=null){
-      firstName=dataModel.firstName!;
-      lastName=dataModel.lastName!;
-      email=dataModel.email!;
-      phone=dataModel.phoneNumber!;
-      birthdate=dataModel.birthdate!;
-
-      fNameController.text=firstName;
-      lNameController.text=lastName;
-      emailController.text=email;
-      phoneController.text=phone;
-    }else{
-
-    }
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    CommonUtils.hideProgressDialog(context);
+    dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
+    fNameController.text = dataModel.firstName.toString();
+    lNameController.text = dataModel.lastName.toString();
+    emailController.text = dataModel.email.toString();
+    phoneController.text = dataModel.phoneNumber.toString();
     setState(() {
 
     });
   }
-
   Future<void> updateProfile({
     required String firstName,
     required String lastName,
@@ -254,7 +258,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Register Successfully");
+      CommonUtils.showGreenToastMessage("Data Updated Successfully");
       NavigationHelpers.redirect(context, OtpVerificationScreen());
     } else {
       CommonUtils.hideProgressDialog(context);

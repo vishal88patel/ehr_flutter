@@ -377,7 +377,18 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                       child: CustomButton(
                         color: ColorConstants.blueBtn,
                         onTap: () {
-                          saveSchedule();
+                          if(_selectedDay==null){
+                            CommonUtils.showRedToastMessage("Please Select Date");
+                          }
+                          else if (timee==null){
+                            CommonUtils.showRedToastMessage("Please Select Time");
+                          }
+                          else if (commentController.text.isEmpty){
+                            CommonUtils.showRedToastMessage("Please Enter Comment");
+                          }
+                          else{
+                            saveSchedule();
+                          }
                           //NavigationHelpers.redirect(context, OtpScreen());
                         },
                         text: "Save",
@@ -422,7 +433,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
         var dateFormat = DateFormat("h:mm a");
         timee=dateFormat.format(tempDate);
         var time=timee.toString().split(" ");
-        timeController.text=time![0];
+        timeController.text=time[0];
         ampmController.text=time[1];
         print(_selectedTime);
       });

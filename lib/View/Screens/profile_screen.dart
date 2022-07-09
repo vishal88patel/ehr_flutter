@@ -47,10 +47,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool photouploaded = false;
   var bytesss;
   String isFromAnotherScreen="0";
+  var userName="User Name";
 
   @override
   void initState() {
     getData();
+
     super.initState();
   }
   @override
@@ -175,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: D.H / 40),
                   Text(
-                    "UserName",
+                    userName,
                     style: GoogleFonts.inter(
                         fontSize: D.H / 40, fontWeight: FontWeight.w700),
                   ),
@@ -208,9 +210,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 SvgPicture.asset(
                                   "assets/images/ic_edit_profile.svg",
+                                  width: 15,height: 23,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 14.0),
+                                  padding: const EdgeInsets.only(left: 6.0),
                                   child: Text(
                                     "Edit Profile",
                                     style: GoogleFonts.inter(
@@ -240,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Row(
                               children: [
                                 SvgPicture.asset(
-                                  "assets/images/ic_change_pass.svg",
+                                  "assets/images/ic_change_pass.svg", width: 20,height: 23,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 14.0),
@@ -273,10 +276,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Row(
                               children: [
                                 SvgPicture.asset(
-                                  "assets/images/ic_help.svg",
+                                  "assets/images/ic_help.svg", width: 20,height: 23,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 14.0),
+                                  padding: const EdgeInsets.only(left: 15.0),
                                   child: Text(
                                     "Help",
                                     style: GoogleFonts.inter(
@@ -302,10 +305,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Row(
                             children: [
                               SvgPicture.asset(
-                                "assets/images/ic_logout.svg",
+                                "assets/images/ic_logout.svg", width: 20,height: 23,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 14.0),
+                                padding: const EdgeInsets.only(left: 11.0),
                                 child: Text(
                                   "Logout",
                                   style: GoogleFonts.inter(
@@ -355,7 +358,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       headers: headers,
     );
     dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
-    imageUrll=dataModel.profilePicture!;
+    userName=dataModel.firstName!+" "+ dataModel.lastName.toString();
+    if(dataModel.profilePicture!.isEmpty){
+      imageUrll="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg";
+    }else{
+      imageUrll=dataModel.profilePicture!;
+
+    }
     setState(() {
 
     });

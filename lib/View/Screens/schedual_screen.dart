@@ -48,7 +48,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       getSchedule(DateTime.now().month.toString(),DateTime.now().year.toString());
     });
 
@@ -258,9 +258,10 @@ class _SchedualScreenState extends State<SchedualScreen> {
                             SlidableAction(
                               padding: EdgeInsets.all(0),
                               onPressed: (BuildContext context) {
-                                scheduleList.removeAt(index);
                                 setState(() {});
                                 deleteSchedule(scheduleList[index].usersScheduleId);
+                                scheduleList.removeAt(index);
+
                               },
                               backgroundColor: Color(0xFFFE4A49),
                               foregroundColor: Colors.white,
@@ -436,7 +437,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
       }
       CommonUtils.hideProgressDialog(context);
       setState(() {});
-      CommonUtils.showGreenToastMessage("get schedule Successfully");
+      // CommonUtils.showGreenToastMessage("get schedule Successfully");
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
@@ -467,7 +468,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       setState(() {});
-      _showSnackBar(context, "Delete");
+      // _showSnackBar(context, "Delete");
     } else {
       
       CommonUtils.showRedToastMessage(res["message"]);

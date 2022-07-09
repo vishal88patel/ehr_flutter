@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ehr/Model/testResultType_model.dart';
 import 'package:ehr/View/Screens/body_detail_screen.dart';
 import 'package:ehr/View/Screens/comment_screen.dart';
-import 'package:ehr/View/Screens/login_screen.dart';
 import 'package:ehr/View/Screens/medication_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +19,6 @@ import 'package:intl/intl.dart';
 import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
 import '../../CustomWidgets/chart_widget.dart';
-import '../../CustomWidgets/custom_search_bar.dart';
-import '../../CustomWidgets/custom_search_bar2.dart';
 import '../../Model/imageType_model.dart';
 import '../../Model/lab_screen_response_model.dart';
 import '../../Model/otp_verification_model.dart';
@@ -37,8 +34,7 @@ class LabScreen extends StatefulWidget {
   _LabScreenState createState() => _LabScreenState();
 }
 
-class _LabScreenState extends State<LabScreen>
-    with TickerProviderStateMixin {
+class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   TextEditingController controller = TextEditingController();
   late TabController _tabController;
   var _selectedFood = "after";
@@ -46,11 +42,9 @@ class _LabScreenState extends State<LabScreen>
   String? _choosenLabValue;
   String? _choosenimageValue;
 
-
   final commentController = TextEditingController();
   final valueController = TextEditingController();
   final discController = TextEditingController();
-
 
   var imageId = 0;
   var testTypeId = 0;
@@ -75,14 +69,12 @@ class _LabScreenState extends State<LabScreen>
   void initState() {
     getTestResultTypes();
     getImagineTypes();
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       getLabScreenApi();
     });
 
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -117,1913 +109,2096 @@ class _LabScreenState extends State<LabScreen>
             )
           ],
         ),
-        body: _labScreenResponseModelodel.pains != null
-            ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: CUstomSearchBar2(
-                      //           function: () {},
-                      //           controller: controller,
-                      //           readOnly: false,
-                      //           hint: "Type",
-                      //           validators: (e) {},
-                      //           keyboardTYPE: TextInputType.name),
-                      //     ),
-                      //   ],
-                      // ),
-                      SizedBox(height: 8,),
-                      Card(
-                        color: Colors.white,
-                        elevation: 5,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                            bottomRight: Radius.circular(5),
-                          ),
+        body: RefreshIndicator(
+          color: ColorConstants.primaryBlueColor,
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                getLabScreenApi();
+              },
+            );
+          },
+          child: _labScreenResponseModelodel.pains != null
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  child: SingleChildScrollView(
+                    primary: false,
+                    child: Column(
+                      children: [
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: CUstomSearchBar2(
+                        //           function: () {},
+                        //           controller: controller,
+                        //           readOnly: false,
+                        //           hint: "Type",
+                        //           validators: (e) {},
+                        //           keyboardTYPE: TextInputType.name),
+                        //     ),
+                        //   ],
+                        // ),
+                        SizedBox(
+                          height: 8,
                         ),
-                        child: Container(
-                          padding: EdgeInsets.only(
-                            right: D.W / 26,
+                        Card(
+                          color: Colors.white,
+                          elevation: 5,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                              bottomLeft: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
+                            ),
                           ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: D.W / 30.0, left: D.W / 30.0,bottom: D.W / 30.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5.0),
-                                      child: Text(
-                                        "Comments",
-                                        style: GoogleFonts.heebo(
-                                            fontSize: 18,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.normal),
+                          child: Container(
+                            padding: EdgeInsets.only(
+                              right: D.W / 26,
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: D.W / 30.0,
+                                      left: D.W / 30.0,
+                                      bottom: D.W / 30.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 5.0),
+                                        child: Text(
+                                          "Comments",
+                                          style: GoogleFonts.heebo(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal),
+                                        ),
                                       ),
-                                    ),
-                                    InkWell(
-                                        onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => BodyDetailScreen())).then((value) => getLabScreenApiWithoutPop());
-                                        },
-                                        child: SvgPicture.asset(
-                                            "assets/images/ic_add_plus.svg"))
-                                  ],
-                                ),
-                              ),
-                              _labScreenResponseModelodel
-                                  .pains!.isEmpty?Container() :Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: _labScreenResponseModelodel
-                                                  .pains!.length >=
-                                              3
-                                          ? 3
-                                          : _labScreenResponseModelodel
-                                              .pains!.length,
-                                      shrinkWrap: true,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Container(
-                                          child: Center(
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: D.W / 40.0,
-                                                      top: D.H / 80),
-                                                  child: Row(
-                                                    children: [
-                                                      Card(
-                                                          color: ColorConstants
-                                                              .bgImage,
-                                                          shape:
-                                                              const RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                              topLeft: Radius
-                                                                  .circular(8),
-                                                              topRight: Radius
-                                                                  .circular(8),
-                                                              bottomLeft: Radius
-                                                                  .circular(8),
-                                                              bottomRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          8),
-                                                            ),
-                                                          ),
-                                                          elevation: 0,
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    D.W / 50),
-                                                            child: SvgPicture.asset(
-                                                                "assets/images/ic_message.svg"),
-                                                          )),
-                                                      SizedBox(width: D.H / 80),
-                                                      Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            _labScreenResponseModelodel
-                                                                .pains![index]
-                                                                .bodyPart
-                                                                .toString(),
-                                                            style: GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 52,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700),
-                                                          ),
-                                                          Text(
-                                                            _labScreenResponseModelodel
-                                                                .pains![index]
-                                                                .description
-                                                                .toString(),
-                                                            style: GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 52,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: D.H / 80,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 4.0,
-                                                          right: 4.0),
-                                                  child: Container(
-                                                    height: 1.0,
-                                                    color: ColorConstants
-                                                        .lineColor,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Container(
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          color: Colors.blue.withOpacity(0.1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4))),
-                                      child: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen())).then((value) => getLabScreenApiWithoutPop());
+                                      InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            BodyDetailScreen()))
+                                                .then((value) =>
+                                                    getLabScreenApiWithoutPop());
                                           },
-                                          child: Text(
-                                            "See more",
-                                            style: GoogleFonts.heebo(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                                color: ColorConstants.skyBlue),
-                                          ))),
-                                  SizedBox(
-                                    height: D.H / 40,
+                                          child: SvgPicture.asset(
+                                              "assets/images/ic_add_plus.svg"))
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Card(
-                        color: Colors.white,
-                        elevation: 5,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                            bottomRight: Radius.circular(5),
-                          ),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.only(
-                            right: D.W / 26,
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: D.W / 30.0, left: D.W / 30.0,bottom: D.W / 30.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5.0),
-                                      child: Text(
-                                        "Medications",
-                                        style: GoogleFonts.heebo(
-                                            fontSize: 18,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ),
-                                    InkWell(
-                                        onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AddMedicationScreen())).then((value) {
-                                            getLabScreenApiWithoutPop();
-                                          });
-                                        },
-                                        child: SvgPicture.asset(
-                                            "assets/images/ic_add_plus.svg"))
-                                  ],
                                 ),
-                              ),
-                              _labScreenResponseModelodel
-                                  .medications!.isEmpty?Container():Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  ListView.builder(
-                                      itemCount: _labScreenResponseModelodel
-                                                  .medications!.length >=
-                                              3
-                                          ? 3
-                                          : _labScreenResponseModelodel
-                                              .medications!.length,
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        var millis = _labScreenResponseModelodel
-                                            .medications![index].created;
-                                        var dt =
-                                            DateTime.fromMillisecondsSinceEpoch(
-                                                millis!);
-                                        var d24 = DateFormat('dd/MM/yyyy')
-                                            .format(dt); // 31/12/2000, 22:00
-
-                                        var userName =
-                                            getUserName!.firstName.toString();
-                                        var date = d24.toString();
-                                        return Container(
-                                          padding: EdgeInsets.only(
-                                              left: D.W / 40.0, top: D.H / 80),
-                                          child: Center(
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Row(
+                                _labScreenResponseModelodel.pains!.isEmpty
+                                    ? Container()
+                                    : Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          ListView.builder(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemCount:
+                                                  _labScreenResponseModelodel
+                                                              .pains!.length >=
+                                                          3
+                                                      ? 3
+                                                      : _labScreenResponseModelodel
+                                                          .pains!.length,
+                                              shrinkWrap: true,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Container(
+                                                  child: Center(
+                                                    child: Column(
                                                       children: [
-                                                        Card(
-                                                            color: ColorConstants
-                                                                .bgImage,
-                                                            shape:
-                                                            const RoundedRectangleBorder(
-                                                              borderRadius:
-                                                              BorderRadius.only(
-                                                                topLeft:
-                                                                Radius.circular(
-                                                                    8),
-                                                                topRight:
-                                                                Radius.circular(
-                                                                    8),
-                                                                bottomLeft:
-                                                                Radius.circular(
-                                                                    8),
-                                                                bottomRight:
-                                                                Radius.circular(
-                                                                    8),
-                                                              ),
-                                                            ),
-                                                            elevation: 0,
-                                                            child: Padding(
-                                                              padding:
-                                                              EdgeInsets.all(
-                                                                  D.W / 60),
-                                                              child: SvgPicture.asset(
-                                                                  "assets/images/ic_bowl.svg"),
-                                                            )),
-                                                        SizedBox(width: D.W/50,),
-                                                        Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                              _labScreenResponseModelodel
-                                                                  .medications![
-                                                              index]
-                                                                  .medicationName
-                                                                  .toString(),
-                                                              style: GoogleFonts.heebo(
-                                                                  fontSize:
-                                                                  D.H /
-                                                                      52,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                            ),
-                                                            Text(
-                                                              "Hill ${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
-                                                              // "Hil 250 mg 2/Day",
-                                                              style: GoogleFonts.heebo(
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: D.W /
+                                                                      40.0,
+                                                                  top:
+                                                                      D.H / 80),
+                                                          child: Row(
+                                                            children: [
+                                                              Card(
                                                                   color: ColorConstants
-                                                                      .blueBtn,
-                                                                  fontSize:
-                                                                  D.H /
-                                                                      66,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                SvgPicture.asset(
-                                                                    "assets/images/ic_doctor.svg"),
-                                                                Padding(
-                                                                  padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      left:
-                                                                      2.0,
-                                                                      top:
-                                                                      2.0),
-                                                                  child: Text(
-                                                                    userName
+                                                                      .bgImage,
+                                                                  shape:
+                                                                      const RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .only(
+                                                                      topLeft: Radius
+                                                                          .circular(
+                                                                              8),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                              8),
+                                                                      bottomLeft:
+                                                                          Radius.circular(
+                                                                              8),
+                                                                      bottomRight:
+                                                                          Radius.circular(
+                                                                              8),
+                                                                    ),
+                                                                  ),
+                                                                  elevation: 0,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: EdgeInsets
+                                                                        .all(D.W /
+                                                                            50),
+                                                                    child: SvgPicture
+                                                                        .asset(
+                                                                            "assets/images/ic_message.svg"),
+                                                                  )),
+                                                              SizedBox(
+                                                                  width:
+                                                                      D.H / 80),
+                                                              Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    _labScreenResponseModelodel
+                                                                        .pains![
+                                                                            index]
+                                                                        .bodyPart
                                                                         .toString(),
                                                                     style: GoogleFonts.heebo(
-                                                                        color: ColorConstants
-                                                                            .darkText,
                                                                         fontSize:
-                                                                        D.H /
-                                                                            66,
+                                                                            D.H /
+                                                                                52,
                                                                         fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
+                                                                            FontWeight.w700),
                                                                   ),
-                                                                ),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-
-                                                    Padding(
-                                                      padding: EdgeInsets.only(right: D.W/30),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Container(
-                                                                height:
-                                                                D.W /
-                                                                    30,
-                                                                width: D.W /
-                                                                    30,
-                                                                decoration: BoxDecoration(
-                                                                    borderRadius:
-                                                                    BorderRadius.all(Radius.circular(
-                                                                        25)),
-                                                                    color: ColorConstants
-                                                                        .lightRed),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 3,
-                                                              ),
-                                                              Text(
-                                                                _labScreenResponseModelodel
-                                                                    .medications![
-                                                                index]
-                                                                    .medicationFood
-                                                                    .toString(),
-                                                                style: GoogleFonts.heebo(
-                                                                    color: Colors
-                                                                        .black
-                                                                        .withOpacity(0.3)),
+                                                                  Text(
+                                                                    _labScreenResponseModelodel
+                                                                        .pains![
+                                                                            index]
+                                                                        .description
+                                                                        .toString(),
+                                                                    style: GoogleFonts.heebo(
+                                                                        fontSize:
+                                                                            D.H /
+                                                                                52,
+                                                                        fontWeight:
+                                                                            FontWeight.w400),
+                                                                  ),
+                                                                ],
                                                               )
                                                             ],
                                                           ),
-                                                          Text(
-                                                            date.toString(),
-                                                            style: GoogleFonts.heebo(
-                                                                color: Colors
-                                                                    .black
-                                                                    .withOpacity(
-                                                                        0.3)),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: D.H / 80,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 4.0,
-                                                          right: 4.0),
-                                                  child: Container(
-                                                    height: 1.0,
-                                                    color: ColorConstants
-                                                        .lineColor,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Container(
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          color: Colors.blue.withOpacity(0.1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4))),
-                                      child: TextButton(
-                                          onPressed: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => MedicationScreen())).then((value) {
-                                                getLabScreenApiWithoutPop();
-                                              });
-                                          },
-                                          child: Text(
-                                            "See more",
-                                            style: GoogleFonts.heebo(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                                color: ColorConstants.skyBlue),
-                                          ))),
-                                  SizedBox(
-                                    height: D.H / 40,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Card(
-                        color: Colors.white,
-                        elevation: 5,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                            bottomRight: Radius.circular(5),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: D.W / 30.0,
-                                  left: D.W / 30.0,
-                                  bottom: D.W / 30.0,
-                                  right: D.W / 26),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5.0),
-                                    child: Text(
-                                      "Labs",
-                                      style: GoogleFonts.heebo(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.normal),
-                                    ),
-                                  ),
-                                  InkWell(
-                                      onTap: () {
-                                        valueController.text="";
-                                        _choosenLabValue=testResultTypesData[0].testType;
-                                        showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              StatefulBuilder(
-                                            builder: (BuildContext context,
-                                                    void Function(
-                                                            void Function())
-                                                        setState) =>
-                                                AlertDialog(
-                                              contentPadding: EdgeInsets.all(0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(18),
-                                                ),
-                                              ),
-                                              content: Container(
-                                                width: D.W / 1.25,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: D.W / 40,
-                                                          right: D.W / 40),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Icon(
-                                                              Icons.close,
-                                                              size: D.W / 20,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "Add Test results",
-                                                          style:
-                                                              GoogleFonts.heebo(
-                                                                  fontSize:
-                                                                      D.H / 38,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
                                                         ),
+                                                        SizedBox(
+                                                          height: D.H / 80,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 4.0,
+                                                                  right: 4.0),
+                                                          child: Container(
+                                                            height: 1.0,
+                                                            color:
+                                                                ColorConstants
+                                                                    .lineColor,
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Container(
-                                                      height: 1,
-                                                      color:
-                                                          ColorConstants.line,
+                                                  ),
+                                                );
+                                              }),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Container(
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.blue
+                                                      .withOpacity(0.1),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(4))),
+                                              child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                CommentScreen())).then(
+                                                        (value) =>
+                                                            getLabScreenApiWithoutPop());
+                                                  },
+                                                  child: Text(
+                                                    "See more",
+                                                    style: GoogleFonts.heebo(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: ColorConstants
+                                                            .skyBlue),
+                                                  ))),
+                                          SizedBox(
+                                            height: D.H / 40,
+                                          ),
+                                        ],
+                                      ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Card(
+                          color: Colors.white,
+                          elevation: 5,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                              bottomLeft: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
+                            ),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.only(
+                              right: D.W / 26,
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: D.W / 30.0,
+                                      left: D.W / 30.0,
+                                      bottom: D.W / 30.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 5.0),
+                                        child: Text(
+                                          "Medications",
+                                          style: GoogleFonts.heebo(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ),
+                                      InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AddMedicationScreen()))
+                                                .then((value) {
+                                              getLabScreenApiWithoutPop();
+                                            });
+                                          },
+                                          child: SvgPicture.asset(
+                                              "assets/images/ic_add_plus.svg"))
+                                    ],
+                                  ),
+                                ),
+                                _labScreenResponseModelodel.medications!.isEmpty
+                                    ? Container()
+                                    : Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          ListView.builder(
+                                              itemCount:
+                                                  _labScreenResponseModelodel
+                                                              .medications!
+                                                              .length >=
+                                                          3
+                                                      ? 3
+                                                      : _labScreenResponseModelodel
+                                                          .medications!.length,
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                var millis =
+                                                    _labScreenResponseModelodel
+                                                        .medications![index]
+                                                        .created;
+                                                var dt = DateTime
+                                                    .fromMillisecondsSinceEpoch(
+                                                        millis!);
+                                                var d24 = DateFormat(
+                                                        'dd/MM/yyyy')
+                                                    .format(
+                                                        dt); // 31/12/2000, 22:00
+
+                                                var userName = getUserName!
+                                                    .firstName
+                                                    .toString();
+                                                var date = d24.toString();
+                                                return Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: D.W / 40.0,
+                                                      top: D.H / 80),
+                                                  child: Center(
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Card(
+                                                                    color: ColorConstants
+                                                                        .bgImage,
+                                                                    shape:
+                                                                        const RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .only(
+                                                                        topLeft:
+                                                                            Radius.circular(8),
+                                                                        topRight:
+                                                                            Radius.circular(8),
+                                                                        bottomLeft:
+                                                                            Radius.circular(8),
+                                                                        bottomRight:
+                                                                            Radius.circular(8),
+                                                                      ),
+                                                                    ),
+                                                                    elevation:
+                                                                        0,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: EdgeInsets
+                                                                          .all(D.W /
+                                                                              60),
+                                                                      child: SvgPicture
+                                                                          .asset(
+                                                                              "assets/images/ic_bowl.svg"),
+                                                                    )),
+                                                                SizedBox(
+                                                                  width:
+                                                                      D.W / 50,
+                                                                ),
+                                                                Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      _labScreenResponseModelodel
+                                                                          .medications![
+                                                                              index]
+                                                                          .medicationName
+                                                                          .toString(),
+                                                                      style: GoogleFonts.heebo(
+                                                                          fontSize: D.H /
+                                                                              52,
+                                                                          fontWeight:
+                                                                              FontWeight.w400),
+                                                                    ),
+                                                                    Text(
+                                                                      "Hill ${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
+                                                                      // "Hil 250 mg 2/Day",
+                                                                      style: GoogleFonts.heebo(
+                                                                          color: ColorConstants
+                                                                              .blueBtn,
+                                                                          fontSize: D.H /
+                                                                              66,
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                    ),
+                                                                    Row(
+                                                                      children: [
+                                                                        SvgPicture.asset(
+                                                                            "assets/images/ic_doctor.svg"),
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              left: 2.0,
+                                                                              top: 2.0),
+                                                                          child:
+                                                                              Text(
+                                                                            userName.toString(),
+                                                                            style: GoogleFonts.heebo(
+                                                                                color: ColorConstants.darkText,
+                                                                                fontSize: D.H / 66,
+                                                                                fontWeight: FontWeight.w400),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      right: D.W /
+                                                                          30),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Container(
+                                                                        height:
+                                                                            D.W /
+                                                                                30,
+                                                                        width: D.W /
+                                                                            30,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius:
+                                                                                BorderRadius.all(Radius.circular(25)),
+                                                                            color: ColorConstants.lightRed),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            3,
+                                                                      ),
+                                                                      Text(
+                                                                        _labScreenResponseModelodel
+                                                                            .medications![index]
+                                                                            .medicationFood
+                                                                            .toString(),
+                                                                        style: GoogleFonts.heebo(
+                                                                            color:
+                                                                                Colors.black.withOpacity(0.3)),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    date.toString(),
+                                                                    style: GoogleFonts.heebo(
+                                                                        color: Colors
+                                                                            .black
+                                                                            .withOpacity(0.3)),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: D.H / 80,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 4.0,
+                                                                  right: 4.0),
+                                                          child: Container(
+                                                            height: 1.0,
+                                                            color:
+                                                                ColorConstants
+                                                                    .lineColor,
+                                                          ),
+                                                        )
+                                                      ],
                                                     ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Text(
-                                                        "Type",
-                                                        style:
-                                                            GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 52,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 240),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Container(
+                                                  ),
+                                                );
+                                              }),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Container(
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.blue
+                                                      .withOpacity(0.1),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(4))),
+                                              child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                MedicationScreen())).then(
+                                                        (value) {
+                                                      getLabScreenApiWithoutPop();
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    "See more",
+                                                    style: GoogleFonts.heebo(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: ColorConstants
+                                                            .skyBlue),
+                                                  ))),
+                                          SizedBox(
+                                            height: D.H / 40,
+                                          ),
+                                        ],
+                                      )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Card(
+                          color: Colors.white,
+                          elevation: 5,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                              bottomLeft: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: D.W / 30.0,
+                                    left: D.W / 30.0,
+                                    bottom: D.W / 30.0,
+                                    right: D.W / 26),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5.0),
+                                      child: Text(
+                                        "Labs",
+                                        style: GoogleFonts.heebo(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ),
+                                    InkWell(
+                                        onTap: () {
+                                          valueController.text = "";
+                                          _choosenLabValue =
+                                              testResultTypesData[0].testType;
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                StatefulBuilder(
+                                              builder: (BuildContext context,
+                                                      void Function(
+                                                              void Function())
+                                                          setState) =>
+                                                  AlertDialog(
+                                                contentPadding:
+                                                    EdgeInsets.all(0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(18),
+                                                  ),
+                                                ),
+                                                content: Container(
+                                                  width: D.W / 1.25,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Padding(
                                                         padding:
                                                             EdgeInsets.only(
-                                                                left: D.W / 30,
+                                                                top: D.W / 40,
                                                                 right:
-                                                                    D.W / 60),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            border: Border.all(
-                                                                color:
-                                                                    ColorConstants
-                                                                        .border),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8))),
-                                                        child: DropdownButton<
-                                                            String>(
-                                                          isExpanded: true,
-                                                          focusColor:
-                                                              Colors.black,
-                                                          value:
-                                                              _choosenLabValue,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black),
-                                                          iconEnabledColor:
-                                                              ColorConstants
-                                                                  .lightGrey,
-                                                          icon: Icon(Icons
-                                                              .arrow_drop_down_sharp),
-                                                          iconSize: 32,
-                                                          underline: Container(
-                                                              color: Colors
-                                                                  .transparent),
-                                                          items: testResultTypesData.map((items) {
-                                                            return DropdownMenuItem(
-                                                              value: items.testType,
-                                                              child: Padding(
-                                                                padding: EdgeInsets.only(left: 10),
-                                                                child: Text(items.testType.toString(),
-                                                                  style: TextStyle(fontSize: 15.0),
-                                                                ),
+                                                                    D.W / 40),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Icon(
+                                                                Icons.close,
+                                                                size: D.W / 20,
                                                               ),
-                                                            );
-                                                          }).toList(),
-                                                          hint: Text(
-                                                            "Type",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize:
-                                                                    D.H / 48,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                          ),
-                                                          onChanged:
-                                                              (String? value) {
-                                                            setState(() {_choosenLabValue = value;
-                                                              for (int i = 0;
-                                                                  i < testResultTypesData.length; i++) {
-                                                                if (testResultTypesData[i].testType == _choosenLabValue) {
-                                                                  testTypeId = testResultTypesData[i].testTypeId!;
-                                                                  print("dropdownvalueId:" +
-                                                                      testTypeId
-                                                                          .toString());
-                                                                }
-                                                              }
-                                                            });
-                                                          },
+                                                            )
+                                                          ],
                                                         ),
                                                       ),
-                                                    ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Text(
-                                                        "Value",
-                                                        style:
-                                                            GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 52,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 240),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child:
-                                                          CustomWhiteTextFormField(
-                                                        controller:
-                                                            valueController,
-                                                        readOnly: false,
-                                                        validators: (e) {
-                                                          if (valueController
-                                                                      .text ==
-                                                                  null ||
-                                                              valueController
-                                                                      .text ==
-                                                                  '') {
-                                                            return '*Value';
-                                                          }
-                                                        },
-                                                        keyboardTYPE:
-                                                            TextInputType.text,
-                                                        obscured: false,
-                                                        maxlength: 100,
-                                                        maxline: 1,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 40),
-                                                    Container(
-                                                      height: 1,
-                                                      color:
-                                                          ColorConstants.line,
-                                                    ),
-                                                    SizedBox(height: D.H / 80),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        InkWell(
-                                                          onTap: () {
-                                                            if (_choosenLabValue!
-                                                                .isEmpty) {
-                                                              CommonUtils
-                                                                  .showRedToastMessage(
-                                                                      "Please Select Type");
-                                                            } else if (valueController
-                                                                .text.isEmpty) {
-                                                              CommonUtils
-                                                                  .showRedToastMessage(
-                                                                      "Please add Value");
-                                                            } else {
-                                                              saveTestResult();
-                                                            }
-                                                          },
-                                                          child: Text(
-                                                            "OK",
-                                                            style: GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 33,
-                                                                color:
-                                                                    ColorConstants
-                                                                        .skyBlue,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: D.H / 80),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: SvgPicture.asset(
-                                          "assets/images/ic_add_plus.svg"))
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: D.H / 180,
-                            ),
-                            tabList.isEmpty?Container():SizedBox(
-                              height: 48,
-                              child: AppBar(
-                                backgroundColor: Colors.white,
-                                elevation: 0,
-                                bottom: TabBar(
-                                  indicatorColor:
-                                      ColorConstants.primaryBlueColor,
-                                  controller: _tabController,
-                                  // tabs: [
-                                  //   hemoglobinList.isNotEmpty?Tab(
-                                  //     child: Text(
-                                  //       "Hemoglobin",
-                                  //       style: GoogleFonts.heebo(
-                                  //           fontSize: 12,
-                                  //           color: Colors.black,
-                                  //           fontWeight: FontWeight.normal),
-                                  //     ),
-                                  //   ):Container(),
-                                  //   bloodPressureList.isNotEmpty?Tab(
-                                  //     child: Text(
-                                  //       "Blood Pressure",
-                                  //       style: GoogleFonts.heebo(
-                                  //           fontSize: 12,
-                                  //           color: Colors.black,
-                                  //           fontWeight: FontWeight.normal),
-                                  //     ),
-                                  //   ):Container(),
-                                  //   heartRateList.isNotEmpty?Tab(
-                                  //     child: Text(
-                                  //       "Heart Rate",
-                                  //       style: GoogleFonts.heebo(
-                                  //           fontSize: 12,
-                                  //           color: Colors.black,
-                                  //           fontWeight: FontWeight.normal),
-                                  //     ),
-                                  //   ):Container(),
-                                  // ],
-                                  tabs: tabList,
-                                ),
-                              ),
-                            ),
-                            tabbodyList.isEmpty?Container():Container(
-                              height: 300,
-                              child: TabBarView(
-                                controller: _tabController,
-                                children: tabbodyList,
-                                // children: [
-                                //   // first tab bar view widget
-                                //   Container(),
-                                //   GraphWidget(),
-                                //   // second tab bar viiew widget
-                                //   Container(),
-                                // ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Card(
-                        color: Colors.white,
-                        elevation: 5,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8),
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: D.W / 30.0,
-                                  left: D.W / 30.0,
-                                  right: D.W / 26),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Imaging",
-                                    style: GoogleFonts.heebo(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  InkWell(
-                                      onTap: () {
-                                        selectedImagesList.clear();
-                                        discController.text = "";
-                                        showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              StatefulBuilder(
-                                            builder: (BuildContext context,
-                                                    void Function(
-                                                            void Function())
-                                                        State) =>
-                                                AlertDialog(
-                                              contentPadding: EdgeInsets.all(0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(18),
-                                                ),
-                                              ),
-                                              content: Container(
-                                                width: D.W / 1.25,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: D.W / 40,
-                                                          right: D.W / 40),
-                                                      child: Row(
+                                                      Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .end,
+                                                                .center,
                                                         children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Icon(
-                                                              Icons.close,
-                                                              size: D.W / 20,
-                                                            ),
-                                                          )
+                                                          Text(
+                                                            "Add Test results",
+                                                            style: GoogleFonts.heebo(
+                                                                fontSize:
+                                                                    D.H / 38,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
                                                         ],
                                                       ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "Imaging",
+                                                      SizedBox(
+                                                          height: D.H / 60),
+                                                      Container(
+                                                        height: 1,
+                                                        color:
+                                                            ColorConstants.line,
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 60),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: D.W / 18,
+                                                                right:
+                                                                    D.W / 18),
+                                                        child: Text(
+                                                          "Type",
                                                           style:
                                                               GoogleFonts.heebo(
                                                                   fontSize:
-                                                                      D.H / 38,
+                                                                      D.H / 52,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w600),
+                                                                          .w400),
                                                         ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Container(
-                                                      height: 1,
-                                                      color:
-                                                          ColorConstants.line,
-                                                    ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: InkWell(
-                                                        onTap: () async {
-                                                          PickedFile?
-                                                              pickedFile =
-                                                              await ImagePicker()
-                                                                  .getImage(
-                                                            source: ImageSource
-                                                                .gallery,
-                                                            maxWidth: 1800,
-                                                            maxHeight: 1800,
-                                                          );
-                                                          if (pickedFile !=
-                                                              null) {
-                                                            State(() {
-                                                              var path =
-                                                                  pickedFile
-                                                                      .path;
-                                                              selectedImagesList
-                                                                  .add(path);
-                                                            });
-                                                          }
-                                                        },
-                                                        child: Row(
-                                                          children: [
-                                                            Card(
-                                                                color:
-                                                                    ColorConstants
-                                                                        .bgImage,
-                                                                shape:
-                                                                    const RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .only(
-                                                                    topLeft: Radius
-                                                                        .circular(
-                                                                            8),
-                                                                    topRight: Radius
-                                                                        .circular(
-                                                                            8),
-                                                                    bottomLeft:
-                                                                        Radius.circular(
-                                                                            8),
-                                                                    bottomRight:
-                                                                        Radius.circular(
-                                                                            8),
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 240),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: D.W / 18,
+                                                                right:
+                                                                    D.W / 18),
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left:
+                                                                      D.W / 30,
+                                                                  right:
+                                                                      D.W / 60),
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              border: Border.all(
+                                                                  color: ColorConstants
+                                                                      .border),
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          8))),
+                                                          child: DropdownButton<
+                                                              String>(
+                                                            isExpanded: true,
+                                                            focusColor:
+                                                                Colors.black,
+                                                            value:
+                                                                _choosenLabValue,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black),
+                                                            iconEnabledColor:
+                                                                ColorConstants
+                                                                    .lightGrey,
+                                                            icon: Icon(Icons
+                                                                .arrow_drop_down_sharp),
+                                                            iconSize: 32,
+                                                            underline: Container(
+                                                                color: Colors
+                                                                    .transparent),
+                                                            items:
+                                                                testResultTypesData
+                                                                    .map(
+                                                                        (items) {
+                                                              return DropdownMenuItem(
+                                                                value: items
+                                                                    .testType,
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10),
+                                                                  child: Text(
+                                                                    items
+                                                                        .testType
+                                                                        .toString(),
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15.0),
                                                                   ),
                                                                 ),
-                                                                elevation: 0,
-                                                                child: Padding(
-                                                                  padding: EdgeInsets.only(
-                                                                      left: D.W /
-                                                                          50,
-                                                                      right:
-                                                                          D.W /
-                                                                              70,
-                                                                      top: D.W /
-                                                                          50,
-                                                                      bottom:
-                                                                          D.W /
-                                                                              50),
-                                                                  child: SvgPicture
-                                                                      .asset(
-                                                                          "assets/images/ic_upload_image.svg"),
-                                                                )),
-                                                            SizedBox(
-                                                                width:
-                                                                    D.H / 80),
-                                                            Text(
-                                                              "Upload Image",
+                                                              );
+                                                            }).toList(),
+                                                            hint: Text(
+                                                              "Type",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize:
+                                                                      D.H / 48,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                            ),
+                                                            onChanged: (String?
+                                                                value) {
+                                                              setState(() {
+                                                                _choosenLabValue =
+                                                                    value;
+                                                                for (int i = 0;
+                                                                    i <
+                                                                        testResultTypesData
+                                                                            .length;
+                                                                    i++) {
+                                                                  if (testResultTypesData[
+                                                                              i]
+                                                                          .testType ==
+                                                                      _choosenLabValue) {
+                                                                    testTypeId =
+                                                                        testResultTypesData[i]
+                                                                            .testTypeId!;
+                                                                    print("dropdownvalueId:" +
+                                                                        testTypeId
+                                                                            .toString());
+                                                                  }
+                                                                }
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 60),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: D.W / 18,
+                                                                right:
+                                                                    D.W / 18),
+                                                        child: Text(
+                                                          "Value",
+                                                          style:
+                                                              GoogleFonts.heebo(
+                                                                  fontSize:
+                                                                      D.H / 52,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 240),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: D.W / 18,
+                                                                right:
+                                                                    D.W / 18),
+                                                        child:
+                                                            CustomWhiteTextFormField(
+                                                          controller:
+                                                              valueController,
+                                                          readOnly: false,
+                                                          validators: (e) {
+                                                            if (valueController
+                                                                        .text ==
+                                                                    null ||
+                                                                valueController
+                                                                        .text ==
+                                                                    '') {
+                                                              return '*Value';
+                                                            }
+                                                          },
+                                                          keyboardTYPE:
+                                                              TextInputType
+                                                                  .text,
+                                                          obscured: false,
+                                                          maxlength: 100,
+                                                          maxline: 1,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 40),
+                                                      Container(
+                                                        height: 1,
+                                                        color:
+                                                            ColorConstants.line,
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 80),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              if (_choosenLabValue!
+                                                                  .isEmpty) {
+                                                                CommonUtils
+                                                                    .showRedToastMessage(
+                                                                        "Please Select Type");
+                                                              } else if (valueController
+                                                                  .text
+                                                                  .isEmpty) {
+                                                                CommonUtils
+                                                                    .showRedToastMessage(
+                                                                        "Please add Value");
+                                                              } else {
+                                                                saveTestResult();
+                                                              }
+                                                            },
+                                                            child: Text(
+                                                              "OK",
                                                               style: GoogleFonts.heebo(
                                                                   fontSize:
-                                                                      D.H / 38,
+                                                                      D.H / 33,
                                                                   color: ColorConstants
                                                                       .skyBlue,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w400),
                                                             ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 80),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/images/ic_add_plus.svg"))
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: D.H / 180,
+                              ),
+                              tabList.isEmpty
+                                  ? Container()
+                                  : SizedBox(
+                                      height: 48,
+                                      child: AppBar(
+                                        backgroundColor: Colors.white,
+                                        elevation: 0,
+                                        bottom: TabBar(
+                                          indicatorColor:
+                                              ColorConstants.primaryBlueColor,
+                                          controller: _tabController,
+                                          // tabs: [
+                                          //   hemoglobinList.isNotEmpty?Tab(
+                                          //     child: Text(
+                                          //       "Hemoglobin",
+                                          //       style: GoogleFonts.heebo(
+                                          //           fontSize: 12,
+                                          //           color: Colors.black,
+                                          //           fontWeight: FontWeight.normal),
+                                          //     ),
+                                          //   ):Container(),
+                                          //   bloodPressureList.isNotEmpty?Tab(
+                                          //     child: Text(
+                                          //       "Blood Pressure",
+                                          //       style: GoogleFonts.heebo(
+                                          //           fontSize: 12,
+                                          //           color: Colors.black,
+                                          //           fontWeight: FontWeight.normal),
+                                          //     ),
+                                          //   ):Container(),
+                                          //   heartRateList.isNotEmpty?Tab(
+                                          //     child: Text(
+                                          //       "Heart Rate",
+                                          //       style: GoogleFonts.heebo(
+                                          //           fontSize: 12,
+                                          //           color: Colors.black,
+                                          //           fontWeight: FontWeight.normal),
+                                          //     ),
+                                          //   ):Container(),
+                                          // ],
+                                          tabs: tabList,
+                                        ),
+                                      ),
+                                    ),
+                              tabbodyList.isEmpty
+                                  ? Container()
+                                  : Container(
+                                      height: 300,
+                                      child: TabBarView(
+                                        controller: _tabController,
+                                        children: tabbodyList,
+                                        // children: [
+                                        //   // first tab bar view widget
+                                        //   Container(),
+                                        //   GraphWidget(),
+                                        //   // second tab bar viiew widget
+                                        //   Container(),
+                                        // ],
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Card(
+                          color: Colors.white,
+                          elevation: 5,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(8),
+                              topRight: Radius.circular(8),
+                              bottomLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: D.W / 30.0,
+                                    left: D.W / 30.0,
+                                    right: D.W / 26),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Imaging",
+                                      style: GoogleFonts.heebo(
+                                          fontSize: 18,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    InkWell(
+                                        onTap: () {
+                                          selectedImagesList.clear();
+                                          discController.text = "";
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                StatefulBuilder(
+                                              builder: (BuildContext context,
+                                                      void Function(
+                                                              void Function())
+                                                          State) =>
+                                                  AlertDialog(
+                                                contentPadding:
+                                                    EdgeInsets.all(0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(18),
+                                                  ),
+                                                ),
+                                                content: Container(
+                                                  width: D.W / 1.25,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: D.W / 40,
+                                                                right:
+                                                                    D.W / 40),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Icon(
+                                                                Icons.close,
+                                                                size: D.W / 20,
+                                                              ),
+                                                            )
                                                           ],
                                                         ),
                                                       ),
-                                                    ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 12),
-                                                      height: 60,
-                                                      width: D.W / 1.25,
-                                                      child: ListView.builder(
-                                                        physics:
-                                                            BouncingScrollPhysics(),
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        itemCount:
-                                                            selectedImagesList
-                                                                    .length +
-                                                                1,
-                                                        itemBuilder: (context,
-                                                            position) {
-                                                          if (position ==
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                            "Imaging",
+                                                            style: GoogleFonts.heebo(
+                                                                fontSize:
+                                                                    D.H / 38,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 60),
+                                                      Container(
+                                                        height: 1,
+                                                        color:
+                                                            ColorConstants.line,
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 60),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: D.W / 18,
+                                                                right:
+                                                                    D.W / 18),
+                                                        child: InkWell(
+                                                          onTap: () async {
+                                                            PickedFile?
+                                                                pickedFile =
+                                                                await ImagePicker()
+                                                                    .getImage(
+                                                              source:
+                                                                  ImageSource
+                                                                      .gallery,
+                                                              maxWidth: 1800,
+                                                              maxHeight: 1800,
+                                                            );
+                                                            if (pickedFile !=
+                                                                null) {
+                                                              State(() {
+                                                                var path =
+                                                                    pickedFile
+                                                                        .path;
+                                                                selectedImagesList
+                                                                    .add(path);
+                                                              });
+                                                            }
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Card(
+                                                                  color: ColorConstants
+                                                                      .bgImage,
+                                                                  shape:
+                                                                      const RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .only(
+                                                                      topLeft: Radius
+                                                                          .circular(
+                                                                              8),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                              8),
+                                                                      bottomLeft:
+                                                                          Radius.circular(
+                                                                              8),
+                                                                      bottomRight:
+                                                                          Radius.circular(
+                                                                              8),
+                                                                    ),
+                                                                  ),
+                                                                  elevation: 0,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        left: D.W /
+                                                                            50,
+                                                                        right: D.W /
+                                                                            70,
+                                                                        top: D.W /
+                                                                            50,
+                                                                        bottom: D.W /
+                                                                            50),
+                                                                    child: SvgPicture
+                                                                        .asset(
+                                                                            "assets/images/ic_upload_image.svg"),
+                                                                  )),
+                                                              SizedBox(
+                                                                  width:
+                                                                      D.H / 80),
+                                                              Text(
+                                                                "Upload Image",
+                                                                style: GoogleFonts.heebo(
+                                                                    fontSize:
+                                                                        D.H /
+                                                                            38,
+                                                                    color: ColorConstants
+                                                                        .skyBlue,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 60),
+                                                      Container(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 12),
+                                                        height: 60,
+                                                        width: D.W / 1.25,
+                                                        child: ListView.builder(
+                                                          physics:
+                                                              BouncingScrollPhysics(),
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          itemCount:
                                                               selectedImagesList
-                                                                  .length) {
-                                                            return InkWell(
-                                                              onTap: () async {
-                                                                PickedFile?
-                                                                    pickedFile =
-                                                                    await ImagePicker()
-                                                                        .getImage(
-                                                                  source:
-                                                                      ImageSource
-                                                                          .gallery,
-                                                                  maxWidth:
-                                                                      1800,
-                                                                  maxHeight:
-                                                                      1800,
-                                                                );
-                                                                if (pickedFile !=
-                                                                    null) {
-                                                                  State(() {
-                                                                    var path =
-                                                                        pickedFile
-                                                                            .path;
-                                                                    selectedImagesList
-                                                                        .add(
-                                                                            path);
-                                                                  });
-                                                                }
-                                                              },
+                                                                      .length +
+                                                                  1,
+                                                          itemBuilder: (context,
+                                                              position) {
+                                                            if (position ==
+                                                                selectedImagesList
+                                                                    .length) {
+                                                              return InkWell(
+                                                                onTap:
+                                                                    () async {
+                                                                  PickedFile?
+                                                                      pickedFile =
+                                                                      await ImagePicker()
+                                                                          .getImage(
+                                                                    source: ImageSource
+                                                                        .gallery,
+                                                                    maxWidth:
+                                                                        1800,
+                                                                    maxHeight:
+                                                                        1800,
+                                                                  );
+                                                                  if (pickedFile !=
+                                                                      null) {
+                                                                    State(() {
+                                                                      var path =
+                                                                          pickedFile
+                                                                              .path;
+                                                                      selectedImagesList
+                                                                          .add(
+                                                                              path);
+                                                                    });
+                                                                  }
+                                                                },
+                                                                child: Stack(
+                                                                  clipBehavior:
+                                                                      Clip.none,
+                                                                  children: [
+                                                                    Card(
+                                                                        margin: EdgeInsets
+                                                                            .zero,
+                                                                        color: ColorConstants
+                                                                            .bgImage,
+                                                                        shape:
+                                                                            const RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(Radius.circular(10)),
+                                                                        ),
+                                                                        elevation:
+                                                                            0,
+                                                                        child:
+                                                                            Container(
+                                                                          height:
+                                                                              65,
+                                                                          width:
+                                                                              38,
+                                                                          margin:
+                                                                              EdgeInsets.all(12),
+                                                                          child:
+                                                                              SvgPicture.asset("assets/images/ic_gallary.svg"),
+                                                                        )),
+                                                                    Positioned(
+                                                                        right:
+                                                                            -5,
+                                                                        top: -5,
+                                                                        child: ClipRRect(
+                                                                            borderRadius: BorderRadius.circular(20),
+                                                                            child: Container(
+                                                                                color: ColorConstants.skyBlue,
+                                                                                child: const Icon(
+                                                                                  Icons.close,
+                                                                                  size: 20,
+                                                                                  color: Colors.white,
+                                                                                ))))
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }
+                                                            return Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          12.0),
                                                               child: Stack(
                                                                 clipBehavior:
                                                                     Clip.none,
                                                                 children: [
-                                                                  Card(
-                                                                      margin: EdgeInsets
-                                                                          .zero,
-                                                                      color: ColorConstants
-                                                                          .bgImage,
-                                                                      shape:
-                                                                          const RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.all(Radius.circular(10)),
-                                                                      ),
-                                                                      elevation:
-                                                                          0,
-                                                                      child:
-                                                                          Container(
-                                                                        height:
-                                                                            65,
-                                                                        width:
-                                                                            38,
-                                                                        margin:
-                                                                            EdgeInsets.all(12),
-                                                                        child: SvgPicture.asset(
-                                                                            "assets/images/ic_gallary.svg"),
-                                                                      )),
+                                                                  ClipRRect(
+                                                                    borderRadius: const BorderRadius
+                                                                            .all(
+                                                                        Radius.circular(
+                                                                            10)),
+                                                                    child: Image
+                                                                        .file(
+                                                                      File(selectedImagesList[
+                                                                          position]),
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      width: 55,
+                                                                      height:
+                                                                          60,
+                                                                    ),
+                                                                  ),
                                                                   Positioned(
                                                                       right: -5,
                                                                       top: -5,
-                                                                      child: ClipRRect(
-                                                                          borderRadius: BorderRadius.circular(20),
-                                                                          child: Container(
-                                                                              color: ColorConstants.skyBlue,
-                                                                              child: const Icon(
-                                                                                Icons.close,
-                                                                                size: 20,
-                                                                                color: Colors.white,
-                                                                              ))))
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          selectedImagesList
+                                                                              .removeAt(position);
+                                                                          State(
+                                                                              () {});
+                                                                        },
+                                                                        child: ClipRRect(
+                                                                            borderRadius: BorderRadius.circular(20),
+                                                                            child: Container(
+                                                                                color: ColorConstants.skyBlue,
+                                                                                child: Icon(
+                                                                                  Icons.close,
+                                                                                  size: 20,
+                                                                                  color: Colors.white,
+                                                                                ))),
+                                                                      ))
                                                                 ],
                                                               ),
                                                             );
-                                                          }
-                                                          return Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    right:
-                                                                        12.0),
-                                                            child: Stack(
-                                                              clipBehavior:
-                                                                  Clip.none,
-                                                              children: [
-                                                                ClipRRect(
-                                                                  borderRadius:
-                                                                      const BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              10)),
-                                                                  child: Image
-                                                                      .file(
-                                                                    File(selectedImagesList[
-                                                                        position]),
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                    width: 55,
-                                                                    height: 60,
-                                                                  ),
-                                                                ),
-                                                                Positioned(
-                                                                    right: -5,
-                                                                    top: -5,
-                                                                    child:
-                                                                        InkWell(
-                                                                      onTap:
-                                                                          () {
-                                                                        selectedImagesList
-                                                                            .removeAt(position);
-                                                                        State(
-                                                                            () {});
-                                                                      },
-                                                                      child: ClipRRect(
-                                                                          borderRadius: BorderRadius.circular(20),
-                                                                          child: Container(
-                                                                              color: ColorConstants.skyBlue,
-                                                                              child: Icon(
-                                                                                Icons.close,
-                                                                                size: 20,
-                                                                                color: Colors.white,
-                                                                              ))),
-                                                                    ))
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
+                                                          },
+                                                        ),
                                                       ),
-                                                    ),
-                                                    // Padding(
-                                                    //   padding: EdgeInsets.only(
-                                                    //       left: D.W / 18,
-                                                    //       right: D.W / 18),
-                                                    //   child: Row(
-                                                    //     children: [
-                                                    //       Stack(
-                                                    //         children: [
-                                                    //           Card(
-                                                    //               color: ColorConstants
-                                                    //                   .bgImage,
-                                                    //               shape:
-                                                    //                   const RoundedRectangleBorder(
-                                                    //                 borderRadius:
-                                                    //                     BorderRadius
-                                                    //                         .only(
-                                                    //                   topLeft: Radius
-                                                    //                       .circular(8),
-                                                    //                   topRight: Radius
-                                                    //                       .circular(8),
-                                                    //                   bottomLeft: Radius
-                                                    //                       .circular(8),
-                                                    //                   bottomRight:
-                                                    //                       Radius
-                                                    //                           .circular(
-                                                    //                               8),
-                                                    //                 ),
-                                                    //               ),
-                                                    //               elevation: 0,
-                                                    //               child: Padding(
-                                                    //                 padding:
-                                                    //                     EdgeInsets.only(
-                                                    //                         left: D.W /
-                                                    //                             34,
-                                                    //                         right: D.W /
-                                                    //                             34,
-                                                    //                         top: D.W /
-                                                    //                             34,
-                                                    //                         bottom:
-                                                    //                             D.W /
-                                                    //                                 34),
-                                                    //                 child: SvgPicture.asset(
-                                                    //                     "assets/images/ic_gallary.svg"),
-                                                    //               )),
-                                                    //           Positioned(
-                                                    //               right: 0,
-                                                    //               child: ClipRRect(
-                                                    //                   borderRadius:
-                                                    //                       BorderRadius
-                                                    //                           .circular(
-                                                    //                               20),
-                                                    //                   child: Container(
-                                                    //                       color: ColorConstants
-                                                    //                           .skyBlue,
-                                                    //                       child: Icon(
-                                                    //                         Icons.close,
-                                                    //                         size: 20,
-                                                    //                         color: Colors
-                                                    //                             .white,
-                                                    //                       ))))
-                                                    //         ],
-                                                    //       ),
-                                                    //       SizedBox(
-                                                    //         width: D.W / 30,
-                                                    //       ),
-                                                    //       Stack(
-                                                    //         children: [
-                                                    //           Card(
-                                                    //               color: ColorConstants
-                                                    //                   .bgImage,
-                                                    //               shape:
-                                                    //                   const RoundedRectangleBorder(
-                                                    //                 borderRadius:
-                                                    //                     BorderRadius
-                                                    //                         .only(
-                                                    //                   topLeft: Radius
-                                                    //                       .circular(8),
-                                                    //                   topRight: Radius
-                                                    //                       .circular(8),
-                                                    //                   bottomLeft: Radius
-                                                    //                       .circular(8),
-                                                    //                   bottomRight:
-                                                    //                       Radius
-                                                    //                           .circular(
-                                                    //                               8),
-                                                    //                 ),
-                                                    //               ),
-                                                    //               elevation: 0,
-                                                    //               child: Padding(
-                                                    //                 padding:
-                                                    //                     EdgeInsets.only(
-                                                    //                         left: D.W /
-                                                    //                             34,
-                                                    //                         right: D.W /
-                                                    //                             34,
-                                                    //                         top: D.W /
-                                                    //                             34,
-                                                    //                         bottom:
-                                                    //                             D.W /
-                                                    //                                 34),
-                                                    //                 child: SvgPicture.asset(
-                                                    //                     "assets/images/ic_gallary.svg"),
-                                                    //               )),
-                                                    //           Positioned(
-                                                    //               right: 0,
-                                                    //               child: ClipRRect(
-                                                    //                   borderRadius:
-                                                    //                       BorderRadius
-                                                    //                           .circular(
-                                                    //                               20),
-                                                    //                   child: Container(
-                                                    //                       color: ColorConstants
-                                                    //                           .skyBlue,
-                                                    //                       child: Icon(
-                                                    //                         Icons.close,
-                                                    //                         size: 20,
-                                                    //                         color: Colors
-                                                    //                             .white,
-                                                    //                       ))))
-                                                    //         ],
-                                                    //       ),
-                                                    //     ],
-                                                    //   ),
-                                                    // ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Text(
-                                                        "Tests",
-                                                        style:
-                                                            GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 52,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 240),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Container(
+                                                      // Padding(
+                                                      //   padding: EdgeInsets.only(
+                                                      //       left: D.W / 18,
+                                                      //       right: D.W / 18),
+                                                      //   child: Row(
+                                                      //     children: [
+                                                      //       Stack(
+                                                      //         children: [
+                                                      //           Card(
+                                                      //               color: ColorConstants
+                                                      //                   .bgImage,
+                                                      //               shape:
+                                                      //                   const RoundedRectangleBorder(
+                                                      //                 borderRadius:
+                                                      //                     BorderRadius
+                                                      //                         .only(
+                                                      //                   topLeft: Radius
+                                                      //                       .circular(8),
+                                                      //                   topRight: Radius
+                                                      //                       .circular(8),
+                                                      //                   bottomLeft: Radius
+                                                      //                       .circular(8),
+                                                      //                   bottomRight:
+                                                      //                       Radius
+                                                      //                           .circular(
+                                                      //                               8),
+                                                      //                 ),
+                                                      //               ),
+                                                      //               elevation: 0,
+                                                      //               child: Padding(
+                                                      //                 padding:
+                                                      //                     EdgeInsets.only(
+                                                      //                         left: D.W /
+                                                      //                             34,
+                                                      //                         right: D.W /
+                                                      //                             34,
+                                                      //                         top: D.W /
+                                                      //                             34,
+                                                      //                         bottom:
+                                                      //                             D.W /
+                                                      //                                 34),
+                                                      //                 child: SvgPicture.asset(
+                                                      //                     "assets/images/ic_gallary.svg"),
+                                                      //               )),
+                                                      //           Positioned(
+                                                      //               right: 0,
+                                                      //               child: ClipRRect(
+                                                      //                   borderRadius:
+                                                      //                       BorderRadius
+                                                      //                           .circular(
+                                                      //                               20),
+                                                      //                   child: Container(
+                                                      //                       color: ColorConstants
+                                                      //                           .skyBlue,
+                                                      //                       child: Icon(
+                                                      //                         Icons.close,
+                                                      //                         size: 20,
+                                                      //                         color: Colors
+                                                      //                             .white,
+                                                      //                       ))))
+                                                      //         ],
+                                                      //       ),
+                                                      //       SizedBox(
+                                                      //         width: D.W / 30,
+                                                      //       ),
+                                                      //       Stack(
+                                                      //         children: [
+                                                      //           Card(
+                                                      //               color: ColorConstants
+                                                      //                   .bgImage,
+                                                      //               shape:
+                                                      //                   const RoundedRectangleBorder(
+                                                      //                 borderRadius:
+                                                      //                     BorderRadius
+                                                      //                         .only(
+                                                      //                   topLeft: Radius
+                                                      //                       .circular(8),
+                                                      //                   topRight: Radius
+                                                      //                       .circular(8),
+                                                      //                   bottomLeft: Radius
+                                                      //                       .circular(8),
+                                                      //                   bottomRight:
+                                                      //                       Radius
+                                                      //                           .circular(
+                                                      //                               8),
+                                                      //                 ),
+                                                      //               ),
+                                                      //               elevation: 0,
+                                                      //               child: Padding(
+                                                      //                 padding:
+                                                      //                     EdgeInsets.only(
+                                                      //                         left: D.W /
+                                                      //                             34,
+                                                      //                         right: D.W /
+                                                      //                             34,
+                                                      //                         top: D.W /
+                                                      //                             34,
+                                                      //                         bottom:
+                                                      //                             D.W /
+                                                      //                                 34),
+                                                      //                 child: SvgPicture.asset(
+                                                      //                     "assets/images/ic_gallary.svg"),
+                                                      //               )),
+                                                      //           Positioned(
+                                                      //               right: 0,
+                                                      //               child: ClipRRect(
+                                                      //                   borderRadius:
+                                                      //                       BorderRadius
+                                                      //                           .circular(
+                                                      //                               20),
+                                                      //                   child: Container(
+                                                      //                       color: ColorConstants
+                                                      //                           .skyBlue,
+                                                      //                       child: Icon(
+                                                      //                         Icons.close,
+                                                      //                         size: 20,
+                                                      //                         color: Colors
+                                                      //                             .white,
+                                                      //                       ))))
+                                                      //         ],
+                                                      //       ),
+                                                      //     ],
+                                                      //   ),
+                                                      // ),
+                                                      SizedBox(
+                                                          height: D.H / 60),
+                                                      Padding(
                                                         padding:
                                                             EdgeInsets.only(
-                                                                left: D.W / 30,
+                                                                left: D.W / 18,
                                                                 right:
-                                                                    D.W / 60),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            border: Border.all(
-                                                                color:
-                                                                    ColorConstants
-                                                                        .border),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8))),
-                                                        child: DropdownButton<
-                                                            String>(
-                                                          isExpanded: true,
-                                                          focusColor:
-                                                              Colors.black,
-                                                          value:
-                                                              _choosenimageValue,
-                                                          style: TextStyle(
+                                                                    D.W / 18),
+                                                        child: Text(
+                                                          "Tests",
+                                                          style:
+                                                              GoogleFonts.heebo(
+                                                                  fontSize:
+                                                                      D.H / 52,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 240),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: D.W / 18,
+                                                                right:
+                                                                    D.W / 18),
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left:
+                                                                      D.W / 30,
+                                                                  right:
+                                                                      D.W / 60),
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          decoration: BoxDecoration(
                                                               color:
-                                                                  Colors.black),
-                                                          iconEnabledColor:
-                                                              ColorConstants
-                                                                  .lightGrey,
-                                                          icon: Icon(Icons
-                                                              .arrow_drop_down_sharp),
-                                                          iconSize: 32,
-                                                          underline: Container(
-                                                              color: Colors
-                                                                  .transparent),
-                                                          items: imageTypesData
-                                                              .map((items) {
-                                                            return DropdownMenuItem(
-                                                              value: items
-                                                                  .imageType,
-                                                              child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10),
-                                                                child: Text(
-                                                                  items
-                                                                      .imageType
-                                                                      .toString(),
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15.0),
-                                                                ),
-                                                              ),
-                                                            );
-                                                          }).toList(),
-                                                          hint: Text(
-                                                            "Type",
+                                                                  Colors.white,
+                                                              border: Border.all(
+                                                                  color: ColorConstants
+                                                                      .border),
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          8))),
+                                                          child: DropdownButton<
+                                                              String>(
+                                                            isExpanded: true,
+                                                            focusColor:
+                                                                Colors.black,
+                                                            value:
+                                                                _choosenimageValue,
                                                             style: TextStyle(
                                                                 color: Colors
-                                                                    .black,
-                                                                fontSize:
-                                                                    D.H / 48,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                          ),
-                                                          onChanged:
-                                                              (String? value) {
-                                                            State(() {
-                                                              _choosenimageValue =
-                                                                  value;
-                                                              for (int i = 0;
-                                                                  i <
-                                                                      imageTypesData
-                                                                          .length;
-                                                                  i++) {
-                                                                if (imageTypesData[
-                                                                            i]
-                                                                        .imageType ==
-                                                                    _choosenimageValue) {
-                                                                  imageId =
-                                                                      imageTypesData[
+                                                                    .black),
+                                                            iconEnabledColor:
+                                                                ColorConstants
+                                                                    .lightGrey,
+                                                            icon: Icon(Icons
+                                                                .arrow_drop_down_sharp),
+                                                            iconSize: 32,
+                                                            underline: Container(
+                                                                color: Colors
+                                                                    .transparent),
+                                                            items: imageTypesData
+                                                                .map((items) {
+                                                              return DropdownMenuItem(
+                                                                value: items
+                                                                    .imageType,
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10),
+                                                                  child: Text(
+                                                                    items
+                                                                        .imageType
+                                                                        .toString(),
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15.0),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }).toList(),
+                                                            hint: Text(
+                                                              "Type",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize:
+                                                                      D.H / 48,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                            ),
+                                                            onChanged: (String?
+                                                                value) {
+                                                              State(() {
+                                                                _choosenimageValue =
+                                                                    value;
+                                                                for (int i = 0;
+                                                                    i <
+                                                                        imageTypesData
+                                                                            .length;
+                                                                    i++) {
+                                                                  if (imageTypesData[
                                                                               i]
-                                                                          .imageTypeId!;
-                                                                  print("dropdownvalueId:" +
-                                                                      imageId
-                                                                          .toString());
+                                                                          .imageType ==
+                                                                      _choosenimageValue) {
+                                                                    imageId =
+                                                                        imageTypesData[i]
+                                                                            .imageTypeId!;
+                                                                    print("dropdownvalueId:" +
+                                                                        imageId
+                                                                            .toString());
+                                                                  }
                                                                 }
-                                                              }
-                                                            });
-                                                          },
+                                                              });
+                                                            },
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Text(
-                                                        "Description",
-                                                        style:
-                                                            GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 52,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
+                                                      SizedBox(
+                                                          height: D.H / 60),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: D.W / 18,
+                                                                right:
+                                                                    D.W / 18),
+                                                        child: Text(
+                                                          "Description",
+                                                          style:
+                                                              GoogleFonts.heebo(
+                                                                  fontSize:
+                                                                      D.H / 52,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    SizedBox(height: D.H / 240),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child:
-                                                          CustomWhiteTextFormField(
-                                                        controller:
-                                                            discController,
-                                                        readOnly: false,
-                                                        validators: (e) {
-                                                          if (discController
-                                                                      .text ==
-                                                                  null ||
-                                                              discController
-                                                                      .text ==
-                                                                  '') {
-                                                            return '*Description';
-                                                          }
-                                                        },
-                                                        keyboardTYPE:
-                                                            TextInputType.text,
-                                                        obscured: false,
-                                                        maxline: 1,
-                                                        maxlength: 100,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 40),
-                                                    Container(
-                                                      height: 1,
-                                                      color:
-                                                          ColorConstants.line,
-                                                    ),
-                                                    SizedBox(height: D.H / 80),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        InkWell(
-                                                          onTap: () {
-                                                            if (selectedImagesList
-                                                                .isEmpty) {
-                                                              CommonUtils
-                                                                  .showRedToastMessage(
-                                                                      "Please Select Image");
-                                                            } else if (discController
-                                                                .text.isEmpty) {
-                                                              CommonUtils
-                                                                  .showRedToastMessage(
-                                                                      "Please add description");
-                                                            } else {
-                                                              saveTestImagine();
+                                                      SizedBox(
+                                                          height: D.H / 240),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: D.W / 18,
+                                                                right:
+                                                                    D.W / 18),
+                                                        child:
+                                                            CustomWhiteTextFormField(
+                                                          controller:
+                                                              discController,
+                                                          readOnly: false,
+                                                          validators: (e) {
+                                                            if (discController
+                                                                        .text ==
+                                                                    null ||
+                                                                discController
+                                                                        .text ==
+                                                                    '') {
+                                                              return '*Description';
                                                             }
                                                           },
-                                                          child: Text(
-                                                            "OK",
-                                                            style: GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 33,
-                                                                color:
-                                                                    ColorConstants
-                                                                        .skyBlue,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                          ),
+                                                          keyboardTYPE:
+                                                              TextInputType
+                                                                  .text,
+                                                          obscured: false,
+                                                          maxline: 1,
+                                                          maxlength: 100,
                                                         ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: D.H / 80),
-                                                  ],
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 40),
+                                                      Container(
+                                                        height: 1,
+                                                        color:
+                                                            ColorConstants.line,
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 80),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              if (selectedImagesList
+                                                                  .isEmpty) {
+                                                                CommonUtils
+                                                                    .showRedToastMessage(
+                                                                        "Please Select Image");
+                                                              } else if (discController
+                                                                  .text
+                                                                  .isEmpty) {
+                                                                CommonUtils
+                                                                    .showRedToastMessage(
+                                                                        "Please add description");
+                                                              } else {
+                                                                saveTestImagine();
+                                                              }
+                                                            },
+                                                            child: Text(
+                                                              "OK",
+                                                              style: GoogleFonts.heebo(
+                                                                  fontSize:
+                                                                      D.H / 33,
+                                                                  color: ColorConstants
+                                                                      .skyBlue,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                          height: D.H / 80),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
+                                            ),
+                                          );
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/images/ic_add_plus.svg"))
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+
+                              _labScreenResponseModelodel.imagine!.isEmpty
+                                  ? Container()
+                                  : GridView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        childAspectRatio: 0.75,
+                                        crossAxisSpacing: 5.0,
+                                        mainAxisSpacing: 12.0,
+                                      ),
+                                      itemCount: _labScreenResponseModelodel
+                                          .imagine!.length,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          onTap: () {
+                                            showDialouge(
+                                                imagine:
+                                                    _labScreenResponseModelodel
+                                                        .imagine![index],
+                                                name:
+                                                    _labScreenResponseModelodel
+                                                        .imagine![index]
+                                                        .description
+                                                        .toString());
+                                          },
+                                          child: Card(
+                                            elevation: 4,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                    bottomRight:
+                                                        Radius.circular(18),
+                                                    bottomLeft:
+                                                        Radius.circular(18),
+                                                    topLeft:
+                                                        Radius.circular(18),
+                                                    topRight:
+                                                        Radius.circular(18))),
+                                            child: Column(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  18),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  18)),
+                                                  child: CachedNetworkImage(
+                                                    height: 110,
+                                                    width: 120,
+                                                    fit: BoxFit.fill,
+                                                    imageUrl:
+                                                        _labScreenResponseModelodel
+                                                            .imagine![index]
+                                                            .media![0]
+                                                            .mediaFileName
+                                                            .toString(),
+                                                    progressIndicatorBuilder:
+                                                        (context, url,
+                                                                downloadProgress) =>
+                                                            Center(
+                                                      child: SizedBox(
+                                                        height: 50,
+                                                        width: 50,
+                                                        child: CircularProgressIndicator(
+                                                            color: ColorConstants
+                                                                .primaryBlueColor,
+                                                            value:
+                                                                downloadProgress
+                                                                    .progress),
+                                                      ),
+                                                    ),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Text(
+                                                  _labScreenResponseModelodel
+                                                      .imagine![index].imageType
+                                                      .toString(),
+                                                  style: GoogleFonts.heebo(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 16),
+                                                )
+                                              ],
                                             ),
                                           ),
                                         );
                                       },
-                                      child: SvgPicture.asset(
-                                          "assets/images/ic_add_plus.svg"))
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-
-                            _labScreenResponseModelodel.imagine!.isEmpty?Container():GridView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                childAspectRatio: 0.75,
-                                crossAxisSpacing: 5.0,
-                                mainAxisSpacing: 12.0,
-                              ),
-                              itemCount:
-                                  _labScreenResponseModelodel.imagine!.length,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: (){
-                                    showDialouge(imagine: _labScreenResponseModelodel.imagine![index] ,name: _labScreenResponseModelodel.imagine![index].description.toString() );
-                                  },
-                                  child: Card(
-                                    elevation: 4,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(18),
-                                            bottomLeft: Radius.circular(18),
-                                            topLeft: Radius.circular(18),
-                                            topRight: Radius.circular(18))),
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(18),
-                                              topRight: Radius.circular(18)),
-                                          child: CachedNetworkImage(
-                                            height: 110,
-                                            width: 120,
-                                            fit: BoxFit.fill,
-                                            imageUrl: _labScreenResponseModelodel
-                                                .imagine![index]
-                                                .media![0]
-                                                .mediaFileName
-                                                .toString(),
-                                            progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                Center(
-                                              child: SizedBox(
-                                                height: 50,
-                                                width: 50,
-                                                child: CircularProgressIndicator(
-                                                    color: ColorConstants
-                                                        .primaryBlueColor,
-                                                    value: downloadProgress
-                                                        .progress),
-                                              ),
-                                            ),
-                                            errorWidget: (context, url, error) =>
-                                                Icon(Icons.error),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 4,
-                                        ),
-                                        Text(
-                                          _labScreenResponseModelodel
-                                              .imagine![index].imageType
-                                              .toString(),
-                                          style: GoogleFonts.heebo(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 16),
-                                        )
-                                      ],
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
-                            // Row(
-                            //   children: [
-                            //     Expanded(
-                            //         child: Column(
-                            //       children: [
-                            //         InkWell(
-                            //           onTap: () {
-                            //             showDialouge(
-                            //                 name: "X-ray",
-                            //                 image: "assets/images/xray_icon.png");
-                            //           },
-                            //           child: Card(
-                            //             shape: RoundedRectangleBorder(
-                            //               borderRadius: BorderRadius.circular(15.0),
-                            //             ),
-                            //             elevation: 4,
-                            //             child: Column(
-                            //               children: [
-                            //                 ClipRRect(
-                            //                     borderRadius: BorderRadius.only(
-                            //                         topLeft: Radius.circular(18),
-                            //                         topRight: Radius.circular(18)),
-                            //                     child: Image.asset(
-                            //                       "assets/images/xray_icon.png",
-                            //                       height: 120,
-                            //                       width: 120,
-                            //                       fit: BoxFit.cover,
-                            //                     )),
-                            //                 SizedBox(
-                            //                   height: 4,
-                            //                 ),
-                            //                 Text(
-                            //                   "X-ray",
-                            //                   style: GoogleFonts.heebo(
-                            //                       fontWeight: FontWeight.normal,
-                            //                       fontSize: 16),
-                            //                 )
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     )),
-                            //     SizedBox(
-                            //       width: 4,
-                            //     ),
-                            //     Expanded(
-                            //         child: Column(
-                            //       children: [
-                            //         InkWell(
-                            //           onTap: () {
-                            //             showDialouge(
-                            //                 name: "CT Scan",
-                            //                 image: "assets/images/ctscan_icon.png");
-                            //           },
-                            //           child: Card(
-                            //             shape: RoundedRectangleBorder(
-                            //               borderRadius: BorderRadius.circular(15.0),
-                            //             ),
-                            //             elevation: 4,
-                            //             child: Column(
-                            //               children: [
-                            //                 ClipRRect(
-                            //                     borderRadius: BorderRadius.only(
-                            //                         topLeft: Radius.circular(18),
-                            //                         topRight: Radius.circular(18)),
-                            //                     child: Image.asset(
-                            //                       "assets/images/ctscan_icon.png",
-                            //                       height: 120,
-                            //                       width: 200,
-                            //                       fit: BoxFit.cover,
-                            //                     )),
-                            //                 SizedBox(
-                            //                   height: 4,
-                            //                 ),
-                            //                 Text(
-                            //                   "CT Scan",
-                            //                   style: GoogleFonts.heebo(
-                            //                       fontWeight: FontWeight.normal,
-                            //                       fontSize: 16),
-                            //                 )
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     )),
-                            //     SizedBox(
-                            //       width: 4,
-                            //     ),
-                            //     Expanded(
-                            //         child: Column(
-                            //       children: [
-                            //         InkWell(
-                            //           onTap: () {
-                            //             showDialouge(
-                            //                 name: "MRI",
-                            //                 image: "assets/images/mri_icon.png");
-                            //           },
-                            //           child: Card(
-                            //             shape: RoundedRectangleBorder(
-                            //               borderRadius: BorderRadius.circular(15.0),
-                            //             ),
-                            //             elevation: 4,
-                            //             child: Column(
-                            //               children: [
-                            //                 ClipRRect(
-                            //                     borderRadius: BorderRadius.only(
-                            //                         topLeft: Radius.circular(18),
-                            //                         topRight: Radius.circular(18)),
-                            //                     child: Image.asset(
-                            //                       "assets/images/mri_icon.png",
-                            //                       height: 120,
-                            //                       width: 200,
-                            //                       fit: BoxFit.cover,
-                            //                     )),
-                            //                 SizedBox(
-                            //                   height: 4,
-                            //                 ),
-                            //                 Text(
-                            //                   "MRI",
-                            //                   style: GoogleFonts.heebo(
-                            //                       fontWeight: FontWeight.normal,
-                            //                       fontSize: 16),
-                            //                 )
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     )),
-                            //   ],
-                            // ),
-                            // SizedBox(
-                            //   height: 9,
-                            // ),
-                            // Row(
-                            //   children: [
-                            //     Expanded(
-                            //         child: Column(
-                            //       children: [
-                            //         InkWell(
-                            //           onTap: () {
-                            //             showDialouge(
-                            //                 name: "Hand X-ray",
-                            //                 image:
-                            //                     "assets/images/hand_scan_icon.png");
-                            //           },
-                            //           child: Card(
-                            //             shape: RoundedRectangleBorder(
-                            //               borderRadius: BorderRadius.circular(15.0),
-                            //             ),
-                            //             elevation: 4,
-                            //             child: Column(
-                            //               children: [
-                            //                 ClipRRect(
-                            //                     borderRadius: BorderRadius.only(
-                            //                         topLeft: Radius.circular(18),
-                            //                         topRight: Radius.circular(18)),
-                            //                     child: Image.asset(
-                            //                       "assets/images/hand_scan_icon.png",
-                            //                       height: 120,
-                            //                       width: 200,
-                            //                       fit: BoxFit.cover,
-                            //                     )),
-                            //                 SizedBox(
-                            //                   height: 4,
-                            //                 ),
-                            //                 Text(
-                            //                   "Hand X-ray",
-                            //                   style: GoogleFonts.heebo(
-                            //                       fontWeight: FontWeight.normal,
-                            //                       fontSize: 16),
-                            //                 )
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     )),
-                            //     SizedBox(
-                            //       width: 4,
-                            //     ),
-                            //     Expanded(
-                            //         child: Column(
-                            //       children: [
-                            //         InkWell(
-                            //           onTap: () {
-                            //             showDialouge(
-                            //                 name: "Chest X-ray",
-                            //                 image: "assets/images/xray_icon.png");
-                            //           },
-                            //           child: Card(
-                            //             shape: RoundedRectangleBorder(
-                            //               borderRadius: BorderRadius.circular(15.0),
-                            //             ),
-                            //             elevation: 4,
-                            //             child: Column(
-                            //               children: [
-                            //                 ClipRRect(
-                            //                     borderRadius: BorderRadius.only(
-                            //                         topLeft: Radius.circular(18),
-                            //                         topRight: Radius.circular(18)),
-                            //                     child: Image.asset(
-                            //                       "assets/images/xray_icon.png",
-                            //                       height: 120,
-                            //                       width: 200,
-                            //                       fit: BoxFit.cover,
-                            //                     )),
-                            //                 SizedBox(
-                            //                   height: 4,
-                            //                 ),
-                            //                 Text(
-                            //                   "Chest X-ray",
-                            //                   style: GoogleFonts.heebo(
-                            //                       fontWeight: FontWeight.normal,
-                            //                       fontSize: 16),
-                            //                 )
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     )),
-                            //     SizedBox(
-                            //       width: 4,
-                            //     ),
-                            //     Expanded(
-                            //         child: Column(
-                            //       children: [
-                            //         InkWell(
-                            //           onTap: () {
-                            //             showDialouge(
-                            //                 name: "Chest X-ray",
-                            //                 image:
-                            //                     "assets/images/chest_xray_icon.png");
-                            //           },
-                            //           child: Card(
-                            //             shape: RoundedRectangleBorder(
-                            //               borderRadius: BorderRadius.circular(15.0),
-                            //             ),
-                            //             elevation: 4,
-                            //             child: Column(
-                            //               children: [
-                            //                 ClipRRect(
-                            //                     borderRadius: BorderRadius.only(
-                            //                         topLeft: Radius.circular(18),
-                            //                         topRight: Radius.circular(18)),
-                            //                     child: Image.asset(
-                            //                       "assets/images/chest_xray_icon.png",
-                            //                       height: 120,
-                            //                       width: 200,
-                            //                       fit: BoxFit.cover,
-                            //                     )),
-                            //                 SizedBox(
-                            //                   height: 4,
-                            //                 ),
-                            //                 Text(
-                            //                   "Chest X-ray",
-                            //                   style: GoogleFonts.heebo(
-                            //                       fontWeight: FontWeight.normal,
-                            //                       fontSize: 16),
-                            //                 )
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     )),
-                            //   ],
-                            // ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                          ],
+                              // Row(
+                              //   children: [
+                              //     Expanded(
+                              //         child: Column(
+                              //       children: [
+                              //         InkWell(
+                              //           onTap: () {
+                              //             showDialouge(
+                              //                 name: "X-ray",
+                              //                 image: "assets/images/xray_icon.png");
+                              //           },
+                              //           child: Card(
+                              //             shape: RoundedRectangleBorder(
+                              //               borderRadius: BorderRadius.circular(15.0),
+                              //             ),
+                              //             elevation: 4,
+                              //             child: Column(
+                              //               children: [
+                              //                 ClipRRect(
+                              //                     borderRadius: BorderRadius.only(
+                              //                         topLeft: Radius.circular(18),
+                              //                         topRight: Radius.circular(18)),
+                              //                     child: Image.asset(
+                              //                       "assets/images/xray_icon.png",
+                              //                       height: 120,
+                              //                       width: 120,
+                              //                       fit: BoxFit.cover,
+                              //                     )),
+                              //                 SizedBox(
+                              //                   height: 4,
+                              //                 ),
+                              //                 Text(
+                              //                   "X-ray",
+                              //                   style: GoogleFonts.heebo(
+                              //                       fontWeight: FontWeight.normal,
+                              //                       fontSize: 16),
+                              //                 )
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     )),
+                              //     SizedBox(
+                              //       width: 4,
+                              //     ),
+                              //     Expanded(
+                              //         child: Column(
+                              //       children: [
+                              //         InkWell(
+                              //           onTap: () {
+                              //             showDialouge(
+                              //                 name: "CT Scan",
+                              //                 image: "assets/images/ctscan_icon.png");
+                              //           },
+                              //           child: Card(
+                              //             shape: RoundedRectangleBorder(
+                              //               borderRadius: BorderRadius.circular(15.0),
+                              //             ),
+                              //             elevation: 4,
+                              //             child: Column(
+                              //               children: [
+                              //                 ClipRRect(
+                              //                     borderRadius: BorderRadius.only(
+                              //                         topLeft: Radius.circular(18),
+                              //                         topRight: Radius.circular(18)),
+                              //                     child: Image.asset(
+                              //                       "assets/images/ctscan_icon.png",
+                              //                       height: 120,
+                              //                       width: 200,
+                              //                       fit: BoxFit.cover,
+                              //                     )),
+                              //                 SizedBox(
+                              //                   height: 4,
+                              //                 ),
+                              //                 Text(
+                              //                   "CT Scan",
+                              //                   style: GoogleFonts.heebo(
+                              //                       fontWeight: FontWeight.normal,
+                              //                       fontSize: 16),
+                              //                 )
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     )),
+                              //     SizedBox(
+                              //       width: 4,
+                              //     ),
+                              //     Expanded(
+                              //         child: Column(
+                              //       children: [
+                              //         InkWell(
+                              //           onTap: () {
+                              //             showDialouge(
+                              //                 name: "MRI",
+                              //                 image: "assets/images/mri_icon.png");
+                              //           },
+                              //           child: Card(
+                              //             shape: RoundedRectangleBorder(
+                              //               borderRadius: BorderRadius.circular(15.0),
+                              //             ),
+                              //             elevation: 4,
+                              //             child: Column(
+                              //               children: [
+                              //                 ClipRRect(
+                              //                     borderRadius: BorderRadius.only(
+                              //                         topLeft: Radius.circular(18),
+                              //                         topRight: Radius.circular(18)),
+                              //                     child: Image.asset(
+                              //                       "assets/images/mri_icon.png",
+                              //                       height: 120,
+                              //                       width: 200,
+                              //                       fit: BoxFit.cover,
+                              //                     )),
+                              //                 SizedBox(
+                              //                   height: 4,
+                              //                 ),
+                              //                 Text(
+                              //                   "MRI",
+                              //                   style: GoogleFonts.heebo(
+                              //                       fontWeight: FontWeight.normal,
+                              //                       fontSize: 16),
+                              //                 )
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     )),
+                              //   ],
+                              // ),
+                              // SizedBox(
+                              //   height: 9,
+                              // ),
+                              // Row(
+                              //   children: [
+                              //     Expanded(
+                              //         child: Column(
+                              //       children: [
+                              //         InkWell(
+                              //           onTap: () {
+                              //             showDialouge(
+                              //                 name: "Hand X-ray",
+                              //                 image:
+                              //                     "assets/images/hand_scan_icon.png");
+                              //           },
+                              //           child: Card(
+                              //             shape: RoundedRectangleBorder(
+                              //               borderRadius: BorderRadius.circular(15.0),
+                              //             ),
+                              //             elevation: 4,
+                              //             child: Column(
+                              //               children: [
+                              //                 ClipRRect(
+                              //                     borderRadius: BorderRadius.only(
+                              //                         topLeft: Radius.circular(18),
+                              //                         topRight: Radius.circular(18)),
+                              //                     child: Image.asset(
+                              //                       "assets/images/hand_scan_icon.png",
+                              //                       height: 120,
+                              //                       width: 200,
+                              //                       fit: BoxFit.cover,
+                              //                     )),
+                              //                 SizedBox(
+                              //                   height: 4,
+                              //                 ),
+                              //                 Text(
+                              //                   "Hand X-ray",
+                              //                   style: GoogleFonts.heebo(
+                              //                       fontWeight: FontWeight.normal,
+                              //                       fontSize: 16),
+                              //                 )
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     )),
+                              //     SizedBox(
+                              //       width: 4,
+                              //     ),
+                              //     Expanded(
+                              //         child: Column(
+                              //       children: [
+                              //         InkWell(
+                              //           onTap: () {
+                              //             showDialouge(
+                              //                 name: "Chest X-ray",
+                              //                 image: "assets/images/xray_icon.png");
+                              //           },
+                              //           child: Card(
+                              //             shape: RoundedRectangleBorder(
+                              //               borderRadius: BorderRadius.circular(15.0),
+                              //             ),
+                              //             elevation: 4,
+                              //             child: Column(
+                              //               children: [
+                              //                 ClipRRect(
+                              //                     borderRadius: BorderRadius.only(
+                              //                         topLeft: Radius.circular(18),
+                              //                         topRight: Radius.circular(18)),
+                              //                     child: Image.asset(
+                              //                       "assets/images/xray_icon.png",
+                              //                       height: 120,
+                              //                       width: 200,
+                              //                       fit: BoxFit.cover,
+                              //                     )),
+                              //                 SizedBox(
+                              //                   height: 4,
+                              //                 ),
+                              //                 Text(
+                              //                   "Chest X-ray",
+                              //                   style: GoogleFonts.heebo(
+                              //                       fontWeight: FontWeight.normal,
+                              //                       fontSize: 16),
+                              //                 )
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     )),
+                              //     SizedBox(
+                              //       width: 4,
+                              //     ),
+                              //     Expanded(
+                              //         child: Column(
+                              //       children: [
+                              //         InkWell(
+                              //           onTap: () {
+                              //             showDialouge(
+                              //                 name: "Chest X-ray",
+                              //                 image:
+                              //                     "assets/images/chest_xray_icon.png");
+                              //           },
+                              //           child: Card(
+                              //             shape: RoundedRectangleBorder(
+                              //               borderRadius: BorderRadius.circular(15.0),
+                              //             ),
+                              //             elevation: 4,
+                              //             child: Column(
+                              //               children: [
+                              //                 ClipRRect(
+                              //                     borderRadius: BorderRadius.only(
+                              //                         topLeft: Radius.circular(18),
+                              //                         topRight: Radius.circular(18)),
+                              //                     child: Image.asset(
+                              //                       "assets/images/chest_xray_icon.png",
+                              //                       height: 120,
+                              //                       width: 200,
+                              //                       fit: BoxFit.cover,
+                              //                     )),
+                              //                 SizedBox(
+                              //                   height: 4,
+                              //                 ),
+                              //                 Text(
+                              //                   "Chest X-ray",
+                              //                   style: GoogleFonts.heebo(
+                              //                       fontWeight: FontWeight.normal,
+                              //                       fontSize: 16),
+                              //                 )
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     )),
+                              //   ],
+                              // ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              )
-            : Container());
+                )
+              : Container(),
+        ));
   }
 
-  showDialouge({required String name, required Imagine imagine, }) {
+  showDialouge({
+    required String name,
+    required Imagine imagine,
+  }) {
     int activePage = 0;
 
-    PageController _pageController = PageController(viewportFraction: 1,initialPage: 0);
-    List<Widget> indicators(imagesLength,currentIndex) {
+    PageController _pageController =
+        PageController(viewportFraction: 1, initialPage: 0);
+    List<Widget> indicators(imagesLength, currentIndex) {
       return List<Widget>.generate(imagesLength, (index) {
         return Container(
           margin: EdgeInsets.all(3),
           width: 10,
           height: 10,
           decoration: BoxDecoration(
-              color: currentIndex == index ? ColorConstants.primaryBlueColor : Colors.white,
+              color: currentIndex == index
+                  ? ColorConstants.primaryBlueColor
+                  : Colors.white,
               shape: BoxShape.circle),
         );
       });
@@ -2033,8 +2208,9 @@ class _LabScreenState extends State<LabScreen>
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(
-            builder: (BuildContext context, void Function(void Function()) setState)
-            => Dialog(
+            builder: (BuildContext context,
+                    void Function(void Function()) setState) =>
+                Dialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0)),
               child: Container(
@@ -2065,7 +2241,8 @@ class _LabScreenState extends State<LabScreen>
                                 child: Text(
                                   name,
                                   style: GoogleFonts.heebo(
-                                      color: ColorConstants.light, fontSize: 14),
+                                      color: ColorConstants.light,
+                                      fontSize: 14),
                                 ),
                               ),
                             ],
@@ -2079,7 +2256,7 @@ class _LabScreenState extends State<LabScreen>
                               alignment: Alignment.bottomCenter,
                               children: [
                                 PageView.builder(
-                                  controller: _pageController,
+                                    controller: _pageController,
                                     onPageChanged: (page) {
                                       setState(() {
                                         activePage = page;
@@ -2087,45 +2264,48 @@ class _LabScreenState extends State<LabScreen>
                                     },
                                     itemCount: imagine.media!.length,
                                     pageSnapping: true,
-                                    itemBuilder: (context,pagePosition){
-                                      return  Container(
+                                    itemBuilder: (context, pagePosition) {
+                                      return Container(
                                           height: 340,
                                           child: ClipRRect(
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(25)),
-                                              child:  CachedNetworkImage(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(25)),
+                                              child: CachedNetworkImage(
                                                 height: 120,
                                                 width: double.infinity,
                                                 fit: BoxFit.fill,
-                                                imageUrl:imagine.media![pagePosition].mediaFileName
+                                                imageUrl: imagine
+                                                    .media![pagePosition]
+                                                    .mediaFileName
                                                     .toString(),
-                                                progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                    Center(
-                                                      child: SizedBox(
-                                                        height: 50,
-                                                        width: 50,
-                                                        child: CircularProgressIndicator(
-                                                            color: ColorConstants
-                                                                .primaryBlueColor,
-                                                            value: downloadProgress
-                                                                .progress),
-                                                      ),
-                                                    ),
-                                                errorWidget: (context, url, error) =>
-                                                    Icon(Icons.error),
+                                                progressIndicatorBuilder:
+                                                    (context, url,
+                                                            downloadProgress) =>
+                                                        Center(
+                                                  child: SizedBox(
+                                                    height: 50,
+                                                    width: 50,
+                                                    child: CircularProgressIndicator(
+                                                        color: ColorConstants
+                                                            .primaryBlueColor,
+                                                        value: downloadProgress
+                                                            .progress),
+                                                  ),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(Icons.error),
                                               )));
                                     }),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: indicators(imagine.media!.length,activePage))
+                                    children: indicators(
+                                        imagine.media!.length, activePage))
                               ],
                             ),
                           ),
-
                           SizedBox(
-                            height: 18
-                            ,
+                            height: 18,
                           ),
                         ],
                       ),
@@ -2143,8 +2323,8 @@ class _LabScreenState extends State<LabScreen>
                         },
                         child: Text(
                           "OK",
-                          style:
-                              GoogleFonts.heebo(color: Colors.blue, fontSize: 25),
+                          style: GoogleFonts.heebo(
+                              color: Colors.blue, fontSize: 25),
                         )),
                     SizedBox(
                       height: 15,
@@ -2159,14 +2339,14 @@ class _LabScreenState extends State<LabScreen>
 
   Future<void> getLabScreenApi() async {
     getUserName =
-    await PreferenceUtils.getDataObject("OtpVerificationResponse");
+        await PreferenceUtils.getDataObject("OtpVerificationResponse");
 
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.getDashboard;
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     Response response = await get(
@@ -2182,9 +2362,11 @@ class _LabScreenState extends State<LabScreen>
       bloodPressureList.clear();
       hemoglobinList.clear();
       heartRateList.clear();
+      tabbodyList.clear();
+      tabList.clear();
       for (int i = 0;
-      i < _labScreenResponseModelodel.testResults!.length;
-      i++) {
+          i < _labScreenResponseModelodel.testResults!.length;
+          i++) {
         if (_labScreenResponseModelodel.testResults![i].testResultName ==
             "Blood Pressure") {
           bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
@@ -2267,13 +2449,13 @@ class _LabScreenState extends State<LabScreen>
 
   Future<void> getLabScreenApiWithoutLoader() async {
     getUserName =
-    await PreferenceUtils.getDataObject("OtpVerificationResponse");
+        await PreferenceUtils.getDataObject("OtpVerificationResponse");
 
     final uri = ApiEndPoint.getDashboard;
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     Response response = await get(
@@ -2284,91 +2466,96 @@ class _LabScreenState extends State<LabScreen>
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
-      PreferenceUtils.putObject("LabResponse", _labScreenResponseModelodel);
-      bloodPressureList.clear();
-      hemoglobinList.clear();
-      heartRateList.clear();
-      tabbodyList.clear();
-      tabList.clear();
-      for (int i = 0;
-      i < _labScreenResponseModelodel.testResults!.length;
-      i++) {
-        if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Blood Pressure") {
-          bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
-        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Hemoglobin") {
-          hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
-        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Heart Rate") {
-          heartRateList.add(_labScreenResponseModelodel.testResults![i]);
+      setState(() {
+        _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
+        PreferenceUtils.putObject("LabResponse", _labScreenResponseModelodel);
+        bloodPressureList.clear();
+        hemoglobinList.clear();
+        heartRateList.clear();
+        tabbodyList.clear();
+        tabList.clear();
+        for (int i = 0;
+            i < _labScreenResponseModelodel.testResults!.length;
+            i++) {
+          if (_labScreenResponseModelodel.testResults![i].testResultName ==
+              "Blood Pressure") {
+            bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
+          } else if (_labScreenResponseModelodel
+                  .testResults![i].testResultName ==
+              "Hemoglobin") {
+            hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
+          } else if (_labScreenResponseModelodel
+                  .testResults![i].testResultName ==
+              "Heart Rate") {
+            heartRateList.add(_labScreenResponseModelodel.testResults![i]);
+          }
         }
-      }
-      if (hemoglobinList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Hemoglobin",
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
+        if (hemoglobinList.isNotEmpty) {
+          tabList.add(Container(
+            height: 45,
+            child: Center(
+              child: Text(
+                "Hemoglobin",
+                style: GoogleFonts.heebo(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
             ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: hemoglobinList,
-        ));
-      }
-      ;
-      if (bloodPressureList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Blood Pressure",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
+          ));
+          tabbodyList.add(GraphWidget(
+            graphList: hemoglobinList,
+          ));
+        }
+        ;
+        if (bloodPressureList.isNotEmpty) {
+          tabList.add(Container(
+            height: 45,
+            child: Center(
+              child: Text(
+                "Blood Pressure",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.heebo(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
             ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: bloodPressureList,
-        ));
-      }
-      ;
-      if (heartRateList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Heart Rate",
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
+          ));
+          tabbodyList.add(GraphWidget(
+            graphList: bloodPressureList,
+          ));
+        }
+        ;
+        if (heartRateList.isNotEmpty) {
+          tabList.add(Container(
+            height: 45,
+            child: Center(
+              child: Text(
+                "Heart Rate",
+                style: GoogleFonts.heebo(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
             ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: heartRateList,
-        ));
-      }
-      ;
+          ));
+          tabbodyList.add(GraphWidget(
+            graphList: heartRateList,
+          ));
+        }
+        ;
 
-      tabItemCount = tabList.length;
-      _tabController = new TabController(length: tabItemCount, vsync: this);
-      setState(() {});
-      CommonUtils.showGreenToastMessage("Result Saved");
-      CommonUtils.hideProgressDialog(context);
+        tabItemCount = tabList.length;
+        _tabController = new TabController(length: tabItemCount, vsync: this);
 
-      Navigator.pop(context);
-      setState(() {});
+        setState(() {});
+        CommonUtils.showGreenToastMessage("Result Saved");
+        CommonUtils.hideProgressDialog(context);
+
+        Navigator.pop(context);
+        setState(() {});
+      });
     } else {
       Navigator.pop(context);
     }
@@ -2376,13 +2563,13 @@ class _LabScreenState extends State<LabScreen>
 
   Future<void> getLabScreenApiWithoutPop() async {
     getUserName =
-    await PreferenceUtils.getDataObject("OtpVerificationResponse");
+        await PreferenceUtils.getDataObject("OtpVerificationResponse");
 
     final uri = ApiEndPoint.getDashboard;
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     Response response = await get(
@@ -2401,8 +2588,8 @@ class _LabScreenState extends State<LabScreen>
       tabbodyList.clear();
       tabList.clear();
       for (int i = 0;
-      i < _labScreenResponseModelodel.testResults!.length;
-      i++) {
+          i < _labScreenResponseModelodel.testResults!.length;
+          i++) {
         if (_labScreenResponseModelodel.testResults![i].testResultName ==
             "Blood Pressure") {
           bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
@@ -2477,9 +2664,7 @@ class _LabScreenState extends State<LabScreen>
       CommonUtils.hideProgressDialog(context);
 
       setState(() {});
-    } else {
-
-    }
+    } else {}
   }
 
   Future<void> getTestResultTypes() async {
@@ -2487,7 +2672,7 @@ class _LabScreenState extends State<LabScreen>
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     Response response = await get(
@@ -2503,7 +2688,7 @@ class _LabScreenState extends State<LabScreen>
             testType: res[i]["testType"], testTypeId: res[i]["testTypeId"]));
       }
       print("testResultTypesData" + testResultTypesData.toString());
-      testTypeId=testResultTypesData[0].testTypeId!;
+      testTypeId = testResultTypesData[0].testTypeId!;
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
@@ -2544,7 +2729,7 @@ class _LabScreenState extends State<LabScreen>
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
       "usersTestResultId": 0,
@@ -2564,6 +2749,7 @@ class _LabScreenState extends State<LabScreen>
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
+      setState(() {});
       getLabScreenApiWithoutLoader();
     } else {
       CommonUtils.hideProgressDialog(context);

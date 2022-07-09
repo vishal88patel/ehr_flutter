@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/Utils/common_utils.dart';
+import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:ehr/View/Screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -169,7 +170,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Don't Get Otp?",
+                                  "Don't Get Otp? ",
                                   style: GoogleFonts.heebo(
                                       fontSize: D.H / 52,
                                       fontWeight: FontWeight.w400),
@@ -252,7 +253,14 @@ class _OtpScreenState extends State<OtpScreen> {
 
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage("Login Successfully");
-      NavigationHelpers.redirect(context, RegisterScreen());
+      if(model.registrationCompleted==true){
+        _timer!.cancel();
+        NavigationHelpers.redirectto(context, DashBoardScreen(1));
+      }else{
+        _timer!.cancel();
+        NavigationHelpers.redirectto(context, RegisterScreen());
+
+      }
 
     } else {
       CommonUtils.hideProgressDialog(context);

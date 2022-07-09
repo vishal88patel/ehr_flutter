@@ -1,4 +1,5 @@
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:ehr/View/Screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               child: CustomButton(
                 color: ColorConstants.blueBtn,
                 onTap: () {
-                  NavigationHelpers.redirect(context, ProfileScreen());
+                  NavigationHelpers.redirectto(context, DashBoardScreen(1));
                 },
                 text: "Done",
                 textColor: Colors.white,  
