@@ -181,7 +181,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                                             fontWeight: FontWeight.w400),
                                       ),
                                       Text(
-                                        "Hill ${medicationData[index].dosage! + " " + "${medicationData[index].dosageType! + " "}" + "${medicationData[index].frequencyType}"}",
+                                        "${medicationData[index].dosage! + " " + "${medicationData[index].dosageType! + " "}" + "${medicationData[index].frequencyType}"}",
                                         // "Hil 250 mg 2/Day",
                                         style: GoogleFonts.heebo(
                                             color: ColorConstants.blueBtn,

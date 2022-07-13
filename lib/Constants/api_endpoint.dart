@@ -10,6 +10,7 @@ class ApiEndPoint {
   static Uri getProfile = Uri.parse(BASE_URL + "account/profile");
   static Uri updateProfile = Uri.parse(BASE_URL + "account/update-profile");
   static Uri uploadPhoto = Uri.parse(BASE_URL + "account/upload-photo");
+  static Uri logout = Uri.parse(BASE_URL + "account/logout");
 
 
   static Uri countryCode = Uri.parse(BASE_URL + "shared/get-country-codes");

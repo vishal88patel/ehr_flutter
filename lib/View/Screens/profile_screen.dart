@@ -48,11 +48,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var bytesss;
   String isFromAnotherScreen="0";
   var userName="User Name";
+  OtpVerificationModel model=OtpVerificationModel();
 
   @override
   void initState() {
-    getData();
-
+    getDataa();
     super.initState();
   }
   @override
@@ -236,39 +236,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
                         child: InkWell(
                           onTap: (){
-                            NavigationHelpers.redirect(context, ChangePasswordScreen());
-                          },
-                          child: Container(
-                            height: D.H/12,
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images/ic_change_pass.svg", width: 20,height: 23,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 14.0),
-                                  child: Text(
-                                    "Change Password",
-                                    style: GoogleFonts.inter(
-                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: D.H / 28,right: D.H / 28),
-                        child: Container(
-                          height: 2,
-                          color: ColorConstants.lineColor,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
-                        child: InkWell(
-                          onTap: (){
                             NavigationHelpers.redirect(context, HelpScreen());
                           },
                           child: Container(
@@ -300,22 +267,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
-                        child: Container(
-                          height: D.H/12,
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/ic_logout.svg", width: 20,height: 23,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 11.0),
-                                child: Text(
-                                  "Logout",
-                                  style: GoogleFonts.inter(
-                                      fontSize: D.H / 45, fontWeight: FontWeight.w500),
+                        child: InkWell(
+                          onTap: (){
+                            logout();
+                          },
+                          child: Container(
+                            height: D.H/12,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/images/ic_logout.svg", width: 20,height: 23,
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 11.0),
+                                  child: Text(
+                                    "Logout",
+                                    style: GoogleFonts.inter(
+                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -328,7 +300,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
 
   _getFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
@@ -346,44 +317,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-
-  getData() async {
+  getDataa() async {
+    CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.getProfile;
     final headers = {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString(
+          "ACCESSTOKEN")}',
     };
 
     Response response = await get(
       uri,
       headers: headers,
     );
-    dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
-    userName=dataModel.firstName!+" "+ dataModel.lastName.toString();
-    if(dataModel.profilePicture!.isEmpty){
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      model=OtpVerificationModel.fromJson(res);
+      CommonUtils.hideProgressDialog(context);
+      getData();
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+
+  }
+  getData() async {
+    userName=model.firstName!+" "+ model.lastName.toString();
+    if(model.profilePicture!.isEmpty){
       imageUrll="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg";
     }else{
-      imageUrll=dataModel.profilePicture!;
-
+      imageUrll=model.profilePicture!;
     }
-    setState(() {
-
-    });
-    //
-    // if(dataModel!=null){
-    //   imageUrl=dataModel.profilePicture!;
-    //   try {
-    //     var imageId = await ImageDownloader.downloadImage(dataModel.profilePicture.toString());
-    //     if (imageId == null) {
-    //       return;
-    //     }
-    //      imageUrll = (await ImageDownloader.findPath(imageId))!;
-    //     setState(() {
-    //
-    //     });
-    //   } on PlatformException catch (error) {
-    //     print(error);
-    //   }
-
   }
 
   multipartProdecudre() async {
@@ -424,5 +389,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  logout() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.logout;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString(
+          "ACCESSTOKEN")}',
+    };
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
 
+
+    setState(() {
+
+    });
+  }
 }

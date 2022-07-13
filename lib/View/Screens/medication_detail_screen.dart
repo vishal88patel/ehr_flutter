@@ -237,39 +237,6 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SvgPicture.asset(
-                                    "assets/images/ic_doctorr.svg"),
-                                SizedBox(width: D.H / 50),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Doctor",
-                                      style: GoogleFonts.heebo(
-                                          fontSize: D.H / 52,
-                                          color: ColorConstants.lightText3,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    Text(
-                                      "John Miler",
-                                      style: GoogleFonts.heebo(
-                                          fontSize: D.H / 50,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            Container(
-                              width: 1.0,
-                              height: D.H / 16,
-                              color: ColorConstants.lineColor,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
                                 SvgPicture.asset("assets/images/ic_food.svg"),
                                 SizedBox(width: D.H / 50),
                                 Column(
