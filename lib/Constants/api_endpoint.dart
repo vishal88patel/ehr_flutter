@@ -35,4 +35,6 @@ class ApiEndPoint {
   static Uri getSchedule = Uri.parse(BASE_URL + "users/get-schedules");
   static Uri painDashboard = Uri.parse(BASE_URL + "users/pain-dashboard");
 
+  static Uri logout = Uri.parse(BASE_URL + "account/logout");
+
 }

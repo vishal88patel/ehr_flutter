@@ -27,6 +27,7 @@ import 'change_pass_screen.dart';
 import 'comment_screen.dart';
 import 'edit_profile_screen.dart';
 import 'help_screen.dart';
+import 'login_screen.dart';
 import 'medication_detail_screen.dart';
 import 'otp_screen.dart';
 import 'package:image_picker/image_picker.dart';
@@ -307,12 +308,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               SvgPicture.asset(
                                 "assets/images/ic_logout.svg", width: 20,height: 23,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 11.0),
-                                child: Text(
-                                  "Logout",
-                                  style: GoogleFonts.inter(
-                                      fontSize: D.H / 45, fontWeight: FontWeight.w500),
+                              GestureDetector(
+                                onTap:(){
+                                  logout();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 11.0),
+                                  child: Text(
+                                    "Logout",
+                                    style: GoogleFonts.inter(
+                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ),
                             ],
@@ -327,6 +333,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  logout() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.logout;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString(
+          "ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+
+    if (response.statusCode==200) {
+      CommonUtils.hideProgressDialog(context);
+      PreferenceUtils.clear();
+      CommonUtils.showGreenToastMessage("logout successfully");
+      NavigationHelpers.redirectto(context, LogInScreen());
+    }
+    else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage("error");
+    }
   }
 
 
