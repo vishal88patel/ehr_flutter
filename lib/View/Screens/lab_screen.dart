@@ -86,7 +86,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
           toolbarHeight: 45,
           centerTitle: true,
           title: Text(
-            "James Smith",
+            "Summary",
             style: GoogleFonts.heebo(
                 fontSize: D.H / 44, fontWeight: FontWeight.w500),
           ),
@@ -525,7 +525,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                               FontWeight.w400),
                                                                     ),
                                                                     Text(
-                                                                      "Hill ${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
+                                                                      "${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
                                                                       // "Hil 250 mg 2/Day",
                                                                       style: GoogleFonts.heebo(
                                                                           color: ColorConstants

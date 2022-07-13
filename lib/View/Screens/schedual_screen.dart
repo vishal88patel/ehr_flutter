@@ -101,7 +101,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
                 height: 10,
               ),
               Text(
-                "Calender",
+                "Calendar",
                 style: GoogleFonts.heebo(
                     fontSize: D.H / 44, fontWeight: FontWeight.w500),
               ),
@@ -337,21 +337,6 @@ class _SchedualScreenState extends State<SchedualScreen> {
                                                 ),
                                               ),
                                             ],
-                                          ),
-                                          SizedBox(
-                                            width: D.W / 5.5,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: D.W/12),
-                                            child: Text(
-                                              parts[0],
-                                              style: GoogleFonts.heebo(
-                                                  fontSize: D.H / 52,
-                                                  color: ColorConstants
-                                                      .blueBtn,
-                                                  fontWeight:
-                                                      FontWeight.w500),
-                                            ),
                                           ),
                                         ],
                                       ),
