@@ -8,6 +8,7 @@ class ApiEndPoint {
   static Uri otpVeryfy = Uri.parse(BASE_URL + "account/verify-access");
   static Uri resendOtp = Uri.parse(BASE_URL + "account/resend-code");
   static Uri getProfile = Uri.parse(BASE_URL + "account/profile");
+  static Uri getHelp = Uri.parse(BASE_URL + "shares/get-help-page");
   static Uri updateProfile = Uri.parse(BASE_URL + "account/update-profile");
   static Uri uploadPhoto = Uri.parse(BASE_URL + "account/upload-photo");
   static Uri logout = Uri.parse(BASE_URL + "account/logout");
@@ -36,6 +37,5 @@ class ApiEndPoint {
   static Uri getSchedule = Uri.parse(BASE_URL + "users/get-schedules");
   static Uri painDashboard = Uri.parse(BASE_URL + "users/pain-dashboard");
 
-  static Uri logout = Uri.parse(BASE_URL + "account/logout");
 
 }

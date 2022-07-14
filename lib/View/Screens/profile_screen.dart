@@ -49,10 +49,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var bytesss;
   String isFromAnotherScreen="0";
   var userName="User Name";
+  var pageContent="";
 
   @override
   void initState() {
     getData();
+    fetchHelp();
+
 
     super.initState();
   }
@@ -233,44 +236,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: ColorConstants.lineColor,
                         ),
                       ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
+                      //   child: InkWell(
+                      //     onTap: (){
+                      //       NavigationHelpers.redirect(context, ChangePasswordScreen());
+                      //     },
+                      //     child: Container(
+                      //       height: D.H/12,
+                      //       child: Row(
+                      //         children: [
+                      //           SvgPicture.asset(
+                      //             "assets/images/ic_change_pass.svg", width: 20,height: 23,
+                      //           ),
+                      //           Padding(
+                      //             padding: const EdgeInsets.only(left: 14.0),
+                      //             child: Text(
+                      //               "Change Password",
+                      //               style: GoogleFonts.inter(
+                      //                   fontSize: D.H / 45, fontWeight: FontWeight.w500),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(left: D.H / 28,right: D.H / 28),
+                      //   child: Container(
+                      //     height: 2,
+                      //     color: ColorConstants.lineColor,
+                      //   ),
+                      // ),
                       Padding(
                         padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
                         child: InkWell(
                           onTap: (){
-                            NavigationHelpers.redirect(context, ChangePasswordScreen());
-                          },
-                          child: Container(
-                            height: D.H/12,
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images/ic_change_pass.svg", width: 20,height: 23,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 14.0),
-                                  child: Text(
-                                    "Change Password",
-                                    style: GoogleFonts.inter(
-                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: D.H / 28,right: D.H / 28),
-                        child: Container(
-                          height: 2,
-                          color: ColorConstants.lineColor,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
-                        child: InkWell(
-                          onTap: (){
-                            NavigationHelpers.redirect(context, HelpScreen());
+                            NavigationHelpers.redirect(context, HelpScreen(pageContent));
                           },
                           child: Container(
                             height: D.H/12,
@@ -414,6 +417,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
     //   } on PlatformException catch (error) {
     //     print(error);
     //   }
+
+  }
+
+  fetchHelp() async {
+    final uri = ApiEndPoint.getHelp;
+    final headers = {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      pageContent=res["pageContent"];
+
+    } else {
+    }
 
   }
 

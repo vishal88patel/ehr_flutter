@@ -19,6 +19,7 @@ import 'package:intl/intl.dart';
 import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
 import '../../CustomWidgets/chart_widget.dart';
+import '../../CustomWidgets/custom_date_field.dart';
 import '../../Model/imageType_model.dart';
 import '../../Model/lab_screen_response_model.dart';
 import '../../Model/otp_verification_model.dart';
@@ -64,6 +65,11 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   List<Widget> tabList = [];
   List<Widget> tabbodyList = [];
   int tabItemCount = 3;
+  DateTime selectedDate = DateTime.now();
+  final labTestDate = TextEditingController();
+  int eDate=0;
+
+
 
   @override
   void initState() {
@@ -710,6 +716,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                           valueController.text = "";
                                           _choosenLabValue =
                                               testResultTypesData[0].testType;
+                                          labTestDate.text="";
                                           showDialog<String>(
                                             context: context,
                                             builder: (BuildContext context) =>
@@ -965,6 +972,34 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                       ),
                                                       SizedBox(
                                                           height: D.H / 40),
+                                                      Padding(
+                                                        padding:
+                                                        EdgeInsets.only(
+                                                            left: D.W / 18,
+                                                            right:
+                                                            D.W / 18),
+                                                        child: Container(
+                                                          width: D.W / 2.9,
+                                                          child: CustomDateField(
+                                                            onTap: () {
+                                                              FocusManager.instance.primaryFocus?.unfocus();
+                                                              _selectDateSE(context, labTestDate,eDate);
+                                                            },
+                                                            controller: labTestDate,
+                                                            iconPath: "assets/images/ic_date.svg",
+                                                            readOnly: true,
+                                                            validators: (e) {
+                                                              if (labTestDate.text == null ||
+                                                                  labTestDate.text == '') {
+                                                                return '*Please enter End Date';
+                                                              }
+                                                            },
+                                                            keyboardTYPE: TextInputType.text,
+                                                            obscured: false,
+                                                          ),
+                                                        ),
+                                                      ),
+
                                                       Container(
                                                         height: 1,
                                                         color:
@@ -990,6 +1025,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                 CommonUtils
                                                                     .showRedToastMessage(
                                                                         "Please add Value");
+                                                              }else if( labTestDate.text.isEmpty) {
+                                                                CommonUtils.showRedToastMessage("Please enter End date");
                                                               } else {
                                                                 saveTestResult();
                                                               }
@@ -2735,6 +2772,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       "usersTestResultId": 0,
       "testResultId": testTypeId,
       "testResultValue": valueController.text.toString(),
+      "testDate": eDate,
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -2794,4 +2832,27 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       CommonUtils.showRedToastMessage(responseData["message"]);
     }
   }
+
+  Future<void> _selectDateSE(BuildContext context, final controller,int Date) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        final DateFormat formatter = DateFormat('dd-MM-yy');
+        final String startDate = formatter.format(picked);
+        controller.text = startDate.toString();
+
+
+        final DateFormat formatter2 = DateFormat('dd-MM-yyy');
+        final String sDatee = formatter2.format(picked);
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
+        eDate=dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:"+Date.toString());
+      });
+    }
+  }
+
 }

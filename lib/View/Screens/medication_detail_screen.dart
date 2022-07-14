@@ -143,7 +143,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
                                       fontWeight: FontWeight.w400),
                                 ),
                                 Text(
-                                  "Hill "+widget.dosage.toString()+widget.dosageType.toString()+" "+widget.frequencyType.toString(),
+                                  widget.dosage.toString()+widget.dosageType.toString()+" "+widget.frequencyType.toString(),
                                   style: GoogleFonts.heebo(
                                       fontSize: D.H / 50,
                                       fontWeight: FontWeight.w400),
