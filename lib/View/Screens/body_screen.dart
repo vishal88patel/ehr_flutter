@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../Constants/color_constants.dart';
+import '../../Utils/dimensions.dart';
 import 'body_detail_screen.dart';
 
 class BodyScreen extends StatefulWidget {
@@ -20,6 +21,8 @@ class BodyScreen extends StatefulWidget {
 class _BodyScreenState extends State<BodyScreen> {
   FlipCardController _flipCardController = FlipCardController();
   bool isFlipped = false;
+  double _x=98.0;
+  double _y=123.0;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +65,7 @@ class _BodyScreenState extends State<BodyScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 11.0),
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
           children: [
             SizedBox(
@@ -109,108 +112,153 @@ class _BodyScreenState extends State<BodyScreen> {
                 ),
               ],
             ),
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        "2020",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2019",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2018",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2017",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2016",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2015",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2014",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2013",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2012",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2011",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "2010",
-                        style: GoogleFonts.heebo(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 12,),
-                  Stack(
+            Stack(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          "2020",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2019",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2018",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2017",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2016",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2015",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2014",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2013",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2012",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2011",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "2010",
+                          style: GoogleFonts.heebo(
+                              fontWeight: FontWeight.bold, color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 270,
+                        ),
+                        SizedBox(
+                            width: 90,
+                            height: 320,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: Constants.BodyPartsList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 12,
+                                          width: 12,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.greenAccent),
+                                        ),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Text(
+                                          Constants.BodyPartsList[index].bodyPart.toString(),
+                                          style: GoogleFonts.heebo(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                  ],
+                                );
+                              },
+                            )),
+
+                      ],
+                    ),
+                  ],
+                ),
+                Center(
+                  child: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
                       Column(
@@ -234,179 +282,72 @@ class _BodyScreenState extends State<BodyScreen> {
                             height: 100,
                           ),
                           Container(
-                            height: 410,
-                            width: 230,
+                            height: D.H/1.9,
+                            width: D.W/1.6,
                             child: GestureDetector(
                               child: FlipCard(
                                 flipOnTouch: false,
                                 fill: Fill.fillBack,
                                 controller: _flipCardController,
-                                // Fill the back side of the card to make in the same size as the front.
-
                                 direction: FlipDirection.HORIZONTAL,
-                                // default
                                 front: Container(
-                                  height: 410,
-                                  width: 230,
+                                  height: D.H/1.9,
+                                  width: D.W/1.6,
                                   child: Stack(
                                     children: [
                                       Image.asset(
                                         "assets/images/human_body_front.png",
                                       ),
                                       Positioned(
-                                        top: 57,
-                                        left: 75,
+                                        left: _x,
+                                        top: _y,
                                         child: InkWell(
-                                          onTap: () {
-                                            NavigationHelpers.redirect(
-                                                context,
-                                                BodyDetailScreen());
+                                          onTap: (){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => BodyDetailScreen()),
+                                            );
                                           },
-                                          child: Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.blue),
+                                          child: Draggable(
+                                            child:  Container(
+                                              height: 20,
+                                              width: 20,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.blue),
+                                            ),
+                                            feedback:  Container(
+                                              height: 20,
+                                              width: 20,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.blue),
+                                            ),
+                                            childWhenDragging: Container(),
+                                            onDragEnd: (dragDetails) {
+                                              setState(() {
+                                                double width= D.W-D.W/1.6;
+                                                double height= D.H-D.H/1.9;
+                                                print(width.toString()+","+height.toString());
+                                                _x = dragDetails.offset.dx-width/2;
+                                                _y = dragDetails.offset.dy-height/1.56;
+                                                print(_x.toString()+" , "+_y.toString());
+                                              });
+                                            },
                                           ),
                                         ),
-                                      ),
-                                      Positioned(
-                                        top: 80,
-                                        left: 120,
-                                        child: InkWell(
-                                          onTap: () {
-                                            NavigationHelpers.redirect(
-                                                context,
-                                                BodyDetailScreen());
-                                          },
-                                          child: Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.greenAccent),
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 130,
-                                        left: 102,
-                                        child: InkWell(
-                                          onTap: () {
-                                            NavigationHelpers.redirect(
-                                                context,
-                                                BodyDetailScreen());
-                                          },
-                                          child: Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.red),
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 245,
-                                        left: 113,
-                                        child: InkWell(
-                                          onTap: () {
-                                            NavigationHelpers.redirect(
-                                                context,
-                                                BodyDetailScreen());
-                                          },
-                                          child: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(0xFF6FC7BA)),
-                                          ),
-                                        ),
-                                      ),
+                                      )
                                     ],
                                   ),
                                 ),
                                 back: Container(
-                                  height: 410,
-                                  width: 230,
+                                  height: D.H/1.9,
+                                  width: D.W/1.6,
                                   child: Stack(
                                     children: [
                                       Image.asset(
                                         "assets/images/human_body_back.png",
-                                      ),
-                                      Positioned(
-                                        top: 57,
-                                        left: 75,
-                                        child: InkWell(
-                                          onTap: () {
-                                            NavigationHelpers.redirect(
-                                                context,
-                                                BodyDetailScreen());
-                                          },
-                                          child: Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.blue),
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 80,
-                                        left: 120,
-                                        child: InkWell(
-                                          onTap: () {
-                                            NavigationHelpers.redirect(
-                                                context,
-                                                BodyDetailScreen());
-                                          },
-                                          child: Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.greenAccent),
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 130,
-                                        left: 102,
-                                        child: InkWell(
-                                          onTap: () {
-                                            NavigationHelpers.redirect(
-                                                context,
-                                                BodyDetailScreen());
-                                          },
-                                          child: Container(
-                                            height: 12,
-                                            width: 12,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.red),
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 245,
-                                        left: 113,
-                                        child: InkWell(
-                                          onTap: () {
-                                            NavigationHelpers.redirect(
-                                                context,
-                                                BodyDetailScreen());
-                                          },
-                                          child: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(0xFF6FC7BA)),
-                                          ),
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -418,157 +359,112 @@ class _BodyScreenState extends State<BodyScreen> {
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 270,
-                      ),
-                      SizedBox(
-                        width: 90,
-                          height: 320,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                          physics: BouncingScrollPhysics(),
-                          itemCount: Constants.BodyPartsList.length,
-                           itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 12,
-                                      width: 12,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.greenAccent),
-                                    ),
-                                    SizedBox(
-                                      width: 6,
-                                    ),
-                                    Text(
-                                      Constants.BodyPartsList[index].bodyPart.toString(),
-                                      style: GoogleFonts.heebo(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey),
-                                    ),
+                ),
 
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                              ],
-                            );
-                           },
-                      )),
 
-                    ],
-                  )
-
-                  // Column(
-                  //   children: [
-                  //     SizedBox(
-                  //       height: 300,
-                  //     ),
-                  //     Row(
-                  //       children: [
-                  //         Container(
-                  //           height: 12,
-                  //           width: 12,
-                  //           decoration: BoxDecoration(
-                  //               shape: BoxShape.circle,
-                  //               color: Colors.greenAccent),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 6,
-                  //         ),
-                  //         Text(
-                  //           "Arms",
-                  //           style: GoogleFonts.heebo(
-                  //               fontWeight: FontWeight.bold,
-                  //               color: Colors.grey),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     Text(
-                  //       "Chest",
-                  //       style: GoogleFonts.heebo(
-                  //           fontWeight: FontWeight.bold, color: Colors.grey),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     Text(
-                  //       "Shoulders",
-                  //       style: GoogleFonts.heebo(
-                  //           fontWeight: FontWeight.bold, color: Colors.grey),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     Text(
-                  //       "Ankle",
-                  //       style: GoogleFonts.heebo(
-                  //           fontWeight: FontWeight.bold, color: Colors.grey),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     Text(
-                  //       "Leg",
-                  //       style: GoogleFonts.heebo(
-                  //           fontWeight: FontWeight.bold, color: Colors.grey),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     Text(
-                  //       "Foot",
-                  //       style: GoogleFonts.heebo(
-                  //           fontWeight: FontWeight.bold, color: Colors.grey),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     Text(
-                  //       "Knee",
-                  //       style: GoogleFonts.heebo(
-                  //           fontWeight: FontWeight.bold, color: Colors.grey),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     Text(
-                  //       "Elbow",
-                  //       style: GoogleFonts.heebo(
-                  //           fontWeight: FontWeight.bold, color: Colors.grey),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     Text(
-                  //       "Heel",
-                  //       style: GoogleFonts.heebo(
-                  //           fontWeight: FontWeight.bold, color: Colors.grey),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     Text(
-                  //       "Thigh",
-                  //       style: GoogleFonts.heebo(
-                  //           fontWeight: FontWeight.bold, color: Colors.grey),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //   ],
-                  // )
-                ],
-              ),
+                // Column(
+                //   children: [
+                //     SizedBox(
+                //       height: 300,
+                //     ),
+                //     Row(
+                //       children: [
+                //         Container(
+                //           height: 12,
+                //           width: 12,
+                //           decoration: BoxDecoration(
+                //               shape: BoxShape.circle,
+                //               color: Colors.greenAccent),
+                //         ),
+                //         SizedBox(
+                //           width: 6,
+                //         ),
+                //         Text(
+                //           "Arms",
+                //           style: GoogleFonts.heebo(
+                //               fontWeight: FontWeight.bold,
+                //               color: Colors.grey),
+                //         ),
+                //       ],
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //     Text(
+                //       "Chest",
+                //       style: GoogleFonts.heebo(
+                //           fontWeight: FontWeight.bold, color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //     Text(
+                //       "Shoulders",
+                //       style: GoogleFonts.heebo(
+                //           fontWeight: FontWeight.bold, color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //     Text(
+                //       "Ankle",
+                //       style: GoogleFonts.heebo(
+                //           fontWeight: FontWeight.bold, color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //     Text(
+                //       "Leg",
+                //       style: GoogleFonts.heebo(
+                //           fontWeight: FontWeight.bold, color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //     Text(
+                //       "Foot",
+                //       style: GoogleFonts.heebo(
+                //           fontWeight: FontWeight.bold, color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //     Text(
+                //       "Knee",
+                //       style: GoogleFonts.heebo(
+                //           fontWeight: FontWeight.bold, color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //     Text(
+                //       "Elbow",
+                //       style: GoogleFonts.heebo(
+                //           fontWeight: FontWeight.bold, color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //     Text(
+                //       "Heel",
+                //       style: GoogleFonts.heebo(
+                //           fontWeight: FontWeight.bold, color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //     Text(
+                //       "Thigh",
+                //       style: GoogleFonts.heebo(
+                //           fontWeight: FontWeight.bold, color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       height: 8,
+                //     ),
+                //   ],
+                // )
+              ],
             )
           ],
         ),

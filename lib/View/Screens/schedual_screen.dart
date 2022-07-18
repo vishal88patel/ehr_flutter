@@ -399,9 +399,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
     );
   }
 
-  void _showSnackBar(BuildContext context, String text) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
-  }
+
 
   Future<void> getSchedule(String month,String year) async {
     CommonUtils.showProgressDialog(context);
@@ -430,7 +428,6 @@ class _SchedualScreenState extends State<SchedualScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-
       for (int i = 0; i < res.length; i++) {
         scheduleList.add(ScheduleModel(
             usersScheduleId: res[i]["usersScheduleId"], scheduleDateTime: res[i]["scheduleDateTime"], comment: res[i]["comment"]));
