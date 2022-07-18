@@ -8,32 +8,16 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 import '../../Constants/api_endpoint.dart';
-import '../../CustomWidgets/custom_textform_field.dart';
+import '../../CustomWidgets/custom_date_field.dart';
 import '../../Model/body_part_response_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
-import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_button.dart';
 import 'otp_screen.dart';
 
-import 'package:ehr/Constants/color_constants.dart';
-import 'package:ehr/View/Screens/otp_verification_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../CustomWidgets/custom_textform_field.dart';
-import '../../Utils/dimensions.dart';
-import '../../Utils/navigation_helper.dart';
-import '../../customWidgets/custom_button.dart';
-import '../../customWidgets/custom_date_field.dart';
-import 'change_pass_screen.dart';
-import 'edit_profile_screen.dart';
-import 'otp_screen.dart';
-
 class BodyDetailScreen extends StatefulWidget {
-
   BodyDetailScreen({Key? key}) : super(key: key);
 
   @override
@@ -44,12 +28,13 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
   final desController = TextEditingController();
   final sDateController = TextEditingController();
   final eDateController = TextEditingController();
-  int sDate=0;
-  int eDate=0;
+  int sDate = 0;
+  int eDate = 0;
   DateTime selectedDate = DateTime.now();
-  List<BodyPartListResponseModel> bodyPartData=[];
+  List<BodyPartListResponseModel> bodyPartData = [];
   String? _bodyPartValue;
   var bodyPartId = 0;
+  var current = false;
 
   @override
   void initState() {
@@ -69,7 +54,9 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               "Add Comment",
               style: GoogleFonts.heebo(
@@ -86,8 +73,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Center(
-                    child:
-                    SvgPicture.asset("assets/images/detail_icon.svg")),
+                    child: SvgPicture.asset("assets/images/detail_icon.svg")),
               ],
             ),
             Card(
@@ -114,7 +100,8 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                         ),
                         SizedBox(height: D.H / 120),
                         Container(
-                          padding: EdgeInsets.only(left:D.W/30,right: D.W/60),
+                          padding:
+                              EdgeInsets.only(left: D.W / 30, right: D.W / 60),
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                             color: ColorConstants.innerColor,
@@ -139,7 +126,8 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                 value: items.bodyPart,
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 10),
-                                  child: Text(items.bodyPart.toString(),
+                                  child: Text(
+                                    items.bodyPart.toString(),
                                     style: TextStyle(fontSize: 15.0),
                                   ),
                                 ),
@@ -149,19 +137,20 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                               "Please choose a Body Area",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: D.H/48,
+                                  fontSize: D.H / 48,
                                   fontWeight: FontWeight.w400),
                             ),
-                            onChanged:
-                                (String? value) {
-                              setState(() {_bodyPartValue = value;
-                              for (int i = 0;
-                              i < bodyPartData.length; i++) {
-                                if (bodyPartData[i].bodyPart == _bodyPartValue) {
-                                  bodyPartId = bodyPartData[i].bodyPartId!;
-                                  print("dropdownvalueId:" + bodyPartId.toString());
+                            onChanged: (String? value) {
+                              setState(() {
+                                _bodyPartValue = value;
+                                for (int i = 0; i < bodyPartData.length; i++) {
+                                  if (bodyPartData[i].bodyPart ==
+                                      _bodyPartValue) {
+                                    bodyPartId = bodyPartData[i].bodyPartId!;
+                                    print("dropdownvalueId:" +
+                                        bodyPartId.toString());
+                                  }
                                 }
-                              }
                               });
                             },
                           ),
@@ -173,7 +162,8 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                               fontSize: D.H / 52, fontWeight: FontWeight.w400),
                         ),
                         SizedBox(height: D.H / 120),
-                        CustomBigTextFormField(controller: desController,
+                        CustomBigTextFormField(
+                            controller: desController,
                             readOnly: false,
                             validators: (e) {
                               if (desController.text == null ||
@@ -185,13 +175,11 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                             maxlength: 100,
                             maxline: 6,
                             obscured: false),
-
                         SizedBox(height: D.H / 40),
                         Text(
                           "Duration",
                           style: GoogleFonts.heebo(
-                              fontSize: D.H / 52,
-                              fontWeight: FontWeight.w700),
+                              fontSize: D.H / 52, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(height: D.H / 120),
                         Row(
@@ -210,9 +198,11 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                 Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
-                                    onTap: (){
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                      _selectDate(context, sDateController,sDate);
+                                    onTap: () {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      _selectDate(
+                                          context, sDateController, sDate);
                                     },
                                     controller: sDateController,
                                     iconPath: "assets/images/ic_date.svg",
@@ -239,12 +229,14 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                       fontWeight: FontWeight.w400),
                                 ),
                                 SizedBox(height: D.H / 120),
-                                Container(
+                                current?Container(width: D.W / 2.9,height:  D.H/16,):Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
-                                    onTap: (){
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                      _selectDate(context, eDateController,eDate);
+                                    onTap: () {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      _selectDate(
+                                          context, eDateController, eDate);
                                     },
                                     controller: eDateController,
                                     iconPath: "assets/images/ic_date.svg",
@@ -263,23 +255,56 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                             )
                           ],
                         ),
-                        SizedBox(height: D.H / 32),
+                        Row(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Transform.scale(
+                                  scale: 1.3,
+                                  child: Checkbox(
+                                      activeColor: ColorConstants.primaryBlueColor,
+                                      tristate: false,
+                                      value: current,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          current = value!;
+                                        });
+                                      }
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(width: 12,),
+                            Text(
+                              "Issue Is Ongoing",
+                              style: GoogleFonts.heebo(
+                                  fontSize: D.H / 50,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: D.H / 30),
                         CustomButton(
                           color: ColorConstants.blueBtn,
                           onTap: () {
-                            if(bodyPartId==0){
-                              CommonUtils.showRedToastMessage("Please Select Body Part");
+                            if(current){
+                              eDate=0;
                             }
-                            else if(desController.text.isEmpty){
-                              CommonUtils.showRedToastMessage("Please Enter Description");
-                            }
-                            else if(sDateController.text.isEmpty){
-                              CommonUtils.showRedToastMessage("Please Select StartDate");
-                            }
-                            else if(eDateController.text.isEmpty){
-                              CommonUtils.showRedToastMessage("Please Select EndDate");
-                            }
-                            else{
+                            if (bodyPartId == 0) {
+                              CommonUtils.showRedToastMessage(
+                                  "Please Select Body Part");
+                            } else if (desController.text.isEmpty) {
+                              CommonUtils.showRedToastMessage(
+                                  "Please Enter Description");
+                            } else if (sDateController.text.isEmpty) {
+                              CommonUtils.showRedToastMessage(
+                                  "Please Select StartDate");
+                            } else if (current==false && eDateController.text.isEmpty) {
+                              CommonUtils.showRedToastMessage(
+                                  "Please Select EndDate");
+                            } else {
                               savePain();
                             }
                           },
@@ -297,10 +322,10 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context, final controller,int Date) async {
+  Future<void> _selectDate(
+      BuildContext context, final controller, int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-
         initialDate: selectedDate,
         firstDate: DateTime(1900, 8),
         lastDate: DateTime.now());
@@ -310,19 +335,19 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
         final String startDate = formatter.format(picked);
         controller.text = startDate.toString();
 
-
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDate = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDate);
-        Date=dateTimeFormat.millisecondsSinceEpoch;
-        print("Date:"+Date.toString());
+        Date = dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:" + Date.toString());
       });
     }
   }
 
   Future<void> getBodyPartsApi() async {
     final uri = ApiEndPoint.getBodyParts;
-    final headers = {'Content-Type': 'application/json',
+    final headers = {
+      'Content-Type': 'application/json',
     };
 
     Response response = await get(
@@ -333,16 +358,15 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     String responseBody = response.body;
     // changeRoute();
     var res = jsonDecode(responseBody);
-    if (statusCode == 200 ) {
+    if (statusCode == 200) {
       for (int i = 0; i < res.length; i++) {
         bodyPartData.add(BodyPartListResponseModel(
             bodyPart: res[i]["bodyPart"], bodyPartId: res[i]["bodyPartId"]));
       }
-      bodyPartId=bodyPartData[0].bodyPartId!;
+      bodyPartId = bodyPartData[0].bodyPartId!;
       setState(() {});
     } else {
-
-       CommonUtils.showRedToastMessage(res["message"]);
+      CommonUtils.showRedToastMessage(res["message"]);
     }
   }
 
@@ -350,8 +374,10 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     FocusManager.instance.primaryFocus?.unfocus();
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.savePain;
-    final headers = {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
       "usersPainId": 0,
@@ -361,6 +387,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       "description": desController.text.toString(),
       "startDate": sDate,
       "endDate": eDate,
+      "current": current,
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -384,7 +411,6 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     }
   }
 }
-
 
 /*class BodyDetailScreen extends StatefulWidget {
   String appBarName;

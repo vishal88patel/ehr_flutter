@@ -55,7 +55,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   List<Frequency> frequencyTypeData = [];
   var _selectedFood = "after";
   DateTime selectedDate = DateTime.now();
-
+  var current = false;
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -391,7 +391,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                       fontWeight: FontWeight.w400),
                                 ),
                                 SizedBox(height: D.H / 120),
-                                Container(
+                                current?Container(width: D.W / 2.9,height:  D.H/16,): Container(
                                   width: D.W / 2.9,
                                   child: CustomDateField(
                                     onTap: () {
@@ -415,7 +415,40 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             )
                           ],
                         ),
-                        SizedBox(height: D.H / 60),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:  EdgeInsets.zero,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                        activeColor: ColorConstants.primaryBlueColor,
+                                        tristate: false,
+                                        value: current,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            current = value!;
+                                          });
+                                        }
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 12,),
+                            Text(
+                              "Issue Is Ongoing",
+                              style: GoogleFonts.heebo(
+                                  fontSize: D.H / 50,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
                         Text(
                           "Add Frequency",
                           style: GoogleFonts.heebo(
@@ -484,6 +517,9 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         CustomButton(
                           color: ColorConstants.blueBtn,
                           onTap: () {
+                            if(current){
+                              eDate=0;
+                            }
                             if (mNameController.text.isEmpty) {
                               CommonUtils.showRedToastMessage("Please enter Medication Name");
                             }else if(dosageController.text.isEmpty) {
@@ -494,7 +530,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                               CommonUtils.showRedToastMessage("Please select Food Type");
                             } else if(sDateController.text.isEmpty) {
                               CommonUtils.showRedToastMessage("Please enter Start Date");
-                            } else if(eDateController.text.isEmpty) {
+                            } else if(current==false && eDateController.text.isEmpty) {
                               CommonUtils.showRedToastMessage("Please enter End date");
                             } else if(frequencyId==0) {
                               CommonUtils.showRedToastMessage("Please enter Frequency");

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:ehr/View/Screens/register_screen.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
@@ -42,7 +43,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   int gender=1;
   var _selectedGender = "male";
   OtpVerificationModel? otpModel;
-
+  var _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -96,102 +97,114 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: D.W / 10, right: D.W / 10, top: D.H / 11),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "First Name",
-                        style: GoogleFonts.heebo(
-                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(height: D.H / 120),
-                      CustomTextFormField(
-                        controller: fNameController,
-                        readOnly: false,
-                        validators: (e) {
-                          if (fNameController.text == null ||
-                              fNameController.text == '') {
-                            return '*Please enter FirstName';
-                          }
-                        },
-                        keyboardTYPE: TextInputType.text,
-                        obscured: false,
-                      ),
-                      SizedBox(height: D.H / 40),
-                      Text(
-                        "Last Name",
-                        style: GoogleFonts.heebo(
-                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(height: D.H / 120),
-                      CustomTextFormField(
-                        controller: lNameController,
-                        readOnly: false,
-                        validators: (e) {
-                          if (lNameController.text == null ||
-                              lNameController.text == '') {
-                            return '*Please enter LastName';
-                          }
-                        },
-                        keyboardTYPE: TextInputType.text,
-                        obscured: false,
-                      ),
-                      SizedBox(height: D.H / 40),
-                      Text(
-                        "Email",
-                        style: GoogleFonts.heebo(
-                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(height: D.H / 120),
-                      CustomTextFormField(
-                        controller: emailController,
-                        readOnly: false,
-                        validators: (e) {
-                          if (emailController.text == null ||
-                              emailController.text == '') {
-                            return '*Please enter Email';
-                          }
-                        },
-                        keyboardTYPE: TextInputType.text,
-                        obscured: false,
-                      ),
-                      SizedBox(height: D.H / 40),
-                      Text(
-                        "Phone",
-                        style: GoogleFonts.heebo(
-                            fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                      ),
-                      CustomTextFormField(
-                        controller: phoneController,
-                        readOnly: true,
-                        validators: (e) {
-                          if (phoneController.text == null ||
-                              phoneController.text == '') {
-                            return '*Please enter Phone';
-                          }
-                        },
-                        keyboardTYPE: TextInputType.text,
-                        obscured: false,
-                      ),
-                      SizedBox(height: D.H / 36),
-                      CustomButton(
-                        color: ColorConstants.blueBtn,
-                        onTap: () async {
-                          updateProfile(
-                              lastName: lNameController.text.toString(),
-                              firstName: fNameController.text.toString(),
-                              birthdate: birthdate,
-                              email: emailController.text,
-                              gender: 1
-                          );
-                        },
-                        text: "Update",
-                        textColor: Colors.white,
-                      )
-                    ],
+                Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: D.W / 10, right: D.W / 10, top: D.H / 11),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "First Name",
+                          style: GoogleFonts.heebo(
+                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(height: D.H / 120),
+                        CustomTextFormField(
+                          controller: fNameController,
+                          readOnly: false,
+                          validators: (e) {
+                            if (fNameController.text == null ||
+                                fNameController.text == '') {
+                              return '*Please enter FirstName';
+                            }
+                          },
+                          keyboardTYPE: TextInputType.text,
+                          obscured: false,
+                        ),
+                        SizedBox(height: D.H / 40),
+                        Text(
+                          "Last Name",
+                          style: GoogleFonts.heebo(
+                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(height: D.H / 120),
+                        CustomTextFormField(
+                          controller: lNameController,
+                          readOnly: false,
+                          validators: (e) {
+                            if (lNameController.text == null ||
+                                lNameController.text == '') {
+                              return '*Please enter LastName';
+                            }
+                          },
+                          keyboardTYPE: TextInputType.text,
+                          obscured: false,
+                        ),
+                        SizedBox(height: D.H / 40),
+                        Text(
+                          "Email",
+                          style: GoogleFonts.heebo(
+                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(height: D.H / 120),
+                        CustomTextFormField(
+                          controller: emailController,
+                          readOnly: false,
+                          validators: (e) {
+                            if (emailController.text == null ||
+                                emailController.text == '') {
+                              return '*Please enter Email';
+                            } else if (!EmailValidator.validate(
+                                emailController.text)) {
+                              return '*Please enter valid Email';
+                            }
+                          },
+                          keyboardTYPE: TextInputType.text,
+                          obscured: false,
+                        ),
+                        SizedBox(height: D.H / 40),
+                        Text(
+                          "Phone",
+                          style: GoogleFonts.heebo(
+                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                        ),
+                        CustomTextFormField(
+                          controller: phoneController,
+                          readOnly: true,
+                          validators: (e) {
+                            if (phoneController.text == null ||
+                                phoneController.text == '') {
+                              return '*Please enter Phone';
+                            }
+                          },
+                          keyboardTYPE: TextInputType.text,
+                          obscured: false,
+                        ),
+                        SizedBox(height: D.H / 36),
+                        CustomButton(
+                          color: ColorConstants.blueBtn,
+                          onTap: () async {
+                            if( _formKey.currentState!.validate()){
+                              updateProfile(
+                                  lastName: lNameController.text.toString(),
+                                  firstName: fNameController.text.toString(),
+                                  birthdate: birthdate,
+                                  email: emailController.text,
+                                  gender: 1
+                              );
+                            }
+                            setState(() {
+
+                            });
+
+                          },
+                          text: "Update",
+                          textColor: Colors.white,
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -259,7 +272,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage("Data Updated Successfully");
-      NavigationHelpers.redirect(context, OtpVerificationScreen());
+      NavigationHelpers.redirect(context, OtpVerificationScreen(emailController.text));
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);

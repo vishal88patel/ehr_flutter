@@ -135,7 +135,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       CustomButton(
                         color: ColorConstants.blueBtn,
                         onTap: () {
-                          NavigationHelpers.redirect(context, OtpVerificationScreen());
+                          // NavigationHelpers.redirect(context, OtpVerificationScreen());
                         },
                         text: "Update",
                         textColor: Colors.white,

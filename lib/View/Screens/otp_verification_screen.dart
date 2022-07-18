@@ -10,7 +10,8 @@ import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../customWidgets/custom_button.dart';
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({Key? key}) : super(key: key);
+  String email;
+   OtpVerificationScreen(this.email, {Key? key}) : super(key: key);
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -61,7 +62,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             Padding(
               padding: EdgeInsets.only(left: D.W / 12,right: D.W / 12),
               child: Text(
-                "Check your Email We have sent you the code at ***123@gmail.com",textAlign: TextAlign.center,
+                "Check your Email We have sent you the code at ${widget.email.replaceRange(
+                    0,
+                    "example@gmail.com"
+                        .indexOf("@") -
+                        3,
+                    "****")}",textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                     fontSize: D.H / 48,
                     fontWeight: FontWeight.w400,
