@@ -1062,7 +1062,198 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                               SizedBox(
                                 height: D.H / 180,
                               ),
-                              tabList.isEmpty
+                              _labScreenResponseModelodel.testResults!.isEmpty
+                                  ? Container()
+                                  : Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.end,
+                                children: [
+                                  ListView.builder(
+                                      itemCount:
+                                      _labScreenResponseModelodel
+                                          .testResults!
+                                          .length >=
+                                          3
+                                          ? 3
+                                          : _labScreenResponseModelodel
+                                          .testResults!.length,
+                                      shrinkWrap: true,
+                                      physics:
+                                      NeverScrollableScrollPhysics(),
+                                      itemBuilder:
+                                          (BuildContext context,
+                                          int index) {
+
+                                        var userName = getUserName!
+                                            .firstName
+                                            .toString();
+                                        return Container(
+                                          padding: EdgeInsets.only(
+                                              left: D.W / 40.0,
+                                              top: D.H / 80),
+                                          child: Center(
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Card(
+                                                            color: ColorConstants
+                                                                .bgImage,
+                                                            shape:
+                                                            const RoundedRectangleBorder(
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .only(
+                                                                topLeft:
+                                                                Radius.circular(8),
+                                                                topRight:
+                                                                Radius.circular(8),
+                                                                bottomLeft:
+                                                                Radius.circular(8),
+                                                                bottomRight:
+                                                                Radius.circular(8),
+                                                              ),
+                                                            ),
+                                                            elevation:
+                                                            0,
+                                                            child:
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .all(D.W /
+                                                                  60),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                  "assets/images/ic_bowl.svg"),
+                                                            )),
+                                                        SizedBox(
+                                                          width:
+                                                          D.W / 50,
+                                                        ),
+                                                        Column(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            Text(
+                                                              _labScreenResponseModelodel
+                                                                  .testResults![
+                                                              index]
+                                                                  .testResultName
+                                                                  .toString(),
+                                                              style: GoogleFonts.heebo(
+                                                                  fontSize: D.H /
+                                                                      52,
+                                                                  fontWeight:
+                                                                  FontWeight.w400),
+                                                            ),
+                                                            /*Text(
+                                                              "${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
+                                                              // "Hil 250 mg 2/Day",
+                                                              style: GoogleFonts.heebo(
+                                                                  color: ColorConstants
+                                                                      .blueBtn,
+                                                                  fontSize: D.H /
+                                                                      66,
+                                                                  fontWeight:
+                                                                  FontWeight.w500),
+                                                            ),*/
+                                                            Row(
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                    "assets/images/ic_doctor.svg"),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(
+                                                                      left: 2.0,
+                                                                      top: 2.0),
+                                                                  child:
+                                                                  Text(
+                                                                    userName.toString(),
+                                                                    style: GoogleFonts.heebo(
+                                                                        color: ColorConstants.darkText,
+                                                                        fontSize: D.H / 66,
+                                                                        fontWeight: FontWeight.w400),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: D.H / 80,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      left: 4.0,
+                                                      right: 4.0),
+                                                  child: Container(
+                                                    height: 1.0,
+                                                    color:
+                                                    ColorConstants
+                                                        .lineColor,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Container(
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            color: Colors.blue
+                                                .withOpacity(0.1),
+                                            borderRadius:
+                                            BorderRadius.all(
+                                                Radius.circular(4))),
+                                        child: TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MedicationScreen())).then(
+                                                      (value) {
+                                                    getLabScreenApiWithoutPop();
+                                                  });
+                                            },
+                                            child: Text(
+                                              "See more",
+                                              style: GoogleFonts.heebo(
+                                                  fontSize: 12,
+                                                  fontWeight:
+                                                  FontWeight.w500,
+                                                  color: ColorConstants
+                                                      .skyBlue),
+                                            ))),
+                                  ),
+                                  SizedBox(
+                                    height: D.H / 40,
+                                  ),
+                                ],
+                              )
+                              /*tabList.isEmpty
                                   ? Container()
                                   : SizedBox(
                                       height: 48,
@@ -1121,7 +1312,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                         //   Container(),
                                         // ],
                                       ),
-                                    ),
+                                    ),*/
                             ],
                           ),
                         ),

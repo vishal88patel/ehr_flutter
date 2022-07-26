@@ -21,8 +21,10 @@ class BodyScreen extends StatefulWidget {
 class _BodyScreenState extends State<BodyScreen> {
   FlipCardController _flipCardController = FlipCardController();
   bool isFlipped = false;
-  double _x=98.0;
-  double _y=123.0;
+  double _x=-100.0;
+  double _y=-100.0;
+  double _newX=98.0;
+  double _newY=123.0;
 
   @override
   Widget build(BuildContext context) {
@@ -252,7 +254,6 @@ class _BodyScreenState extends State<BodyScreen> {
                                 );
                               },
                             )),
-
                       ],
                     ),
                   ],
@@ -472,11 +473,11 @@ class _BodyScreenState extends State<BodyScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorConstants.primaryBlueColor,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => BodyDetailScreen()),
-          );
+          _x=_newX;
+          _y=_newY;
+          setState((){
+
+          });
         },
         child: Icon(Icons.add),
       ),
