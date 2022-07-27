@@ -13,6 +13,7 @@ import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/preferences.dart';
 import 'body_screen.dart';
+import 'body_screen_for_test.dart';
 import 'lab_screen.dart';
 
 
@@ -36,7 +37,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   //
   final List<Widget> _children = [
     LabScreen(),
-     BodyScreen(),
+    BodyScreenForTest(),
     SchedualScreen(),
   ];
 
