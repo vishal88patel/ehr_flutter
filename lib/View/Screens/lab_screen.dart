@@ -1098,7 +1098,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                 dt);
                                         return InkWell(
                                           onTap: (){
-                                            showLabDialouge(name:_labScreenResponseModelodel.testResults![index].testResultName.toString(),values:labListData);
+                                            showLabDialouge(name:_labScreenResponseModelodel.testResults![index].testResultName.toString(),values: _labScreenResponseModelodel.testResults![index]);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.only(
@@ -2588,9 +2588,9 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
         });
   }
   showLabDialouge({
-    required String name,
-    required List<TestResults> values,
-  }) {
+    required String name, required TestResults values,}) {
+    List<TestResults> tempList=[];
+    tempList.add(values);
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -2639,7 +2639,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                               ),
                               Container(
                                 height: 350,
-                                child: GraphWidget(graphList: values),
+                                child: GraphWidget(graphList: tempList),
                               ),
                               SizedBox(
                                 height: 18,
