@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ehr/Model/testResultType_model.dart';
 import 'package:ehr/View/Screens/body_detail_screen.dart';
 import 'package:ehr/View/Screens/comment_screen.dart';
+import 'package:ehr/View/Screens/lab_list_screen.dart';
 import 'package:ehr/View/Screens/medication_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   List<TestResults> hemoglobinList = [];
   List<TestResults> bloodPressureList = [];
   List<TestResults> heartRateList = [];
+  List<TestResults> labListData = [];
 
   List<Widget> tabList = [];
   List<Widget> tabbodyList = [];
@@ -1083,133 +1085,154 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                       itemBuilder:
                                           (BuildContext context,
                                           int index) {
-
-                                        var userName = getUserName!
-                                            .firstName
-                                            .toString();
-                                        return Container(
-                                          padding: EdgeInsets.only(
-                                              left: D.W / 40.0,
-                                              top: D.H / 80),
-                                          child: Center(
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Card(
-                                                            color: ColorConstants
-                                                                .bgImage,
-                                                            shape:
-                                                            const RoundedRectangleBorder(
-                                                              borderRadius:
-                                                              BorderRadius
-                                                                  .only(
-                                                                topLeft:
-                                                                Radius.circular(8),
-                                                                topRight:
-                                                                Radius.circular(8),
-                                                                bottomLeft:
-                                                                Radius.circular(8),
-                                                                bottomRight:
-                                                                Radius.circular(8),
+                                            var millis =
+                                                _labScreenResponseModelodel
+                                                    .testResults![index]
+                                                    .values?.last.created;
+                                            var dt = DateTime
+                                                .fromMillisecondsSinceEpoch(
+                                                millis!);
+                                            var d24 = DateFormat(
+                                                'dd/MM/yyyy')
+                                                .format(
+                                                dt);
+                                        return InkWell(
+                                          onTap: (){
+                                            showLabDialouge(name:_labScreenResponseModelodel.testResults![index].testResultName.toString(),values:labListData);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                left: D.W / 40.0,
+                                                top: D.H / 80),
+                                            child: Center(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Card(
+                                                              color: ColorConstants
+                                                                  .bgImage,
+                                                              shape:
+                                                              const RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                                  topLeft:
+                                                                  Radius.circular(8),
+                                                                  topRight:
+                                                                  Radius.circular(8),
+                                                                  bottomLeft:
+                                                                  Radius.circular(8),
+                                                                  bottomRight:
+                                                                  Radius.circular(8),
+                                                                ),
                                                               ),
-                                                            ),
-                                                            elevation:
-                                                            0,
-                                                            child:
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .all(D.W /
-                                                                  60),
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                  "assets/images/ic_bowl.svg"),
-                                                            )),
-                                                        SizedBox(
-                                                          width:
-                                                          D.W / 50,
-                                                        ),
-                                                        Column(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                          children: [
-                                                            Text(
-                                                              _labScreenResponseModelodel
-                                                                  .testResults![
-                                                              index]
-                                                                  .testResultName
-                                                                  .toString(),
-                                                              style: GoogleFonts.heebo(
-                                                                  fontSize: D.H /
-                                                                      52,
-                                                                  fontWeight:
-                                                                  FontWeight.w400),
-                                                            ),
-                                                            /*Text(
-                                                              "${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
-                                                              // "Hil 250 mg 2/Day",
-                                                              style: GoogleFonts.heebo(
-                                                                  color: ColorConstants
-                                                                      .blueBtn,
-                                                                  fontSize: D.H /
-                                                                      66,
-                                                                  fontWeight:
-                                                                  FontWeight.w500),
-                                                            ),*/
-                                                            Row(
-                                                              children: [
-                                                                SvgPicture.asset(
-                                                                    "assets/images/ic_doctor.svg"),
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(
-                                                                      left: 2.0,
-                                                                      top: 2.0),
-                                                                  child:
+                                                              elevation:
+                                                              0,
+                                                              child:
+                                                              Container(
+                                                                height: D.W/8,
+                                                                width: D.W/8,
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .all(D.W /
+                                                                      60),
+                                                                  child: Image
+                                                                      .asset(
+                                                                      "assets/images/graph.png"),
+                                                                ),
+                                                              )),
+                                                          SizedBox(
+                                                            width:
+                                                            D.W / 50,
+                                                          ),
+                                                          Column(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Text(
+                                                                _labScreenResponseModelodel
+                                                                    .testResults![
+                                                                index]
+                                                                    .testResultName
+                                                                    .toString(),
+                                                                style: GoogleFonts.heebo(
+                                                                    fontSize: D.H /
+                                                                        52,
+                                                                    fontWeight:
+                                                                    FontWeight.w400),
+                                                              ),
+                                                              /*Text(
+                                                                "${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
+                                                                // "Hil 250 mg 2/Day",
+                                                                style: GoogleFonts.heebo(
+                                                                    color: ColorConstants
+                                                                        .blueBtn,
+                                                                    fontSize: D.H /
+                                                                        66,
+                                                                    fontWeight:
+                                                                    FontWeight.w500),
+                                                              ),*/
+                                                              Row(
+                                                                children: [
                                                                   Text(
-                                                                    userName.toString(),
+                                                                   "Last Updated : ",
                                                                     style: GoogleFonts.heebo(
                                                                         color: ColorConstants.darkText,
                                                                         fontSize: D.H / 66,
-                                                                        fontWeight: FontWeight.w400),
+                                                                        fontWeight: FontWeight.w500),
                                                                   ),
-                                                                ),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: D.H / 80,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .only(
-                                                      left: 4.0,
-                                                      right: 4.0),
-                                                  child: Container(
-                                                    height: 1.0,
-                                                    color:
-                                                    ColorConstants
-                                                        .lineColor,
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(
+                                                                        left: 2.0,
+                                                                        top: 2.0),
+                                                                    child:
+                                                                    Text(
+                                                                      d24.toString(),
+                                                                      style: GoogleFonts.heebo(
+                                                                          color: ColorConstants.darkText,
+                                                                          fontSize: D.H / 66,
+                                                                          fontWeight: FontWeight.w400),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
                                                   ),
-                                                )
-                                              ],
+                                                  SizedBox(
+                                                    height: D.H / 80,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .only(
+                                                        left: 4.0,
+                                                        right: 4.0),
+                                                    child: Container(
+                                                      height: 1.0,
+                                                      color:
+                                                      ColorConstants
+                                                          .lineColor,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         );
@@ -1233,7 +1256,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          MedicationScreen())).then(
+                                                          LabListScreen())).then(
                                                       (value) {
                                                     getLabScreenApiWithoutPop();
                                                   });
@@ -2564,7 +2587,92 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
           );
         });
   }
-
+  showLabDialouge({
+    required String name,
+    required List<TestResults> values,
+  }) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (BuildContext context,
+                void Function(void Function()) setState) =>
+                Dialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0)),
+                  child: Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 14),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    name.toString(),
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      name,
+                                      style: GoogleFonts.heebo(
+                                          color: ColorConstants.light,
+                                          fontSize: 14),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 26,
+                              ),
+                              Container(
+                                height: 350,
+                                child: GraphWidget(graphList: values),
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 1,
+                          color: ColorConstants.line,
+                        ),
+                        SizedBox(
+                          height: 24,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              "OK",
+                              style: GoogleFonts.heebo(
+                                  color: Colors.blue, fontSize: 25),
+                            )),
+                        SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+          );
+        });
+  }
   Future<void> getLabScreenApi() async {
     getUserName =
         await PreferenceUtils.getDataObject("OtpVerificationResponse");
@@ -2592,6 +2700,12 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       heartRateList.clear();
       tabbodyList.clear();
       tabList.clear();
+      for (int i = 0; i < _labScreenResponseModelodel.testResults!.length; i++) {
+        labListData.add(TestResults(
+            testResultName: _labScreenResponseModelodel.testResults![i].testResultName,
+            values: _labScreenResponseModelodel.testResults![i].values,
+        ));
+      }
       for (int i = 0;
           i < _labScreenResponseModelodel.testResults!.length;
           i++) {
