@@ -1,11 +1,6 @@
 import 'dart:convert';
 
 import 'package:ehr/Constants/color_constants.dart';
-import 'package:ehr/View/Screens/add_medication_screen.dart';
-import 'package:ehr/View/Screens/lab_screen.dart';
-import 'package:ehr/View/Screens/lab_list_screen.dart';
-import 'package:ehr/View/Screens/medication_screen.dart';
-import 'package:ehr/View/Screens/otp_verification_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
