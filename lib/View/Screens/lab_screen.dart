@@ -1077,15 +1077,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                           int index) {
                                             List<TestResults> tt=[];
                                             tt.add( _labScreenResponseModelodel.testResults![index]);
-                                            var millis =
-                                                _labScreenResponseModelodel.testResults![index].values?.last.created;
-                                            var dt = DateTime
-                                                .fromMillisecondsSinceEpoch(
-                                                millis!);
-                                            var d24 = DateFormat(
-                                                'dd/MM/yyyy')
-                                                .format(
-                                                dt);
                                             var mymils=  tt[0].values![0].created;
                                             var mydt = DateTime
                                                 .fromMillisecondsSinceEpoch(
@@ -3078,6 +3069,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       "testResultValue": valueController.text.toString(),
       "testDate": eDate,
     };
+    //1657650600000
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
@@ -3153,7 +3145,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
-        Date=dateTimeFormat.millisecondsSinceEpoch;
+        eDate=dateTimeFormat.millisecondsSinceEpoch;
         print("Date:"+Date.toString());
       });
     }
