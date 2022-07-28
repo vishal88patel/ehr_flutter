@@ -563,12 +563,10 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         final DateFormat formatter = DateFormat('dd-MM-yy');
         final String startDate = formatter.format(picked);
         controller.text = startDate.toString();
-
-
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
-        sDate=dateTimeFormat.millisecondsSinceEpoch;
+        Date=dateTimeFormat.millisecondsSinceEpoch;
         print("Date:"+Date.toString());
       });
     }
