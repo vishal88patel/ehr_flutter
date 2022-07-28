@@ -28,6 +28,9 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
   var mainH = 560.00;
   var _XX = 340 / 2;
   var _YY = 560 / 2;
+  var totaHeight=00;
+  var totaWidth=00;
+  var removableHieght=0.00;
   List<Offset> offsetList = [];
   List<Widget> widgetList = [
     Container(
@@ -38,9 +41,16 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
       ),
     ),
   ];
+@override
+  void initState() {
 
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    totaHeight=00;MediaQuery.of(context).size.height;
+    totaWidth=00;MediaQuery.of(context).size.width;
+    removableHieght=56+MediaQuery.of(context).padding.top;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorConstants.primaryBlueColor,
@@ -169,7 +179,8 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
   }
 
   List<Widget> _buildUserGroups(BuildContext context) {
-
+    var tempXX=totaWidth/2;
+    var tempYY=(totaHeight-removableHieght)/2;
     widgetList.add(Positioned(
       left: _XX,
       top: _YY,
@@ -196,9 +207,10 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
           childWhenDragging: Container(),
           onDragEnd: (dragDetails) {
             setState(() {
-              _XX = dragDetails.offset.dx;
-              _YY = dragDetails.offset.dy;
-              _buildUserGroupsAfterDrag(context,dragDetails.offset.dx, dragDetails.offset.dy);
+              print(dragDetails.offset.dx.toString() + "  : "+ dragDetails.offset.dy.toString());
+              // _XX = dragDetails.offset.dx;
+              // _YY =  dragDetails.offset.dy-56.00 - MediaQuery.of(context).padding.top;
+              // _buildUserGroupsAfterDrag(context,dragDetails.offset.dx,  dragDetails.offset.dy-56.00 - MediaQuery.of(context).padding.top);
             });
           },
         ),
@@ -248,7 +260,7 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
             setState(() {
               _XX = dragDetails.offset.dx;
               _YY = dragDetails.offset.dy;
-              // _buildUserGroupsAfterDrag(context,dragDetails.offset.dx, dragDetails.offset.dy);
+              _buildUserGroupsAfterDrag(context,dragDetails.offset.dx, dragDetails.offset.dy);
             });
           },
         ),
