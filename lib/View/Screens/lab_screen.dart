@@ -433,13 +433,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                         children: [
                                           ListView.builder(
                                               itemCount:
-                                                  _labScreenResponseModelodel
-                                                              .medications!
-                                                              .length >=
-                                                          3
-                                                      ? 3
-                                                      : _labScreenResponseModelodel
-                                                          .medications!.length,
+                                                  _labScreenResponseModelodel.medications!.length ,
                                               shrinkWrap: true,
                                               physics:
                                                   NeverScrollableScrollPhysics(),
@@ -1030,6 +1024,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                               }else if( labTestDate.text.isEmpty) {
                                                                 CommonUtils.showRedToastMessage("Please enter End date");
                                                               } else {
+
                                                                 saveTestResult();
                                                               }
                                                             },
@@ -3154,7 +3149,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
-        eDate=dateTimeFormat.millisecondsSinceEpoch;
+        Date=dateTimeFormat.millisecondsSinceEpoch;
         print("Date:"+Date.toString());
       });
     }

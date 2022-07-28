@@ -193,6 +193,7 @@ class Values {
   int? testResultId;
   String? testResultType;
   String? testResultValue;
+  int? testDate;
   int? created;
 
   Values(
@@ -200,6 +201,7 @@ class Values {
         this.testResultId,
         this.testResultType,
         this.testResultValue,
+        this.testDate,
         this.created});
 
   Values.fromJson(Map<String, dynamic> json) {
@@ -207,6 +209,7 @@ class Values {
     testResultId = json['testResultId'];
     testResultType = json['testResultType'];
     testResultValue = json['testResultValue'];
+    testDate = json['testDate'];
     created = json['created'];
   }
 
@@ -216,6 +219,7 @@ class Values {
     data['testResultId'] = this.testResultId;
     data['testResultType'] = this.testResultType;
     data['testResultValue'] = this.testResultValue;
+    data['testDate'] = this.testDate;
     data['created'] = this.created;
     return data;
   }
