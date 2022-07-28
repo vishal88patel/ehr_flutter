@@ -46,7 +46,6 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
   List<Offset> offsetList = [];
   final
   GlobalKey key = GlobalKey();
-  final containerKey = GlobalKey();
   List<Widget> widgetList = [
     Container(
       height: 560,
@@ -165,15 +164,14 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
                     child: Stack(
                       children: [
                         Container(
-                          color: Colors.red,
                           height: 560,
                           width: 340,
                           child: GestureDetector(
                             onTap: (){
-                              printWidgetPosition();
+
                             },
                             child: Image.asset(
-                              "assets/images/backtestbody.png",fit: BoxFit.cover,key: containerKey,
+                              "assets/images/backtestbody.png",fit: BoxFit.cover,colorBlendMode: BlendMode.colorBurn,
                             ),
                           ),
                         ),
@@ -216,9 +214,7 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
     double x = position.dx;
     print(" Screen Offset  "+"XX :- ${x.toString()}     YY :- ${y.toString()}");
   }
-  void printWidgetPosition() {
-    print('absolute coordinates on screen: ${containerKey.globalPaintBounds}');
-  }
+
 
   List<Widget> _buildUserGroups(BuildContext context) {
     var tempXX=totaWidth/2;
