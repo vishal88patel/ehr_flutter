@@ -365,6 +365,11 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
         bodyPartData.add(BodyPartListResponseModel(
             bodyPart: res[i]["bodyPart"], bodyPartId: res[i]["bodyPartId"]));
       }
+      /*for(int i=0;i<bodyPartData.length;i++){
+        if(widget.bodyPartName.toLowerCase().toString()==bodyPartData[i].bodyPart?.toLowerCase().toString()){
+          bodyPartId=bodyPartData[i].bodyPartId
+        }
+      }*/
       bodyPartId = bodyPartData[0].bodyPartId!;
       setState(() {});
     } else {
