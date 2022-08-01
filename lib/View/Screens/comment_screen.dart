@@ -72,7 +72,7 @@ class _CommentScreenState extends State<CommentScreen> {
               "assets/images/ic_plus.svg",
             ),
             onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => BodyDetailScreen())).then((value) => getPainDataWithoutLoader());
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => BodyDetailScreen())).then((value) => getPainDataWithoutLoader());
             },
           ),
           Container(

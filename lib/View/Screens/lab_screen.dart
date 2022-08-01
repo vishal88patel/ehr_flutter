@@ -189,13 +189,13 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                       ),
                                       InkWell(
                                           onTap: () {
-                                            Navigator.push(
+                                            /*Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             BodyDetailScreen()))
                                                 .then((value) =>
-                                                    getLabScreenApiWithoutPop());
+                                                    getLabScreenApiWithoutPop());*/
                                           },
                                           child: SvgPicture.asset(
                                               "assets/images/ic_add_plus.svg"))
@@ -3146,5 +3146,4 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       });
     }
   }
-
 }
