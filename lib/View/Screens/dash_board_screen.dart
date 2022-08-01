@@ -37,8 +37,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   //
   final List<Widget> _children = [
     LabScreen(),
-    // BodyScreen(),
-    BodyScreenForTest(),
+    BodyScreen(),
+    // BodyScreenForTest(),
     SchedualScreen(),
   ];
 

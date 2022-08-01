@@ -46,6 +46,8 @@ class _BodyScreenState extends State<BodyScreen> {
   double x5 = 0.0;
   double y5 = 0.0;
 
+  var bodyPartName="";
+
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -196,6 +198,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                                         MaterialPageRoute(
                                                             builder: (context) =>
                                                                 BodyDetailScreen(
+                                                                  bodyPartName: bodyPartName,
                                                                     x: x0,
                                                                     y: y0))).then(
                                                         (value) =>
@@ -239,24 +242,43 @@ class _BodyScreenState extends State<BodyScreen> {
                                                         print(x0.toString() + "," + y0.toString());
                                                         if (x0.toInt() >= 53 && x0.toInt() <= 68 && y0.toInt() >= 130 && y0.toInt() <= 145) {
                                                           print("BodyPart:" + "elbow");
+                                                          bodyPartName="Elbow";
+
                                                         } else if (x0.toInt() >= 143 && x0.toInt() <= 148 && y0.toInt() >= 373 && y0.toInt() <= 384) {
                                                           print("BodyPart:" + "ankle");
+                                                          bodyPartName="Ankle";
+
                                                         } else if (x0.toInt() >= 120 && x0.toInt() <= 127 && y0.toInt() >= 380 && y0.toInt() <= 395) {
                                                           print("BodyPart:" + "heel");
+                                                          bodyPartName="Heel";
+
                                                         } else if (x0.toInt() >= 90 && x0.toInt() <= 113 && y0.toInt() >= 385 && y0.toInt() <= 397) {
                                                           print("BodyPart:" + "feet");
+                                                          bodyPartName="Feet";
+
+
                                                         } else if (x0.toInt() >= 100 && x0.toInt() <= 160 && y0.toInt() >= 280 && y0.toInt() <= 295) {
                                                           print("BodyPart:" + "Knee");
+                                                          bodyPartName="Knee";
+
                                                         } else if (x0.toInt() >= 102 && x0.toInt() <= 123 && y0.toInt() >= 290 && y0.toInt() <= 370) {
                                                           print("BodyPart:" + "leg");
+                                                          bodyPartName="Leg";
+
                                                         } else if (x0.toInt() >= 97 && x0.toInt() <= 160 && y0.toInt() >= 80 && y0.toInt() <= 112) {
                                                           print("BodyPart:" + "chest");
+                                                          bodyPartName="Chest";
                                                         } else if (x0.toInt() >= 20 && x0.toInt() <= 96 && y0.toInt() >= 96 && y0.toInt() <= 168) {
                                                           print("BodyPart:" + "Arm");
+                                                          bodyPartName="Arms";
+
                                                         } else if (x0.toInt() >= 70 && x0.toInt() <= 96 && y0.toInt() >= 60 && y0.toInt() <= 102) {
                                                           print("BodyPart:" + "Shoulder");
+                                                          bodyPartName="Shoulders";
+
                                                         } else if (x0.toInt() >= 90 && x0.toInt() <= 125 && y0.toInt() >= 215 && y0.toInt() <= 275) {
                                                           print("BodyPart:" + "Thighs");
+                                                          bodyPartName="Thigh";
                                                         } else {
                                                           print("BodyPart:" + "None");
                                                         }
