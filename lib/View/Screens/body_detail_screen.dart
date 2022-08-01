@@ -8,6 +8,7 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 import '../../Constants/api_endpoint.dart';
+import '../../Constants/constants.dart';
 import '../../CustomWidgets/custom_date_field.dart';
 import '../../Model/body_part_response_model.dart';
 import '../../Utils/common_utils.dart';
@@ -15,12 +16,15 @@ import '../../Utils/dimensions.dart';
 import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_button.dart';
-import 'otp_screen.dart';
 
 class BodyDetailScreen extends StatefulWidget {
   final double x;
   final double y;
-  BodyDetailScreen({Key? key, required this.x, required this.y}) : super(key: key);
+  String bodyPartName;
+
+  BodyDetailScreen(
+      {Key? key, required this.x, required this.y, required this.bodyPartName})
+      : super(key: key);
 
   @override
   State<BodyDetailScreen> createState() => _BodyDetailScreenState();
@@ -33,14 +37,17 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
   int sDate = 0;
   int eDate = 0;
   DateTime selectedDate = DateTime.now();
-  List<BodyPartListResponseModel> bodyPartData = [];
   String? _bodyPartValue;
   var bodyPartId = 0;
   var current = false;
 
   @override
   void initState() {
-    getBodyPartsApi();
+    var jj = Constants.BodyPartsList.where((element) =>
+        element.bodyPart!.toLowerCase().toString() ==
+        widget.bodyPartName.toLowerCase().toString());
+    _bodyPartValue = jj.first.bodyPart.toString();
+    getIdPart();
     super.initState();
   }
 
@@ -123,7 +130,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                             icon: Icon(Icons.arrow_drop_down_sharp),
                             iconSize: 32,
                             underline: Container(color: Colors.transparent),
-                            items: bodyPartData.map((items) {
+                            items: Constants.BodyPartsList.map((items) {
                               return DropdownMenuItem(
                                 value: items.bodyPart,
                                 child: Padding(
@@ -145,14 +152,15 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                             onChanged: (String? value) {
                               setState(() {
                                 _bodyPartValue = value;
-                                for (int i = 0; i < bodyPartData.length; i++) {
-                                  if (bodyPartData[i].bodyPart ==
+                                for (int i = 0; i <  Constants.BodyPartsList.length; i++) {
+                                  if ( Constants.BodyPartsList[i].bodyPart ==
                                       _bodyPartValue) {
-                                    bodyPartId = bodyPartData[i].bodyPartId!;
+                                    bodyPartId =  Constants.BodyPartsList[i].bodyPartId!;
                                     print("dropdownvalueId:" +
                                         bodyPartId.toString());
                                   }
                                 }
+                                print("");
                               });
                             },
                           ),
@@ -231,28 +239,33 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                       fontWeight: FontWeight.w400),
                                 ),
                                 SizedBox(height: D.H / 120),
-                                current?Container(width: D.W / 2.9,height:  D.H/16,):Container(
-                                  width: D.W / 2.9,
-                                  child: CustomDateField(
-                                    onTap: () {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      _selectDate(
-                                          context, eDateController, eDate);
-                                    },
-                                    controller: eDateController,
-                                    iconPath: "assets/images/ic_date.svg",
-                                    readOnly: false,
-                                    validators: (e) {
-                                      if (eDateController.text == null ||
-                                          eDateController.text == '') {
-                                        return '*Please enter End Date';
-                                      }
-                                    },
-                                    keyboardTYPE: TextInputType.text,
-                                    obscured: false,
-                                  ),
-                                ),
+                                current
+                                    ? Container(
+                                        width: D.W / 2.9,
+                                        height: D.H / 16,
+                                      )
+                                    : Container(
+                                        width: D.W / 2.9,
+                                        child: CustomDateField(
+                                          onTap: () {
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                            _selectDate(context,
+                                                eDateController, eDate);
+                                          },
+                                          controller: eDateController,
+                                          iconPath: "assets/images/ic_date.svg",
+                                          readOnly: false,
+                                          validators: (e) {
+                                            if (eDateController.text == null ||
+                                                eDateController.text == '') {
+                                              return '*Please enter End Date';
+                                            }
+                                          },
+                                          keyboardTYPE: TextInputType.text,
+                                          obscured: false,
+                                        ),
+                                      ),
                               ],
                             )
                           ],
@@ -266,19 +279,21 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                 Transform.scale(
                                   scale: 1.3,
                                   child: Checkbox(
-                                      activeColor: ColorConstants.primaryBlueColor,
+                                      activeColor:
+                                          ColorConstants.primaryBlueColor,
                                       tristate: false,
                                       value: current,
                                       onChanged: (bool? value) {
                                         setState(() {
                                           current = value!;
                                         });
-                                      }
-                                  ),
+                                      }),
                                 )
                               ],
                             ),
-                            SizedBox(width: 12,),
+                            SizedBox(
+                              width: 12,
+                            ),
                             Text(
                               "Issue Is Ongoing",
                               style: GoogleFonts.heebo(
@@ -291,8 +306,8 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                         CustomButton(
                           color: ColorConstants.blueBtn,
                           onTap: () {
-                            if(current){
-                              eDate=0;
+                            if (current) {
+                              eDate = 0;
                             }
                             if (bodyPartId == 0) {
                               CommonUtils.showRedToastMessage(
@@ -303,7 +318,8 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                             } else if (sDateController.text.isEmpty) {
                               CommonUtils.showRedToastMessage(
                                   "Please Select StartDate");
-                            } else if (current==false && eDateController.text.isEmpty) {
+                            } else if (current == false &&
+                                eDateController.text.isEmpty) {
                               CommonUtils.showRedToastMessage(
                                   "Please Select EndDate");
                             } else {
@@ -346,37 +362,6 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     }
   }
 
-  Future<void> getBodyPartsApi() async {
-    final uri = ApiEndPoint.getBodyParts;
-    final headers = {
-      'Content-Type': 'application/json',
-    };
-
-    Response response = await get(
-      uri,
-      headers: headers,
-    );
-    int statusCode = response.statusCode;
-    String responseBody = response.body;
-    // changeRoute();
-    var res = jsonDecode(responseBody);
-    if (statusCode == 200) {
-      for (int i = 0; i < res.length; i++) {
-        bodyPartData.add(BodyPartListResponseModel(
-            bodyPart: res[i]["bodyPart"], bodyPartId: res[i]["bodyPartId"]));
-      }
-      /*for(int i=0;i<bodyPartData.length;i++){
-        if(widget.bodyPartName.toLowerCase().toString()==bodyPartData[i].bodyPart?.toLowerCase().toString()){
-          bodyPartId=bodyPartData[i].bodyPartId
-        }
-      }*/
-      bodyPartId = bodyPartData[0].bodyPartId!;
-      setState(() {});
-    } else {
-      CommonUtils.showRedToastMessage(res["message"]);
-    }
-  }
-
   Future<void> savePain() async {
     FocusManager.instance.primaryFocus?.unfocus();
     CommonUtils.showProgressDialog(context);
@@ -416,6 +401,21 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
     }
+  }
+
+  void getIdPart() {
+    setState(() {
+      _bodyPartValue = widget.bodyPartName;
+      for (int i = 0; i <  Constants.BodyPartsList.length; i++) {
+        if ( Constants.BodyPartsList[i].bodyPart ==
+            _bodyPartValue) {
+          bodyPartId =  Constants.BodyPartsList[i].bodyPartId!;
+          print("dropdownvalueId:" +
+              bodyPartId.toString());
+        }
+      }
+      print("");
+    });
   }
 }
 
