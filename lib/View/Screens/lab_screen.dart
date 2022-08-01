@@ -948,6 +948,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                           controller:
                                                               valueController,
                                                           readOnly: false,
+
                                                           validators: (e) {
                                                             if (valueController
                                                                         .text ==
@@ -960,7 +961,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                           },
                                                           keyboardTYPE:
                                                               TextInputType
-                                                                  .text,
+                                                                  .number,
                                                           obscured: false,
                                                           maxlength: 100,
                                                           maxline: 1,
@@ -987,7 +988,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                             validators: (e) {
                                                               if (labTestDate.text == null ||
                                                                   labTestDate.text == '') {
-                                                                return '*Please enter End Date';
+                                                                return '*Please enter Date';
                                                               }
                                                             },
                                                             keyboardTYPE: TextInputType.text,
@@ -1066,13 +1067,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                 CrossAxisAlignment.end,
                                 children: [
                                   ListView.builder(
-                                      itemCount:
-                                      _labScreenResponseModelodel
-                                          .testResults!
-                                          .length >=
-                                          3
-                                          ? 3
-                                          : _labScreenResponseModelodel
+                                      itemCount: _labScreenResponseModelodel
                                           .testResults!.length,
                                       shrinkWrap: true,
                                       physics:
@@ -1080,17 +1075,17 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                       itemBuilder:
                                           (BuildContext context,
                                           int index) {
-                                            var millis =
-                                                _labScreenResponseModelodel
-                                                    .testResults![index]
-                                                    .values?.last.created;
-                                            var dt = DateTime
+                                            List<TestResults> tt=[];
+                                            tt.add( _labScreenResponseModelodel.testResults![index]);
+                                            var mymils=  tt[0].values![0].created;
+                                            var mydt = DateTime
                                                 .fromMillisecondsSinceEpoch(
-                                                millis!);
-                                            var d24 = DateFormat(
+                                                mymils!);
+                                            tt.add( _labScreenResponseModelodel.testResults![index]);
+                                            var myd24 = DateFormat(
                                                 'dd/MM/yyyy')
                                                 .format(
-                                                dt);
+                                                mydt);
                                         return InkWell(
                                           onTap: (){
                                             showLabDialouge(name:_labScreenResponseModelodel.testResults![index].testResultName.toString(),values: _labScreenResponseModelodel.testResults![index]);
@@ -1189,7 +1184,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                         top: 2.0),
                                                                     child:
                                                                     Text(
-                                                                      d24.toString(),
+                                                                      myd24.toString(),
                                                                       style: GoogleFonts.heebo(
                                                                           color: ColorConstants.darkText,
                                                                           fontSize: D.H / 66,
@@ -3068,6 +3063,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       "testResultValue": valueController.text.toString(),
       "testDate": eDate,
     };
+    //1657650600000
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
@@ -3141,7 +3137,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
-        Date=dateTimeFormat.millisecondsSinceEpoch;
+        eDate=dateTimeFormat.millisecondsSinceEpoch;
         print("Date:"+Date.toString());
       });
     }

@@ -5,10 +5,22 @@ import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'dart:isolate';
 import '../../Constants/color_constants.dart';
 import '../../Utils/dimensions.dart';
 import 'body_detail_screen.dart';
+extension GlobalKeyExtension on GlobalKey {
+  Rect? get globalPaintBounds {
+    final renderObject = currentContext?.findRenderObject();
+    final translation = renderObject?.getTransformTo(null).getTranslation();
+    if (translation != null && renderObject?.paintBounds != null) {
+      final offset = Offset(translation.x, translation.y);
+      return renderObject!.paintBounds.shift(offset);
+    } else {
+      return null;
+    }
+  }
+}
 
 class BodyScreenForTest extends StatefulWidget {
   const BodyScreenForTest({Key? key}) : super(key: key);
@@ -32,6 +44,8 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
   var totaWidth=00;
   var removableHieght=0.00;
   List<Offset> offsetList = [];
+  final
+  GlobalKey key = GlobalKey();
   List<Widget> widgetList = [
     Container(
       height: 560,
@@ -41,6 +55,7 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
       ),
     ),
   ];
+
 @override
   void initState() {
 
@@ -90,6 +105,7 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
         ],
       ),
       body: Padding(
+        key: key,
         padding: EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
           children: [
@@ -146,7 +162,20 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
                   direction: FlipDirection.HORIZONTAL,
                   front: Center(
                     child: Stack(
-                      children: widgetList,
+                      children: [
+                        Container(
+                          height: 560,
+                          width: 340,
+                          child: GestureDetector(
+                            onTap: (){
+
+                            },
+                            child: Image.asset(
+                              "assets/images/backtestbody.png",fit: BoxFit.cover,colorBlendMode: BlendMode.colorBurn,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   back: Container(
@@ -169,14 +198,23 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorConstants.primaryBlueColor,
         onPressed: () {
-          _buildUserGroups(context);
-          setState(() {});
+          // _buildUserGroups(context);
+          // setState(() {});
         },
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
+  void _getWidgetInfo(_) {
+    RenderBox box = key.currentContext!.findRenderObject() as RenderBox;
+    Offset position = box.localToGlobal(Offset.zero); //this is global position
+    double y = position.dy;
+    double x = position.dx;
+    print(" Screen Offset  "+"XX :- ${x.toString()}     YY :- ${y.toString()}");
+  }
+
 
   List<Widget> _buildUserGroups(BuildContext context) {
     var tempXX=totaWidth/2;

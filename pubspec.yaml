@@ -68,6 +68,7 @@ dependencies:
   image_downloader:
   pull_to_refresh: ^2.0.0
   flutter_html:
+  path_provider: ^2.0.11
 
 
 
