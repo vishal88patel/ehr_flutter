@@ -189,13 +189,13 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                       ),
                                       InkWell(
                                           onTap: () {
-                                            Navigator.push(
+                                            /*Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             BodyDetailScreen()))
                                                 .then((value) =>
-                                                    getLabScreenApiWithoutPop());
+                                                    getLabScreenApiWithoutPop());*/
                                           },
                                           child: SvgPicture.asset(
                                               "assets/images/ic_add_plus.svg"))
@@ -1108,21 +1108,15 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                       Row(
                                                         children: [
                                                           Card(
-                                                              color: ColorConstants
-                                                                  .bgImage,
+                                                              color: ColorConstants.bgImage,
                                                               shape:
                                                               const RoundedRectangleBorder(
                                                                 borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                                  topLeft:
-                                                                  Radius.circular(8),
-                                                                  topRight:
-                                                                  Radius.circular(8),
-                                                                  bottomLeft:
-                                                                  Radius.circular(8),
-                                                                  bottomRight:
-                                                                  Radius.circular(8),
+                                                                BorderRadius.only(
+                                                                  topLeft: Radius.circular(8),
+                                                                  topRight: Radius.circular(8),
+                                                                  bottomLeft: Radius.circular(8),
+                                                                  bottomRight: Radius.circular(8),
                                                                 ),
                                                               ),
                                                               elevation:
@@ -3140,8 +3134,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
         final DateFormat formatter = DateFormat('dd-MM-yy');
         final String startDate = formatter.format(picked);
         controller.text = startDate.toString();
-
-
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
@@ -3150,5 +3142,4 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       });
     }
   }
-
 }

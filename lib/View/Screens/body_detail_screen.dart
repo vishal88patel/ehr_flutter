@@ -18,7 +18,9 @@ import '../../customWidgets/custom_button.dart';
 import 'otp_screen.dart';
 
 class BodyDetailScreen extends StatefulWidget {
-  BodyDetailScreen({Key? key}) : super(key: key);
+  final double x;
+  final double y;
+  BodyDetailScreen({Key? key, required this.x, required this.y}) : super(key: key);
 
   @override
   State<BodyDetailScreen> createState() => _BodyDetailScreenState();
@@ -382,8 +384,8 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     Map<String, dynamic> body = {
       "usersPainId": 0,
       "bodyPartId": bodyPartId,
-      "locationX": 15.22,
-      "locationY": 153.55,
+      "locationX": widget.x,
+      "locationY": widget.y,
       "description": desController.text.toString(),
       "startDate": sDate,
       "endDate": eDate,

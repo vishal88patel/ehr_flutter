@@ -37,7 +37,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   //
   final List<Widget> _children = [
     LabScreen(),
-    BodyScreenForTest(),
+    BodyScreen(),
     SchedualScreen(),
   ];
 
@@ -70,7 +70,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       body: _children[widget._currentIndex!],
       bottomNavigationBar: BottomNavigationBar(
         elevation: 4,
-
         selectedLabelStyle: TextStyle(fontSize: 1),
           type: BottomNavigationBarType.fixed,
           backgroundColor: ColorConstants.whiteColor,

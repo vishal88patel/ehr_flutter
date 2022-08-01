@@ -224,10 +224,10 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
       top: _YY,
       child: InkWell(
         onTap: () {
-          Navigator.push(
+         /* Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => BodyDetailScreen()),
-          );
+           MaterialPageRoute(builder: (context) => BodyDetailScreen()),
+          );*/
         },
         child: Draggable(
           child: Container(
@@ -275,10 +275,10 @@ class _BodyScreenForTestState extends State<BodyScreenForTest> {
       top: dy,
       child: InkWell(
         onTap: () {
-          Navigator.push(
+         /* Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => BodyDetailScreen()),
-          );
+          );*/
         },
         child: Draggable(
           child: Container(

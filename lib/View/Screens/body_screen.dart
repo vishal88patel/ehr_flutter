@@ -1,14 +1,22 @@
+import 'dart:convert';
+
 import 'package:ehr/Constants/constants.dart';
+import 'package:ehr/Model/pain_dashboard_model.dart';
 import 'package:ehr/Utils/navigation_helper.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
+import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
+import '../../Utils/preferences.dart';
 import 'body_detail_screen.dart';
 
 class BodyScreen extends StatefulWidget {
@@ -21,11 +29,30 @@ class BodyScreen extends StatefulWidget {
 class _BodyScreenState extends State<BodyScreen> {
   FlipCardController _flipCardController = FlipCardController();
   bool isFlipped = false;
-  double _x=-100.0;
-  double _y=-100.0;
-  double _newX=98.0;
-  double _newY=123.0;
+  bool showDrag = false;
+  Color color=Colors.blue;
+  List<PainDashboardModel>painData=[];
+  int length=0;
+  double x0=128.0;
+  double y0=136.0;
+  double x1=0.0;
+  double y1=0.0;
+  double x2=0.0;
+  double y2=0.0;
+  double x3=0.0;
+  double y3=0.0;
+  double x4=0.0;
+  double y4=0.0;
+  double x5=0.0;
+  double y5=0.0;
 
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      getPainApi();
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,148 +143,6 @@ class _BodyScreenState extends State<BodyScreen> {
             ),
             Stack(
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          "2020",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2019",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2018",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2017",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2016",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2015",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2014",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2013",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2012",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2011",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "2010",
-                          style: GoogleFonts.heebo(
-                              fontWeight: FontWeight.bold, color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 270,
-                        ),
-                        SizedBox(
-                            width: 90,
-                            height: 320,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: BouncingScrollPhysics(),
-                              itemCount: Constants.BodyPartsList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 12,
-                                          width: 12,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.greenAccent),
-                                        ),
-                                        SizedBox(
-                                          width: 6,
-                                        ),
-                                        Text(
-                                          Constants.BodyPartsList[index].bodyPart.toString(),
-                                          style: GoogleFonts.heebo(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                );
-                              },
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
                 Center(
                   child: Stack(
                     alignment: Alignment.bottomCenter,
@@ -271,9 +156,6 @@ class _BodyScreenState extends State<BodyScreen> {
                               height: 50,
                             ),
                           ),
-                          SizedBox(
-                            height: 30,
-                          )
                         ],
                       ),
                       Column(
@@ -284,74 +166,273 @@ class _BodyScreenState extends State<BodyScreen> {
                           ),
                           Container(
                             height: D.H/1.9,
-                            width: D.W/1.6,
+                            width: D.W/1.4,
                             child: GestureDetector(
                               child: FlipCard(
                                 flipOnTouch: false,
                                 fill: Fill.fillBack,
                                 controller: _flipCardController,
                                 direction: FlipDirection.HORIZONTAL,
-                                front: Container(
-                                  height: D.H/1.9,
-                                  width: D.W/1.6,
-                                  child: Stack(
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/human_body_front.png",
+                                front: Stack(
+                                  children: [
+                                    Center(
+                                      child: Image.asset(
+                                        "assets/images/backtestbody.png",height: 400,width: 240,
                                       ),
-                                      Positioned(
-                                        left: _x,
-                                        top: _y,
-                                        child: InkWell(
-                                          onTap: (){
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => BodyDetailScreen()),
-                                            );
-                                          },
-                                          child: Draggable(
-                                            child:  Container(
-                                              height: 20,
-                                              width: 20,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.blue),
-                                            ),
-                                            feedback:  Container(
-                                              height: 20,
-                                              width: 20,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.blue),
-                                            ),
-                                            childWhenDragging: Container(),
-                                            onDragEnd: (dragDetails) {
-                                              setState(() {
-                                                double width= D.W-D.W/1.6;
-                                                double height= D.H-D.H/1.9;
-                                                print(width.toString()+","+height.toString());
-                                                _x = dragDetails.offset.dx-width/2;
-                                                _y = dragDetails.offset.dy-height/1.56;
-                                                print(_x.toString()+" , "+_y.toString());
-                                              });
+                                    ),
+                                    Stack(
+                                      children: [
+                                        showDrag?Positioned(
+                                          left: x0,
+                                          top: y0,
+                                          child: InkWell(
+                                            onTap: (){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => BodyDetailScreen(x:x0 ,y:y0))).then((value) => getPainApi());
                                             },
+                                            child: Draggable(
+                                              child:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(color: Colors.white,width: 1.5),
+                                                    color: color),
+                                                child: Center(child: Text("?")),
+                                              ),
+                                              feedback:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.blue),
+                                              ),
+                                              childWhenDragging: Container(),
+                                              onDragEnd: (dragDetails) {
+                                                setState(() {
+                                                  double width= D.W;
+                                                  double height= D.H;
+                                                  print(width.toString()+","+height.toString());
+                                                  x0 = dragDetails.offset.dx-52;
+                                                  y0 = dragDetails.offset.dy-245;
+                                                  print(x0.toString()+","+y0.toString());
+                                                });
+                                              },
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                        ):Container(),
+                                        length>=1?Positioned(
+                                          left: x1,
+                                          top: y1,
+                                          child: InkWell(
+                                            onTap: (){
+
+                                            },
+                                            child: Draggable(
+                                              child:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(color: Colors.white,width: 1.5),
+                                                    color: Colors.blue),
+                                              ),
+                                              feedback:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.blue),
+                                              ),
+                                              childWhenDragging: Container(),
+                                              onDragEnd: (dragDetails) {
+                                                setState(() {
+                                                  double width= D.W-D.W/1.6;
+                                                  double height= D.H-D.H/1.9;
+                                                  print(width.toString()+","+height.toString());
+                                                  x1 = dragDetails.offset.dx-width/2.6;
+                                                  y1 = dragDetails.offset.dy-height/1.56;
+
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ):Container(),
+                                        length>=1?Positioned(
+                                            left: x1,
+                                            top: y1,
+                                            child: Container(color:Colors.transparent,height: 20,width: 20,)):Container(),
+                                        length>=2?Positioned(
+                                          left: x2,
+                                          top: y2,
+                                          child: InkWell(
+                                            onTap: (){
+                                              },
+                                            child: Draggable(
+                                              child:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(color: Colors.white,width: 1.5),
+                                                    color: Colors.red),
+                                              ),
+                                              feedback:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.blue),
+                                              ),
+                                              childWhenDragging: Container(),
+                                              onDragEnd: (dragDetails) {
+                                                setState(() {
+                                                  double width= D.W-D.W/1.6;
+                                                  double height= D.H-D.H/1.9;
+                                                  print(width.toString()+","+height.toString());
+                                                  x2 = dragDetails.offset.dx-width/2.6;
+                                                  y2 = dragDetails.offset.dy-height/1.56;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ):Container(),
+                                        length>=2?Positioned(
+                                            left: x2,
+                                            top: y2,
+                                            child: Container(color:Colors.transparent,height: 20,width: 20,)):Container(),
+                                        length>=3?Positioned(
+                                          left: x3,
+                                          top: y3,
+                                          child: InkWell(
+                                            onTap: (){
+                                             },
+                                            child: Draggable(
+                                              child:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(color: Colors.white,width: 1.5),
+                                                    color: Colors.yellow),
+                                              ),
+                                              feedback:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.blue),
+                                              ),
+                                              childWhenDragging: Container(),
+                                              onDragEnd: (dragDetails) {
+                                                setState(() {
+                                                  double width= D.W-D.W/1.6;
+                                                  double height= D.H-D.H/1.9;
+                                                  print(width.toString()+","+height.toString());
+                                                  x3 = dragDetails.offset.dx-width/2.6;
+                                                  y3 = dragDetails.offset.dy-height/1.56;
+
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ):Container(),
+                                        length>=3?Positioned(
+                                            left: x3,
+                                            top: y3,
+                                            child: Container(color:Colors.transparent,height: 20,width: 20,)):Container(),
+                                        length>=4?Positioned(
+                                          left: x4,
+                                          top: y4,
+                                          child: InkWell(
+                                            onTap: (){
+                                              },
+                                            child: Draggable(
+                                              child:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(color: Colors.white,width: 1.5),
+                                                    color: Colors.orange),
+                                              ),
+                                              feedback:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.blue),
+                                              ),
+                                              childWhenDragging: Container(),
+                                              onDragEnd: (dragDetails) {
+                                                setState(() {
+                                                  double width= D.W-D.W/1.6;
+                                                  double height= D.H-D.H/1.9;
+                                                  print(width.toString()+","+height.toString());
+                                                  x4 = dragDetails.offset.dx-width/2.6;
+                                                  y4 = dragDetails.offset.dy-height/1.56;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ):Container(),
+                                        length>=4?Positioned(
+                                            left: x4,
+                                            top: y4,
+                                            child: Container(color:Colors.transparent,height: 20,width: 20,)):Container(),
+                                        length>=5?Positioned(
+                                          left: x5,
+                                          top: y5,
+                                          child: InkWell(
+                                            onTap: (){
+                                              },
+                                            child: Draggable(
+                                              child:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(color: Colors.white,width: 1.5),
+                                                    color: Colors.green),
+                                              ),
+                                              feedback:  Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.blue),
+                                              ),
+                                              childWhenDragging: Container(),
+                                              onDragEnd: (dragDetails) {
+                                                setState(() {
+                                                  double width= D.W-D.W/1.6;
+                                                  double height= D.H-D.H/1.9;
+                                                  print(width.toString()+","+height.toString());
+                                                  x5= dragDetails.offset.dx-width/2.6;
+                                                  y5 = dragDetails.offset.dy-height/1.56;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ):Container(),
+                                        length>=5?Positioned(
+                                            left: x5,
+                                            top: y5,
+                                            child: Container(color:Colors.transparent,height: 20,width: 20,)):Container()
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                back: Container(
-                                  height: D.H/1.9,
-                                  width: D.W/1.6,
-                                  child: Stack(
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/human_body_back.png",
+                                back: Stack(
+                                  children: [
+                                    Center(
+                                      child: Image.asset(
+                                        "assets/images/backtestbody.png",height: 400,width: 240,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -361,110 +442,6 @@ class _BodyScreenState extends State<BodyScreen> {
                     ],
                   ),
                 ),
-
-
-                // Column(
-                //   children: [
-                //     SizedBox(
-                //       height: 300,
-                //     ),
-                //     Row(
-                //       children: [
-                //         Container(
-                //           height: 12,
-                //           width: 12,
-                //           decoration: BoxDecoration(
-                //               shape: BoxShape.circle,
-                //               color: Colors.greenAccent),
-                //         ),
-                //         SizedBox(
-                //           width: 6,
-                //         ),
-                //         Text(
-                //           "Arms",
-                //           style: GoogleFonts.heebo(
-                //               fontWeight: FontWeight.bold,
-                //               color: Colors.grey),
-                //         ),
-                //       ],
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //     Text(
-                //       "Chest",
-                //       style: GoogleFonts.heebo(
-                //           fontWeight: FontWeight.bold, color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //     Text(
-                //       "Shoulders",
-                //       style: GoogleFonts.heebo(
-                //           fontWeight: FontWeight.bold, color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //     Text(
-                //       "Ankle",
-                //       style: GoogleFonts.heebo(
-                //           fontWeight: FontWeight.bold, color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //     Text(
-                //       "Leg",
-                //       style: GoogleFonts.heebo(
-                //           fontWeight: FontWeight.bold, color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //     Text(
-                //       "Foot",
-                //       style: GoogleFonts.heebo(
-                //           fontWeight: FontWeight.bold, color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //     Text(
-                //       "Knee",
-                //       style: GoogleFonts.heebo(
-                //           fontWeight: FontWeight.bold, color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //     Text(
-                //       "Elbow",
-                //       style: GoogleFonts.heebo(
-                //           fontWeight: FontWeight.bold, color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //     Text(
-                //       "Heel",
-                //       style: GoogleFonts.heebo(
-                //           fontWeight: FontWeight.bold, color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //     Text(
-                //       "Thigh",
-                //       style: GoogleFonts.heebo(
-                //           fontWeight: FontWeight.bold, color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       height: 8,
-                //     ),
-                //   ],
-                // )
               ],
             )
           ],
@@ -473,15 +450,102 @@ class _BodyScreenState extends State<BodyScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorConstants.primaryBlueColor,
         onPressed: () {
-          _x=_newX;
-          _y=_newY;
           setState((){
-
+            showDrag=true;
           });
         },
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  getBodyPartName(){
+
+  }
+
+  Future<void> getPainApi() async {
+    final uri = ApiEndPoint.painDashboard;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      for (int i = 0; i < res.length; i++) {
+        painData.add(PainDashboardModel(
+            bodyPart: res[i]["bodyPart"],
+          bodyPartId:res[i]["bodyPartId"],
+          created: res[i]["created"],
+          current: res[i]["current"],
+          description: res[i]["description"],
+          endDate: res[i]["endDate"],
+          locationX: res[i]["locationX"],
+          locationY: res[i]["locationY"],
+          startDate: res[i]["startDate"],
+          usersPainId:res[i]["usersPainId"] 
+        ));
+      }
+      length=painData.length;
+      print("length:"+length.toString());
+      if(length==1){
+        x1=painData[0].locationX!.toDouble();
+        y1=painData[0].locationY!.toDouble();
+        color=Colors.red;
+      }
+      else if(length==2){
+        x1=painData[0].locationX!.toDouble();
+        y1=painData[0].locationY!.toDouble();
+        x2=painData[1].locationX!.toDouble();
+        y2=painData[1].locationY!.toDouble();
+        color=Colors.yellow;
+      }
+      else if(length==3){
+        x1=painData[0].locationX!.toDouble();
+        y1=painData[0].locationY!.toDouble();
+        x2=painData[1].locationX!.toDouble();
+        y2=painData[1].locationY!.toDouble();
+        x3=painData[2].locationX!.toDouble();
+        y3=painData[2].locationY!.toDouble();
+        color=Colors.orange;
+      }
+      else if(length==4){
+        x1=painData[0].locationX!.toDouble();
+        y1=painData[0].locationY!.toDouble();
+        x2=painData[1].locationX!.toDouble();
+        y2=painData[1].locationY!.toDouble();
+        x3=painData[2].locationX!.toDouble();
+        y3=painData[2].locationY!.toDouble();
+        x4=painData[3].locationX!.toDouble();
+        y4=painData[3].locationY!.toDouble();
+        color=Colors.green;
+      }
+      else if(length==5){
+        x1=painData[0].locationX!.toDouble();
+        y1=painData[0].locationY!.toDouble();
+        x2=painData[1].locationX!.toDouble();
+        y2=painData[1].locationY!.toDouble();
+        x3=painData[2].locationX!.toDouble();
+        y3=painData[2].locationY!.toDouble();
+        x4=painData[3].locationX!.toDouble();
+        y4=painData[3].locationY!.toDouble();
+        x5=painData[4].locationX!.toDouble();
+        y5=painData[4].locationY!.toDouble();
+        color=Colors.blue;
+      }
+      else{
+        color=Colors.blue;
+      }
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }
