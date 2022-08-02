@@ -9,6 +9,7 @@ import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 
@@ -231,8 +232,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                                         Container(),
                                                     onDragEnd: (dragDetails) {
                                                       setState(() {
-                                                        double width = D.W;
-                                                        double height = D.H;
+
                                                         x0 = dragDetails
                                                                 .offset.dx -
                                                             52;
@@ -240,43 +240,43 @@ class _BodyScreenState extends State<BodyScreen> {
                                                                 .offset.dy -
                                                             245;
                                                         print(x0.toString() + "," + y0.toString());
-                                                        if (x0.toInt() >= 53 && x0.toInt() <= 68 && y0.toInt() >= 130 && y0.toInt() <= 145) {
+                                                        if ((x0.toInt() >= 53 && x0.toInt() <= 68 && y0.toInt() >= 130 && y0.toInt() <= 145)||(x0.toInt() >= 179 && x0.toInt() <= 193 && y0.toInt() >= 130 && y0.toInt() <= 145)) {
                                                           print("BodyPart:" + "elbow");
                                                           bodyPartName="Elbow";
 
-                                                        } else if (x0.toInt() >= 143 && x0.toInt() <= 148 && y0.toInt() >= 373 && y0.toInt() <= 384) {
+                                                        } else if ((x0.toInt() >= 111 && x0.toInt() <= 116 && y0.toInt() >= 373 && y0.toInt() <= 384)||x0.toInt() >= 143 && x0.toInt() <= 148 && y0.toInt() >= 373 && y0.toInt() <= 384) {
                                                           print("BodyPart:" + "ankle");
                                                           bodyPartName="Ankle";
 
-                                                        } else if (x0.toInt() >= 120 && x0.toInt() <= 127 && y0.toInt() >= 380 && y0.toInt() <= 395) {
+                                                        } else if ((x0.toInt() >= 120 && x0.toInt() <= 127 && y0.toInt() >= 380 && y0.toInt() <= 395)||(x0.toInt() >= 133 && x0.toInt() <= 140 && y0.toInt() >= 380 && y0.toInt() <= 395)) {
                                                           print("BodyPart:" + "heel");
                                                           bodyPartName="Heel";
 
-                                                        } else if (x0.toInt() >= 90 && x0.toInt() <= 113 && y0.toInt() >= 385 && y0.toInt() <= 397) {
+                                                        } else if ((x0.toInt() >= 90 && x0.toInt() <= 113 && y0.toInt() >= 385 && y0.toInt() <= 397)||(x0.toInt() >= 144 && x0.toInt() <= 156 && y0.toInt() >= 385 && y0.toInt() <= 397)) {
                                                           print("BodyPart:" + "feet");
                                                           bodyPartName="Feet";
 
 
-                                                        } else if (x0.toInt() >= 100 && x0.toInt() <= 160 && y0.toInt() >= 280 && y0.toInt() <= 295) {
+                                                        } else if ((x0.toInt() >= 100 && x0.toInt() <= 160 && y0.toInt() >= 280 && y0.toInt() <= 295)||(x0.toInt() >= 132 && x0.toInt() <= 157 && y0.toInt() >= 280 && y0.toInt() <= 295)) {
                                                           print("BodyPart:" + "Knee");
                                                           bodyPartName="Knee";
 
-                                                        } else if (x0.toInt() >= 102 && x0.toInt() <= 123 && y0.toInt() >= 290 && y0.toInt() <= 370) {
+                                                        } else if ((x0.toInt() >= 102 && x0.toInt() <= 123 && y0.toInt() >= 290 && y0.toInt() <= 370)||(x0.toInt() >= 130 && x0.toInt() <= 158 && y0.toInt() >= 290 && y0.toInt() <= 370)) {
                                                           print("BodyPart:" + "leg");
                                                           bodyPartName="Leg";
 
                                                         } else if (x0.toInt() >= 97 && x0.toInt() <= 160 && y0.toInt() >= 80 && y0.toInt() <= 112) {
                                                           print("BodyPart:" + "chest");
                                                           bodyPartName="Chest";
-                                                        } else if (x0.toInt() >= 20 && x0.toInt() <= 96 && y0.toInt() >= 96 && y0.toInt() <= 168) {
+                                                        } else if ((x0.toInt() >= 20 && x0.toInt() <= 96 && y0.toInt() >= 96 && y0.toInt() <= 168)||(x0.toInt() >= 190 && x0.toInt() <= 225 && y0.toInt() >= 96 && y0.toInt() <= 168)) {
                                                           print("BodyPart:" + "Arm");
                                                           bodyPartName="Arms";
 
-                                                        } else if (x0.toInt() >= 70 && x0.toInt() <= 96 && y0.toInt() >= 60 && y0.toInt() <= 102) {
+                                                        } else if ((x0.toInt() >= 70 && x0.toInt() <= 96 && y0.toInt() >= 60 && y0.toInt() <= 102)||(x0.toInt() >= 163 && x0.toInt() <= 185 && y0.toInt() >= 60 && y0.toInt() <= 102)) {
                                                           print("BodyPart:" + "Shoulder");
                                                           bodyPartName="Shoulders";
 
-                                                        } else if (x0.toInt() >= 90 && x0.toInt() <= 125 && y0.toInt() >= 215 && y0.toInt() <= 275) {
+                                                        } else if ((x0.toInt() >= 90 && x0.toInt() <= 125 && y0.toInt() >= 215 && y0.toInt() <= 275)||(x0.toInt() >= 128 && x0.toInt() <= 165 && y0.toInt() >= 215 && y0.toInt() <= 275)) {
                                                           print("BodyPart:" + "Thighs");
                                                           bodyPartName="Thigh";
                                                         } else {
@@ -620,7 +620,13 @@ class _BodyScreenState extends State<BodyScreen> {
         backgroundColor: ColorConstants.primaryBlueColor,
         onPressed: () {
           setState(() {
+            if(length>=5){
+              CommonUtils.showRedToastMessage("You did not set circle more then 5");
+            }else{
             showDrag = true;
+            x0 = 128.0;
+            y0 = 136.0;
+            }
           });
         },
         child: Icon(Icons.add),

@@ -69,7 +69,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   flutter_html:
   path_provider: ^2.0.11
-
+  image_pixels: ^3.0.0
 
 
 dev_dependencies:
