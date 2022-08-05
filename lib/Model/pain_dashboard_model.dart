@@ -2,8 +2,8 @@ class PainDashboardModel {
   int? usersPainId;
   int? bodyPartId;
   String? bodyPart;
-  double? locationX;
-  double? locationY;
+  dynamic locationX;
+  dynamic locationY;
   String? description;
   bool? current;
   int? startDate;

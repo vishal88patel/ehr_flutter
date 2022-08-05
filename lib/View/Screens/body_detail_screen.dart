@@ -43,11 +43,11 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
 
   @override
   void initState() {
-    var jj = Constants.BodyPartsList.where((element) =>
+    /*var jj = Constants.BodyPartsList.where((element) =>
         element.bodyPart!.toLowerCase().toString() ==
         widget.bodyPartName.toLowerCase().toString());
     _bodyPartValue = jj.first.bodyPart.toString();
-    getIdPart();
+    getIdPart();*/
     super.initState();
   }
 
