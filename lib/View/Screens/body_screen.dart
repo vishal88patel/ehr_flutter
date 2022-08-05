@@ -63,7 +63,7 @@ class _BodyScreenState extends State<BodyScreen> {
   var bodyPartName="";
 
 
-  var usersPainId ="";
+  var usersPainId =0;
   var bodyPartId="";
   var description ="";
   var startDate ="";
@@ -164,38 +164,38 @@ class _BodyScreenState extends State<BodyScreen> {
                             color: ColorConstants.primaryBlueColor),
                       ))),
                 ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      if(length>=10){
-                        CommonUtils.showRedToastMessage("You did not set circle more then 5");
-                      }else{
-                        showDrag = true;
-                        x0 = 128.0;
-                        y0 = 136.0;
-                        showdialog=false;
-                      }
-                    });
-                  },
-                  child: Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: ColorConstants.primaryBlueColor,
-                            //                   <--- border color
-                            width: 2.0,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Center(
-                          child: Text(
-                            " + ",
-                            style: GoogleFonts.roboto(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: ColorConstants.primaryBlueColor),
-                          ))),
-                ),
+                // InkWell(
+                //   onTap: () {
+                //     setState(() {
+                //       if(length>=10){
+                //         CommonUtils.showRedToastMessage("You did not set circle more then 5");
+                //       }else{
+                //         showDrag = true;
+                //         x0 = 128.0;
+                //         y0 = 136.0;
+                //         showdialog=false;
+                //       }
+                //     });
+                //   },
+                //   child: Container(
+                //       width: 30,
+                //       height: 30,
+                //       decoration: BoxDecoration(
+                //           border: Border.all(
+                //             color: ColorConstants.primaryBlueColor,
+                //             //                   <--- border color
+                //             width: 2.0,
+                //           ),
+                //           borderRadius: BorderRadius.all(Radius.circular(12))),
+                //       child: Center(
+                //           child: Text(
+                //             " + ",
+                //             style: GoogleFonts.roboto(
+                //                 fontSize: 16,
+                //                 fontWeight: FontWeight.w700,
+                //                 color: ColorConstants.primaryBlueColor),
+                //           ))),
+                // ),
               ],
             ),
             Stack(
@@ -339,10 +339,11 @@ class _BodyScreenState extends State<BodyScreen> {
                                                         }
                                                         var dialog = CustomAlertDialog(
                                                             title: "Alert",
-                                                            message: "Are you sure, do you want set button here?",
+                                                            message: "Are you sure, do you want save pain here?",
                                                             positiveBtnText: 'Yes',
                                                             negativeBtnText: 'No',
                                                             onPostivePressed: () {
+                                                              showDrag=false;
                                                               savePain();
                                                             },
                                                             onNegativePressed: () {
@@ -989,17 +990,23 @@ class _BodyScreenState extends State<BodyScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorConstants.primaryBlueColor,
         onPressed: () {
-          showDrag=false;
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      BodyDetailScreen(
-                          bodyPartName: bodyPartName,
-                          x: 0.0,
-                          y: 0.0))).then(
-                  (value) =>
-                  getPainApi());
+          // showDrag=false;
+          if(showDrag){
+            CommonUtils.showRedToastMessage("Please save the pain first");
+          }else{
+            showDrag=false;
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        BodyDetailScreen(
+                            bodyPartName: bodyPartName,
+                            x: 0.0,
+                            y: 0.0))).then(
+                    (value) =>
+                    getPainApi());
+          }
+
         },
         child: Icon(Icons.add),
       ),
@@ -1045,7 +1052,7 @@ class _BodyScreenState extends State<BodyScreen> {
           index=i;
           showDrag=true;
           showdialog=true;
-          usersPainId =painData[index].usersPainId.toString();
+          usersPainId =painData[index].usersPainId!;
           bodyPartId=painData[index].bodyPartId.toString();
           description =painData[index].description.toString();
           startDate =painData[index].startDate.toString();
@@ -1195,6 +1202,9 @@ class _BodyScreenState extends State<BodyScreen> {
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
     }
+    setState(() {
+
+    });
   }
 
   Future<void> savePain() async {
@@ -1207,7 +1217,7 @@ class _BodyScreenState extends State<BodyScreen> {
       'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
-      "usersPainId": 0,
+      "usersPainId": usersPainId,
       "bodyPartId": bodyPartId,
       "locationX": x0,
       "locationY": y0,
