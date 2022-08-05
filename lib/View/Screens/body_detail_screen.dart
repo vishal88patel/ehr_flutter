@@ -380,6 +380,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       "startDate": sDate,
       "endDate": eDate,
       "current": current,
+      "isBack": false,
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
