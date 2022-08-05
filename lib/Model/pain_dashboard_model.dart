@@ -6,6 +6,7 @@ class PainDashboardModel {
   dynamic locationY;
   String? description;
   bool? current;
+  bool? isBack;
   int? startDate;
   int? endDate;
   int? created;
@@ -18,6 +19,7 @@ class PainDashboardModel {
         this.locationY,
         this.description,
         this.current,
+        this.isBack,
         this.startDate,
         this.endDate,
         this.created});
@@ -30,6 +32,7 @@ class PainDashboardModel {
     locationY = json['locationY'];
     description = json['description'];
     current = json['current'];
+    isBack = json['isBack'];
     startDate = json['startDate'];
     endDate = json['endDate'];
     created = json['created'];
@@ -44,6 +47,7 @@ class PainDashboardModel {
     data['locationY'] = this.locationY;
     data['description'] = this.description;
     data['current'] = this.current;
+    data['isBack'] = this.isBack;
     data['startDate'] = this.startDate;
     data['endDate'] = this.endDate;
     data['created'] = this.created;
