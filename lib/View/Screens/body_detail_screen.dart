@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +14,7 @@ import '../../CustomWidgets/custom_date_field.dart';
 import '../../Model/body_part_response_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
+import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_button.dart';
@@ -20,10 +22,11 @@ import '../../customWidgets/custom_button.dart';
 class BodyDetailScreen extends StatefulWidget {
   final double x;
   final double y;
+  final bool isBack;
   String bodyPartName;
 
   BodyDetailScreen(
-      {Key? key, required this.x, required this.y, required this.bodyPartName})
+      {Key? key, required this.x, required this.y, required this.bodyPartName, required this.isBack})
       : super(key: key);
 
   @override
@@ -48,6 +51,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
         widget.bodyPartName.toLowerCase().toString());
     _bodyPartValue = jj.first.bodyPart.toString();
     getIdPart();*/
+    print("isFlipped:"+widget.isBack.toString());
     super.initState();
   }
 
@@ -380,7 +384,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       "startDate": sDate,
       "endDate": eDate,
       "current": current,
-      "isBack": false,
+      "isBack": widget.isBack,
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -397,7 +401,12 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage("save Pain Successfully");
-      Navigator.pop(context);
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => DashBoardScreen(1),
+        ),
+      );
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
