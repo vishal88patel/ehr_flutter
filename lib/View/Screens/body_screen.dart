@@ -1003,7 +1003,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                     ),
                                     Stack(
                                       children: [
-                                        showDrag&&isFlipped
+                                        showDrag
                                             ? Positioned(
                                           left: xx0,
                                           top: yy0,
@@ -1798,11 +1798,12 @@ class _BodyScreenState extends State<BodyScreen> {
             endDate: res[i]["endDate"],
             locationX: res[i]["locationX"],
             locationY: res[i]["locationY"],
+            isBack:res[i]["isBack"],
             startDate: res[i]["startDate"],
             usersPainId: res[i]["usersPainId"]));
       }
       print("total length:" + painData.length.toString());
-      for(int i=0;i<painData.length;i++){
+      /*for(int i=0;i<painData.length;i++){
         if(painData[i].locationX==0.0 && painData[i].locationX==0.0){
           index=i;
           showDrag=true;
@@ -1815,7 +1816,7 @@ class _BodyScreenState extends State<BodyScreen> {
           current =painData[index].current!;
           painData.removeAt(index);
         }
-      }
+      }*/
 
       for(int i=0;i<painData.length;i++){
         if(painData[i].isBack==true){
@@ -1826,7 +1827,39 @@ class _BodyScreenState extends State<BodyScreen> {
         }
       }
 
-      painData=painData.reversed.toList();
+
+
+
+      for(int i=0;i<frontPainData.length;i++){
+        if(frontPainData[i].locationX==0.0 && frontPainData[i].locationY==0.0){
+          index=i;
+          showDrag=true;
+          showdialog=true;
+          usersPainId =frontPainData[index].usersPainId!;
+          bodyPartId=frontPainData[index].bodyPartId.toString();
+          description =frontPainData[index].description.toString();
+          startDate =frontPainData[index].startDate.toString();
+          endDate =frontPainData[index].endDate.toString();
+          current =frontPainData[index].current!;
+          frontPainData.removeAt(index);
+        }
+      }
+
+      for(int i=0;i<backPainData.length;i++){
+        if(backPainData[i].locationX==0.0 && backPainData[i].locationY==0.0){
+          index=i;
+          showDrag=true;
+          showdialog=true;
+          usersPainId =backPainData[index].usersPainId!;
+          bodyPartId=backPainData[index].bodyPartId.toString();
+          description =backPainData[index].description.toString();
+          startDate =backPainData[index].startDate.toString();
+          endDate =backPainData[index].endDate.toString();
+          current =backPainData[index].current!;
+          backPainData.removeAt(index);
+        }
+      }
+
       length = painData.length;
       frontLength=frontPainData.length;
       backLength=backPainData.length;
@@ -1834,21 +1867,22 @@ class _BodyScreenState extends State<BodyScreen> {
       print("frontLength:" + frontLength.toString());
       print("backLength:" + backLength.toString());
 
+      frontPainData=frontPainData.reversed.toList();
+      backPainData=backPainData.reversed.toList();
 
-
-      if (frontLength == 1) {
+      if (frontPainData.length == 1) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         colorrr = Colors.red;
       }
-      else if (frontLength == 2) {
+      else if (frontPainData.length == 2) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
         y2 = frontPainData[1].locationY!.toDouble();
         colorrr = Colors.yellow;
       }
-      else if (frontLength == 3) {
+      else if (frontPainData.length == 3) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
@@ -1857,7 +1891,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y3 = frontPainData[2].locationY!.toDouble();
         colorrr = Colors.orange;
       }
-      else if (frontLength == 4) {
+      else if (frontPainData.length == 4) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
@@ -1868,7 +1902,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y4 = frontPainData[3].locationY!.toDouble();
         colorrr = Colors.green;
       }
-      else if (frontLength == 5) {
+      else if (frontPainData.length == 5) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
@@ -1881,7 +1915,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y5 = frontPainData[4].locationY!.toDouble();
         colorrr=Colors.grey;
       }
-      else if (frontLength == 6) {
+      else if (frontPainData.length == 6) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
@@ -1896,7 +1930,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y6 = frontPainData[5].locationY!.toDouble();
         colorrr=Colors.black;
       }
-      else if (frontLength == 7) {
+      else if (frontPainData.length == 7) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
@@ -1913,7 +1947,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y7 = frontPainData[6].locationY!.toDouble();
         colorrr=Colors.tealAccent;
       }
-      else if (frontLength == 8) {
+      else if (frontPainData.length == 8) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
@@ -1932,7 +1966,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y8 = frontPainData[7].locationY!.toDouble();
         colorrr=Colors.deepPurpleAccent;
       }
-      else if (frontLength == 9) {
+      else if (frontPainData.length == 9) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
@@ -1954,7 +1988,7 @@ class _BodyScreenState extends State<BodyScreen> {
         colorrr = Colors.indigo;
 
       }
-      else if (frontLength == 10) {
+      else if (frontPainData.length == 10) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
@@ -1981,19 +2015,19 @@ class _BodyScreenState extends State<BodyScreen> {
         colorrr = Colors.blue;
       }
 
-      if (backLength == 1) {
+      if (backPainData.length == 1) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         colorrr = Colors.red;
       }
-      else if (backLength == 2) {
+      else if (backPainData.length == 2) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
         yy2 = backPainData[1].locationY!.toDouble();
         colorrr = Colors.yellow;
       }
-      else if (backLength == 3) {
+      else if (backPainData.length == 3) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
@@ -2002,7 +2036,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy3 = backPainData[2].locationY!.toDouble();
         colorrr = Colors.orange;
       }
-      else if (backLength == 4) {
+      else if (backPainData.length == 4) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
@@ -2013,7 +2047,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy4 = backPainData[3].locationY!.toDouble();
         colorrr = Colors.green;
       }
-      else if (backLength == 5) {
+      else if (backPainData.length == 5) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
@@ -2026,7 +2060,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy5 = backPainData[4].locationY!.toDouble();
         colorrr=Colors.grey;
       }
-      else if (backLength == 6) {
+      else if (backPainData.length == 6) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
@@ -2041,7 +2075,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy6 = backPainData[5].locationY!.toDouble();
         colorrr=Colors.black;
       }
-      else if (backLength == 7) {
+      else if (backPainData.length == 7) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
@@ -2058,7 +2092,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy7 = backPainData[6].locationY!.toDouble();
         colorrr=Colors.tealAccent;
       }
-      else if (backLength == 8) {
+      else if (backPainData.length == 8) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
@@ -2077,7 +2111,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy8 = backPainData[7].locationY!.toDouble();
         colorrr=Colors.deepPurpleAccent;
       }
-      else if (backLength == 9) {
+      else if (backPainData.length == 9) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
@@ -2099,7 +2133,7 @@ class _BodyScreenState extends State<BodyScreen> {
         colorrr = Colors.indigo;
 
       }
-      else if (backLength == 10) {
+      else if (backPainData.length == 10) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
