@@ -11,10 +11,8 @@ import 'package:intl/intl.dart';
 import '../../Constants/api_endpoint.dart';
 import '../../Constants/constants.dart';
 import '../../CustomWidgets/custom_date_field.dart';
-import '../../Model/body_part_response_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
-import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_button.dart';
@@ -24,9 +22,25 @@ class BodyDetailScreen extends StatefulWidget {
   final double y;
   final bool isBack;
   String bodyPartName;
+  String? description;
+  int? startdate;
+  int? enddate;
+  bool? iscurrent;
+  int? userPainId;
+  bool? isUpdate;
 
   BodyDetailScreen(
-      {Key? key, required this.x, required this.y, required this.bodyPartName, required this.isBack})
+      {Key? key,
+      required this.x,
+      required this.y,
+      required this.bodyPartName,
+      required this.isBack,
+      this.description,
+      this.startdate,
+      this.enddate,
+      this.iscurrent,
+      this.userPainId, this.isUpdate
+      })
       : super(key: key);
 
   @override
@@ -47,17 +61,30 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
 
   @override
   void initState() {
-    if(widget.bodyPartName!="" && widget.bodyPartName!="None"){
+    if (widget.bodyPartName != "" && widget.bodyPartName != "None") {
       var jj = Constants.BodyPartsList.where((element) =>
-      element.bodyPart!.toLowerCase().toString() ==
+          element.bodyPart!.toLowerCase().toString() ==
           widget.bodyPartName.toLowerCase().toString());
       _bodyPartValue = jj.first.bodyPart.toString();
       getIdPart();
-      isOnlyRead =true;
+      isOnlyRead = true;
+    }
+    if(widget.isUpdate??false){
+      getIdPart();
+      desController.text=widget.description!;
+      var mydtStart = DateTime.fromMillisecondsSinceEpoch(widget.startdate!.toInt());
+      var myd24Start = DateFormat('dd/MM/yyyy').format(mydtStart);
+      sDateController.text=myd24Start.toString();
+
+      var mydtEnd = DateTime.fromMillisecondsSinceEpoch(widget.enddate!.toInt());
+      var myd24End = DateFormat('dd/MM/yyyy').format(mydtEnd);
+      eDateController.text=myd24End.toString();
+      current=widget.iscurrent!;
+
     }
 
-    Constants.isBackBody=widget.isBack;
-    print("isFlipped:"+widget.isBack.toString());
+    Constants.isBackBody = widget.isBack;
+    print("isFlipped:" + widget.isBack.toString());
     super.initState();
   }
 
@@ -159,20 +186,26 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                   fontSize: D.H / 48,
                                   fontWeight: FontWeight.w400),
                             ),
-                            onChanged:isOnlyRead?null: (String? value) {
-                              setState(() {
-                                _bodyPartValue = value;
-                                for (int i = 0; i <  Constants.BodyPartsList.length; i++) {
-                                  if ( Constants.BodyPartsList[i].bodyPart ==
-                                      _bodyPartValue) {
-                                    bodyPartId =  Constants.BodyPartsList[i].bodyPartId!;
-                                    print("dropdownvalueId:" +
-                                        bodyPartId.toString());
-                                  }
-                                }
-                                print("");
-                              });
-                            },
+                            onChanged: isOnlyRead
+                                ? null
+                                : (String? value) {
+                                    setState(() {
+                                      _bodyPartValue = value;
+                                      for (int i = 0;
+                                          i < Constants.BodyPartsList.length;
+                                          i++) {
+                                        if (Constants
+                                                .BodyPartsList[i].bodyPart ==
+                                            _bodyPartValue) {
+                                          bodyPartId = Constants
+                                              .BodyPartsList[i].bodyPartId!;
+                                          print("dropdownvalueId:" +
+                                              bodyPartId.toString());
+                                        }
+                                      }
+                                      print("");
+                                    });
+                                  },
                           ),
                         ),
                         SizedBox(height: D.H / 60),
@@ -383,12 +416,12 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     };
     Map<String, dynamic> body = {
       "usersPainId": 0,
-      "bodyPartId": bodyPartId,
-      "locationX": widget.x,
-      "locationY": widget.y,
-      "description": desController.text.toString(),
-      "startDate": sDate,
-      "endDate": eDate,
+      "bodyPartId": bodyPartId,//
+      "locationX": widget.x,//
+      "locationY": widget.y,//
+      "description": desController.text.toString(),//
+      "startDate": sDate,//
+      "endDate": eDate,//
       "current": current,
       "isBack": widget.isBack,
     };
@@ -422,12 +455,10 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
   void getIdPart() {
     setState(() {
       _bodyPartValue = widget.bodyPartName;
-      for (int i = 0; i <  Constants.BodyPartsList.length; i++) {
-        if ( Constants.BodyPartsList[i].bodyPart ==
-            _bodyPartValue) {
-          bodyPartId =  Constants.BodyPartsList[i].bodyPartId!;
-          print("dropdownvalueId:" +
-              bodyPartId.toString());
+      for (int i = 0; i < Constants.BodyPartsList.length; i++) {
+        if (Constants.BodyPartsList[i].bodyPart == _bodyPartValue) {
+          bodyPartId = Constants.BodyPartsList[i].bodyPartId!;
+          print("dropdownvalueId:" + bodyPartId.toString());
         }
       }
       print("");

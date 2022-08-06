@@ -88,7 +88,7 @@ class _BodyScreenState extends State<BodyScreen> {
   double yy10 = 0.0;
 
   var bodyPartName = "";
-  var _chosenValueOfYear="";
+  var _chosenValueOfYear = "";
   var usersPainId = 0;
   var bodyPartId = "";
   var description = "";
@@ -96,10 +96,12 @@ class _BodyScreenState extends State<BodyScreen> {
   var endDate = "";
   bool current = false;
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+  String? _chosenValue;
+  List<String>? countryCode = ['+91'];
 
   @override
   void initState() {
-    _chosenValueOfYear=Constants.yearList[0];
+    _chosenValueOfYear = Constants.yearList[0];
     Future.delayed(Duration(milliseconds: 50), () {
       if (Constants.isBackBody) {
         cardKey.currentState!.toggleCard();
@@ -256,7 +258,9 @@ class _BodyScreenState extends State<BodyScreen> {
                             height: 100,
                             child: Column(
                               children: [
-                                Container(height: 16,),
+                                Container(
+                                  height: 16,
+                                ),
                                 Container(
                                   height: 50,
                                   padding: EdgeInsets.only(
@@ -265,7 +269,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                   decoration: BoxDecoration(
                                     color: ColorConstants.innerColor,
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
+                                        BorderRadius.all(Radius.circular(8)),
                                     border: Border.all(
                                       width: 2,
                                       color: Colors.white,
@@ -280,18 +284,19 @@ class _BodyScreenState extends State<BodyScreen> {
                                     iconEnabledColor: ColorConstants.lightGrey,
                                     icon: Icon(Icons.arrow_drop_down_sharp),
                                     iconSize: 32,
-                                    underline: Container(color: Colors.transparent),
+                                    underline:
+                                        Container(color: Colors.transparent),
                                     items: Constants.yearList
                                         .map<DropdownMenuItem<String>>(
                                             (String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(
-                                              value,
-                                              style: TextStyle(color: Colors.black),
-                                            ),
-                                          );
-                                        }).toList(),
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      );
+                                    }).toList(),
                                     onChanged: (String? value) {
                                       setState(() {
                                         _chosenValueOfYear = value!;
@@ -299,7 +304,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                     },
                                   ),
                                 ),
-                                Expanded(child: Container(),)
+                                Expanded(
+                                  child: Container(),
+                                )
                               ],
                             ),
                           ),
@@ -319,16 +326,16 @@ class _BodyScreenState extends State<BodyScreen> {
                                       child: GestureDetector(
                                         onTapUp: (TapUpDetails details) {
                                           var offsetX =
-                                              details.localPosition.dx-10;
+                                              details.localPosition.dx - 10;
                                           var offsetY =
                                               details.localPosition.dy;
                                           print(offsetX.toString() +
                                               ":" +
                                               offsetY.toString());
                                           if ((offsetX.toInt() >= 53 &&
-                                              offsetX.toInt() <= 68 &&
-                                              offsetY.toInt() >= 130 &&
-                                              offsetY.toInt() <= 145) ||
+                                                  offsetX.toInt() <= 68 &&
+                                                  offsetY.toInt() >= 130 &&
+                                                  offsetY.toInt() <= 145) ||
                                               (offsetX.toInt() >= 179 &&
                                                   offsetX.toInt() <= 193 &&
                                                   offsetY.toInt() >= 130 &&
@@ -336,9 +343,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "elbow");
                                             bodyPartName = "Elbow";
                                           } else if ((offsetX.toInt() >= 111 &&
-                                              offsetX.toInt() <= 116 &&
-                                              offsetY.toInt() >= 373 &&
-                                              offsetY.toInt() <= 384) ||
+                                                  offsetX.toInt() <= 116 &&
+                                                  offsetY.toInt() >= 373 &&
+                                                  offsetY.toInt() <= 384) ||
                                               offsetX.toInt() >= 143 &&
                                                   offsetX.toInt() <= 148 &&
                                                   offsetY.toInt() >= 373 &&
@@ -346,9 +353,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "ankle");
                                             bodyPartName = "Ankle";
                                           } else if ((offsetX.toInt() >= 120 &&
-                                              offsetX.toInt() <= 127 &&
-                                              offsetY.toInt() >= 380 &&
-                                              offsetY.toInt() <= 395) ||
+                                                  offsetX.toInt() <= 127 &&
+                                                  offsetY.toInt() >= 380 &&
+                                                  offsetY.toInt() <= 395) ||
                                               (offsetX.toInt() >= 133 &&
                                                   offsetX.toInt() <= 140 &&
                                                   offsetY.toInt() >= 380 &&
@@ -356,9 +363,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "heel");
                                             bodyPartName = "Heel";
                                           } else if ((offsetX.toInt() >= 90 &&
-                                              offsetX.toInt() <= 113 &&
-                                              offsetY.toInt() >= 385 &&
-                                              offsetY.toInt() <= 397) ||
+                                                  offsetX.toInt() <= 113 &&
+                                                  offsetY.toInt() >= 385 &&
+                                                  offsetY.toInt() <= 397) ||
                                               (offsetX.toInt() >= 144 &&
                                                   offsetX.toInt() <= 156 &&
                                                   offsetY.toInt() >= 385 &&
@@ -366,9 +373,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "feet");
                                             bodyPartName = "Feet";
                                           } else if ((offsetX.toInt() >= 100 &&
-                                              offsetX.toInt() <= 160 &&
-                                              offsetY.toInt() >= 280 &&
-                                              offsetY.toInt() <= 295) ||
+                                                  offsetX.toInt() <= 160 &&
+                                                  offsetY.toInt() >= 280 &&
+                                                  offsetY.toInt() <= 295) ||
                                               (offsetX.toInt() >= 132 &&
                                                   offsetX.toInt() <= 157 &&
                                                   offsetY.toInt() >= 280 &&
@@ -376,9 +383,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "Knee");
                                             bodyPartName = "Knee";
                                           } else if ((offsetX.toInt() >= 102 &&
-                                              offsetX.toInt() <= 123 &&
-                                              offsetY.toInt() >= 290 &&
-                                              offsetY.toInt() <= 370) ||
+                                                  offsetX.toInt() <= 123 &&
+                                                  offsetY.toInt() >= 290 &&
+                                                  offsetY.toInt() <= 370) ||
                                               (offsetX.toInt() >= 130 &&
                                                   offsetX.toInt() <= 158 &&
                                                   offsetY.toInt() >= 290 &&
@@ -392,21 +399,29 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "chest");
                                             bodyPartName = "Chest";
                                           } else if ((offsetX.toInt() >= 20 &&
-                                              offsetX.toInt() <= 96 && offsetY.toInt() >= 96 && offsetY.toInt() <= 168) ||
-                                              (offsetX.toInt() >= 182 && offsetX.toInt() <= 225 && offsetY.toInt() >= 96 && offsetY.toInt() <= 168)) {
+                                                  offsetX.toInt() <= 96 &&
+                                                  offsetY.toInt() >= 96 &&
+                                                  offsetY.toInt() <= 168) ||
+                                              (offsetX.toInt() >= 182 &&
+                                                  offsetX.toInt() <= 225 &&
+                                                  offsetY.toInt() >= 96 &&
+                                                  offsetY.toInt() <= 168)) {
                                             print("BodyPart:" + "Arm");
                                             bodyPartName = "Arms";
                                           } else if ((offsetX.toInt() >= 70 &&
-                                              offsetX.toInt() <= 96 && offsetY.toInt() >= 60 && offsetY.toInt() <= 102) ||
-                                              (offsetX.toInt() >= 163 && offsetX.toInt() <= 185 &&
+                                                  offsetX.toInt() <= 96 &&
+                                                  offsetY.toInt() >= 60 &&
+                                                  offsetY.toInt() <= 102) ||
+                                              (offsetX.toInt() >= 163 &&
+                                                  offsetX.toInt() <= 185 &&
                                                   offsetY.toInt() >= 60 &&
                                                   offsetY.toInt() <= 102)) {
                                             print("BodyPart:" + "Shoulder");
                                             bodyPartName = "Shoulders";
                                           } else if ((offsetX.toInt() >= 90 &&
-                                              offsetX.toInt() <= 125 &&
-                                              offsetY.toInt() >= 215 &&
-                                              offsetY.toInt() <= 275) ||
+                                                  offsetX.toInt() <= 125 &&
+                                                  offsetY.toInt() >= 215 &&
+                                                  offsetY.toInt() <= 275) ||
                                               (offsetX.toInt() >= 128 &&
                                                   offsetX.toInt() <= 165 &&
                                                   offsetY.toInt() >= 215 &&
@@ -417,24 +432,33 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "None");
                                           }
 
-                                          if(bodyPartName!="None"){
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BodyDetailScreen(
-                                                            bodyPartName:
-                                                            bodyPartName,
-                                                            isBack: Constants
-                                                                .isBackBody,
-                                                            x: offsetX,
-                                                            y: offsetY))).then((value) => bodyPartName="None");
-                                          }else{
-                                            CommonUtils.showRedToastMessage('Please select valid body part');
+                                          if (bodyPartName != "None") {
+                                            if (painData.length > 10) {
+                                              CommonUtils.showRedToastMessage(
+                                                  "you can not add pain more than 10");
+                                            }
+                                           else{
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          BodyDetailScreen(
+                                                              bodyPartName:
+                                                              bodyPartName,
+                                                              isBack: Constants
+                                                                  .isBackBody,
+                                                              x: offsetX,
+                                                              y: offsetY))).then(
+                                                      (value) =>
+                                                  bodyPartName = "None");
+                                            }
+                                          } else {
+                                            CommonUtils.showRedToastMessage(
+                                                'Please select valid body part');
                                           }
                                         },
                                         child: Padding(
-                                          padding:  EdgeInsets.only(left:16.0),
+                                          padding: EdgeInsets.only(left: 16.0),
                                           child: Image.asset(
                                             "assets/images/front_part.png",
                                             height: 400,
@@ -771,10 +795,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x1,
                                                 top: y1,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 0,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         frontLength >= 2
@@ -831,10 +862,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x2,
                                                 top: y2,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 1,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         frontLength >= 3
@@ -891,10 +929,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x3,
                                                 top: y3,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 2,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         frontLength >= 4
@@ -951,10 +996,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x4,
                                                 top: y4,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 3,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         frontLength >= 5
@@ -1011,10 +1063,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x5,
                                                 top: y5,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 4,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         frontLength >= 6
@@ -1071,10 +1130,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x6,
                                                 top: y6,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 5,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         frontLength >= 7
@@ -1131,10 +1197,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x7,
                                                 top: y7,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 6,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         frontLength >= 8
@@ -1192,10 +1265,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x8,
                                                 top: y8,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 7,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         frontLength >= 9
@@ -1253,10 +1333,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x9,
                                                 top: y9,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 8,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         frontLength >= 10
@@ -1313,10 +1400,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: x10,
                                                 top: y10,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 9,
+                                                        list: frontPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container()
                                       ],
@@ -1331,14 +1425,14 @@ class _BodyScreenState extends State<BodyScreen> {
                                           var offsetX =
                                               details.localPosition.dx;
                                           var offsetY =
-                                              details.localPosition.dy+15.00;
+                                              details.localPosition.dy + 15.00;
                                           print(offsetX.toString() +
                                               ":" +
                                               offsetY.toString());
                                           if ((offsetX.toInt() >= 53 &&
-                                              offsetX.toInt() <= 68 &&
-                                              offsetY.toInt() >= 130 &&
-                                              offsetY.toInt() <= 145) ||
+                                                  offsetX.toInt() <= 68 &&
+                                                  offsetY.toInt() >= 130 &&
+                                                  offsetY.toInt() <= 145) ||
                                               (offsetX.toInt() >= 179 &&
                                                   offsetX.toInt() <= 193 &&
                                                   offsetY.toInt() >= 130 &&
@@ -1346,9 +1440,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "elbow");
                                             bodyPartName = "Elbow";
                                           } else if ((offsetX.toInt() >= 111 &&
-                                              offsetX.toInt() <= 116 &&
-                                              offsetY.toInt() >= 373 &&
-                                              offsetY.toInt() <= 384) ||
+                                                  offsetX.toInt() <= 116 &&
+                                                  offsetY.toInt() >= 373 &&
+                                                  offsetY.toInt() <= 384) ||
                                               offsetX.toInt() >= 143 &&
                                                   offsetX.toInt() <= 148 &&
                                                   offsetY.toInt() >= 373 &&
@@ -1356,9 +1450,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "ankle");
                                             bodyPartName = "Ankle";
                                           } else if ((offsetX.toInt() >= 120 &&
-                                              offsetX.toInt() <= 127 &&
-                                              offsetY.toInt() >= 380 &&
-                                              offsetY.toInt() <= 395) ||
+                                                  offsetX.toInt() <= 127 &&
+                                                  offsetY.toInt() >= 380 &&
+                                                  offsetY.toInt() <= 395) ||
                                               (offsetX.toInt() >= 133 &&
                                                   offsetX.toInt() <= 140 &&
                                                   offsetY.toInt() >= 380 &&
@@ -1366,9 +1460,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "heel");
                                             bodyPartName = "Heel";
                                           } else if ((offsetX.toInt() >= 90 &&
-                                              offsetX.toInt() <= 113 &&
-                                              offsetY.toInt() >= 385 &&
-                                              offsetY.toInt() <= 397) ||
+                                                  offsetX.toInt() <= 113 &&
+                                                  offsetY.toInt() >= 385 &&
+                                                  offsetY.toInt() <= 397) ||
                                               (offsetX.toInt() >= 144 &&
                                                   offsetX.toInt() <= 156 &&
                                                   offsetY.toInt() >= 385 &&
@@ -1376,9 +1470,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "feet");
                                             bodyPartName = "Feet";
                                           } else if ((offsetX.toInt() >= 100 &&
-                                              offsetX.toInt() <= 160 &&
-                                              offsetY.toInt() >= 280 &&
-                                              offsetY.toInt() <= 295) ||
+                                                  offsetX.toInt() <= 160 &&
+                                                  offsetY.toInt() >= 280 &&
+                                                  offsetY.toInt() <= 295) ||
                                               (offsetX.toInt() >= 132 &&
                                                   offsetX.toInt() <= 157 &&
                                                   offsetY.toInt() >= 280 &&
@@ -1386,9 +1480,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "Knee");
                                             bodyPartName = "Knee";
                                           } else if ((offsetX.toInt() >= 102 &&
-                                              offsetX.toInt() <= 123 &&
-                                              offsetY.toInt() >= 290 &&
-                                              offsetY.toInt() <= 370) ||
+                                                  offsetX.toInt() <= 123 &&
+                                                  offsetY.toInt() >= 290 &&
+                                                  offsetY.toInt() <= 370) ||
                                               (offsetX.toInt() >= 130 &&
                                                   offsetX.toInt() <= 158 &&
                                                   offsetY.toInt() >= 290 &&
@@ -1402,21 +1496,29 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "chest");
                                             bodyPartName = "Chest";
                                           } else if ((offsetX.toInt() >= 20 &&
-                                              offsetX.toInt() <= 96 && offsetY.toInt() >= 96 && offsetY.toInt() <= 168) ||
-                                              (offsetX.toInt() >= 182 && offsetX.toInt() <= 225 && offsetY.toInt() >= 96 && offsetY.toInt() <= 168)) {
+                                                  offsetX.toInt() <= 96 &&
+                                                  offsetY.toInt() >= 96 &&
+                                                  offsetY.toInt() <= 168) ||
+                                              (offsetX.toInt() >= 182 &&
+                                                  offsetX.toInt() <= 225 &&
+                                                  offsetY.toInt() >= 96 &&
+                                                  offsetY.toInt() <= 168)) {
                                             print("BodyPart:" + "Arm");
                                             bodyPartName = "Arms";
                                           } else if ((offsetX.toInt() >= 70 &&
-                                              offsetX.toInt() <= 96 && offsetY.toInt() >= 60 && offsetY.toInt() <= 102) ||
-                                              (offsetX.toInt() >= 163 && offsetX.toInt() <= 185 &&
+                                                  offsetX.toInt() <= 96 &&
+                                                  offsetY.toInt() >= 60 &&
+                                                  offsetY.toInt() <= 102) ||
+                                              (offsetX.toInt() >= 163 &&
+                                                  offsetX.toInt() <= 185 &&
                                                   offsetY.toInt() >= 60 &&
                                                   offsetY.toInt() <= 102)) {
                                             print("BodyPart:" + "Shoulder");
                                             bodyPartName = "Shoulders";
                                           } else if ((offsetX.toInt() >= 90 &&
-                                              offsetX.toInt() <= 125 &&
-                                              offsetY.toInt() >= 215 &&
-                                              offsetY.toInt() <= 275) ||
+                                                  offsetX.toInt() <= 125 &&
+                                                  offsetY.toInt() >= 215 &&
+                                                  offsetY.toInt() <= 275) ||
                                               (offsetX.toInt() >= 128 &&
                                                   offsetX.toInt() <= 165 &&
                                                   offsetY.toInt() >= 215 &&
@@ -1427,24 +1529,27 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "None");
                                           }
 
-                                          if(bodyPartName!="None"){
-                                             Navigator.push(
+                                          if (bodyPartName != "None") {
+                                            Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         BodyDetailScreen(
                                                             bodyPartName:
-                                                            bodyPartName,
+                                                                bodyPartName,
                                                             isBack: Constants
                                                                 .isBackBody,
                                                             x: offsetX,
-                                                            y: offsetY))).then((value) => bodyPartName="None");
-                                          }else{
-                                            CommonUtils.showRedToastMessage('Please select valid body part');
+                                                            y: offsetY))).then(
+                                                (value) =>
+                                                    bodyPartName = "None");
+                                          } else {
+                                            CommonUtils.showRedToastMessage(
+                                                'Please select valid body part');
                                           }
                                         },
                                         child: Image.asset(
-                                             "assets/images/backtestbody.png",
+                                          "assets/images/backtestbody.png",
                                           height: 400,
                                           width: 240,
                                         ),
@@ -2357,6 +2462,9 @@ class _BodyScreenState extends State<BodyScreen> {
           // showDrag=false;
           if (showDrag) {
             CommonUtils.showRedToastMessage("Please save the pain first");
+          } else if (painData.length > 10) {
+            CommonUtils.showRedToastMessage(
+                "you can not add pain more than 10");
           } else {
             showDrag = false;
             Navigator.push(
@@ -2411,7 +2519,6 @@ class _BodyScreenState extends State<BodyScreen> {
             usersPainId: res[i]["usersPainId"]));
       }
       print("total length:" + painData.length.toString());
-
 
       for (int i = 0; i < painData.length; i++) {
         if (painData[i].isBack == true) {
@@ -2786,5 +2893,23 @@ class _BodyScreenState extends State<BodyScreen> {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
     }
+  }
+
+  gotoNextPage({required int index, required List<PainDashboardModel> list}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BodyDetailScreen(
+                  bodyPartName: list[index].bodyPart.toString(),
+                  isBack: list[index].isBack!,
+                  x: list[index].locationX,
+                  y: list[index].locationY,
+                  description: list[index].description.toString(),
+                  startdate: list[index].startDate,
+                  enddate: list[index].endDate,
+                  userPainId: list[index].usersPainId,
+                  iscurrent: list[index].current,
+                  isUpdate: true,
+                )));
   }
 }
