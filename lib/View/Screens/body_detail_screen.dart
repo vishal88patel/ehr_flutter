@@ -43,14 +43,20 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
   String? _bodyPartValue;
   var bodyPartId = 0;
   var current = false;
+  var isOnlyRead = false;
 
   @override
   void initState() {
-    /*var jj = Constants.BodyPartsList.where((element) =>
-        element.bodyPart!.toLowerCase().toString() ==
-        widget.bodyPartName.toLowerCase().toString());
-    _bodyPartValue = jj.first.bodyPart.toString();
-    getIdPart();*/
+    if(widget.bodyPartName!="" && widget.bodyPartName!="None"){
+      var jj = Constants.BodyPartsList.where((element) =>
+      element.bodyPart!.toLowerCase().toString() ==
+          widget.bodyPartName.toLowerCase().toString());
+      _bodyPartValue = jj.first.bodyPart.toString();
+      getIdPart();
+      isOnlyRead =true;
+    }
+
+    Constants.isBackBody=widget.isBack;
     print("isFlipped:"+widget.isBack.toString());
     super.initState();
   }
@@ -153,7 +159,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                   fontSize: D.H / 48,
                                   fontWeight: FontWeight.w400),
                             ),
-                            onChanged: (String? value) {
+                            onChanged:isOnlyRead?null: (String? value) {
                               setState(() {
                                 _bodyPartValue = value;
                                 for (int i = 0; i <  Constants.BodyPartsList.length; i++) {
