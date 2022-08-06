@@ -88,7 +88,7 @@ class _BodyScreenState extends State<BodyScreen> {
   double yy10 = 0.0;
 
   var bodyPartName = "";
-
+  var _chosenValueOfYear="";
   var usersPainId = 0;
   var bodyPartId = "";
   var description = "";
@@ -99,6 +99,7 @@ class _BodyScreenState extends State<BodyScreen> {
 
   @override
   void initState() {
+    _chosenValueOfYear=Constants.yearList[0];
     Future.delayed(Duration(milliseconds: 50), () {
       if (Constants.isBackBody) {
         cardKey.currentState!.toggleCard();
@@ -253,6 +254,54 @@ class _BodyScreenState extends State<BodyScreen> {
                         children: [
                           SizedBox(
                             height: 100,
+                            child: Column(
+                              children: [
+                                Container(height: 16,),
+                                Container(
+                                  height: 50,
+                                  padding: EdgeInsets.only(
+                                      left: D.W / 30, right: D.W / 60),
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color: ColorConstants.innerColor,
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Colors.white,
+                                      style: BorderStyle.solid,
+                                    ),
+                                  ),
+                                  child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    focusColor: Colors.black,
+                                    value: _chosenValueOfYear,
+                                    style: TextStyle(color: Colors.black),
+                                    iconEnabledColor: ColorConstants.lightGrey,
+                                    icon: Icon(Icons.arrow_drop_down_sharp),
+                                    iconSize: 32,
+                                    underline: Container(color: Colors.transparent),
+                                    items: Constants.yearList
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(color: Colors.black),
+                                            ),
+                                          );
+                                        }).toList(),
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        _chosenValueOfYear = value!;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Expanded(child: Container(),)
+                              ],
+                            ),
                           ),
                           Container(
                             height: D.H / 1.9,
@@ -270,7 +319,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                       child: GestureDetector(
                                         onTapUp: (TapUpDetails details) {
                                           var offsetX =
-                                              details.localPosition.dx;
+                                              details.localPosition.dx-10;
                                           var offsetY =
                                               details.localPosition.dy;
                                           print(offsetX.toString() +
@@ -343,21 +392,13 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "chest");
                                             bodyPartName = "Chest";
                                           } else if ((offsetX.toInt() >= 20 &&
-                                              offsetX.toInt() <= 96 &&
-                                              offsetY.toInt() >= 96 &&
-                                              offsetY.toInt() <= 168) ||
-                                              (offsetX.toInt() >= 190 &&
-                                                  offsetX.toInt() <= 225 &&
-                                                  offsetY.toInt() >= 96 &&
-                                                  offsetY.toInt() <= 168)) {
+                                              offsetX.toInt() <= 96 && offsetY.toInt() >= 96 && offsetY.toInt() <= 168) ||
+                                              (offsetX.toInt() >= 182 && offsetX.toInt() <= 225 && offsetY.toInt() >= 96 && offsetY.toInt() <= 168)) {
                                             print("BodyPart:" + "Arm");
                                             bodyPartName = "Arms";
                                           } else if ((offsetX.toInt() >= 70 &&
-                                              offsetX.toInt() <= 96 &&
-                                              offsetY.toInt() >= 60 &&
-                                              offsetY.toInt() <= 102) ||
-                                              (offsetX.toInt() >= 163 &&
-                                                  offsetX.toInt() <= 185 &&
+                                              offsetX.toInt() <= 96 && offsetY.toInt() >= 60 && offsetY.toInt() <= 102) ||
+                                              (offsetX.toInt() >= 163 && offsetX.toInt() <= 185 &&
                                                   offsetY.toInt() >= 60 &&
                                                   offsetY.toInt() <= 102)) {
                                             print("BodyPart:" + "Shoulder");
@@ -386,16 +427,19 @@ class _BodyScreenState extends State<BodyScreen> {
                                                             bodyPartName,
                                                             isBack: Constants
                                                                 .isBackBody,
-                                                            x: offsetY,
-                                                            y: y0))).then((value) => bodyPartName="None");
+                                                            x: offsetX,
+                                                            y: offsetY))).then((value) => bodyPartName="None");
                                           }else{
                                             CommonUtils.showRedToastMessage('Please select valid body part');
                                           }
                                         },
-                                        child: Image.asset(
-                                          "assets/images/front_part.png",
-                                          height: 400,
-                                          width: 240,
+                                        child: Padding(
+                                          padding:  EdgeInsets.only(left:16.0),
+                                          child: Image.asset(
+                                            "assets/images/front_part.png",
+                                            height: 400,
+                                            width: 240,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1282,10 +1326,128 @@ class _BodyScreenState extends State<BodyScreen> {
                                 back: Stack(
                                   children: [
                                     Center(
-                                      child: Image.asset(
-                                        "assets/images/backtestbody.png",
-                                        height: 400,
-                                        width: 240,
+                                      child: GestureDetector(
+                                        onTapUp: (TapUpDetails details) {
+                                          var offsetX =
+                                              details.localPosition.dx;
+                                          var offsetY =
+                                              details.localPosition.dy+15.00;
+                                          print(offsetX.toString() +
+                                              ":" +
+                                              offsetY.toString());
+                                          if ((offsetX.toInt() >= 53 &&
+                                              offsetX.toInt() <= 68 &&
+                                              offsetY.toInt() >= 130 &&
+                                              offsetY.toInt() <= 145) ||
+                                              (offsetX.toInt() >= 179 &&
+                                                  offsetX.toInt() <= 193 &&
+                                                  offsetY.toInt() >= 130 &&
+                                                  offsetY.toInt() <= 145)) {
+                                            print("BodyPart:" + "elbow");
+                                            bodyPartName = "Elbow";
+                                          } else if ((offsetX.toInt() >= 111 &&
+                                              offsetX.toInt() <= 116 &&
+                                              offsetY.toInt() >= 373 &&
+                                              offsetY.toInt() <= 384) ||
+                                              offsetX.toInt() >= 143 &&
+                                                  offsetX.toInt() <= 148 &&
+                                                  offsetY.toInt() >= 373 &&
+                                                  offsetY.toInt() <= 384) {
+                                            print("BodyPart:" + "ankle");
+                                            bodyPartName = "Ankle";
+                                          } else if ((offsetX.toInt() >= 120 &&
+                                              offsetX.toInt() <= 127 &&
+                                              offsetY.toInt() >= 380 &&
+                                              offsetY.toInt() <= 395) ||
+                                              (offsetX.toInt() >= 133 &&
+                                                  offsetX.toInt() <= 140 &&
+                                                  offsetY.toInt() >= 380 &&
+                                                  offsetY.toInt() <= 395)) {
+                                            print("BodyPart:" + "heel");
+                                            bodyPartName = "Heel";
+                                          } else if ((offsetX.toInt() >= 90 &&
+                                              offsetX.toInt() <= 113 &&
+                                              offsetY.toInt() >= 385 &&
+                                              offsetY.toInt() <= 397) ||
+                                              (offsetX.toInt() >= 144 &&
+                                                  offsetX.toInt() <= 156 &&
+                                                  offsetY.toInt() >= 385 &&
+                                                  offsetY.toInt() <= 397)) {
+                                            print("BodyPart:" + "feet");
+                                            bodyPartName = "Feet";
+                                          } else if ((offsetX.toInt() >= 100 &&
+                                              offsetX.toInt() <= 160 &&
+                                              offsetY.toInt() >= 280 &&
+                                              offsetY.toInt() <= 295) ||
+                                              (offsetX.toInt() >= 132 &&
+                                                  offsetX.toInt() <= 157 &&
+                                                  offsetY.toInt() >= 280 &&
+                                                  offsetY.toInt() <= 295)) {
+                                            print("BodyPart:" + "Knee");
+                                            bodyPartName = "Knee";
+                                          } else if ((offsetX.toInt() >= 102 &&
+                                              offsetX.toInt() <= 123 &&
+                                              offsetY.toInt() >= 290 &&
+                                              offsetY.toInt() <= 370) ||
+                                              (offsetX.toInt() >= 130 &&
+                                                  offsetX.toInt() <= 158 &&
+                                                  offsetY.toInt() >= 290 &&
+                                                  offsetY.toInt() <= 370)) {
+                                            print("BodyPart:" + "leg");
+                                            bodyPartName = "Leg";
+                                          } else if (offsetX.toInt() >= 97 &&
+                                              offsetX.toInt() <= 160 &&
+                                              offsetY.toInt() >= 80 &&
+                                              offsetY.toInt() <= 112) {
+                                            print("BodyPart:" + "chest");
+                                            bodyPartName = "Chest";
+                                          } else if ((offsetX.toInt() >= 20 &&
+                                              offsetX.toInt() <= 96 && offsetY.toInt() >= 96 && offsetY.toInt() <= 168) ||
+                                              (offsetX.toInt() >= 182 && offsetX.toInt() <= 225 && offsetY.toInt() >= 96 && offsetY.toInt() <= 168)) {
+                                            print("BodyPart:" + "Arm");
+                                            bodyPartName = "Arms";
+                                          } else if ((offsetX.toInt() >= 70 &&
+                                              offsetX.toInt() <= 96 && offsetY.toInt() >= 60 && offsetY.toInt() <= 102) ||
+                                              (offsetX.toInt() >= 163 && offsetX.toInt() <= 185 &&
+                                                  offsetY.toInt() >= 60 &&
+                                                  offsetY.toInt() <= 102)) {
+                                            print("BodyPart:" + "Shoulder");
+                                            bodyPartName = "Shoulders";
+                                          } else if ((offsetX.toInt() >= 90 &&
+                                              offsetX.toInt() <= 125 &&
+                                              offsetY.toInt() >= 215 &&
+                                              offsetY.toInt() <= 275) ||
+                                              (offsetX.toInt() >= 128 &&
+                                                  offsetX.toInt() <= 165 &&
+                                                  offsetY.toInt() >= 215 &&
+                                                  offsetY.toInt() <= 275)) {
+                                            print("BodyPart:" + "Thighs");
+                                            bodyPartName = "Thigh";
+                                          } else {
+                                            print("BodyPart:" + "None");
+                                          }
+
+                                          if(bodyPartName!="None"){
+                                             Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BodyDetailScreen(
+                                                            bodyPartName:
+                                                            bodyPartName,
+                                                            isBack: Constants
+                                                                .isBackBody,
+                                                            x: offsetX,
+                                                            y: offsetY))).then((value) => bodyPartName="None");
+                                          }else{
+                                            CommonUtils.showRedToastMessage('Please select valid body part');
+                                          }
+                                        },
+                                        child: Image.asset(
+                                             "assets/images/backtestbody.png",
+                                          height: 400,
+                                          width: 240,
+                                        ),
                                       ),
                                     ),
                                     Stack(
@@ -2249,23 +2411,7 @@ class _BodyScreenState extends State<BodyScreen> {
             usersPainId: res[i]["usersPainId"]));
       }
       print("total length:" + painData.length.toString());
-      /*for(int i=0;i<painData.length;i++){
-        if(painData[i].locationX==0.0 && painData[i].locationX==0.0){
-          index=i;
-          showDrag=true;
-          showdialog=true;
-          usersPainId =painData[index].usersPainId!;
-          bodyPartId=painData[index].bodyPartId.toString();
-          description =painData[index].description.toString();
-          startDate =painData[index].startDate.toString();
-          endDate =painData[index].endDate.toString();
-          current =painData[index].current!;
-          painData.removeAt(index);
-          setState(() {
 
-          });
-        }
-      }*/
 
       for (int i = 0; i < painData.length; i++) {
         if (painData[i].isBack == true) {
