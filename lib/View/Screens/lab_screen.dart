@@ -2984,7 +2984,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       ;
 
       tabItemCount = tabList.length;
-      _tabController = new TabController(length: tabItemCount, vsync: this);
+      // _tabController = new TabController(length: tabItemCount, vsync: this);
 
       // CommonUtils.showGreenToastMessage("Result Saved");
       CommonUtils.hideProgressDialog(context);
