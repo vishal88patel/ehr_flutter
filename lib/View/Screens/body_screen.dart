@@ -33,6 +33,7 @@ class _BodyScreenState extends State<BodyScreen> {
   // bool isFlipped = false;
   bool showDrag = false;
   bool showdialog = false;
+  bool showdialoggg = false;
   Color colorrr = Colors.blue;
   List<PainDashboardModel> painData = [];
   List<PainDashboardModel> frontPainData = [];
@@ -705,6 +706,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                                           bodyPartName =
                                                               "Thigh";
                                                         } else {
+                                                          bodyPartName="None";
                                                           print("BodyPart:" +
                                                               "None");
                                                         }
@@ -726,15 +728,22 @@ class _BodyScreenState extends State<BodyScreen> {
                                                                 onNegativePressed:
                                                                     () {});
 
-                                                        showdialog
-                                                            ? showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (BuildContext
-                                                                            context) =>
-                                                                        dialog)
-                                                            : Container();
+                                                        if(bodyPartName=="None"){
+                                                           x0 = 128.0;
+                                                           y0 = 136.0;
+                                                           CommonUtils.showRedToastMessage('Please select valid body part');
+                                                        }
+                                                        else{
+                                                          showdialog
+                                                              ? showDialog(
+                                                              context:
+                                                              context,
+                                                              builder:
+                                                                  (BuildContext
+                                                              context) =>
+                                                              dialog)
+                                                              : Container();
+                                                        }
                                                       });
                                                     },
                                                   ),
@@ -1802,8 +1811,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                                           bodyPartName =
                                                               "Thigh";
                                                         } else {
-                                                          print("BodyPart:" +
-                                                              "None");
+                                                          bodyPartName="None";
                                                         }
                                                         var dialog =
                                                             CustomAlertDialog(
@@ -1822,15 +1830,22 @@ class _BodyScreenState extends State<BodyScreen> {
                                                                 },
                                                                 onNegativePressed:
                                                                     () {});
-                                                        showdialog
-                                                            ? showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (BuildContext
-                                                                            context) =>
-                                                                        dialog)
-                                                            : Container();
+                                                        if(bodyPartName=="None"){
+                                                          x0 = 128.0;
+                                                          y0 = 136.0;
+                                                          CommonUtils.showRedToastMessage('Please select valid body part');
+                                                        }
+                                                        else{
+                                                          showdialog
+                                                              ? showDialog(
+                                                              context:
+                                                              context,
+                                                              builder:
+                                                                  (BuildContext
+                                                              context) =>
+                                                              dialog)
+                                                              : Container();
+                                                        }
                                                       });
                                                     },
                                                   ),
