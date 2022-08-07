@@ -102,6 +102,8 @@ class _BodyScreenState extends State<BodyScreen> {
 
   @override
   void initState() {
+    print(D.H.toString());
+    print(D.W.toString());
     _chosenValueOfYear = Constants.yearList[0];
     Future.delayed(Duration(milliseconds: 50), () {
       if (Constants.isBackBody) {
@@ -312,8 +314,8 @@ class _BodyScreenState extends State<BodyScreen> {
                             ),
                           ),
                           Container(
-                            height: D.H / 1.9,
-                            width: D.W / 1.4,
+                            height:421,
+                            width: 264,
                             child: GestureDetector(
                               child: FlipCard(
                                 key: cardKey,
@@ -430,6 +432,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "Thighs");
                                             bodyPartName = "Thigh";
                                           } else {
+                                            bodyPartName = "None";
                                             print("BodyPart:" + "None");
                                           }
 
@@ -519,11 +522,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                                     onDragEnd: (dragDetails) {
                                                       setState(() {
                                                         x0 = dragDetails
-                                                                .offset.dx -
-                                                            52;
+                                                                .offset.dx - 52;
                                                         y0 = dragDetails
-                                                                .offset.dy -
-                                                            245;
+                                                                .offset.dy - 245;
 
                                                         print(x0.toString() +
                                                             "," +
@@ -1434,7 +1435,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           var offsetX =
                                               details.localPosition.dx;
                                           var offsetY =
-                                              details.localPosition.dy + 15.00;
+                                              details.localPosition.dy + 14.00;
                                           print(offsetX.toString() +
                                               ":" +
                                               offsetY.toString());
@@ -1535,6 +1536,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                             print("BodyPart:" + "Thighs");
                                             bodyPartName = "Thigh";
                                           } else {
+                                            bodyPartName = "None";
                                             print("BodyPart:" + "None");
                                           }
 
