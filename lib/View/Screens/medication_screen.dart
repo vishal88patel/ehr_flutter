@@ -188,24 +188,24 @@ class _MedicationScreenState extends State<MedicationScreen> {
                                             fontSize: D.H / 66,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                              "assets/images/ic_doctor.svg"),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 2.0, top: 2.0),
-                                            child: Text(
-                                              userName.toString(),
-                                              style: GoogleFonts.heebo(
-                                                  color:
-                                                      ColorConstants.darkText,
-                                                  fontSize: D.H / 66,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ),
-                                        ],
-                                      )
+                                      // Row(
+                                      //   children: [
+                                      //     SvgPicture.asset(
+                                      //         "assets/images/ic_doctor.svg"),
+                                      //     Padding(
+                                      //       padding: const EdgeInsets.only(
+                                      //           left: 2.0, top: 2.0),
+                                      //       child: Text(
+                                      //         userName.toString(),
+                                      //         style: GoogleFonts.heebo(
+                                      //             color:
+                                      //                 ColorConstants.darkText,
+                                      //             fontSize: D.H / 66,
+                                      //             fontWeight: FontWeight.w400),
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // )
                                     ],
                                   ),
                                 ],

@@ -537,25 +537,25 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                           fontWeight:
                                                                               FontWeight.w500),
                                                                     ),
-                                                                    Row(
-                                                                      children: [
-                                                                        SvgPicture.asset(
-                                                                            "assets/images/ic_doctor.svg"),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(
-                                                                              left: 2.0,
-                                                                              top: 2.0),
-                                                                          child:
-                                                                              Text(
-                                                                            userName.toString(),
-                                                                            style: GoogleFonts.heebo(
-                                                                                color: ColorConstants.darkText,
-                                                                                fontSize: D.H / 66,
-                                                                                fontWeight: FontWeight.w400),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    )
+                                                                    // Row(
+                                                                    //   children: [
+                                                                    //     SvgPicture.asset(
+                                                                    //         "assets/images/ic_doctor.svg"),
+                                                                    //     Padding(
+                                                                    //       padding: const EdgeInsets.only(
+                                                                    //           left: 2.0,
+                                                                    //           top: 2.0),
+                                                                    //       child:
+                                                                    //           Text(
+                                                                    //         userName.toString(),
+                                                                    //         style: GoogleFonts.heebo(
+                                                                    //             color: ColorConstants.darkText,
+                                                                    //             fontSize: D.H / 66,
+                                                                    //             fontWeight: FontWeight.w400),
+                                                                    //       ),
+                                                                    //     ),
+                                                                    //   ],
+                                                                    // )
                                                                   ],
                                                                 ),
                                                               ],
@@ -2679,89 +2679,89 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     if (statusCode == 200) {
       _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
       PreferenceUtils.putObject("LabResponse", _labScreenResponseModelodel);
-      bloodPressureList.clear();
-      hemoglobinList.clear();
-      heartRateList.clear();
-      tabbodyList.clear();
-      tabList.clear();
-      for (int i = 0; i < _labScreenResponseModelodel.testResults!.length; i++) {
-        labListData.add(TestResults(
-            testResultName: _labScreenResponseModelodel.testResults![i].testResultName,
-            values: _labScreenResponseModelodel.testResults![i].values,
-        ));
-      }
-      for (int i = 0;
-          i < _labScreenResponseModelodel.testResults!.length;
-          i++) {
-        if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Blood Pressure") {
-          bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
-        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Hemoglobin") {
-          hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
-        } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
-            "Heart Rate") {
-          heartRateList.add(_labScreenResponseModelodel.testResults![i]);
-        }
-      }
-      if (hemoglobinList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Hemoglobin",
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: hemoglobinList,
-        ));
-      }
-      ;
-      if (bloodPressureList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Blood Pressure",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: bloodPressureList,
-        ));
-      }
-      ;
-      if (heartRateList.isNotEmpty) {
-        tabList.add(Container(
-          height: 45,
-          child: Center(
-            child: Text(
-              "Heart Rate",
-              style: GoogleFonts.heebo(
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ));
-        tabbodyList.add(GraphWidget(
-          graphList: heartRateList,
-        ));
-      }
-      ;
-
-      tabItemCount = tabList.length;
-      _tabController = new TabController(length: tabItemCount, vsync: this);
+            // bloodPressureList.clear();
+      // hemoglobinList.clear();
+      // heartRateList.clear();
+      // tabbodyList.clear();
+      // tabList.clear();
+      // for (int i = 0; i < _labScreenResponseModelodel.testResults!.length; i++) {
+      //   labListData.add(TestResults(
+      //       testResultName: _labScreenResponseModelodel.testResults![i].testResultName,
+      //       values: _labScreenResponseModelodel.testResults![i].values,
+      //   ));
+      // }
+      // for (int i = 0;
+      //     i < _labScreenResponseModelodel.testResults!.length;
+      //     i++) {
+      //   if (_labScreenResponseModelodel.testResults![i].testResultName ==
+      //       "Blood Pressure") {
+      //     bloodPressureList.add(_labScreenResponseModelodel.testResults![i]);
+      //   } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+      //       "Hemoglobin") {
+      //     hemoglobinList.add(_labScreenResponseModelodel.testResults![i]);
+      //   } else if (_labScreenResponseModelodel.testResults![i].testResultName ==
+      //       "Heart Rate") {
+      //     heartRateList.add(_labScreenResponseModelodel.testResults![i]);
+      //   }
+      // }
+      // if (hemoglobinList.isNotEmpty) {
+      //   tabList.add(Container(
+      //     height: 45,
+      //     child: Center(
+      //       child: Text(
+      //         "Hemoglobin",
+      //         style: GoogleFonts.heebo(
+      //             fontSize: 15,
+      //             color: Colors.black,
+      //             fontWeight: FontWeight.normal),
+      //       ),
+      //     ),
+      //   ));
+      //   tabbodyList.add(GraphWidget(
+      //     graphList: hemoglobinList,
+      //   ));
+      // }
+      // ;
+      // if (bloodPressureList.isNotEmpty) {
+      //   tabList.add(Container(
+      //     height: 45,
+      //     child: Center(
+      //       child: Text(
+      //         "Blood Pressure",
+      //         textAlign: TextAlign.center,
+      //         style: GoogleFonts.heebo(
+      //             fontSize: 15,
+      //             color: Colors.black,
+      //             fontWeight: FontWeight.normal),
+      //       ),
+      //     ),
+      //   ));
+      //   tabbodyList.add(GraphWidget(
+      //     graphList: bloodPressureList,
+      //   ));
+      // }
+      // ;
+      // if (heartRateList.isNotEmpty) {
+      //   tabList.add(Container(
+      //     height: 45,
+      //     child: Center(
+      //       child: Text(
+      //         "Heart Rate",
+      //         style: GoogleFonts.heebo(
+      //             fontSize: 15,
+      //             color: Colors.black,
+      //             fontWeight: FontWeight.normal),
+      //       ),
+      //     ),
+      //   ));
+      //   tabbodyList.add(GraphWidget(
+      //     graphList: heartRateList,
+      //   ));
+      // }
+      // ;
+      //
+      // tabItemCount = tabList.length;
+      // _tabController = new TabController(length: tabItemCount, vsync: this);
 
       CommonUtils.hideProgressDialog(context);
       setState(() {});
@@ -3064,6 +3064,11 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       "testDate": eDate,
     };
     //1657650600000
+
+    var mydtStart = DateTime.fromMillisecondsSinceEpoch(eDate.toInt());
+    var myd24Start = DateFormat('dd/MM/yyyy').format(mydtStart);
+
+
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 

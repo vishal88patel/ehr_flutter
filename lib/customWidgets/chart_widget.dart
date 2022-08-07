@@ -31,7 +31,7 @@ class GraphWidgetState extends State<GraphWidget> {
     // TODO: implement initState
     super.initState();
     for(int i=0;i<widget.graphList[0].values!.length;i++){
-      var dt = DateTime.fromMillisecondsSinceEpoch(widget.graphList[0].values![i].created!);
+      var dt = DateTime.fromMillisecondsSinceEpoch(widget.graphList[0].values![i].testDate!);
       var d24 = DateFormat('dd/MM/yyyy').format(dt);
       data.add(_SalesData('${d24}', double.parse(widget.graphList[0].values![i].testResultValue.toString())));
     }

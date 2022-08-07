@@ -11,6 +11,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
@@ -304,6 +305,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                       setState(() {
                                         _chosenValueOfYear = value!;
                                       });
+                                      getPainApi();
                                     },
                                   ),
                                 ),
@@ -2590,8 +2592,19 @@ class _BodyScreenState extends State<BodyScreen> {
     painData.clear();
     frontPainData.clear();
     backPainData.clear();
+    var tempFirstSortedYearList=[];
+     tempFirstSortedYearList.clear();
     if (statusCode == 200) {
+
       for (int i = 0; i < res.length; i++) {
+        var mydtStart = DateTime.fromMillisecondsSinceEpoch(res[i]["created"].toInt());
+        var myd24Start = DateFormat('yyyy').format(mydtStart);
+       if(myd24Start.toString()==_chosenValueOfYear){
+         tempFirstSortedYearList.add((res[i]));
+       }
+      }
+
+      for (int i = 0; i < tempFirstSortedYearList.length; i++) {
         painData.add(PainDashboardModel(
             bodyPart: res[i]["bodyPart"],
             bodyPartId: res[i]["bodyPartId"],
