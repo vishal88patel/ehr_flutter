@@ -1906,10 +1906,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: xx1,
                                                 top: yy1,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                    onTap: () {
+                                                    gotoNextPage(
+                                                        index: 0,
+                                                        list: backPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         backLength >= 2
@@ -1966,10 +1973,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: xx2,
                                                 top: yy2,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 1,
+                                                        list: backPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         backLength >= 3
@@ -2026,10 +2040,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: xx3,
                                                 top: yy3,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 2,
+                                                        list: backPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         backLength >= 4
@@ -2083,14 +2104,21 @@ class _BodyScreenState extends State<BodyScreen> {
                                               )
                                             : Container(),
                                         backLength >= 4
-                                            ? Positioned(
-                                                left: xx4,
-                                                top: yy4,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
-                                                ))
+                                            ? InkWell(
+                                          onTap: () {
+                                            gotoNextPage(
+                                                index: 3,
+                                                list: backPainData);
+                                          },
+                                              child: Positioned(
+                                                  left: xx4,
+                                                  top: yy4,
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  )),
+                                            )
                                             : Container(),
                                         backLength >= 5
                                             ? Positioned(
@@ -2146,10 +2174,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: xx5,
                                                 top: yy5,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                    onTap: () {
+                                                    gotoNextPage(
+                                                        index: 4,
+                                                        list: backPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         backLength >= 6
@@ -2206,10 +2241,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: xx6,
                                                 top: yy6,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 5,
+                                                        list: backPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         backLength >= 7
@@ -2266,10 +2308,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: xx7,
                                                 top: yy7,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                    onTap: () {
+                                                    gotoNextPage(
+                                                        index: 6,
+                                                        list: backPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         backLength >= 8
@@ -2327,10 +2376,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: xx8,
                                                 top: yy8,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    gotoNextPage(
+                                                        index: 7,
+                                                        list: backPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         backLength >= 9
@@ -2388,10 +2444,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: xx9,
                                                 top: yy9,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                    onTap: () {
+                                                    gotoNextPage(
+                                                        index: 8,
+                                                        list: backPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container(),
                                         backLength >= 10
@@ -2448,10 +2511,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                             ? Positioned(
                                                 left: xx10,
                                                 top: yy10,
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  height: 20,
-                                                  width: 20,
+                                                child: InkWell(
+                                                    onTap: () {
+                                                    gotoNextPage(
+                                                        index: 9,
+                                                        list: backPainData);
+                                                  },
+                                                  child: Container(
+                                                    color: Colors.transparent,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
                                                 ))
                                             : Container()
                                       ],
