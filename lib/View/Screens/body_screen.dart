@@ -4,6 +4,7 @@ import 'package:ehr/Constants/constants.dart';
 import 'package:ehr/Model/pain_dashboard_model.dart';
 import 'package:ehr/Utils/navigation_helper.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
+import 'package:ehr/View/Screens/survey_screen.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
@@ -133,9 +134,14 @@ class _BodyScreenState extends State<BodyScreen> {
             SizedBox(
               height: 10,
             ),
-            Text(
-              "Home",
-              style: GoogleFonts.heebo(fontWeight: FontWeight.normal),
+            InkWell(
+              onTap:(){
+                NavigationHelpers.redirect(context, SurveyScreen());
+              },
+              child: Text(
+                "Home",
+                style: GoogleFonts.heebo(fontWeight: FontWeight.normal),
+              ),
             ),
           ],
         ),

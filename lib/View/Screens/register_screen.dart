@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:ehr/View/Screens/survey_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
@@ -330,7 +331,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage("Register Successfully");
-      NavigationHelpers.redirectto(context, DashBoardScreen(1));
+      NavigationHelpers.redirectto(context, SurveyScreen());
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
