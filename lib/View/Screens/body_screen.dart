@@ -2631,6 +2631,47 @@ class _BodyScreenState extends State<BodyScreen> {
       for (int i = 0; i < frontPainData.length; i++) {
         if (frontPainData[i].locationX == 0.0 &&
             frontPainData[i].locationY == 0.0) {
+          if(frontPainData[i].bodyPart=="Elbow"){
+             x0 = 64.00;
+             y0 = 136.00;
+          }
+          else if(frontPainData[i].bodyPart=="Ankle"){
+            x0 = 144.00;
+            y0 = 374.00;
+          }
+          else if(frontPainData[i].bodyPart=="Heel"){
+            x0 = 133.00;
+            y0 = 387.00;
+          }
+          else if(frontPainData[i].bodyPart=="Feet"){
+          x0 = 101.00;
+          y0 = 393.00;
+         }
+          else if(frontPainData[i].bodyPart=="Knee"){
+          x0 = 106.00;
+          y0 = 281.00;
+          }
+          else if(frontPainData[i].bodyPart=="Leg"){
+            x0 = 105.00;
+            y0 = 309.00;
+          }
+          else if(frontPainData[i].bodyPart=="Chest"){
+            x0 = 113.00;
+            y0 = 96.00;
+          }
+          else if(frontPainData[i].bodyPart=="Arms"){
+            x0 = 56.00;
+            y0 = 147.00;
+          }
+          else if(frontPainData[i].bodyPart=="Shoulders"){
+            x0 = 86.00;
+            y0 = 77.00;
+          }
+          else if(frontPainData[i].bodyPart=="Thigh"){
+            x0 = 107.00;
+            y0 = 228.00;
+          }
+          else{}
           index = i;
           showDrag = true;
           showdialog = true;
@@ -2647,6 +2688,47 @@ class _BodyScreenState extends State<BodyScreen> {
       for (int i = 0; i < backPainData.length; i++) {
         if (backPainData[i].locationX == 0.0 &&
             backPainData[i].locationY == 0.0) {
+          if(backPainData[i].bodyPart=="Elbow"){
+            xx0 = 64.00;
+            yy0 = 136.00;
+          }
+          else if(backPainData[i].bodyPart=="Ankle"){
+            xx0 = 144.00;
+            yy0 = 374.00;
+          }
+          else if(backPainData[i].bodyPart=="Heel"){
+            xx0 = 133.00;
+            yy0 = 387.00;
+          }
+          else if(backPainData[i].bodyPart=="Feet"){
+            xx0 = 101.00;
+            yy0 = 393.00;
+          }
+          else if(backPainData[i].bodyPart=="Knee"){
+            xx0 = 106.00;
+            yy0 = 281.00;
+          }
+          else if(backPainData[i].bodyPart=="Leg"){
+            xx0 = 105.00;
+            yy0 = 309.00;
+          }
+          else if(backPainData[i].bodyPart=="Chest"){
+            xx0 = 113.00;
+            yy0 = 96.00;
+          }
+          else if(backPainData[i].bodyPart=="Arms"){
+            xx0 = 56.00;
+            yy0 = 147.00;
+          }
+          else if(backPainData[i].bodyPart=="Shoulders"){
+            xx0 = 86.00;
+            yy0 = 77.00;
+          }
+          else if(backPainData[i].bodyPart=="Thigh"){
+            xx0 = 107.00;
+            yy0 = 228.00;
+          }
+          else{}
           index = i;
           showDrag = true;
           showdialog = true;
@@ -2986,7 +3068,7 @@ class _BodyScreenState extends State<BodyScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("save Pain Successfully");
+      CommonUtils.showGreenToastMessage(res["message"]);
       Navigator.pop(context);
       getPainApi();
     } else {
