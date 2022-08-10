@@ -1,51 +1,67 @@
 class QAModel {
-  String? category;
-  List<SubCategory>? subCategory;
-  String? categoryId;
+  int? questionId;
+  String? questionText;
+  int? shortCodeTypeId;
+  String? shortCodeType;
+  List<Options>? options;
 
-  QAModel({this.category,this.categoryId, this.subCategory});
+  QAModel(
+      {this.questionId,
+        this.questionText,
+        this.shortCodeTypeId,
+        this.shortCodeType,
+        this.options});
 
   QAModel.fromJson(Map<String, dynamic> json) {
-    category = json['category'];
-    categoryId = json['categoryId'];
-    if (json['subCategory'] != null) {
-      subCategory = <SubCategory>[];
-      json['subCategory'].forEach((v) {
-        subCategory!.add(new SubCategory.fromJson(v));
+    questionId = json['questionId'];
+    questionText = json['questionText'];
+    shortCodeTypeId = json['shortCodeTypeId'];
+    shortCodeType = json['shortCodeType'];
+    if (json['options'] != null) {
+      options = <Options>[];
+      json['options'].forEach((v) {
+        options!.add(new Options.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['category'] = this.category;
-    data['categoryId'] = this.categoryId;
-    if (this.subCategory != null) {
-      data['subCategory'] = this.subCategory!.map((v) => v.toJson()).toList();
+    data['questionId'] = this.questionId;
+    data['questionText'] = this.questionText;
+    data['shortCodeTypeId'] = this.shortCodeTypeId;
+    data['shortCodeType'] = this.shortCodeType;
+    if (this.options != null) {
+      data['options'] = this.options!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class SubCategory {
-  String? name;
+class Options {
+  int? optionId;
+  int? questionId;
+  String? optionText;
+  String? optionValue;
   bool? isSelected;
-  String? modelId;
 
+  Options({this.optionId, this.questionId, this.optionText, this.optionValue,this.isSelected});
 
-  SubCategory({this.name, this.isSelected,this.modelId});
-
-  SubCategory.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+  Options.fromJson(Map<String, dynamic> json) {
+    optionId = json['optionId'];
+    questionId = json['questionId'];
+    optionText = json['optionText'];
+    optionValue = json['optionValue'];
     isSelected = json['isSelected'];
-    modelId = json['modelId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
+    data['optionId'] = this.optionId;
+    data['questionId'] = this.questionId;
+    data['optionText'] = this.optionText;
+    data['optionValue'] = this.optionValue;
     data['isSelected'] = this.isSelected;
-    data['modelId'] = this.modelId;
     return data;
   }
 }

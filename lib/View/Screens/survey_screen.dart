@@ -1,9 +1,16 @@
+import 'dart:convert';
+
+import 'package:ehr/Utils/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
+import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
 import '../../CustomWidgets/custom_button.dart';
+import '../../Model/answer_model.dart';
 import '../../Model/qa_model.dart';
+import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import 'dash_board_screen.dart';
@@ -14,44 +21,60 @@ class SurveyScreen extends StatefulWidget {
 }
 
 class _SurveyScreenState extends State<SurveyScreen> {
-  List<QAModel> questionList = [
-    QAModel(category: "Ear/nose/throat", categoryId: "", subCategory: [
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: true, modelId: "1", name: "None of these"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-    ]),
-    QAModel(category: "Cardivascular", categoryId: "", subCategory: [
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-    ]),
-    QAModel(category: "Gentitourinary", categoryId: "", subCategory: [
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: true, modelId: "1", name: "None of these"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-    ]),
-    QAModel(category: "Ear/nose/throat", categoryId: "", subCategory: [
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: true, modelId: "1", name: "None of these"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-    ]),
-    QAModel(category: "Cardivascular", categoryId: "", subCategory: [
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-    ]),
-    QAModel(category: "Gentitourinary", categoryId: "", subCategory: [
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: true, modelId: "1", name: "None of these"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-      SubCategory(isSelected: false, modelId: "1", name: "Lorem ispum dummy"),
-    ]),
-  ];
+  List<QAModel> questionList = [];
+
+  @override
+  void initState() {
+    Future.delayed(Duration(milliseconds: 200), () {
+      getQuestionApi();
+    });
+    super.initState();
+  }
+
+  Future<void> getQuestionApi() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.getQuestion;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+    Response response = await get(
+      uri,
+      headers: headers,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    // changeRoute();
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      if (res != null) {
+        for (int i = 0; i < res.length; i++) {
+          List<Options> templist = [];
+          for (int j = 0; j < res[i]["options"].length; j++) {
+            templist.add(Options(
+                questionId: res[i]["options"][j]["questionId"],
+                optionId: res[i]["options"][j]["optionId"],
+                optionText: res[i]["options"][j]["optionText"],
+                optionValue: res[i]["options"][j]["optionValue"],
+                isSelected: false));
+          }
+          questionList.add(QAModel(
+              options: templist,
+              questionId: res[i]["questionId"],
+              questionText: res[i]["questionText"],
+              shortCodeType: res[i]["shortCodeType"],
+              shortCodeTypeId: res[i]["shortCodeTypeId"]));
+        }
+        CommonUtils.hideProgressDialog(context);
+      }
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,14 +113,15 @@ class _SurveyScreenState extends State<SurveyScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        questionList[index].category.toString(),
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                        questionList[index].questionText.toString(),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                       Container(
                         child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: questionList[index].subCategory!.length,
+                            itemCount: questionList[index].options!.length,
                             itemBuilder: (BuildContext context, int i) {
                               return GestureDetector(
                                 onTap: () {},
@@ -121,33 +145,35 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                             onChanged: (bool? value) async {
                                               if (value ?? false) {
                                                 questionList[index]
-                                                    .subCategory![i]
+                                                    .options![i]
                                                     .isSelected = true;
                                               } else {
                                                 questionList[index]
-                                                    .subCategory![i]
+                                                    .options![i]
                                                     .isSelected = false;
                                               }
                                               setState(() {});
                                             },
                                             value: questionList[index]
-                                                .subCategory![i]
+                                                .options![i]
                                                 .isSelected,
                                           ),
                                         ),
                                         horizontalTitleGap: 0,
                                         title: Text(
                                           questionList[index]
-                                              .subCategory![i]
-                                              .name
+                                              .options![i]
+                                              .optionText
                                               .toString(),
                                           style: GoogleFonts.heebo(
                                               color: questionList[index]
-                                                          .subCategory![i]
+                                                          .options![i]
                                                           .isSelected ??
                                                       false
                                                   ? ColorConstants.checkBoxColor
-                                                  : Colors.black,fontSize: 14,fontWeight: FontWeight.w400),
+                                                  : Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400),
                                         )),
                                   ),
                                 ),
@@ -159,21 +185,84 @@ class _SurveyScreenState extends State<SurveyScreen> {
                 );
               },
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomButton(
-                color: ColorConstants.blueBtn,
-                onTap: () {
-                  NavigationHelpers.redirectto(context, DashBoardScreen(1));
-                },
-                text: "Done",
-                textColor: Colors.white,
-              ),
-            ),
+            questionList.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomButton(
+                      color: ColorConstants.blueBtn,
+                      onTap: () {
+                        List<AnswerModel> ansList = [];
+                        for (int i = 0; i < questionList.length; i++) {
+                          var ss = "";
+                          List<String> ll = [];
+
+                          for (int j = 0;
+                              j < questionList[i].options!.length;
+                              j++) {
+                            if (questionList[i].options![j].isSelected ??
+                                false) {
+                              ll.add(questionList[i]
+                                  .options![j]
+                                  .optionId
+                                  .toString());
+                              ss = ll.join(',');
+                            }
+                          }
+                          ansList.add(AnswerModel(
+                              answers: ss,
+                              questionId: (questionList[i].questionId)));
+                        }
+                        saveSurvey(ansList);
+                        //
+                      },
+                      text: "Done",
+                      textColor: Colors.white,
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
     );
     //
+  }
+
+  Future<void> saveSurvey(List<AnswerModel> ansList) async {
+    List<AnswerModel> tempanslist=[];
+    for(int i=0;i<ansList.length;i++){
+     if(ansList[i].answers!.isNotEmpty){
+       tempanslist.add(ansList[i]);
+     }
+    }
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.saveAnswer;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    // String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+    var rr=[];
+    for(int i=0;i<tempanslist.length;i++){
+      rr.add({"questionId":tempanslist[i].questionId,"answers":tempanslist[i].answers});
+    }
+    String jsonBody = json.encode(rr);
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      NavigationHelpers.redirectto(context, DashBoardScreen(1));
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
   }
 }

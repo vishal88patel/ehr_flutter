@@ -10,12 +10,14 @@ class ApiEndPoint {
   static Uri getProfile = Uri.parse(BASE_URL + "account/profile");
   static Uri getHelp = Uri.parse(BASE_URL + "shares/get-help-page");
   static Uri updateProfile = Uri.parse(BASE_URL + "account/update-profile");
+  static Uri saveAnswer = Uri.parse(BASE_URL + "users/save-answers");
   static Uri uploadPhoto = Uri.parse(BASE_URL + "account/upload-photo");
   static Uri logout = Uri.parse(BASE_URL + "account/logout");
 
 
   static Uri countryCode = Uri.parse(BASE_URL + "shared/get-country-codes");
   static Uri getBodyParts = Uri.parse(BASE_URL + "shared/get-body-parts");
+  static Uri getQuestion = Uri.parse(BASE_URL + "users/get-questions");
   static Uri getTestResultType = Uri.parse(BASE_URL + "shares/get-test-result-types");
   static Uri getMedicationContent = Uri.parse(BASE_URL + "shares/get-medication-content");
   static Uri getImagineTypes = Uri.parse(BASE_URL + "shares/get-imagine-types");
