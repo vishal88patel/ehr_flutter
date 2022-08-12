@@ -5,6 +5,7 @@ import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/Model/painModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
@@ -103,65 +104,84 @@ class _CommentScreenState extends State<CommentScreen> {
                 itemCount: painData.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: D.W / 30.0, top: D.H / 80),
-                            child: Row(
-                              children: [
-                                Card(
-                                    color: ColorConstants.bgImage,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8),
-                                        topRight: Radius.circular(8),
-                                        bottomLeft: Radius.circular(8),
-                                        bottomRight: Radius.circular(8),
+                  return Slidable(
+                    key: const ValueKey(0),
+                    endActionPane: ActionPane(
+                      motion: ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          padding: EdgeInsets.all(0),
+                          onPressed: (BuildContext context) {
+                            setState(() {});
+                            deletePain(painData[index].usersPainId);
+                            painData.removeAt(index);
+                          },
+                          backgroundColor: Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: D.W / 30.0, top: D.H / 80),
+                              child: Row(
+                                children: [
+                                  Card(
+                                      color: ColorConstants.bgImage,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(8),
+                                          topRight: Radius.circular(8),
+                                          bottomLeft: Radius.circular(8),
+                                          bottomRight: Radius.circular(8),
+                                        ),
                                       ),
-                                    ),
-                                    elevation: 0,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(D.W / 42),
-                                      child: SvgPicture.asset(
-                                          "assets/images/ic_message.svg"),
-                                    )),
-                                SizedBox(width: D.H / 80),
-                                Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(painData[index].bodyPart.toString(),
-                                      style: GoogleFonts.heebo(
-                                          fontSize: D.H / 52,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    Text(
-                                      painData[index].description.toString(),
-                                      style: GoogleFonts.heebo(
-                                          fontSize: D.H / 52,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                      elevation: 0,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(D.W / 42),
+                                        child: SvgPicture.asset(
+                                            "assets/images/ic_message.svg"),
+                                      )),
+                                  SizedBox(width: D.H / 80),
+                                  Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(painData[index].bodyPart.toString(),
+                                        style: GoogleFonts.heebo(
+                                            fontSize: D.H / 52,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      Text(
+                                        painData[index].description.toString(),
+                                        style: GoogleFonts.heebo(
+                                            fontSize: D.H / 52,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: D.H / 80,
-                          ),
-                          Padding(
-                            padding:
-                            const EdgeInsets.only(left: 4.0, right: 4.0),
-                            child: Container(
-                              height: 1.0,
-                              color: ColorConstants.lineColor,
+                            SizedBox(
+                              height: D.H / 80,
                             ),
-                          )
-                        ],
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(left: 4.0, right: 4.0),
+                              child: Container(
+                                height: 1.0,
+                                color: ColorConstants.lineColor,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -255,6 +275,36 @@ class _CommentScreenState extends State<CommentScreen> {
         ));
       }
       CommonUtils.showGreenToastMessage("Data Fetched Successfully");
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> deletePain(var id) async {
+    final uri = ApiEndPoint.deletePain;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersPainId": id,
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.showGreenToastMessage(res["message"]);
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);

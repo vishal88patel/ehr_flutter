@@ -39,5 +39,10 @@ class ApiEndPoint {
   static Uri getSchedule = Uri.parse(BASE_URL + "users/get-schedules");
   static Uri painDashboard = Uri.parse(BASE_URL + "users/pain-dashboard");
 
+  static Uri deletePain = Uri.parse(BASE_URL + "users/delete-pain");
+  static Uri deleteTestResults = Uri.parse(BASE_URL + "users/delete-test-result");
+  static Uri deleteMedication = Uri.parse(BASE_URL + "users/delete-medication");
+  static Uri deleteImagine = Uri.parse(BASE_URL + "users/delete-test-imagine");
+
 
 }
