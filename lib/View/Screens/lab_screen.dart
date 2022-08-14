@@ -135,6 +135,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                     primary: false,
                     child: Column(
                       children: [
+
                         // Row(
                         //   children: [
                         //     Expanded(
@@ -1100,8 +1101,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                   padding: EdgeInsets.all(0),
                                                   onPressed: (BuildContext context) {
                                                     setState(() {});
-                                                    deleteTestResult(10);
-                                                    _labScreenResponseModelodel.testResults?.removeAt(index);
+                                                    deleteTestResult( _labScreenResponseModelodel.testResults![index].values![0].usersTestResultId,index);
+
                                                    // medicationData.removeAt(index);
                                                   },
                                                   backgroundColor: Color(0xFFFE4A49),
@@ -2783,8 +2784,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       //
       // tabItemCount = tabList.length;
       // _tabController = new TabController(length: tabItemCount, vsync: this);
-
-      CommonUtils.hideProgressDialog(context);
       setState(() {});
       CommonUtils.hideProgressDialog(context);
       // CommonUtils.showGreenToastMessage("Data Fetched Successfully");
@@ -3168,7 +3167,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       });
     }
   }
-  Future<void> deleteTestResult(var id) async {
+  Future<void> deleteTestResult(var id, int index) async {
+    CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.deleteTestResults;
     final headers = {
       'Content-Type': 'application/json',
@@ -3181,7 +3181,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
-    Response response = await post(
+    Response response = await delete(
       uri,
       headers: headers,
       body: jsonBody,
@@ -3192,9 +3192,14 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.showGreenToastMessage(res["message"]);
+      _labScreenResponseModelodel.testResults?.removeAt(index);
+      CommonUtils.hideProgressDialog(context);
+
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
+      CommonUtils.hideProgressDialog(context);
+
     }
   }
 }

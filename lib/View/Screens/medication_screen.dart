@@ -147,8 +147,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
                           padding: EdgeInsets.all(0),
                           onPressed: (BuildContext context) {
                             setState(() {});
-                            deleteMedication(medicationData[index].usersMedicationId);
-                            medicationData.removeAt(index);
+                            deleteMedication(medicationData[index].usersMedicationId,index);
+
                           },
                           backgroundColor: Color(0xFFFE4A49),
                           foregroundColor: Colors.white,
@@ -391,7 +391,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
     }
   }
 
-  Future<void> deleteMedication(var id) async {
+  Future<void> deleteMedication(var id, int index) async {
+    CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.deleteMedication;
     final headers = {
       'Content-Type': 'application/json',
@@ -404,7 +405,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
-    Response response = await post(
+    Response response = await delete(
       uri,
       headers: headers,
       body: jsonBody,
@@ -415,9 +416,12 @@ class _MedicationScreenState extends State<MedicationScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.showGreenToastMessage(res["message"]);
+      medicationData.removeAt(index);
+      CommonUtils.hideProgressDialog(context);
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
+      CommonUtils.hideProgressDialog(context);
     }
   }
 }

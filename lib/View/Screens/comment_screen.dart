@@ -113,8 +113,8 @@ class _CommentScreenState extends State<CommentScreen> {
                           padding: EdgeInsets.all(0),
                           onPressed: (BuildContext context) {
                             setState(() {});
-                            deletePain(painData[index].usersPainId);
-                            painData.removeAt(index);
+                            deletePain(painData[index].usersPainId,index);
+                            // painData.removeAt(index);
                           },
                           backgroundColor: Color(0xFFFE4A49),
                           foregroundColor: Colors.white,
@@ -280,12 +280,12 @@ class _CommentScreenState extends State<CommentScreen> {
     }
   }
 
-  Future<void> deletePain(var id) async {
+  Future<void> deletePain(var id, int index) async {
+    CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.deletePain;
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
       "usersPainId": id,
@@ -293,7 +293,7 @@ class _CommentScreenState extends State<CommentScreen> {
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
-    Response response = await post(
+    Response response = await delete(
       uri,
       headers: headers,
       body: jsonBody,
@@ -304,9 +304,14 @@ class _CommentScreenState extends State<CommentScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.showGreenToastMessage(res["message"]);
+      painData.removeAt(index);
+      CommonUtils.hideProgressDialog(context);
+
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
+      CommonUtils.hideProgressDialog(context);
+
     }
   }
 }
