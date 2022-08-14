@@ -2076,11 +2076,15 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                 imagine:
                                                     _labScreenResponseModelodel
                                                         .imagine![index],
-                                                name:
-                                                    _labScreenResponseModelodel
+                                                name: _labScreenResponseModelodel
                                                         .imagine![index]
                                                         .description
-                                                        .toString());
+                                                        .toString(),
+                                            id: _labScreenResponseModelodel
+                                                .imagine![index].imagineTypeId,
+                                              index: index
+                                            );
+
                                           },
                                           child: Card(
                                             elevation: 4,
@@ -2441,6 +2445,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   showDialouge({
     required String name,
     required Imagine imagine,
+    required int? id,
+    required int? index,
   }) {
     int activePage = 0;
 
@@ -2484,8 +2490,25 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                           Row(
                             children: [
                               Text(
+                               "",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
                                 imagine.imageType.toString(),
                                 style: TextStyle(fontSize: 20),
+                              ),
+                              InkWell(
+                                onTap: (){
+                                  deleteImagine(id,index!);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: SvgPicture.asset(
+                                    "assets/images/ic_delete.svg",
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -3193,6 +3216,41 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     if (statusCode == 200) {
       CommonUtils.showGreenToastMessage(res["message"]);
       _labScreenResponseModelodel.testResults?.removeAt(index);
+      CommonUtils.hideProgressDialog(context);
+
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+      CommonUtils.hideProgressDialog(context);
+
+    }
+  }
+  Future<void> deleteImagine(var id, int index) async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.deleteTestResults;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersTestResultId": id,
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await delete(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.showGreenToastMessage(res["message"]);
+      _labScreenResponseModelodel.imagine?.removeAt(index);
       CommonUtils.hideProgressDialog(context);
 
       setState(() {});
