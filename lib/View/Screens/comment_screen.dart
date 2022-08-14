@@ -227,7 +227,6 @@ class _CommentScreenState extends State<CommentScreen> {
           startDate: res[i]["startDate"],
           endDate: res[i]["endDate"],
           created: res[i]["created"],
-
         ));
       }
       CommonUtils.hideProgressDialog(context);

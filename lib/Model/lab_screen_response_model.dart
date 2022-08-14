@@ -56,8 +56,8 @@ class Pains {
   int? usersPainId;
   int? bodyPartId;
   String? bodyPart;
-  double? locationX;
-  double? locationY;
+  dynamic locationX;
+  dynamic locationY;
   String? description;
   int? startDate;
   int? endDate;
