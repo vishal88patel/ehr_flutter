@@ -3229,7 +3229,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   }
   Future<void> deleteImagine(int id, int index) async {
     CommonUtils.showProgressDialog(context);
-    final uri = ApiEndPoint.deleteTestResults;
+    final uri = ApiEndPoint.deleteImagine;
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
