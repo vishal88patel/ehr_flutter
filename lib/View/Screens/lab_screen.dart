@@ -2497,9 +2497,10 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                 imagine.imageType.toString(),
                                 style: TextStyle(fontSize: 20),
                               ),
+                              Expanded(child: Container()),
                               InkWell(
                                 onTap: (){
-                                  deleteImagine(id,index!);
+                                  deleteImagine(_labScreenResponseModelodel.imagine![index!.toInt()].usersImagineId!.toInt(),index);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
@@ -2507,6 +2508,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                     "assets/images/ic_delete.svg",
                                     height: 20,
                                     width: 20,
+                                    color: Colors.red,
                                   ),
                                 ),
                               ),
@@ -3225,7 +3227,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
 
     }
   }
-  Future<void> deleteImagine(var id, int index) async {
+  Future<void> deleteImagine(int id, int index) async {
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.deleteTestResults;
     final headers = {
@@ -3252,7 +3254,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       CommonUtils.showGreenToastMessage(res["message"]);
       _labScreenResponseModelodel.imagine?.removeAt(index);
       CommonUtils.hideProgressDialog(context);
-
+Navigator.pop(context);
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
