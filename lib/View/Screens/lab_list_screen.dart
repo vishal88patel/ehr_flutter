@@ -4,6 +4,7 @@ import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/Model/lab_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
@@ -85,43 +86,62 @@ class _LabListScreenState extends State<LabListScreen> {
                     itemCount: labList.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: D.W / 30.0,right: D.W / 30.0, top: D.H / 80),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      labList[index].testResultType.toString(),
-                                      style: GoogleFonts.heebo(
-                                          fontSize: D.H / 52,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    Text(
-                                      labList[index].testResultValue.toString(),
-                                      style: GoogleFonts.heebo(
-                                          fontSize: D.H / 52,
-                                          color: ColorConstants.blueText,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
+                      return Slidable(
+                        key: const ValueKey(0),
+                        endActionPane: ActionPane(
+                          motion: ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              padding: EdgeInsets.all(0),
+                              onPressed: (BuildContext context) {
+                                setState(() {});
+                                deleteTestResult( labList[index].usersTestResultId,index);
+                                // medicationData.removeAt(index);
+                              },
+                              backgroundColor: Color(0xFFFE4A49),
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                            ),
+                          ],
+                        ),
+                        child: Container(
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: D.W / 30.0,right: D.W / 30.0, top: D.H / 80),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        labList[index].testResultType.toString(),
+                                        style: GoogleFonts.heebo(
+                                            fontSize: D.H / 52,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Text(
+                                        labList[index].testResultValue.toString(),
+                                        style: GoogleFonts.heebo(
+                                            fontSize: D.H / 52,
+                                            color: ColorConstants.blueText,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: D.H / 80,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 4.0,right: 4.0),
-                                child: Container(
-                                  height: 1.0,
-                                  color: ColorConstants.lineColor,
+                                SizedBox(
+                                  height: D.H / 80,
                                 ),
-                              )
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 4.0,right: 4.0),
+                                  child: Container(
+                                    height: 1.0,
+                                    color: ColorConstants.lineColor,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -173,5 +193,42 @@ class _LabListScreenState extends State<LabListScreen> {
       CommonUtils.showRedToastMessage(res["message"]);
     }
   }
+
+  Future<void> deleteTestResult(var id, int index) async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.deleteTestResults;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersTestResultId": id,
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await delete(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.showGreenToastMessage(res["message"]);
+      labList.removeAt(index);
+      CommonUtils.hideProgressDialog(context);
+
+      setState(() {});
+    } else {
+      CommonUtils.showRedToastMessage(res["message"]);
+      CommonUtils.hideProgressDialog(context);
+
+    }
+  }
+
 }
 

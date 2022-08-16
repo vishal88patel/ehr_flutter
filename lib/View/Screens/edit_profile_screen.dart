@@ -270,6 +270,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage("Data Updated Successfully");
+      //Navigator.pop(context);
       NavigationHelpers.redirect(context, OtpVerificationScreen(emailController.text));
     } else {
       CommonUtils.hideProgressDialog(context);
