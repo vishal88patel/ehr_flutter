@@ -20,6 +20,7 @@ import 'package:intl/intl.dart';
 
 import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
+import '../../Constants/constants.dart';
 import '../../CustomWidgets/chart_widget.dart';
 import '../../CustomWidgets/custom_date_field.dart';
 import '../../Model/imageType_model.dart';
@@ -191,13 +192,18 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                       ),
                                       InkWell(
                                           onTap: () {
-                                            /*Navigator.push(
+                                            Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            BodyDetailScreen()))
+                                                            BodyDetailScreen(
+                                                                bodyPartName: "None",
+                                                                isBack: Constants.isBackBody,
+                                                                x: 0.0,
+                                                                y: 0.0
+                                                            )))
                                                 .then((value) =>
-                                                    getLabScreenApiWithoutPop());*/
+                                                    getLabScreenApiWithoutPop());
                                           },
                                           child: SvgPicture.asset(
                                               "assets/images/ic_add_plus.svg"))
@@ -1092,152 +1098,132 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                           onTap: (){
                                             showLabDialouge(name:_labScreenResponseModelodel.testResults![index].testResultName.toString(),values: _labScreenResponseModelodel.testResults![index]);
                                           },
-                                          child: Slidable(
-                                            key: const ValueKey(0),
-                                            endActionPane: ActionPane(
-                                              motion: ScrollMotion(),
-                                              children: [
-                                                SlidableAction(
-                                                  padding: EdgeInsets.all(0),
-                                                  onPressed: (BuildContext context) {
-                                                    setState(() {});
-                                                    deleteTestResult( _labScreenResponseModelodel.testResults![index].values![0].usersTestResultId,index);
-
-                                                   // medicationData.removeAt(index);
-                                                  },
-                                                  backgroundColor: Color(0xFFFE4A49),
-                                                  foregroundColor: Colors.white,
-                                                  icon: Icons.delete,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                  left: D.W / 40.0,
-                                                  top: D.H / 80),
-                                              child: Center(
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Card(
-                                                                color: ColorConstants.bgImage,
-                                                                shape:
-                                                                const RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                  BorderRadius.only(
-                                                                    topLeft: Radius.circular(8),
-                                                                    topRight: Radius.circular(8),
-                                                                    bottomLeft: Radius.circular(8),
-                                                                    bottomRight: Radius.circular(8),
-                                                                  ),
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                left: D.W / 40.0,
+                                                top: D.H / 80),
+                                            child: Center(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Card(
+                                                              color: ColorConstants.bgImage,
+                                                              shape:
+                                                              const RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius.only(
+                                                                  topLeft: Radius.circular(8),
+                                                                  topRight: Radius.circular(8),
+                                                                  bottomLeft: Radius.circular(8),
+                                                                  bottomRight: Radius.circular(8),
                                                                 ),
-                                                                elevation:
-                                                                0,
-                                                                child:
-                                                                Container(
-                                                                  height: D.W/8,
-                                                                  width: D.W/8,
-                                                                  child: Padding(
-                                                                    padding: EdgeInsets
-                                                                        .all(D.W /
-                                                                        60),
-                                                                    child: Image
-                                                                        .asset(
-                                                                        "assets/images/graph.png"),
-                                                                  ),
-                                                                )),
-                                                            SizedBox(
-                                                              width:
-                                                              D.W / 50,
-                                                            ),
-                                                            Column(
-                                                              mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                              crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                              children: [
-                                                                Text(
-                                                                  _labScreenResponseModelodel
-                                                                      .testResults![
-                                                                  index]
-                                                                      .testResultName
-                                                                      .toString(),
-                                                                  style: GoogleFonts.heebo(
-                                                                      fontSize: D.H /
-                                                                          52,
-                                                                      fontWeight:
-                                                                      FontWeight.w400),
+                                                              ),
+                                                              elevation:
+                                                              0,
+                                                              child:
+                                                              Container(
+                                                                height: D.W/8,
+                                                                width: D.W/8,
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .all(D.W /
+                                                                      60),
+                                                                  child: Image
+                                                                      .asset(
+                                                                      "assets/images/graph.png"),
                                                                 ),
-                                                                /*Text(
-                                                                  "${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
-                                                                  // "Hil 250 mg 2/Day",
-                                                                  style: GoogleFonts.heebo(
-                                                                      color: ColorConstants
-                                                                          .blueBtn,
-                                                                      fontSize: D.H /
-                                                                          66,
-                                                                      fontWeight:
-                                                                      FontWeight.w500),
-                                                                ),*/
-                                                                Row(
-                                                                  children: [
+                                                              )),
+                                                          SizedBox(
+                                                            width:
+                                                            D.W / 50,
+                                                          ),
+                                                          Column(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Text(
+                                                                _labScreenResponseModelodel
+                                                                    .testResults![
+                                                                index]
+                                                                    .testResultName
+                                                                    .toString(),
+                                                                style: GoogleFonts.heebo(
+                                                                    fontSize: D.H /
+                                                                        52,
+                                                                    fontWeight:
+                                                                    FontWeight.w400),
+                                                              ),
+                                                              /*Text(
+                                                                "${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
+                                                                // "Hil 250 mg 2/Day",
+                                                                style: GoogleFonts.heebo(
+                                                                    color: ColorConstants
+                                                                        .blueBtn,
+                                                                    fontSize: D.H /
+                                                                        66,
+                                                                    fontWeight:
+                                                                    FontWeight.w500),
+                                                              ),*/
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                   "Last Updated : ",
+                                                                    style: GoogleFonts.heebo(
+                                                                        color: ColorConstants.darkText,
+                                                                        fontSize: D.H / 66,
+                                                                        fontWeight: FontWeight.w500),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(
+                                                                        left: 2.0,
+                                                                        top: 2.0),
+                                                                    child:
                                                                     Text(
-                                                                     "Last Updated : ",
+                                                                      myd24.toString(),
                                                                       style: GoogleFonts.heebo(
                                                                           color: ColorConstants.darkText,
                                                                           fontSize: D.H / 66,
-                                                                          fontWeight: FontWeight.w500),
+                                                                          fontWeight: FontWeight.w400),
                                                                     ),
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(
-                                                                          left: 2.0,
-                                                                          top: 2.0),
-                                                                      child:
-                                                                      Text(
-                                                                        myd24.toString(),
-                                                                        style: GoogleFonts.heebo(
-                                                                            color: ColorConstants.darkText,
-                                                                            fontSize: D.H / 66,
-                                                                            fontWeight: FontWeight.w400),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: D.H / 80,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .only(
-                                                          left: 4.0,
-                                                          right: 4.0),
-                                                      child: Container(
-                                                        height: 1.0,
-                                                        color:
-                                                        ColorConstants
-                                                            .lineColor,
+                                                                  ),
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: D.H / 80,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                    const EdgeInsets
+                                                        .only(
+                                                        left: 4.0,
+                                                        right: 4.0),
+                                                    child: Container(
+                                                      height: 1.0,
+                                                      color:
+                                                      ColorConstants
+                                                          .lineColor,
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -3227,6 +3213,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
 
     }
   }
+
+
   Future<void> deleteImagine(int id, int index) async {
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.deleteImagine;
