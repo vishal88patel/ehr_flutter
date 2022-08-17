@@ -285,9 +285,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   signInByPhone(
                                       countryCode: "+91",
                                       appVersion: version,
-                                      deviceName: _deviceData["brand"] +
-                                          " " +
-                                          _deviceData["device"],
+                                      deviceName: _deviceData["brand"] + " " + _deviceData["device"],
                                       deviceToken:
                                           await PreferenceUtils.getString(
                                               "FCMTOKEN"),
