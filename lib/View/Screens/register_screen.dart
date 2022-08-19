@@ -330,7 +330,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (statusCode == 200) {
 
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Register Successfully");
+      CommonUtils.showGreenToastMessage(res["message"]);
       NavigationHelpers.redirectto(context, SurveyScreen());
     } else {
       CommonUtils.hideProgressDialog(context);

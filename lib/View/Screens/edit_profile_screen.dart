@@ -170,7 +170,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                         CustomTextFormField(
                           controller: phoneController,
-                          readOnly: true,
+                          readOnly: false,
                           validators: (e) {
                             if (phoneController.text == null ||
                                 phoneController.text == '') {
@@ -225,15 +225,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       uri,
       headers: headers,
     );
-    CommonUtils.hideProgressDialog(context);
-    dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
-    fNameController.text = dataModel.firstName.toString();
-    lNameController.text = dataModel.lastName.toString();
-    emailController.text = dataModel.email.toString();
-    phoneController.text = dataModel.phoneNumber.toString();
-    setState(() {
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
+      fNameController.text = dataModel.firstName.toString();
+      lNameController.text = dataModel.lastName.toString();
+      emailController.text = dataModel.email.toString();
+      phoneController.text = dataModel.phoneNumber.toString();
+      setState(() {
 
-    });
+      });
+    }
+
   }
   Future<void> updateProfile({
     required String firstName,
@@ -269,7 +274,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Data Updated Successfully");
+      CommonUtils.showRedToastMessage(res["message"]);
       //Navigator.pop(context);
       NavigationHelpers.redirect(context, OtpVerificationScreen(emailController.text));
     } else {

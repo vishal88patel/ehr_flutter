@@ -14,7 +14,6 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../Constants/api_endpoint.dart';
-import '../../CustomWidgets/custom_calender.dart';
 import '../../Model/schedule_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
@@ -449,7 +448,10 @@ class _SchedualScreenState extends State<SchedualScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      setState(() {});
+      if(mounted){
+        setState(() {});
+
+      }
       // _showSnackBar(context, "Delete");
     } else {
       
@@ -489,7 +491,6 @@ class _SchedualScreenState extends State<SchedualScreen> {
             usersScheduleId: res[i]["usersScheduleId"], scheduleDateTime: res[i]["scheduleDateTime"], comment: res[i]["comment"]));
       }
       setState(() {});
-      CommonUtils.showGreenToastMessage("get schedule Successfully");
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);

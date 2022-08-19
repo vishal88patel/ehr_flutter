@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/Model/medicationData_model.dart';
-import 'package:ehr/View/Screens/otp_verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,17 +8,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../../Constants/api_endpoint.dart';
-import '../../CustomWidgets/custom_textform_field.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
-import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_date_field.dart';
-import 'change_pass_screen.dart';
-import 'dash_board_screen.dart';
-import 'edit_profile_screen.dart';
-import 'otp_screen.dart';
+import '../../customWidgets/custom_textform_field.dart';
+
 
 class AddMedicationScreen extends StatefulWidget {
   const AddMedicationScreen({Key? key}) : super(key: key);
@@ -39,7 +33,6 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   int eDate=0;
 
   String? _choosenDosageValue;
-  String? _choosenFoodValue;
   String? _choosenFreqValue;
 
   bool withFood = true;
@@ -53,7 +46,6 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   List<FoodType> foodTypeData = [];
   List<Dosage> dosageTypeData = [];
   List<Frequency> frequencyTypeData = [];
-  var _selectedFood = "after";
   DateTime selectedDate = DateTime.now();
   var current = false;
   @override

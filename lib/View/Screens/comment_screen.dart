@@ -84,7 +84,7 @@ class _CommentScreenState extends State<CommentScreen> {
         elevation: 0,
       ),
       backgroundColor: ColorConstants.background,
-      body: Container(
+      body: painData.isNotEmpty?Container(
         child: Padding(
           padding:
           EdgeInsets.only(left: D.W / 22, right: D.W / 22, top: D.H / 30),
@@ -188,7 +188,7 @@ class _CommentScreenState extends State<CommentScreen> {
                 }),
           ),
         ),
-      ),
+      ):Container()
     );
   }
 
@@ -230,7 +230,6 @@ class _CommentScreenState extends State<CommentScreen> {
         ));
       }
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);

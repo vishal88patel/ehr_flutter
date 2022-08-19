@@ -99,7 +99,7 @@ class _LogInScreenState extends State<LogInScreen> {
       'tags': build.tags,
       'type': build.type,
       'isPhysicalDevice': build.isPhysicalDevice,
-      'androidId': build.androidId,
+      // 'androidId': build.androidId,
       'systemFeatures': build.systemFeatures,
     };
   }
@@ -285,7 +285,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   signInByPhone(
                                       countryCode: "+91",
                                       appVersion: version,
-                                      deviceName: _deviceData["brand"] + " " + _deviceData["device"],
+                                      deviceName:Platform.isIOS?_deviceData['name']??"": _deviceData["brand"]??"" + " " + _deviceData["device"]??"",
                                       deviceToken:
                                           await PreferenceUtils.getString(
                                               "FCMTOKEN"),
@@ -354,7 +354,6 @@ class _LogInScreenState extends State<LogInScreen> {
       PreferenceUtils.setString("ACCESSTOKEN", res["accessToken"]);
 
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Otp Sent Successfully");
       NavigationHelpers.redirectto(context, OtpScreen());
     } else {
       CommonUtils.hideProgressDialog(context);
