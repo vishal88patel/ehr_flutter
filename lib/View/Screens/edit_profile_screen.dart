@@ -29,6 +29,8 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final fNameController = TextEditingController();
   final lNameController = TextEditingController();
+  final bdayController = TextEditingController();
+  final genderController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
 
@@ -90,7 +92,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       SvgPicture.asset(
                         "assets/images/bg_light.svg",
                         fit: BoxFit.fill,
-                        height: MediaQuery.of(context).size.height/1.4,
+                        height: MediaQuery.of(context).size.height/1.1,
                       ),
                     ],
                   ),
@@ -130,6 +132,44 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         SizedBox(height: D.H / 120),
                         CustomTextFormField(
                           controller: lNameController,
+                          readOnly: false,
+                          validators: (e) {
+                            if (lNameController.text == null ||
+                                lNameController.text == '') {
+                              return '*Please enter LastName';
+                            }
+                          },
+                          keyboardTYPE: TextInputType.text,
+                          obscured: false,
+                        ),
+                        SizedBox(height: D.H / 40),
+                        Text(
+                          "Date of Birth",
+                          style: GoogleFonts.heebo(
+                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(height: D.H / 120),
+                        CustomTextFormField(
+                          controller: bdayController,
+                          readOnly: false,
+                          validators: (e) {
+                            if (lNameController.text == null ||
+                                lNameController.text == '') {
+                              return '*Please enter dob';
+                            }
+                          },
+                          keyboardTYPE: TextInputType.text,
+                          obscured: false,
+                        ),
+                        SizedBox(height: D.H / 40),
+                        Text(
+                          "Gender",
+                          style: GoogleFonts.heebo(
+                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(height: D.H / 120),
+                        CustomTextFormField(
+                          controller: genderController,
                           readOnly: false,
                           validators: (e) {
                             if (lNameController.text == null ||
@@ -229,6 +269,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
     fNameController.text = dataModel.firstName.toString();
     lNameController.text = dataModel.lastName.toString();
+    bdayController.text = dataModel.birthdate.toString();
+    genderController.text = " ";
     emailController.text = dataModel.email.toString();
     phoneController.text = dataModel.phoneNumber.toString();
     setState(() {

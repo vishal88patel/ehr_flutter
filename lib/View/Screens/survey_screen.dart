@@ -22,7 +22,7 @@ class SurveyScreen extends StatefulWidget {
 
 class _SurveyScreenState extends State<SurveyScreen> {
   List<QAModel> questionList = [];
-
+  bool value=false;
   @override
   void initState() {
     Future.delayed(Duration(milliseconds: 200), () {

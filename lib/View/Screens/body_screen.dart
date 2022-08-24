@@ -2551,7 +2551,8 @@ class _BodyScreenState extends State<BodyScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton:FloatingActionButton.extended(
+
         backgroundColor: ColorConstants.primaryBlueColor,
         onPressed: () {
           // showDrag=false;
@@ -2574,7 +2575,11 @@ class _BodyScreenState extends State<BodyScreen> {
                 }));
           }
         },
-        child: Icon(Icons.add),
+        label:Text(
+          "Add Comment",
+          style: GoogleFonts.heebo(
+              fontSize: D.H / 52, fontWeight: FontWeight.w400),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
