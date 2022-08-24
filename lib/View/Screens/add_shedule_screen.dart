@@ -1,23 +1,18 @@
 import 'dart:collection';
 import 'dart:convert';
-
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../../Constants/api_endpoint.dart';
-import '../../CustomWidgets/custom_calender.dart';
-import '../../CustomWidgets/custom_textform_field.dart';
-import '../../Model/schedule_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_button.dart';
+import '../../customWidgets/custom_textform_field.dart';
 import '../../customWidgets/custom_time_field.dart';
 
 class AddSheduleScreen extends StatefulWidget {
@@ -34,8 +29,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
   final commentController = TextEditingController();
   final timeController = TextEditingController();
   final ampmController = TextEditingController();
-  String? _chosenTime;
-  String? _chosenAmPm;
+
   String? _selectedTime;
   int? userScheduleId=0;
 
@@ -50,7 +44,6 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
     hashCode: getHashCode,
   );
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
 
@@ -419,13 +412,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
               child: child!);
         });
     if (result != null) {
-      /* setState(() {
-        _selectedTime = result.format(context);
-        var time=_selectedTime?.split(" ");
-        timeController.text=time![0];
-        ampmController.text=time[1];
-        print(_selectedTime);
-      });*/
+
 
       setState(() {
         _selectedTime = result.format(context);
@@ -466,7 +453,6 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("saveSchedule Successfully");
       Navigator.pop(context);
     } else {
       CommonUtils.hideProgressDialog(context);

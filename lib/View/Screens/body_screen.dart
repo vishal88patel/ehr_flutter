@@ -3028,12 +3028,17 @@ class _BodyScreenState extends State<BodyScreen> {
       } else {
         colorrr = Colors.blue;
       }
-
-      setState(() {});
+   // Future.delayed(Duration(milliseconds: 200),(){
+   //   setState(() {});
+   //
+   // });
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
     }
-    setState(() {});
+    if(mounted){
+      setState(() {});
+
+    }
   }
 
   Future<void> savePain() async {

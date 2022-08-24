@@ -30,7 +30,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   final List<Widget> _children = [
     LabScreen(),
     BodyScreen(),
-    // BodyScreenForTest(),
     SchedualScreen(),
   ];
 
@@ -42,19 +41,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   }
 
 
-  // getprefrences() async {
-  //   loginModel = (await PreferenceUtils.getLoginObject('LoginResponse'))!;
-  //
-  //   if(loginModel!=null){
-  //     userName=loginModel.user!.firstName??"Adom Shafi";
-  //     UserEmail=loginModel.user!.email??"hellobesnik@gmail.com";
-  //   }else{
-  //
-  //   }
-  //   setState(() {
-  //
-  //   });
-  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -120,33 +107,4 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     );
   }
 
-  // Future<void> logout() async {
-  //   CommonUtils.showProgressDialog(context);
-  //   final token = loginModel.token;
-  //   final uri = ApiEndPoint.logout;
-  //   final headers = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': "Bearer" + " " + token!
-  //   };
-  //
-  //   Response response = await get(
-  //     uri,
-  //     headers: headers,
-  //   );
-  //   int statusCode = response.statusCode;
-  //   String responseBody = response.body;
-  //   var res = jsonDecode(responseBody);
-  //   if (statusCode == 200) {
-  //     AuthClass().signOut(context);
-  //     CommonUtils.hideProgressDialog(context);
-  //     Fluttertoast.showToast(msg: "${res['message']}");
-  //     PreferenceUtils.clear();
-  //     NavigationHelpers.redirectto(context, AuthScreen());
-  //     print(res);
-  //   } else {
-  //     print(res);
-  //     Fluttertoast.showToast(
-  //         msg: "${res['message']}", toastLength: Toast.LENGTH_LONG);
-  //   }
-  // }
 }

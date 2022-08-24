@@ -87,7 +87,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
         elevation: 0,
       ),
       backgroundColor: ColorConstants.background,
-      body: Padding(
+      body: medicationData.isNotEmpty?Padding(
         padding:
             EdgeInsets.only(left: D.W / 22, right: D.W / 22, top: D.H / 30),
         child: Card(
@@ -286,7 +286,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                 );
               }),
         ),
-      ),
+      ):Container(),
     );
   }
 
@@ -334,7 +334,6 @@ class _MedicationScreenState extends State<MedicationScreen> {
         ));
       }
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);

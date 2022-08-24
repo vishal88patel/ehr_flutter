@@ -284,7 +284,7 @@ class _OtpScreenState extends State<OtpScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200 ) {
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Otp Send Successfully");
+      CommonUtils.showGreenToastMessage(res["message"]);
       setState(() {
         _time=60;
         startTimer();

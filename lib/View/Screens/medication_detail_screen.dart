@@ -302,7 +302,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("feedback Successfully");
+      CommonUtils.showGreenToastMessage(res["message"]);
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
