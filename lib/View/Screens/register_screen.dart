@@ -288,7 +288,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         controller.text = startDate.toString();
 
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(startDate);
-        Date=dateTimeFormat.millisecondsSinceEpoch;
+        bDate=dateTimeFormat.millisecondsSinceEpoch;
         print("Date:"+Date.toString());
       });
     }

@@ -2606,28 +2606,32 @@ class _BodyScreenState extends State<BodyScreen> {
     var tempFirstSortedYearList=[];
      tempFirstSortedYearList.clear();
     if (statusCode == 200) {
-
-      for (int i = 0; i < res.length; i++) {
-        var mydtStart = DateTime.fromMillisecondsSinceEpoch(res[i]["created"].toInt());
-        var myd24Start = DateFormat('yyyy').format(mydtStart);
-       if(myd24Start.toString()==_chosenValueOfYear){
-         tempFirstSortedYearList.add((res[i]));
-       }
+      if(_chosenValueOfYear!="All years"){
+        for (int i = 0; i < res.length; i++) {
+          var mydtStart = DateTime.fromMillisecondsSinceEpoch(res[i]["startDate"].toInt());
+          var myd24Start = DateFormat('yyyy').format(mydtStart);
+          if(myd24Start.toString()==_chosenValueOfYear){
+            tempFirstSortedYearList.add((res[i]));
+          }
+        }
+      }else{
+        tempFirstSortedYearList.addAll(res);
       }
+
 
       for (int i = 0; i < tempFirstSortedYearList.length; i++) {
         painData.add(PainDashboardModel(
-            bodyPart: res[i]["bodyPart"],
-            bodyPartId: res[i]["bodyPartId"],
-            created: res[i]["created"],
-            current: res[i]["current"],
-            description: res[i]["description"],
-            endDate: res[i]["endDate"],
-            locationX: res[i]["locationX"],
-            locationY: res[i]["locationY"],
-            isBack: res[i]["isBack"],
-            startDate: res[i]["startDate"],
-            usersPainId: res[i]["usersPainId"]));
+            bodyPart:  tempFirstSortedYearList[i]["bodyPart"],
+            bodyPartId:  tempFirstSortedYearList[i]["bodyPartId"],
+            created:  tempFirstSortedYearList[i]["created"],
+            current:  tempFirstSortedYearList[i]["current"],
+            description:  tempFirstSortedYearList[i]["description"],
+            endDate:  tempFirstSortedYearList[i]["endDate"],
+            locationX:  tempFirstSortedYearList[i]["locationX"],
+            locationY:  tempFirstSortedYearList[i]["locationY"],
+            isBack:  tempFirstSortedYearList[i]["isBack"],
+            startDate:  tempFirstSortedYearList[i]["startDate"],
+            usersPainId:  tempFirstSortedYearList[i]["usersPainId"]));
       }
       print("total length:" + painData.length.toString());
 

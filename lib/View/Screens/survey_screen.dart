@@ -123,59 +123,59 @@ class _SurveyScreenState extends State<SurveyScreen> {
                             shrinkWrap: true,
                             itemCount: questionList[index].options!.length,
                             itemBuilder: (BuildContext context, int i) {
-                              return GestureDetector(
-                                onTap: () {},
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      color: Color(0xFFF0F0F0),
-                                    ),
-                                    child: ListTile(
-                                        contentPadding: EdgeInsets.zero,
-                                        leading: Transform.scale(
-                                          scale: 1,
-                                          child: Checkbox(
-                                            activeColor:
-                                                ColorConstants.checkBoxColor,
-                                            side: BorderSide(
-                                                width: 1, color: Colors.grey),
-                                            onChanged: (bool? value) async {
-                                              if (value ?? false) {
-                                                questionList[index]
-                                                    .options![i]
-                                                    .isSelected = true;
-                                              } else {
-                                                questionList[index]
-                                                    .options![i]
-                                                    .isSelected = false;
-                                              }
-                                              setState(() {});
-                                            },
-                                            value: questionList[index]
-                                                .options![i]
-                                                .isSelected,
-                                          ),
-                                        ),
-                                        horizontalTitleGap: 0,
-                                        title: Text(
-                                          questionList[index]
-                                              .options![i]
-                                              .optionText
-                                              .toString(),
-                                          style: GoogleFonts.heebo(
-                                              color: questionList[index]
-                                                          .options![i]
-                                                          .isSelected ??
-                                                      false
-                                                  ? ColorConstants.checkBoxColor
-                                                  : Colors.black,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400),
-                                        )),
+                              return Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    color: Color(0xFFF0F0F0),
                                   ),
+                                  child: ListTile(
+                                    onTap: (){
+                                        value=!value;
+                                      if (value ?? false) {
+                                      questionList[index]
+                                          .options![i]
+                                          .isSelected = true;
+                                      } else {
+                                      questionList[index]
+                                          .options![i]
+                                          .isSelected = false;
+                                      }
+                                      setState(() {});
+                                    },
+                                      contentPadding: EdgeInsets.zero,
+                                      leading: Transform.scale(
+                                        scale: 1,
+                                        child: Checkbox(
+                                          activeColor:
+                                              ColorConstants.checkBoxColor,
+                                          side: BorderSide(
+                                              width: 1, color: Colors.grey),
+                                          onChanged: (bool? value) async {
+
+                                          },
+                                          value: questionList[index]
+                                              .options![i]
+                                              .isSelected,
+                                        ),
+                                      ),
+                                      horizontalTitleGap: 0,
+                                      title: Text(
+                                        questionList[index]
+                                            .options![i]
+                                            .optionText
+                                            .toString(),
+                                        style: GoogleFonts.heebo(
+                                            color: questionList[index]
+                                                        .options![i]
+                                                        .isSelected ??
+                                                    false
+                                                ? ColorConstants.checkBoxColor
+                                                : Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      )),
                                 ),
                               );
                             }),

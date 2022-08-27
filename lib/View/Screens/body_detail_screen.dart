@@ -254,7 +254,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                     onTap: () {
                                       FocusManager.instance.primaryFocus
                                           ?.unfocus();
-                                      _selectDate(
+                                      _selectDateStartDate(
                                           context, sDateController, sDate);
                                     },
                                     controller: sDateController,
@@ -293,7 +293,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                           onTap: () {
                                             FocusManager.instance.primaryFocus
                                                 ?.unfocus();
-                                            _selectDate(context,
+                                            _selectDateEndDate(context,
                                                 eDateController, eDate);
                                           },
                                           controller: eDateController,
@@ -383,7 +383,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     );
   }
 
-  Future<void> _selectDate(
+  Future<void> _selectDateStartDate(
       BuildContext context, final controller, int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -399,8 +399,31 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDate = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDate);
-        Date = dateTimeFormat.millisecondsSinceEpoch;
-        print("Date:" + Date.toString());
+        this.sDate = dateTimeFormat.millisecondsSinceEpoch;
+
+      });
+    }
+  }
+
+
+  Future<void> _selectDateEndDate(
+      BuildContext context, final controller, int Date) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        final DateFormat formatter = DateFormat('dd-MM-yy');
+        final String startDate = formatter.format(picked);
+        controller.text = startDate.toString();
+
+        final DateFormat formatter2 = DateFormat('dd-MM-yyy');
+        final String sDate = formatter2.format(picked);
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDate);
+        this.eDate = dateTimeFormat.millisecondsSinceEpoch;
+
       });
     }
   }
