@@ -8,6 +8,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import '../../Constants/api_endpoint.dart';
 import '../../Model/otp_verification_model.dart';
 import '../../Utils/common_utils.dart';
@@ -170,7 +171,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         SizedBox(height: D.H / 120),
                         CustomTextFormField(
                           controller: genderController,
-                          readOnly: false,
+                          readOnly: true,
                           validators: (e) {
                             if (lNameController.text == null ||
                                 lNameController.text == '') {
@@ -269,8 +270,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
     fNameController.text = dataModel.firstName.toString();
     lNameController.text = dataModel.lastName.toString();
-    bdayController.text = dataModel.birthdate.toString();
-    genderController.text = " ";
+    genderController.text=dataModel.genderId==1?"Male":"Female";
+    // bdayController.text = dataModel.birthdate.toString();
+    var dt = DateTime.fromMillisecondsSinceEpoch(dataModel.birthdate!);
+    var d24 = DateFormat('dd/MM/yyyy').format(dt); // 31/12/2000, 22:00
+    bdayController.text  = d24.toString();
     emailController.text = dataModel.email.toString();
     phoneController.text = dataModel.phoneNumber.toString();
     setState(() {

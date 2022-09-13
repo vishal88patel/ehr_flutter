@@ -4,15 +4,19 @@ import 'package:ehr/Utils/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 import '../../Constants/api_endpoint.dart';
 import '../../Constants/color_constants.dart';
 import '../../CustomWidgets/custom_button.dart';
+import '../../CustomWidgets/custom_date_field.dart';
 import '../../Model/answer_model.dart';
+import '../../Model/answer_model_for_survey.dart';
 import '../../Model/qa_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../customWidgets/custom_white_textform_field.dart';
 import 'dash_board_screen.dart';
 
 class SurveyScreen extends StatefulWidget {
@@ -22,7 +26,13 @@ class SurveyScreen extends StatefulWidget {
 
 class _SurveyScreenState extends State<SurveyScreen> {
   List<QAModel> questionList = [];
-  bool value=false;
+  List<AnswerModelForSurvey> mainAnswerList = [];
+  bool value = false;
+  TextEditingController valueController = TextEditingController();
+  final labTestDate = TextEditingController();
+  int eDate = 0;
+  DateTime selectedDate = DateTime.now();
+
   @override
   void initState() {
     Future.delayed(Duration(milliseconds: 200), () {
@@ -127,23 +137,235 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                 padding: const EdgeInsets.all(4.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
                                     color: Color(0xFFF0F0F0),
                                   ),
                                   child: ListTile(
-                                    onTap: (){
-                                        value=!value;
-                                      if (value ?? false) {
-                                      questionList[index]
-                                          .options![i]
-                                          .isSelected = true;
-                                      } else {
-                                      questionList[index]
-                                          .options![i]
-                                          .isSelected = false;
-                                      }
-                                      setState(() {});
-                                    },
+                                      onTap: () {
+                                        valueController.clear();
+                                        labTestDate.clear();
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              StatefulBuilder(
+                                            builder: (BuildContext context,
+                                                    void Function(
+                                                            void Function())
+                                                        setState) =>
+                                                AlertDialog(
+                                              contentPadding: EdgeInsets.all(0),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(18),
+                                                ),
+                                              ),
+                                              content: Container(
+                                                width: D.W / 1.25,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: D.W / 40,
+                                                          right: D.W / 40),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Icon(
+                                                              Icons.close,
+                                                              size: D.W / 20,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          "Add Comment",
+                                                          style:
+                                                              GoogleFonts.heebo(
+                                                                  fontSize:
+                                                                      D.H / 38,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: D.H / 60),
+                                                    Container(
+                                                      height: 1,
+                                                      color:
+                                                          ColorConstants.line,
+                                                    ),
+                                                    SizedBox(height: D.H / 60),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: D.W / 18,
+                                                          right: D.W / 18),
+                                                      child: Text(
+                                                        "Type Value",
+                                                        style:
+                                                            GoogleFonts.heebo(
+                                                                fontSize:
+                                                                    D.H / 52,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: D.H / 240),
+                                                    SizedBox(height: D.H / 240),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: D.W / 18,
+                                                          right: D.W / 18),
+                                                      child:
+                                                          CustomWhiteTextFormField(
+                                                        controller:
+                                                            valueController,
+                                                        readOnly: false,
+                                                        validators: (e) {
+                                                          if (valueController
+                                                                      .text ==
+                                                                  null ||
+                                                              valueController
+                                                                      .text ==
+                                                                  '') {
+                                                            return '*Value';
+                                                          }
+                                                        },
+                                                        keyboardTYPE:
+                                                            TextInputType
+                                                                .number,
+                                                        obscured: false,
+                                                        maxlength: 100,
+                                                        maxline: 1,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: D.H / 40),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: D.W / 18,
+                                                          right: D.W / 18),
+                                                      child: Container(
+                                                        width: D.W / 2.9,
+                                                        child: CustomDateField(
+                                                          onTap: () {
+                                                            FocusManager
+                                                                .instance
+                                                                .primaryFocus
+                                                                ?.unfocus();
+                                                            _selectDateSE(
+                                                                context,
+                                                                labTestDate,
+                                                                eDate);
+                                                          },
+                                                          controller:
+                                                              labTestDate,
+                                                          iconPath:
+                                                              "assets/images/ic_date.svg",
+                                                          readOnly: true,
+                                                          validators: (e) {
+                                                            if (labTestDate
+                                                                        .text ==
+                                                                    null ||
+                                                                labTestDate
+                                                                        .text ==
+                                                                    '') {
+                                                              return '*Please enter Date';
+                                                            }
+                                                          },
+                                                          keyboardTYPE:
+                                                              TextInputType
+                                                                  .text,
+                                                          obscured: false,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 1,
+                                                      color:
+                                                          ColorConstants.line,
+                                                    ),
+                                                    SizedBox(height: D.H / 80),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            if (valueController
+                                                                .text.isEmpty) {
+                                                              CommonUtils
+                                                                  .showRedToastMessage(
+                                                                      "Please add Value");
+                                                            } else if (labTestDate
+                                                                .text.isEmpty) {
+                                                              CommonUtils
+                                                                  .showRedToastMessage(
+                                                                      "Please enter End date");
+                                                            } else {
+                                                              // value=!value;
+                                                              // saveandbuildList(desc:
+                                                              //     valueController
+                                                              //         .text,
+                                                              //     labTestDate
+                                                              //         .text,index,i,true,questionList[index].options![i].questionId!);
+                                                            }
+                                                          },
+                                                          child: Text(
+                                                            "OK",
+                                                            style: GoogleFonts.heebo(
+                                                                fontSize:
+                                                                    D.H / 33,
+                                                                color:
+                                                                    ColorConstants
+                                                                        .skyBlue,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: D.H / 80),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                        //   value=!value;
+                                        // if (value) {
+                                        // questionList[index]
+                                        //     .options![i]
+                                        //     .isSelected = true;
+                                        // } else {
+                                        // questionList[index]
+                                        //     .options![i]
+                                        //     .isSelected = false;
+                                        // }
+                                        // setState(() {});
+                                      },
                                       contentPadding: EdgeInsets.zero,
                                       leading: Transform.scale(
                                         scale: 1,
@@ -153,7 +375,16 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                           side: BorderSide(
                                               width: 1, color: Colors.grey),
                                           onChanged: (bool? value) async {
-
+                                            // if (value??false) {
+                                            //   questionList[index]
+                                            //       .options![i]
+                                            //       .isSelected = true;
+                                            // } else {
+                                            //   questionList[index]
+                                            //       .options![i]
+                                            //       .isSelected = false;
+                                            // }
+                                            // setState(() {});
                                           },
                                           value: questionList[index]
                                               .options![i]
@@ -228,11 +459,11 @@ class _SurveyScreenState extends State<SurveyScreen> {
   }
 
   Future<void> saveSurvey(List<AnswerModel> ansList) async {
-    List<AnswerModel> tempanslist=[];
-    for(int i=0;i<ansList.length;i++){
-     if(ansList[i].answers!.isNotEmpty){
-       tempanslist.add(ansList[i]);
-     }
+    List<AnswerModel> tempanslist = [];
+    for (int i = 0; i < ansList.length; i++) {
+      if (ansList[i].answers!.isNotEmpty) {
+        tempanslist.add(ansList[i]);
+      }
     }
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.saveAnswer;
@@ -243,9 +474,12 @@ class _SurveyScreenState extends State<SurveyScreen> {
     };
     // String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
-    var rr=[];
-    for(int i=0;i<tempanslist.length;i++){
-      rr.add({"questionId":tempanslist[i].questionId,"answers":tempanslist[i].answers});
+    var rr = [];
+    for (int i = 0; i < tempanslist.length; i++) {
+      rr.add({
+        "questionId": tempanslist[i].questionId,
+        "answers": tempanslist[i].answers
+      });
     }
     String jsonBody = json.encode(rr);
     Response response = await post(
@@ -264,5 +498,48 @@ class _SurveyScreenState extends State<SurveyScreen> {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
     }
+  }
+
+  Future<void> _selectDateSE(
+      BuildContext context, final controller, int Date) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        final DateFormat formatter = DateFormat('dd-MM-yy');
+        final String startDate = formatter.format(picked);
+        controller.text = startDate.toString();
+        final DateFormat formatter2 = DateFormat('dd-MM-yyy');
+        final String sDatee = formatter2.format(picked);
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
+        eDate = dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:" + Date.toString());
+      });
+    }
+  }
+
+  void saveandbuildList({required String desc, required String date, required int MainIndex, required int subIndex, required bool chekboxvalue, required int questionId}) {
+    // if (chekboxvalue??false) {
+    //   questionList[index]
+    //       .options![i]
+    //       .isSelected = true;
+    //
+    //   for (int j = 0; j < questionList[i].options!.length; j++) {
+    //     if (questionList[i].options![j].isSelected ?? false) {
+    //       ll.add(questionList[i].options![j].optionId.toString());
+    //       ss = ll.join(',');
+    //     }
+    // } else {
+    //   questionList[index]
+    //       .options![i]
+    //       .isSelected = false;
+    // }
+
+      // mainAnswerList.add(AnswerModelForSurvey(description: desc,answers: ,current: false,endDate:date ,questionId: ,startDate: date));
+    setState(() {});
+    Navigator.pop(context);
   }
 }

@@ -11,6 +11,7 @@ class OtpVerificationModel {
   String? phoneNumber;
   bool? phoneConfirmed;
   String? userRole;
+  int? genderId;
   String? refreshToken;
   bool? registrationCompleted;
 
@@ -22,6 +23,7 @@ class OtpVerificationModel {
         this.profilePicture,
         this.birthdate,
         this.email,
+        this.genderId,
         this.emailConfirmed,
         this.countryCode,
         this.phoneNumber,
@@ -43,6 +45,7 @@ class OtpVerificationModel {
     phoneNumber = json['phoneNumber'];
     phoneConfirmed = json['phoneConfirmed'];
     userRole = json['userRole'];
+    genderId = json['genderId']??0;
     refreshToken = json['refreshToken'];
     registrationCompleted = json['registrationCompleted'];
   }

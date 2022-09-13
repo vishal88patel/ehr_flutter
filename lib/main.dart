@@ -7,6 +7,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'Constants/color_constants.dart';
 import 'Utils/preferences.dart';
 import 'View/Screens/splash_screen.dart';
+import 'View/Screens/survey_screen.dart';
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {

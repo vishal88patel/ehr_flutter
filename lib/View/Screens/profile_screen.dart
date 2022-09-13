@@ -42,23 +42,23 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final ccController = TextEditingController();
   late OtpVerificationModel dataModel;
-  String imageUrll="";
-   String uploadedphoto = "";
+  String imageUrll = "";
+  String uploadedphoto = "";
   String pickedfilepath = '';
   bool photouploaded = false;
   var bytesss;
-  String isFromAnotherScreen="0";
-  var userName="User Name";
-  var pageContent="";
+  String isFromAnotherScreen = "0";
+  var userName = "User Name";
+  var pageContent = "";
 
   @override
   void initState() {
     getData();
     fetchHelp();
 
-
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +71,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               "Profile",
               style: GoogleFonts.heebo(
@@ -86,94 +88,103 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(left:D.H / 24,right: D.H / 24),
+              padding: EdgeInsets.only(left: D.H / 24, right: D.H / 24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: D.H / 22),
                   Stack(
                     children: [
-                      Image.asset("assets/images/bg_profile.png",height: D.H/6,fit: BoxFit.fill,),
+                      Image.asset(
+                        "assets/images/bg_profile.png",
+                        height: D.H / 6,
+                        fit: BoxFit.fill,
+                      ),
                       Padding(
-                        padding:  EdgeInsets.only(top: D.H/12),
+                        padding: EdgeInsets.only(top: D.H / 12),
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             _getFromGallery();
                           },
                           child: Center(
-                            child: isFromAnotherScreen=="0"?Container(
-                              height: D.H/7,
-                              width: D.H/7,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                borderRadius: BorderRadius.circular(80)
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(80.0),
-                                child:CachedNetworkImage(
-                                  height: 110,
-                                  width: 120,
-                                  fit: BoxFit.fill,
-                                  imageUrl:imageUrll,
-                                  progressIndicatorBuilder: (context,
-                                      url, downloadProgress) =>
-                                      Center(
-                                        child: SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: CircularProgressIndicator(
+                            child: isFromAnotherScreen == "0"
+                                ? Container(
+                                    height: D.H / 7,
+                                    width: D.H / 7,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(80)),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(80.0),
+                                      child: CachedNetworkImage(
+                                        height: 110,
+                                        width: 120,
+                                        fit: BoxFit.fill,
+                                        imageUrl: imageUrll,
+                                        progressIndicatorBuilder:
+                                            (context, url, downloadProgress) =>
+                                                Center(
+                                          child: SizedBox(
+                                            height: 50,
+                                            width: 50,
+                                            child: CircularProgressIndicator(
+                                                color: ColorConstants
+                                                    .primaryBlueColor,
+                                                value:
+                                                    downloadProgress.progress),
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Center(
+                                          child: SizedBox(
+                                            height: 50,
+                                            width: 50,
+                                            child: CircularProgressIndicator(
                                               color: ColorConstants
                                                   .primaryBlueColor,
-                                              value: downloadProgress
-                                                  .progress),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                  errorWidget: (context, url, error) =>
-                                      Center(
-                                        child: SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: CircularProgressIndicator(
-                                              color: ColorConstants
-                                                  .primaryBlueColor,),
+                                    ),
+                                  )
+                                : isFromAnotherScreen == "1"
+                                    ? Container(
+                                        height: D.H / 7,
+                                        width: D.H / 7,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(80)),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(80.0),
+                                          child: Image.file(
+                                            File(pickedfilepath),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
+                                        height: D.H / 7,
+                                        width: D.H / 7,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(80)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(80.0),
+                                            child: SvgPicture.asset(
+                                              "assets/images/profile_pic.svg",
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                ),
-                              ),
-                            ):isFromAnotherScreen=="1"?Container(
-                              height: D.H/7,
-                              width: D.H/7,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(80)
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(80.0),
-                                child: Image.file(
-                                  File(pickedfilepath),
-                                  fit: BoxFit.cover,
-
-                                ),
-                              ),
-                            ):Container(
-                              height: D.H/7,
-                              width: D.H/7,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(80)
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(80.0),
-                                  child: SvgPicture.asset(
-                                    "assets/images/profile_pic.svg",
-                                    fit: BoxFit.cover,
-
-                                  ),
-                                ),
-                              ),
-                            ),
                           ),
                         ),
                       )
@@ -191,7 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             Card(
               elevation: 5,
-              margin: const EdgeInsets.symmetric(horizontal:0),
+              margin: const EdgeInsets.symmetric(horizontal: 0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(48),
@@ -200,28 +211,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child:Column(
+                  child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
+                        padding:
+                            EdgeInsets.only(left: D.H / 24, right: D.H / 24),
                         child: InkWell(
-                          onTap: (){
-                            NavigationHelpers.redirect(context, EditProfileScreen());
+                          onTap: () {
+                            NavigationHelpers.redirect(
+                                context, EditProfileScreen());
                           },
                           child: Container(
-                            height: D.H/12,
+                            height: D.H / 12,
                             child: Row(
                               children: [
                                 SvgPicture.asset(
                                   "assets/images/ic_edit_profile.svg",
-                                  width: 15,height: 23,
+                                  width: 15,
+                                  height: 23,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 6.0),
                                   child: Text(
                                     "Edit Profile",
                                     style: GoogleFonts.inter(
-                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
+                                        fontSize: D.H / 45,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ],
@@ -230,7 +245,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 28,right: D.H / 28),
+                        padding:
+                            EdgeInsets.only(left: D.H / 28, right: D.H / 28),
                         child: Container(
                           height: 2,
                           color: ColorConstants.lineColor,
@@ -270,24 +286,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       //   ),
                       // ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
+                        padding:
+                            EdgeInsets.only(left: D.H / 24, right: D.H / 24),
                         child: InkWell(
-                          onTap: (){
-                            NavigationHelpers.redirect(context, HelpScreen(pageContent));
+                          onTap: () {
+                            NavigationHelpers.redirect(
+                                context, HelpScreen(pageContent));
                           },
                           child: Container(
-                            height: D.H/12,
+                            height: D.H / 12,
                             child: Row(
                               children: [
                                 SvgPicture.asset(
-                                  "assets/images/ic_help.svg", width: 20,height: 23,
+                                  "assets/images/ic_help.svg",
+                                  width: 20,
+                                  height: 23,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: Text(
                                     "Help",
                                     style: GoogleFonts.inter(
-                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
+                                        fontSize: D.H / 45,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ],
@@ -296,23 +317,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 28,right: D.H / 28),
+                        padding:
+                            EdgeInsets.only(left: D.H / 28, right: D.H / 28),
                         child: Container(
                           height: 2,
                           color: ColorConstants.lineColor,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: D.H / 24,right: D.H / 24),
+                        padding:
+                            EdgeInsets.only(left: D.H / 24, right: D.H / 24),
                         child: Container(
-                          height: D.H/12,
+                          height: D.H / 12,
                           child: Row(
                             children: [
                               SvgPicture.asset(
-                                "assets/images/ic_logout.svg", width: 20,height: 23,
+                                "assets/images/ic_logout.svg",
+                                width: 20,
+                                height: 23,
                               ),
                               GestureDetector(
-                                onTap:(){
+                                onTap: () {
                                   logout();
                                 },
                                 child: Padding(
@@ -320,7 +345,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Text(
                                     "Logout",
                                     style: GoogleFonts.inter(
-                                        fontSize: D.H / 45, fontWeight: FontWeight.w500),
+                                        fontSize: D.H / 45,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ),
@@ -329,8 +355,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ],
-                  )
-              ),
+                  )),
             )
           ],
         ),
@@ -341,9 +366,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   logout() async {
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.logout;
-    final headers = {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString(
-          "ACCESSTOKEN")}',
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     Response response = await get(
@@ -351,18 +377,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       headers: headers,
     );
 
-    if (response.statusCode==200) {
+    if (response.statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       PreferenceUtils.clear();
       CommonUtils.showGreenToastMessage("logout successfully");
       NavigationHelpers.redirectto(context, LogInScreen());
-    }
-    else {
+    } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage("error");
     }
   }
-
 
   _getFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
@@ -373,18 +397,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (pickedFile != null) {
       setState(() {
         photouploaded = true;
-        uploadedphoto =  pickedFile.path;
+        uploadedphoto = pickedFile.path;
         pickedfilepath = pickedFile.path;
         multipartProdecudre();
       });
     }
   }
 
-
   getData() async {
     final uri = ApiEndPoint.getProfile;
-    final headers = {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     Response response = await get(
@@ -392,16 +417,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       headers: headers,
     );
     dataModel = OtpVerificationModel.fromJson(jsonDecode(response.body));
-    userName=dataModel.firstName!+" "+ dataModel.lastName.toString();
-    if(dataModel.profilePicture!.isEmpty){
-      imageUrll="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg";
-    }else{
-      imageUrll=dataModel.profilePicture!;
-
+    userName = dataModel.firstName! + " " + dataModel.lastName.toString();
+    if (dataModel.profilePicture!.isEmpty) {
+      imageUrll =
+          "https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg";
+    } else {
+      imageUrll = dataModel.profilePicture!;
     }
-    setState(() {
-
-    });
+    setState(() {});
     //
     // if(dataModel!=null){
     //   imageUrl=dataModel.profilePicture!;
@@ -417,13 +440,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     //   } on PlatformException catch (error) {
     //     print(error);
     //   }
-
   }
 
   fetchHelp() async {
     final uri = ApiEndPoint.getHelp;
-    final headers = {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     Response response = await get(
@@ -434,17 +458,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      pageContent=res["pageContent"];
-
-    } else {
-    }
-
+      pageContent = res["pageContent"];
+    } else {}
   }
 
   multipartProdecudre() async {
     CommonUtils.showProgressDialog(context);
-    final headers = {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     //for multipartrequest
@@ -455,29 +478,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     //for image and videos and files
 
-    request.files.add(await http.MultipartFile.fromPath("profilePicture", pickedfilepath));
+    request.files.add(
+        await http.MultipartFile.fromPath("profilePicture", pickedfilepath));
 
-    var response =await request.send();
+    var response = await request.send();
 
     var responsed = await http.Response.fromStream(response);
     final responseData = json.decode(responsed.body);
 
-
-    if (response.statusCode==200) {
+    if (response.statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showGreenToastMessage(responseData["message"]);
-      isFromAnotherScreen="1";
-      setState(() {
-
-      });
-
-    }
-    else {
+      isFromAnotherScreen = "1";
+      setState(() {});
+    } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(responseData["message"]);
-
     }
   }
-
-
 }

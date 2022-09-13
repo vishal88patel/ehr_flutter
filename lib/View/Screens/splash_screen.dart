@@ -6,6 +6,7 @@ import 'package:ehr/View/Screens/add_shedule_screen.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:ehr/View/Screens/schedual_screen.dart';
+import 'package:ehr/View/Screens/survey_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -84,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
     loginModel=await PreferenceUtils.getDataObject("OtpVerificationResponse");
     if(loginModel!=null && loginModel.refreshToken!=null){
       await Future.delayed(Duration(milliseconds: 1500), () {
-        NavigationHelpers.redirectFromSplash(context, DashBoardScreen(1));
+        NavigationHelpers.redirectFromSplash(context, SurveyScreen());
       });
     }else{
       await Future.delayed(Duration(milliseconds: 1500), () {

@@ -15,7 +15,6 @@ import '../../customWidgets/custom_button.dart';
 import '../../customWidgets/custom_date_field.dart';
 import '../../customWidgets/custom_textform_field.dart';
 
-
 class AddMedicationScreen extends StatefulWidget {
   const AddMedicationScreen({Key? key}) : super(key: key);
 
@@ -29,8 +28,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   final sDateController = TextEditingController();
   final eDateController = TextEditingController();
 
-  int sDate=0;
-  int eDate=0;
+  int sDate = 0;
+  int eDate = 0;
 
   String? _choosenDosageValue;
   String? _choosenFreqValue;
@@ -48,6 +47,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   List<Frequency> frequencyTypeData = [];
   DateTime selectedDate = DateTime.now();
   var current = false;
+
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -85,71 +85,69 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         elevation: 0,
       ),
       backgroundColor: ColorConstants.background,
-      body:foodTypeData.isNotEmpty? SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: D.H / 24, right: D.H / 24),
+      body: foodTypeData.isNotEmpty
+          ? SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: D.H / 22),
-                  Center(
-                      child: SvgPicture.asset(
-                          "assets/images/bg_add_medication.svg")),
-                  SizedBox(height: D.H / 24),
-                ],
-              ),
-            ),
-            Card(
-              margin: const EdgeInsets.symmetric(horizontal: 0),
-              color: ColorConstants.lightPurple,
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(48),
-                    topRight: Radius.circular(48)),
-              ),
-              child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  // height: MediaQuery.of(context).size.height/1.4,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: D.W / 10, right: D.W / 10, top: D.H / 50),
+                  Padding(
+                    padding: EdgeInsets.only(left: D.H / 24, right: D.H / 24),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          "Medication Name",
-                          style: GoogleFonts.heebo(
-                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                        ),
-                        SizedBox(height: D.H / 120),
-                        CustomTextFormField(
-                          controller: mNameController,
-                          readOnly: false,
-                          validators: (e) {
-                            if (mNameController.text == null ||
-                                mNameController.text == '') {
-                              return '*Medication Name';
-                            }
-                          },
-                          keyboardTYPE: TextInputType.text,
-                          obscured: false,
-                        ),
-                        SizedBox(height: D.H / 60),
-                        Text(
-                          "Dosage",
-                          style: GoogleFonts.heebo(
-                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                        ),
-                        SizedBox(height: D.H / 120),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: D.W / 2,
-                              child: CustomTextFormField(
+                        SizedBox(height: D.H / 22),
+                        Center(
+                            child: SvgPicture.asset(
+                                "assets/images/bg_add_medication.svg")),
+                        SizedBox(height: D.H / 24),
+                      ],
+                    ),
+                  ),
+                  Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 0),
+                    color: ColorConstants.lightPurple,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(48),
+                          topRight: Radius.circular(48)),
+                    ),
+                    child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        // height: MediaQuery.of(context).size.height/1.4,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: D.W / 10, right: D.W / 10, top: D.H / 50),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Medication Name",
+                                style: GoogleFonts.heebo(
+                                    fontSize: D.H / 52,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(height: D.H / 120),
+                              CustomTextFormField(
+                                controller: mNameController,
+                                readOnly: false,
+                                validators: (e) {
+                                  if (mNameController.text == null ||
+                                      mNameController.text == '') {
+                                    return '*Medication Name';
+                                  }
+                                },
+                                keyboardTYPE: TextInputType.text,
+                                obscured: false,
+                              ),
+                              SizedBox(height: D.H / 60),
+                              Text(
+                                "Dosage",
+                                style: GoogleFonts.heebo(
+                                    fontSize: D.H / 52,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(height: D.H / 120),
+                              CustomTextFormField(
                                 controller: dosageController,
                                 readOnly: false,
                                 validators: (e) {
@@ -158,393 +156,430 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                     return '*Dosage';
                                   }
                                 },
-                                keyboardTYPE: TextInputType.number,
+                                keyboardTYPE: TextInputType.text,
                                 obscured: false,
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                  left: D.W / 30, right: D.W / 60),
-                              width: D.W / 4,
-                              decoration: BoxDecoration(
-                                color: ColorConstants.innerColor,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                                border: Border.all(
-                                  width: 2,
-                                  color: Colors.white,
-                                  style: BorderStyle.solid,
-                                ),
-                              ),
-                              child: DropdownButton<String>(
-                                isExpanded: true,
-                                focusColor: Colors.white,
-                                value: _choosenDosageValue,
-                                style: TextStyle(color: Colors.white),
-                                iconEnabledColor: ColorConstants.lightGrey,
-                                icon: Icon(Icons.arrow_drop_down_sharp),
-                                iconSize: 32,
-                                underline: Container(color: Colors.transparent),
-                                items: dosageTypeData.map((items) {
-                                  return DropdownMenuItem(
-                                    value: items.dosageType,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        items.dosageType.toString(),
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15.0),
+                              /*Container(
+                                    padding: EdgeInsets.only(
+                                        left: D.W / 30, right: D.W / 60),
+                                    width: D.W / 4,
+                                    decoration: BoxDecoration(
+                                      color: ColorConstants.innerColor,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                      border: Border.all(
+                                        width: 2,
+                                        color: Colors.white,
+                                        style: BorderStyle.solid,
                                       ),
                                     ),
-                                  );
-                                }).toList(),
-                                hint: Text(
-                                  " ",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: D.H / 48,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    _choosenDosageValue = value;
-                                    for (int i = 0;
-                                        i < dosageTypeData.length;
-                                        i++) {
-                                      if (dosageTypeData[i].dosageType ==
-                                          _choosenDosageValue) {
-                                        dosageId =
-                                            dosageTypeData[i].dosageTypeId!;
-                                      }
-                                    }
-                                  });
-                                },
+                                    child: DropdownButton<String>(
+                                      isExpanded: true,
+                                      focusColor: Colors.white,
+                                      value: _choosenDosageValue,
+                                      style: TextStyle(color: Colors.white),
+                                      iconEnabledColor:
+                                          ColorConstants.lightGrey,
+                                      icon: Icon(Icons.arrow_drop_down_sharp),
+                                      iconSize: 32,
+                                      underline:
+                                          Container(color: Colors.transparent),
+                                      items: dosageTypeData.map((items) {
+                                        return DropdownMenuItem(
+                                          value: items.dosageType,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              items.dosageType.toString(),
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15.0),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      hint: Text(
+                                        " ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: D.H / 48,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          _choosenDosageValue = value;
+                                          for (int i = 0;
+                                              i < dosageTypeData.length;
+                                              i++) {
+                                            if (dosageTypeData[i].dosageType ==
+                                                _choosenDosageValue) {
+                                              dosageId = dosageTypeData[i]
+                                                  .dosageTypeId!;
+                                            }
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ),*/
+                              SizedBox(height: D.H / 60),
+                              Text(
+                                "Food",
+                                style: GoogleFonts.heebo(
+                                    fontSize: D.H / 52,
+                                    fontWeight: FontWeight.w400),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: D.H / 60),
-                        Text(
-                          "Food",
-                          style: GoogleFonts.heebo(
-                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                        ),
-                        SizedBox(height: D.H / 120),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  withFood = true;
-                                  before = false;
-                                  after = false;
-                                  foodId = foodTypeData[0].medicationFoodTypeId!;
-                                });
-                              },
-                              child: Container(
-                                height: D.W / 19,
-                                width: D.W / 19,
-                                decoration: new BoxDecoration(
-                                  color: withFood
-                                      ? ColorConstants.primaryBlueColor
-                                      : ColorConstants.innerColor,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 2,
-                                    color: Colors.white,
-                                    style: BorderStyle.solid,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: D.W / 60),
-                            Text(
-                              foodTypeData[0].medicationFood.toString(),
-                              style: GoogleFonts.roboto(
-                                  fontSize: 14, color: Colors.black),
-                            ),
-                            SizedBox(
-                              width: 29,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  withFood = false;
-                                  before = true;
-                                  after = false;
-                                  foodId =
-                                      foodTypeData[1].medicationFoodTypeId!;
-                                });
-                              },
-                              child: Container(
-                                height: D.W / 19,
-                                width: D.W / 19,
-                                decoration: new BoxDecoration(
-                                  color: before
-                                      ? ColorConstants.primaryBlueColor
-                                      : ColorConstants.innerColor,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 2,
-                                    color: Colors.white,
-                                    style: BorderStyle.solid,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: D.W / 60),
-                            Text(
-                              foodTypeData[1].medicationFood.toString(),
-                              style: GoogleFonts.roboto(
-                                  fontSize: 14, color: Colors.black),
-                            ),
-                            SizedBox(
-                              width: 29,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  withFood = false;
-                                  before = false;
-                                  after = true;
-                                  foodId =
-                                      foodTypeData[2].medicationFoodTypeId!;
-                                });
-                              },
-                              child: Container(
-                                height: D.W / 19,
-                                width: D.W / 19,
-                                decoration: new BoxDecoration(
-                                  color: after
-                                      ? ColorConstants.primaryBlueColor
-                                      : ColorConstants.innerColor,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 2,
-                                    color: Colors.white,
-                                    style: BorderStyle.solid,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: D.W / 60),
-                            Text(
-                              foodTypeData[2].medicationFood.toString(),
-                              style: GoogleFonts.roboto(
-                                  fontSize: 14, color: Colors.black),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: D.H / 60),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Start Date",
-                                  style: GoogleFonts.heebo(
-                                      fontSize: D.H / 52,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                SizedBox(height: D.H / 120),
-                                Container(
-                                  width: D.W / 2.9,
-                                  child: CustomDateField(
-                                    onTap: () {
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                      _selectDateS(context, sDateController,sDate);
-                                    },
-                                    controller: sDateController,
-                                    iconPath: "assets/images/ic_date.svg",
-                                    readOnly: true,
-                                    validators: (e) {
-                                      if (sDateController.text == null ||
-                                          sDateController.text == '') {
-                                        return '*Please enter Start Date';
-                                      }
-                                    },
-                                    keyboardTYPE: TextInputType.text,
-                                    obscured: false,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "End Date",
-                                  style: GoogleFonts.heebo(
-                                      fontSize: D.H / 52,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                SizedBox(height: D.H / 120),
-                                current?Container(width: D.W / 2.9,height:  D.H/16,): Container(
-                                  width: D.W / 2.9,
-                                  child: CustomDateField(
-                                    onTap: () {
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                      _selectDateSE(context, eDateController,eDate);
-                                    },
-                                    controller: eDateController,
-                                    iconPath: "assets/images/ic_date.svg",
-                                    readOnly: true,
-                                    validators: (e) {
-                                      if (eDateController.text == null ||
-                                          eDateController.text == '') {
-                                        return '*Please enter End Date';
-                                      }
-                                    },
-                                    keyboardTYPE: TextInputType.text,
-                                    obscured: false,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:  EdgeInsets.zero,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                              SizedBox(height: D.H / 120),
+                              Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Transform.scale(
-                                    scale: 1.3,
-                                    child: Checkbox(
-                                        activeColor: ColorConstants.primaryBlueColor,
-                                        tristate: false,
-                                        value: current,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            current = value!;
-                                          });
-                                        }
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        withFood = true;
+                                        before = false;
+                                        after = false;
+                                        foodId = foodTypeData[0]
+                                            .medicationFoodTypeId!;
+                                      });
+                                    },
+                                    child: Container(
+                                      height: D.W / 19,
+                                      width: D.W / 19,
+                                      decoration: new BoxDecoration(
+                                        color: withFood
+                                            ? ColorConstants.primaryBlueColor
+                                            : ColorConstants.innerColor,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          width: 2,
+                                          color: Colors.white,
+                                          style: BorderStyle.solid,
+                                        ),
+                                      ),
                                     ),
+                                  ),
+                                  SizedBox(width: D.W / 60),
+                                  Text(
+                                    foodTypeData[0].medicationFood.toString(),
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 14, color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: 29,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        withFood = false;
+                                        before = true;
+                                        after = false;
+                                        foodId = foodTypeData[1]
+                                            .medicationFoodTypeId!;
+                                      });
+                                    },
+                                    child: Container(
+                                      height: D.W / 19,
+                                      width: D.W / 19,
+                                      decoration: new BoxDecoration(
+                                        color: before
+                                            ? ColorConstants.primaryBlueColor
+                                            : ColorConstants.innerColor,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          width: 2,
+                                          color: Colors.white,
+                                          style: BorderStyle.solid,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: D.W / 60),
+                                  Text(
+                                    foodTypeData[1].medicationFood.toString(),
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 14, color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: 29,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        withFood = false;
+                                        before = false;
+                                        after = true;
+                                        foodId = foodTypeData[2]
+                                            .medicationFoodTypeId!;
+                                      });
+                                    },
+                                    child: Container(
+                                      height: D.W / 19,
+                                      width: D.W / 19,
+                                      decoration: new BoxDecoration(
+                                        color: after
+                                            ? ColorConstants.primaryBlueColor
+                                            : ColorConstants.innerColor,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          width: 2,
+                                          color: Colors.white,
+                                          style: BorderStyle.solid,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: D.W / 60),
+                                  Text(
+                                    foodTypeData[2].medicationFood.toString(),
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 14, color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: D.H / 60),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Start Date",
+                                        style: GoogleFonts.heebo(
+                                            fontSize: D.H / 52,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      SizedBox(height: D.H / 120),
+                                      Container(
+                                        width: D.W / 2.9,
+                                        child: CustomDateField(
+                                          onTap: () {
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                            _selectDateS(context,
+                                                sDateController, sDate);
+                                          },
+                                          controller: sDateController,
+                                          iconPath: "assets/images/ic_date.svg",
+                                          readOnly: true,
+                                          validators: (e) {
+                                            if (sDateController.text == null ||
+                                                sDateController.text == '') {
+                                              return '*Please enter Start Date';
+                                            }
+                                          },
+                                          keyboardTYPE: TextInputType.text,
+                                          obscured: false,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "End Date",
+                                        style: GoogleFonts.heebo(
+                                            fontSize: D.H / 52,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      SizedBox(height: D.H / 120),
+                                      current
+                                          ? Container(
+                                              width: D.W / 2.9,
+                                              height: D.H / 16,
+                                            )
+                                          : Container(
+                                              width: D.W / 2.9,
+                                              child: CustomDateField(
+                                                onTap: () {
+                                                  FocusManager
+                                                      .instance.primaryFocus
+                                                      ?.unfocus();
+                                                  _selectDateSE(context,
+                                                      eDateController, eDate);
+                                                },
+                                                controller: eDateController,
+                                                iconPath:
+                                                    "assets/images/ic_date.svg",
+                                                readOnly: true,
+                                                validators: (e) {
+                                                  if (eDateController.text ==
+                                                          null ||
+                                                      eDateController.text ==
+                                                          '') {
+                                                    return '*Please enter End Date';
+                                                  }
+                                                },
+                                                keyboardTYPE:
+                                                    TextInputType.text,
+                                                obscured: false,
+                                              ),
+                                            ),
+                                    ],
                                   )
                                 ],
                               ),
-                            ),
-                            SizedBox(width: 12,),
-                            Text(
-                              "Issue Is Ongoing",
-                              style: GoogleFonts.heebo(
-                                  fontSize: D.H / 50,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "Add Frequency",
-                          style: GoogleFonts.heebo(
-                              fontSize: D.H / 52, fontWeight: FontWeight.w400),
-                        ),
-                        SizedBox(height: D.H / 120),
-                        Container(
-                          padding:
-                              EdgeInsets.only(left: D.W / 30, right: D.W / 60),
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: ColorConstants.innerColor,
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.white,
-                              style: BorderStyle.solid,
-                            ),
-                          ),
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            value: _choosenFreqValue,
-                            style: TextStyle(color: Colors.black),
-                            iconEnabledColor: ColorConstants.lightGrey,
-                            icon: Icon(Icons.arrow_drop_down_sharp),
-                            iconSize: 24,
-                            underline: Container(color: Colors.transparent),
-                            items: frequencyTypeData.map((items) {
-                              return DropdownMenuItem(
-                                value: items.frequencyType,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    items.frequencyType.toString(),
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 15.0),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.zero,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Transform.scale(
+                                          scale: 1.3,
+                                          child: Checkbox(
+                                              activeColor: ColorConstants
+                                                  .primaryBlueColor,
+                                              tristate: false,
+                                              value: current,
+                                              onChanged: (bool? value) {
+                                                setState(() {
+                                                  current = value!;
+                                                });
+                                              }),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Text(
+                                    "Issue Is Ongoing",
+                                    style: GoogleFonts.heebo(
+                                        fontSize: D.H / 50,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                "Add Frequency",
+                                style: GoogleFonts.heebo(
+                                    fontSize: D.H / 52,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(height: D.H / 120),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: D.W / 30, right: D.W / 60),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  color: ColorConstants.innerColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  border: Border.all(
+                                    width: 2,
+                                    color: Colors.white,
+                                    style: BorderStyle.solid,
                                   ),
                                 ),
-                              );
-                            }).toList(),
-                            hint: Text(
-                              "",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: D.H / 48,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _choosenFreqValue = value;
-                                for (int i = 0;
-                                    i < frequencyTypeData.length;
-                                    i++) {
-                                  if (frequencyTypeData[i].frequencyType ==
-                                      _choosenFreqValue) {
-                                    frequencyId =
-                                        frequencyTypeData[i].frequencyTypeId!;
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  focusColor: Colors.white,
+                                  value: _choosenFreqValue,
+                                  style: TextStyle(color: Colors.black),
+                                  iconEnabledColor: ColorConstants.lightGrey,
+                                  icon: Icon(Icons.arrow_drop_down_sharp),
+                                  iconSize: 24,
+                                  underline:
+                                      Container(color: Colors.transparent),
+                                  items: frequencyTypeData.map((items) {
+                                    return DropdownMenuItem(
+                                      value: items.frequencyType,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          items.frequencyType.toString(),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15.0),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  hint: Text(
+                                    "",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: D.H / 48,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      _choosenFreqValue = value;
+                                      for (int i = 0;
+                                          i < frequencyTypeData.length;
+                                          i++) {
+                                        if (frequencyTypeData[i]
+                                                .frequencyType ==
+                                            _choosenFreqValue) {
+                                          frequencyId = frequencyTypeData[i]
+                                              .frequencyTypeId!;
+                                        }
+                                      }
+                                    });
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: D.H / 32),
+                              CustomButton(
+                                color: ColorConstants.blueBtn,
+                                onTap: () {
+                                  if (current) {
+                                    eDate = 0;
                                   }
-                                }
-                              });
-                            },
+                                  if (mNameController.text.isEmpty) {
+                                    CommonUtils.showRedToastMessage(
+                                        "Please enter Medication Name");
+                                  } else if (dosageController.text.isEmpty) {
+                                    CommonUtils.showRedToastMessage(
+                                        "Please enter Dosage");
+                                  } /*else if (dosageId == 0) {
+                                    CommonUtils.showRedToastMessage(
+                                        "Please select Dosage Type");
+                                  }*/ else if (foodId == 0) {
+                                    CommonUtils.showRedToastMessage(
+                                        "Please select Food Type");
+                                  } else if (sDateController.text.isEmpty) {
+                                    CommonUtils.showRedToastMessage(
+                                        "Please enter Start Date");
+                                  } else if (current == false &&
+                                      eDateController.text.isEmpty) {
+                                    CommonUtils.showRedToastMessage(
+                                        "Please enter End date");
+                                  } else if (frequencyId == 0) {
+                                    CommonUtils.showRedToastMessage(
+                                        "Please enter Frequency");
+                                  } else {
+                                    saveMedication();
+                                  }
+                                },
+                                text: "Done",
+                                textColor: Colors.white,
+                              ),
+                              SizedBox(height: D.H / 28),
+                            ],
                           ),
-                        ),
-                        SizedBox(height: D.H / 32),
-                        CustomButton(
-                          color: ColorConstants.blueBtn,
-                          onTap: () {
-                            if(current){
-                              eDate=0;
-                            }
-                            if (mNameController.text.isEmpty) {
-                              CommonUtils.showRedToastMessage("Please enter Medication Name");
-                            }else if(dosageController.text.isEmpty) {
-                              CommonUtils.showRedToastMessage("Please enter Dosage");
-                            } else if(dosageId==0){
-                              CommonUtils.showRedToastMessage("Please select Dosage Type");
-                            } else if(foodId==0) {
-                              CommonUtils.showRedToastMessage("Please select Food Type");
-                            } else if(sDateController.text.isEmpty) {
-                              CommonUtils.showRedToastMessage("Please enter Start Date");
-                            } else if(current==false && eDateController.text.isEmpty) {
-                              CommonUtils.showRedToastMessage("Please enter End date");
-                            } else if(frequencyId==0) {
-                              CommonUtils.showRedToastMessage("Please enter Frequency");
-                            } else {
-                              saveMedication();
-                            }
-                          },
-                          text: "Done",
-                          textColor: Colors.white,
-                        ),
-                        SizedBox(height: D.H / 28),
-                      ],
-                    ),
-                  )),
+                        )),
+                  )
+                ],
+              ),
             )
-          ],
-        ),
-      ):Container(),
+          : Container(),
     );
   }
 
-  Future<void> _selectDateS(BuildContext context, final controller,int Date) async {
+  Future<void> _selectDateS(
+      BuildContext context, final controller, int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -558,13 +593,14 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
-        Date=dateTimeFormat.millisecondsSinceEpoch;
-        print("Date:"+Date.toString());
+        Date = dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:" + Date.toString());
       });
     }
   }
 
-  Future<void> _selectDateSE(BuildContext context, final controller,int Date) async {
+  Future<void> _selectDateSE(
+      BuildContext context, final controller, int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -576,12 +612,11 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         final String startDate = formatter.format(picked);
         controller.text = startDate.toString();
 
-
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
-        eDate=dateTimeFormat.millisecondsSinceEpoch;
-        print("Date:"+Date.toString());
+        eDate = dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:" + Date.toString());
       });
     }
   }

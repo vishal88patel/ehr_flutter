@@ -45,10 +45,14 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   String? _choosenCommentValue;
   String? _choosenLabValue;
   String? _choosenimageValue;
-
+  var showFormField = "";
   final commentController = TextEditingController();
   final valueController = TextEditingController();
   final discController = TextEditingController();
+  final imagineNameController = TextEditingController();
+  int positiveOrnegative = 1;
+  bool isPositive = true;
+  bool shoWimagineNameField = false;
 
   var imageId = 0;
   var testTypeId = 0;
@@ -71,9 +75,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   int tabItemCount = 3;
   DateTime selectedDate = DateTime.now();
   final labTestDate = TextEditingController();
-  int eDate=0;
-
-
+  int eDate = 0;
 
   @override
   void initState() {
@@ -136,8 +138,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                     primary: false,
                     child: Column(
                       children: [
-
-
                         SizedBox(
                           height: 8,
                         ),
@@ -181,16 +181,17 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                       InkWell(
                                           onTap: () {
                                             Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            BodyDetailScreen(
-                                                                bodyPartName: "None",
-                                                                isBack: Constants.isBackBody,
-                                                                x: 0.0,
-                                                                y: 0.0
-                                                            )))
-                                                .then((value) =>
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BodyDetailScreen(
+                                                            bodyPartName:
+                                                                "None",
+                                                            isBack: Constants
+                                                                .isBackBody,
+                                                            x: 0.0,
+                                                            y: 0.0))).then(
+                                                (value) =>
                                                     getLabScreenApiWithoutPop());
                                           },
                                           child: SvgPicture.asset(
@@ -429,7 +430,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                         children: [
                                           ListView.builder(
                                               itemCount:
-                                                  _labScreenResponseModelodel.medications!.length ,
+                                                  _labScreenResponseModelodel
+                                                      .medications!.length,
                                               shrinkWrap: true,
                                               physics:
                                                   NeverScrollableScrollPhysics(),
@@ -685,11 +687,19 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     InkWell(
+                                        //labdialouge
                                         onTap: () {
                                           valueController.text = "";
                                           _choosenLabValue =
                                               testResultTypesData[0].testType;
-                                          labTestDate.text="";
+                                          var textModel = testResultTypesData
+                                              .where((element) =>
+                                                  element.testType ==
+                                                  _choosenLabValue);
+                                          showFormField = textModel
+                                              .first.shortCodeType
+                                              .toString();
+                                          labTestDate.text = "";
                                           showDialog<String>(
                                             context: context,
                                             builder: (BuildContext context) =>
@@ -871,6 +881,15 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                               setState(() {
                                                                 _choosenLabValue =
                                                                     value;
+                                                                var textModel = testResultTypesData.where(
+                                                                    (element) =>
+                                                                        element
+                                                                            .testType ==
+                                                                        _choosenLabValue);
+                                                                showFormField =
+                                                                    textModel
+                                                                        .first
+                                                                        .shortCodeType;
                                                                 for (int i = 0;
                                                                     i <
                                                                         testResultTypesData
@@ -914,66 +933,178 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                       ),
                                                       SizedBox(
                                                           height: D.H / 240),
+                                                      showFormField == "Textbox"
+                                                          ? Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: D.W /
+                                                                          18,
+                                                                      right: D.W /
+                                                                          18),
+                                                              child:
+                                                                  CustomWhiteTextFormField(
+                                                                controller:
+                                                                    valueController,
+                                                                readOnly: false,
+                                                                validators:
+                                                                    (e) {
+                                                                  if (valueController
+                                                                              .text ==
+                                                                          null ||
+                                                                      valueController
+                                                                              .text ==
+                                                                          '') {
+                                                                    return '*Value';
+                                                                  }
+                                                                },
+                                                                keyboardTYPE:
+                                                                    TextInputType
+                                                                        .number,
+                                                                obscured: false,
+                                                                maxlength: 100,
+                                                                maxline: 1,
+                                                              ),
+                                                            )
+                                                          : showFormField ==
+                                                                  "Radiobutton"
+                                                              ? Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      left: D.W /
+                                                                          18,
+                                                                      right: D.W /
+                                                                          18),
+                                                                  child:
+                                                                      Container(
+                                                                    child: Row(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        InkWell(
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                D.W / 22,
+                                                                            width:
+                                                                                D.W / 22,
+                                                                            decoration:
+                                                                                new BoxDecoration(
+                                                                              color: isPositive ? ColorConstants.primaryBlueColor : ColorConstants.innerColor,
+                                                                              shape: BoxShape.circle,
+                                                                              border: Border.all(
+                                                                                width: 2,
+                                                                                color: Colors.white,
+                                                                                style: BorderStyle.solid,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          onTap:
+                                                                              () {
+                                                                            setState(() {
+                                                                              isPositive = true;
+                                                                              positiveOrnegative = 1;
+                                                                              valueController.text = positiveOrnegative.toString();
+                                                                            });
+                                                                          },
+                                                                        ),
+                                                                        SizedBox(
+                                                                            width:
+                                                                                D.W / 60),
+                                                                        Text(
+                                                                          "(+) Positive",
+                                                                          style: GoogleFonts.roboto(
+                                                                              fontSize: 14,
+                                                                              color: Colors.black),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              29,
+                                                                        ),
+                                                                        InkWell(
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                D.W / 19,
+                                                                            width:
+                                                                                D.W / 19,
+                                                                            decoration:
+                                                                                new BoxDecoration(
+                                                                              color: isPositive ? ColorConstants.innerColor : ColorConstants.primaryBlueColor,
+                                                                              shape: BoxShape.circle,
+                                                                              border: Border.all(
+                                                                                width: 2,
+                                                                                color: Colors.white,
+                                                                                style: BorderStyle.solid,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          onTap:
+                                                                              () {
+                                                                            setState(() {
+                                                                              isPositive = false;
+                                                                              positiveOrnegative = 0;
+                                                                              valueController.text = positiveOrnegative.toString();
+                                                                            });
+                                                                          },
+                                                                        ),
+                                                                        SizedBox(
+                                                                            width:
+                                                                                D.W / 60),
+                                                                        Text(
+                                                                          "(-) Negative",
+                                                                          style: GoogleFonts.roboto(
+                                                                              fontSize: 14,
+                                                                              color: Colors.black),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              : Container(),
+                                                      SizedBox(
+                                                          height: D.H / 40),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
                                                                 left: D.W / 18,
                                                                 right:
                                                                     D.W / 18),
-                                                        child:
-                                                            CustomWhiteTextFormField(
-                                                          controller:
-                                                              valueController,
-                                                          readOnly: false,
-
-                                                          validators: (e) {
-                                                            if (valueController
-                                                                        .text ==
-                                                                    null ||
-                                                                valueController
-                                                                        .text ==
-                                                                    '') {
-                                                              return '*Value';
-                                                            }
-                                                          },
-                                                          keyboardTYPE:
-                                                              TextInputType
-                                                                  .number,
-                                                          obscured: false,
-                                                          maxlength: 100,
-                                                          maxline: 1,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                          height: D.H / 40),
-                                                      Padding(
-                                                        padding:
-                                                        EdgeInsets.only(
-                                                            left: D.W / 18,
-                                                            right:
-                                                            D.W / 18),
                                                         child: Container(
                                                           width: D.W / 2.9,
-                                                          child: CustomDateField(
+                                                          child:
+                                                              CustomDateField(
                                                             onTap: () {
-                                                              FocusManager.instance.primaryFocus?.unfocus();
-                                                              _selectDateSE(context, labTestDate,eDate);
+                                                              FocusManager
+                                                                  .instance
+                                                                  .primaryFocus
+                                                                  ?.unfocus();
+                                                              _selectDateSE(
+                                                                  context,
+                                                                  labTestDate,
+                                                                  eDate);
                                                             },
-                                                            controller: labTestDate,
-                                                            iconPath: "assets/images/ic_date.svg",
+                                                            controller:
+                                                                labTestDate,
+                                                            iconPath:
+                                                                "assets/images/ic_date.svg",
                                                             readOnly: true,
                                                             validators: (e) {
-                                                              if (labTestDate.text == null ||
-                                                                  labTestDate.text == '') {
+                                                              if (labTestDate
+                                                                          .text ==
+                                                                      null ||
+                                                                  labTestDate
+                                                                          .text ==
+                                                                      '') {
                                                                 return '*Please enter Date';
                                                               }
                                                             },
-                                                            keyboardTYPE: TextInputType.text,
+                                                            keyboardTYPE:
+                                                                TextInputType
+                                                                    .text,
                                                             obscured: false,
                                                           ),
                                                         ),
                                                       ),
-
                                                       Container(
                                                         height: 1,
                                                         color:
@@ -999,10 +1130,13 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                 CommonUtils
                                                                     .showRedToastMessage(
                                                                         "Please add Value");
-                                                              }else if( labTestDate.text.isEmpty) {
-                                                                CommonUtils.showRedToastMessage("Please enter End date");
+                                                              } else if (labTestDate
+                                                                  .text
+                                                                  .isEmpty) {
+                                                                CommonUtils
+                                                                    .showRedToastMessage(
+                                                                        "Please enter End date");
                                                               } else {
-
                                                                 saveTestResult();
                                                               }
                                                             },
@@ -1040,102 +1174,124 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                               _labScreenResponseModelodel.testResults!.isEmpty
                                   ? Container()
                                   : Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.end,
-                                children: [
-                                  ListView.builder(
-                                      itemCount: _labScreenResponseModelodel
-                                          .testResults!.length,
-                                      shrinkWrap: true,
-                                      physics:
-                                      NeverScrollableScrollPhysics(),
-                                      itemBuilder:
-                                          (BuildContext context,
-                                          int index) {
-                                            List<TestResults> tt=[];
-                                            tt.add( _labScreenResponseModelodel.testResults![index]);
-                                            var mymils=  tt[0].values![0].created;
-                                            var mydt = DateTime
-                                                .fromMillisecondsSinceEpoch(
-                                                mymils!);
-                                            tt.add( _labScreenResponseModelodel.testResults![index]);
-                                            var myd24 = DateFormat(
-                                                'dd/MM/yyyy')
-                                                .format(
-                                                mydt);
-                                        return InkWell(
-                                          onTap: (){
-                                            showLabDialouge(name:_labScreenResponseModelodel.testResults![index].testResultName.toString(),values: _labScreenResponseModelodel.testResults![index]);
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: D.W / 40.0,
-                                                top: D.H / 80),
-                                            child: Center(
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Card(
-                                                              color: ColorConstants.bgImage,
-                                                              shape:
-                                                              const RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                BorderRadius.only(
-                                                                  topLeft: Radius.circular(8),
-                                                                  topRight: Radius.circular(8),
-                                                                  bottomLeft: Radius.circular(8),
-                                                                  bottomRight: Radius.circular(8),
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        ListView.builder(
+                                            itemCount:
+                                                _labScreenResponseModelodel
+                                                    .testResults!.length,
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              List<TestResults> tt = [];
+                                              tt.add(_labScreenResponseModelodel
+                                                  .testResults![index]);
+                                              var mymils =
+                                                  tt[0].values![0].created;
+                                              var mydt = DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                                      mymils!);
+                                              tt.add(_labScreenResponseModelodel
+                                                  .testResults![index]);
+                                              var myd24 =
+                                                  DateFormat('dd/MM/yyyy')
+                                                      .format(mydt);
+                                              return InkWell(
+                                                onTap: () {
+                                                  showLabDialouge(
+                                                      name:
+                                                          _labScreenResponseModelodel
+                                                              .testResults![
+                                                                  index]
+                                                              .testResultName
+                                                              .toString(),
+                                                      values:
+                                                          _labScreenResponseModelodel
+                                                                  .testResults![
+                                                              index]);
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: D.W / 40.0,
+                                                      top: D.H / 80),
+                                                  child: Center(
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Card(
+                                                                    color: ColorConstants
+                                                                        .bgImage,
+                                                                    shape:
+                                                                        const RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .only(
+                                                                        topLeft:
+                                                                            Radius.circular(8),
+                                                                        topRight:
+                                                                            Radius.circular(8),
+                                                                        bottomLeft:
+                                                                            Radius.circular(8),
+                                                                        bottomRight:
+                                                                            Radius.circular(8),
+                                                                      ),
+                                                                    ),
+                                                                    elevation:
+                                                                        0,
+                                                                    child:
+                                                                        Container(
+                                                                      height:
+                                                                          D.W /
+                                                                              8,
+                                                                      width:
+                                                                          D.W /
+                                                                              8,
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            EdgeInsets.all(D.W /
+                                                                                60),
+                                                                        child: Image.asset(
+                                                                            "assets/images/graph.png"),
+                                                                      ),
+                                                                    )),
+                                                                SizedBox(
+                                                                  width:
+                                                                      D.W / 50,
                                                                 ),
-                                                              ),
-                                                              elevation:
-                                                              0,
-                                                              child:
-                                                              Container(
-                                                                height: D.W/8,
-                                                                width: D.W/8,
-                                                                child: Padding(
-                                                                  padding: EdgeInsets
-                                                                      .all(D.W /
-                                                                      60),
-                                                                  child: Image
-                                                                      .asset(
-                                                                      "assets/images/graph.png"),
-                                                                ),
-                                                              )),
-                                                          SizedBox(
-                                                            width:
-                                                            D.W / 50,
-                                                          ),
-                                                          Column(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                            children: [
-                                                              Text(
-                                                                _labScreenResponseModelodel
-                                                                    .testResults![
-                                                                index]
-                                                                    .testResultName
-                                                                    .toString(),
-                                                                style: GoogleFonts.heebo(
-                                                                    fontSize: D.H /
-                                                                        52,
-                                                                    fontWeight:
-                                                                    FontWeight.w400),
-                                                              ),
-                                                              /*Text(
+                                                                Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      _labScreenResponseModelodel
+                                                                          .testResults![
+                                                                              index]
+                                                                          .testResultName
+                                                                          .toString(),
+                                                                      style: GoogleFonts.heebo(
+                                                                          fontSize: D.H /
+                                                                              52,
+                                                                          fontWeight:
+                                                                              FontWeight.w400),
+                                                                    ),
+                                                                    /*Text(
                                                                 "${_labScreenResponseModelodel.medications![index].dosage! + " " + "${_labScreenResponseModelodel.medications![index].dosageType! + " "}" + "${_labScreenResponseModelodel.medications![index].frequencyType}"}",
                                                                 // "Hil 250 mg 2/Day",
                                                                 style: GoogleFonts.heebo(
@@ -1146,97 +1302,98 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                     fontWeight:
                                                                     FontWeight.w500),
                                                               ),*/
-                                                              Row(
-                                                                children: [
-                                                                  Text(
-                                                                   "Last Updated : ",
-                                                                    style: GoogleFonts.heebo(
-                                                                        color: ColorConstants.darkText,
-                                                                        fontSize: D.H / 66,
-                                                                        fontWeight: FontWeight.w500),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(
-                                                                        left: 2.0,
-                                                                        top: 2.0),
-                                                                    child:
-                                                                    Text(
-                                                                      myd24.toString(),
-                                                                      style: GoogleFonts.heebo(
-                                                                          color: ColorConstants.darkText,
-                                                                          fontSize: D.H / 66,
-                                                                          fontWeight: FontWeight.w400),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            ],
+                                                                    Row(
+                                                                      children: [
+                                                                        Text(
+                                                                          "Last Updated : ",
+                                                                          style: GoogleFonts.heebo(
+                                                                              color: ColorConstants.darkText,
+                                                                              fontSize: D.H / 66,
+                                                                              fontWeight: FontWeight.w500),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              left: 2.0,
+                                                                              top: 2.0),
+                                                                          child:
+                                                                              Text(
+                                                                            myd24.toString(),
+                                                                            style: GoogleFonts.heebo(
+                                                                                color: ColorConstants.darkText,
+                                                                                fontSize: D.H / 66,
+                                                                                fontWeight: FontWeight.w400),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: D.H / 80,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 4.0,
+                                                                  right: 4.0),
+                                                          child: Container(
+                                                            height: 1.0,
+                                                            color:
+                                                                ColorConstants
+                                                                    .lineColor,
                                                           ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: D.H / 80,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets
-                                                        .only(
-                                                        left: 4.0,
-                                                        right: 4.0),
-                                                    child: Container(
-                                                      height: 1.0,
-                                                      color:
-                                                      ColorConstants
-                                                          .lineColor,
+                                                        )
+                                                      ],
                                                     ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Container(
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            color: Colors.blue
-                                                .withOpacity(0.1),
-                                            borderRadius:
-                                            BorderRadius.all(
-                                                Radius.circular(4))),
-                                        child: TextButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          LabListScreen())).then(
-                                                      (value) {
-                                                    getLabScreenApiWithoutPop();
-                                                  });
-                                            },
-                                            child: Text(
-                                              "See more",
-                                              style: GoogleFonts.heebo(
-                                                  fontSize: 12,
-                                                  fontWeight:
-                                                  FontWeight.w500,
-                                                  color: ColorConstants
-                                                      .skyBlue),
-                                            ))),
-                                  ),
-                                  SizedBox(
-                                    height: D.H / 40,
-                                  ),
-                                ],
-                              )
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 8.0),
+                                          child: Container(
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.blue
+                                                      .withOpacity(0.1),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(4))),
+                                              child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                LabListScreen())).then(
+                                                        (value) {
+                                                      getLabScreenApiWithoutPop();
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    "See more",
+                                                    style: GoogleFonts.heebo(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: ColorConstants
+                                                            .skyBlue),
+                                                  ))),
+                                        ),
+                                        SizedBox(
+                                          height: D.H / 40,
+                                        ),
+                                      ],
+                                    )
                             ],
                           ),
                         ),
@@ -1276,6 +1433,16 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                         onTap: () {
                                           selectedImagesList.clear();
                                           discController.text = "";
+                                          _choosenimageValue =
+                                              imageTypesData[0].imageType;
+
+                                          var imagineModel =
+                                              imageTypesData.where((element) =>
+                                                  element.imageType ==
+                                                  _choosenimageValue);
+                                          shoWimagineNameField =
+                                              imagineModel.first.askForName!;
+
                                           showDialog<String>(
                                             context: context,
                                             builder: (BuildContext context) =>
@@ -1301,7 +1468,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                           CrossAxisAlignment
                                                               .start,
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.start,
+                                                          MainAxisAlignment
+                                                              .start,
                                                       mainAxisSize:
                                                           MainAxisSize.min,
                                                       children: [
@@ -1323,7 +1491,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                 },
                                                                 child: Icon(
                                                                   Icons.close,
-                                                                  size: D.W / 20,
+                                                                  size:
+                                                                      D.W / 20,
                                                                 ),
                                                               )
                                                             ],
@@ -1349,15 +1518,16 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                             height: D.H / 60),
                                                         Container(
                                                           height: 1,
-                                                          color:
-                                                              ColorConstants.line,
+                                                          color: ColorConstants
+                                                              .line,
                                                         ),
                                                         SizedBox(
                                                             height: D.H / 60),
                                                         Padding(
                                                           padding:
                                                               EdgeInsets.only(
-                                                                  left: D.W / 18,
+                                                                  left:
+                                                                      D.W / 18,
                                                                   right:
                                                                       D.W / 18),
                                                           child: InkWell(
@@ -1379,7 +1549,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                       pickedFile
                                                                           .path;
                                                                   selectedImagesList
-                                                                      .add(path);
+                                                                      .add(
+                                                                          path);
                                                                 });
                                                               }
                                                             },
@@ -1393,21 +1564,18 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                       borderRadius:
                                                                           BorderRadius
                                                                               .only(
-                                                                        topLeft: Radius
-                                                                            .circular(
-                                                                                8),
+                                                                        topLeft:
+                                                                            Radius.circular(8),
                                                                         topRight:
-                                                                            Radius.circular(
-                                                                                8),
+                                                                            Radius.circular(8),
                                                                         bottomLeft:
-                                                                            Radius.circular(
-                                                                                8),
+                                                                            Radius.circular(8),
                                                                         bottomRight:
-                                                                            Radius.circular(
-                                                                                8),
+                                                                            Radius.circular(8),
                                                                       ),
                                                                     ),
-                                                                    elevation: 0,
+                                                                    elevation:
+                                                                        0,
                                                                     child:
                                                                         Padding(
                                                                       padding: EdgeInsets.only(
@@ -1417,15 +1585,15 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                               70,
                                                                           top: D.W /
                                                                               50,
-                                                                          bottom: D.W /
-                                                                              50),
+                                                                          bottom:
+                                                                              D.W / 50),
                                                                       child: SvgPicture
                                                                           .asset(
                                                                               "assets/images/ic_upload_image.svg"),
                                                                     )),
                                                                 SizedBox(
-                                                                    width:
-                                                                        D.H / 80),
+                                                                    width: D.H /
+                                                                        80),
                                                                 Text(
                                                                   "Upload Image",
                                                                   style: GoogleFonts.heebo(
@@ -1447,10 +1615,12 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                         Container(
                                                           padding: EdgeInsets
                                                               .symmetric(
-                                                                  horizontal: 12),
+                                                                  horizontal:
+                                                                      12),
                                                           height: 60,
                                                           width: D.W / 1.25,
-                                                          child: ListView.builder(
+                                                          child:
+                                                              ListView.builder(
                                                             physics:
                                                                 BouncingScrollPhysics(),
                                                             scrollDirection:
@@ -1459,8 +1629,9 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                 selectedImagesList
                                                                         .length +
                                                                     1,
-                                                            itemBuilder: (context,
-                                                                position) {
+                                                            itemBuilder:
+                                                                (context,
+                                                                    position) {
                                                               if (position ==
                                                                   selectedImagesList
                                                                       .length) {
@@ -1482,11 +1653,9 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                         null) {
                                                                       State(() {
                                                                         var path =
-                                                                            pickedFile
-                                                                                .path;
+                                                                            pickedFile.path;
                                                                         selectedImagesList
-                                                                            .add(
-                                                                                path);
+                                                                            .add(path);
                                                                       });
                                                                     }
                                                                   },
@@ -1520,7 +1689,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                       Positioned(
                                                                           right:
                                                                               -5,
-                                                                          top: -5,
+                                                                          top:
+                                                                              -5,
                                                                           child: ClipRRect(
                                                                               borderRadius: BorderRadius.circular(20),
                                                                               child: Container(
@@ -1555,22 +1725,22 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                             position]),
                                                                         fit: BoxFit
                                                                             .cover,
-                                                                        width: 55,
+                                                                        width:
+                                                                            55,
                                                                         height:
                                                                             60,
                                                                       ),
                                                                     ),
                                                                     Positioned(
-                                                                        right: -5,
+                                                                        right:
+                                                                            -5,
                                                                         top: -5,
                                                                         child:
                                                                             InkWell(
                                                                           onTap:
                                                                               () {
-                                                                            selectedImagesList
-                                                                                .removeAt(position);
-                                                                            State(
-                                                                                () {});
+                                                                            selectedImagesList.removeAt(position);
+                                                                            State(() {});
                                                                           },
                                                                           child: ClipRRect(
                                                                               borderRadius: BorderRadius.circular(20),
@@ -1593,18 +1763,18 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                         Padding(
                                                           padding:
                                                               EdgeInsets.only(
-                                                                  left: D.W / 18,
+                                                                  left:
+                                                                      D.W / 18,
                                                                   right:
                                                                       D.W / 18),
                                                           child: Text(
                                                             "Tests",
-                                                            style:
-                                                                GoogleFonts.heebo(
-                                                                    fontSize:
-                                                                        D.H / 52,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
+                                                            style: GoogleFonts.heebo(
+                                                                fontSize:
+                                                                    D.H / 52,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
                                                           ),
                                                         ),
                                                         SizedBox(
@@ -1612,23 +1782,25 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                         Padding(
                                                           padding:
                                                               EdgeInsets.only(
-                                                                  left: D.W / 18,
+                                                                  left:
+                                                                      D.W / 18,
                                                                   right:
                                                                       D.W / 18),
                                                           child: Container(
                                                             padding:
                                                                 EdgeInsets.only(
-                                                                    left:
-                                                                        D.W / 30,
-                                                                    right:
-                                                                        D.W / 60),
-                                                            width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width,
+                                                                    left: D.W /
+                                                                        30,
+                                                                    right: D.W /
+                                                                        60),
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
                                                             decoration: BoxDecoration(
-                                                                color:
-                                                                    Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                                 border: Border.all(
                                                                     color: ColorConstants
                                                                         .border),
@@ -1636,8 +1808,9 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                     .all(Radius
                                                                         .circular(
                                                                             8))),
-                                                            child: DropdownButton<
-                                                                String>(
+                                                            child:
+                                                                DropdownButton<
+                                                                    String>(
                                                               isExpanded: true,
                                                               focusColor:
                                                                   Colors.black,
@@ -1660,7 +1833,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                 return DropdownMenuItem(
                                                                   value: items
                                                                       .imageType,
-                                                                  child: Padding(
+                                                                  child:
+                                                                      Padding(
                                                                     padding: EdgeInsets
                                                                         .only(
                                                                             left:
@@ -1682,23 +1856,34 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                     color: Colors
                                                                         .black,
                                                                     fontSize:
-                                                                        D.H / 48,
+                                                                        D.H /
+                                                                            48,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w400),
                                                               ),
-                                                              onChanged: (String?
-                                                                  value) {
+                                                              onChanged:
+                                                                  (String?
+                                                                      value) {
                                                                 State(() {
                                                                   _choosenimageValue =
                                                                       value;
-                                                                  for (int i = 0;
+                                                                  var imageModel =
+                                                                      imageTypesData.where((element) =>
+                                                                          element
+                                                                              .imageType ==
+                                                                          _choosenimageValue);
+                                                                  shoWimagineNameField =
+                                                                      imageModel
+                                                                          .first
+                                                                          .askForName!;
+                                                                  for (int i =
+                                                                          0;
                                                                       i <
                                                                           imageTypesData
                                                                               .length;
                                                                       i++) {
-                                                                    if (imageTypesData[
-                                                                                i]
+                                                                    if (imageTypesData[i]
                                                                             .imageType ==
                                                                         _choosenimageValue) {
                                                                       imageId =
@@ -1714,23 +1899,83 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                             ),
                                                           ),
                                                         ),
+                                                        shoWimagineNameField
+                                                            ? Container(
+                                                                child: Column(
+                                                                  children: [
+                                                                    SizedBox(
+                                                                        height: D.H /
+                                                                            60),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          left: D.W /
+                                                                              18,
+                                                                          right:
+                                                                              D.W / 18),
+                                                                      child:
+                                                                          Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Test name",
+                                                                            style:
+                                                                                GoogleFonts.heebo(fontSize: D.H / 52, fontWeight: FontWeight.w400),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                        height: D.H /
+                                                                            240),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          left: D.W /
+                                                                              18,
+                                                                          right:
+                                                                              D.W / 18),
+                                                                      child:
+                                                                          CustomWhiteTextFormField(
+                                                                        controller:
+                                                                            imagineNameController,
+                                                                        readOnly:
+                                                                            false,
+                                                                        validators:
+                                                                            (e) {
+                                                                          if (discController.text == null ||
+                                                                              discController.text == '') {
+                                                                            return '*Description';
+                                                                          }
+                                                                        },
+                                                                        keyboardTYPE:
+                                                                            TextInputType.text,
+                                                                        obscured:
+                                                                            false,
+                                                                        maxline:
+                                                                            1,
+                                                                        maxlength:
+                                                                            100,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            : Container(),
                                                         SizedBox(
                                                             height: D.H / 60),
                                                         Padding(
                                                           padding:
                                                               EdgeInsets.only(
-                                                                  left: D.W / 18,
+                                                                  left:
+                                                                      D.W / 18,
                                                                   right:
                                                                       D.W / 18),
                                                           child: Text(
                                                             "Description",
-                                                            style:
-                                                                GoogleFonts.heebo(
-                                                                    fontSize:
-                                                                        D.H / 52,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
+                                                            style: GoogleFonts.heebo(
+                                                                fontSize:
+                                                                    D.H / 52,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
                                                           ),
                                                         ),
                                                         SizedBox(
@@ -1738,7 +1983,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                         Padding(
                                                           padding:
                                                               EdgeInsets.only(
-                                                                  left: D.W / 18,
+                                                                  left:
+                                                                      D.W / 18,
                                                                   right:
                                                                       D.W / 18),
                                                           child:
@@ -1768,8 +2014,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                             height: D.H / 40),
                                                         Container(
                                                           height: 1,
-                                                          color:
-                                                              ColorConstants.line,
+                                                          color: ColorConstants
+                                                              .line,
                                                         ),
                                                         SizedBox(
                                                             height: D.H / 80),
@@ -1785,6 +2031,13 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                   CommonUtils
                                                                       .showRedToastMessage(
                                                                           "Please Select Image");
+                                                                } else if (shoWimagineNameField &&
+                                                                    imagineNameController
+                                                                        .text
+                                                                        .isEmpty) {
+                                                                  CommonUtils
+                                                                      .showRedToastMessage(
+                                                                          "Please Enter TestName");
                                                                 } else if (discController
                                                                     .text
                                                                     .isEmpty) {
@@ -1799,7 +2052,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                 "OK",
                                                                 style: GoogleFonts.heebo(
                                                                     fontSize:
-                                                                        D.H / 33,
+                                                                        D.H /
+                                                                            33,
                                                                     color: ColorConstants
                                                                         .skyBlue,
                                                                     fontWeight:
@@ -1827,7 +2081,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                               SizedBox(
                                 height: 8,
                               ),
-
                               _labScreenResponseModelodel.imagine!.isEmpty
                                   ? Container()
                                   : GridView.builder(
@@ -1849,15 +2102,15 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                 imagine:
                                                     _labScreenResponseModelodel
                                                         .imagine![index],
-                                                name: _labScreenResponseModelodel
+                                                name:
+                                                    _labScreenResponseModelodel
                                                         .imagine![index]
                                                         .description
                                                         .toString(),
-                                            id: _labScreenResponseModelodel
-                                                .imagine![index].imagineTypeId,
-                                              index: index
-                                            );
-
+                                                id: _labScreenResponseModelodel
+                                                    .imagine![index]
+                                                    .imagineTypeId,
+                                                index: index);
                                           },
                                           child: Card(
                                             elevation: 4,
@@ -1992,7 +2245,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                           Row(
                             children: [
                               Text(
-                               "",
+                                "",
                                 style: TextStyle(fontSize: 20),
                               ),
                               Text(
@@ -2001,8 +2254,13 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                               ),
                               Expanded(child: Container()),
                               InkWell(
-                                onTap: (){
-                                  deleteImagine(_labScreenResponseModelodel.imagine![index!.toInt()].usersImagineId!.toInt(),index);
+                                onTap: () {
+                                  deleteImagine(
+                                      _labScreenResponseModelodel
+                                          .imagine![index!.toInt()]
+                                          .usersImagineId!
+                                          .toInt(),
+                                      index);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
@@ -2120,92 +2378,96 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
           );
         });
   }
+
   showLabDialouge({
-    required String name, required TestResults values,}) {
-    List<TestResults> tempList=[];
+    required String name,
+    required TestResults values,
+  }) {
+    List<TestResults> tempList = [];
     tempList.add(values);
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(
             builder: (BuildContext context,
-                void Function(void Function()) setState) =>
+                    void Function(void Function()) setState) =>
                 Dialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0)),
-                  child: Container(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 14),
-                          child: Column(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0)),
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 14),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Row(
                             children: [
-                              SizedBox(
-                                height: 12,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    name.toString(),
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    child: Text(
-                                      name,
-                                      style: GoogleFonts.heebo(
-                                          color: ColorConstants.light,
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 26,
-                              ),
-                              Container(
-                                height: 350,
-                                child: GraphWidget(graphList: tempList),
-                              ),
-                              SizedBox(
-                                height: 18,
+                              Text(
+                                name.toString(),
+                                style: TextStyle(fontSize: 20),
                               ),
                             ],
                           ),
-                        ),
-                        Container(
-                          height: 1,
-                          color: ColorConstants.line,
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              "OK",
-                              style: GoogleFonts.heebo(
-                                  color: Colors.blue, fontSize: 25),
-                            )),
-                        SizedBox(
-                          height: 15,
-                        ),
-                      ],
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                child: Text(
+                                  name,
+                                  style: GoogleFonts.heebo(
+                                      color: ColorConstants.light,
+                                      fontSize: 14),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 26,
+                          ),
+                          Container(
+                            height: 350,
+                            child: GraphWidget(graphList: tempList),
+                          ),
+                          SizedBox(
+                            height: 18,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                    Container(
+                      height: 1,
+                      color: ColorConstants.line,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "OK",
+                          style: GoogleFonts.heebo(
+                              color: Colors.blue, fontSize: 25),
+                        )),
+                    SizedBox(
+                      height: 15,
+                    ),
+                  ],
                 ),
+              ),
+            ),
           );
         });
   }
+
   Future<void> getLabScreenApi() async {
     getUserName =
         await PreferenceUtils.getDataObject("OtpVerificationResponse");
@@ -2229,7 +2491,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
       setState(() {});
       CommonUtils.hideProgressDialog(context);
-
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
@@ -2313,7 +2574,12 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     if (statusCode == 200) {
       for (int i = 0; i < res.length; i++) {
         testResultTypesData.add(TestResultData(
-            testType: res[i]["testType"], testTypeId: res[i]["testTypeId"]));
+            testType: res[i]["testType"],
+            testTypeId: res[i]["testTypeId"],
+            sequence: res[i]["sequence"],
+            askForName: res[i]["askForName"],
+            shortCodeType: res[i]["shortCodeType"],
+            shortCodeTypeId: res[i]["shortCodeTypeId"]));
       }
       print("testResultTypesData" + testResultTypesData.toString());
       testTypeId = testResultTypesData[0].testTypeId!;
@@ -2342,7 +2608,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       for (int i = 0; i < res.length; i++) {
         imageTypesData.add(ImageTypeModel(
             imageType: res[i]["imageType"],
-            imageTypeId: res[i]["imageTypeId"]));
+            imageTypeId: res[i]["imageTypeId"],askForName:res[i]["askForName"] ,sequence: res[i]["sequence"]));
       }
       print("imageTypesData" + imageTypesData.toString());
       setState(() {});
@@ -2369,7 +2635,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
 
     var mydtStart = DateTime.fromMillisecondsSinceEpoch(eDate.toInt());
     var myd24Start = DateFormat('dd/MM/yyyy').format(mydtStart);
-
 
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -2404,6 +2669,12 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
 
     request.headers.addAll(headers);
     request.fields['UsersImagineId'] = '0';
+    if(imagineNameController.text.isEmpty || imagineNameController.text =="" ){
+      request.fields['ImagineName'] = imagineNameController.text;
+
+    }else{
+      request.fields['ImagineName'] = "";
+    }
     request.fields['ImagineTypeId'] = imageId.toString();
     request.fields['Description'] = discController.text.toString();
     var count = 1;
@@ -2430,7 +2701,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     }
   }
 
-  Future<void> _selectDateSE(BuildContext context, final controller,int Date) async {
+  Future<void> _selectDateSE(
+      BuildContext context, final controller, int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -2444,18 +2716,19 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
-        eDate=dateTimeFormat.millisecondsSinceEpoch;
-        print("Date:"+Date.toString());
+        eDate = dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:" + Date.toString());
       });
     }
   }
+
   Future<void> deleteTestResult(var id, int index) async {
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.deleteTestResults;
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
       "usersTestResultId": id,
@@ -2481,10 +2754,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
       CommonUtils.hideProgressDialog(context);
-
     }
   }
-
 
   Future<void> deleteImagine(int id, int index) async {
     CommonUtils.showProgressDialog(context);
@@ -2492,7 +2763,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
       "usersImagineId": id,
@@ -2513,12 +2784,11 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       CommonUtils.showGreenToastMessage(res["message"]);
       _labScreenResponseModelodel.imagine?.removeAt(index);
       CommonUtils.hideProgressDialog(context);
-Navigator.pop(context);
+      Navigator.pop(context);
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
       CommonUtils.hideProgressDialog(context);
-
     }
   }
 }
