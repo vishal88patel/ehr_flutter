@@ -31,9 +31,9 @@ class CustomAlertDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(circularBorderRadius)),
       actions: <Widget>[
-        FlatButton(
+        ElevatedButton(
           child: Text(negativeBtnText),
-          textColor: Theme.of(context).accentColor,
+         // textColor: Theme.of(context).accentColor,
           onPressed: () {
             Navigator.of(context).pop();
             if (onNegativePressed != null) {
@@ -41,9 +41,9 @@ class CustomAlertDialog extends StatelessWidget {
             }
           },
         ),
-         FlatButton(
+        ElevatedButton(
           child: Text(positiveBtnText),
-          textColor: Theme.of(context).accentColor,
+         // textColor: Theme.of(context).accentColor,
           onPressed: () {
             if (onPostivePressed != null) {
               onPostivePressed();

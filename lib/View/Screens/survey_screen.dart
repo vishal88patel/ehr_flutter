@@ -30,8 +30,16 @@ class _SurveyScreenState extends State<SurveyScreen> {
   bool value = false;
   TextEditingController valueController = TextEditingController();
   final labTestDate = TextEditingController();
+  int sDate = 0;
   int eDate = 0;
+  List<String> valueList=[];
+  List<int> sDateList=[];
+  List<int> eDateList=[];
+
   DateTime selectedDate = DateTime.now();
+  var current = false;
+  final sDateController = TextEditingController();
+  final eDateController = TextEditingController();
 
   @override
   void initState() {
@@ -263,6 +271,137 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                                     SizedBox(height: D.H / 40),
                                                     Padding(
                                                       padding: EdgeInsets.only(
+                                                          left: D.W / 24,
+                                                          right: D.W / 24
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                "Start Date",
+                                                                style: GoogleFonts.heebo(
+                                                                    fontSize: D.H / 52,
+                                                                    fontWeight: FontWeight.w400),
+                                                              ),
+                                                              SizedBox(height: D.H / 120),
+                                                              Container(
+                                                                width: D.W / 2.9,
+                                                                child: CustomDateField(
+                                                                  onTap: () {
+                                                                    FocusManager.instance.primaryFocus
+                                                                        ?.unfocus();
+                                                                    _selectDateS(context,
+                                                                        sDateController, sDate);
+                                                                  },
+                                                                  controller: sDateController,
+                                                                  iconPath: "assets/images/ic_date.svg",
+                                                                  readOnly: true,
+                                                                  validators: (e) {
+                                                                    if (sDateController.text == null ||
+                                                                        sDateController.text == '') {
+                                                                      return '*Please enter Start Date';
+                                                                    }
+                                                                  },
+                                                                  keyboardTYPE: TextInputType.text,
+                                                                  obscured: false,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                "End Date",
+                                                                style: GoogleFonts.heebo(
+                                                                    fontSize: D.H / 52,
+                                                                    fontWeight: FontWeight.w400),
+                                                              ),
+                                                              SizedBox(height: D.H / 120),
+                                                              current
+                                                                  ? Container(
+                                                                width: D.W / 2.9,
+                                                                height: D.H / 16,
+                                                              )
+                                                                  : Container(
+                                                                width: D.W / 2.9,
+                                                                child: CustomDateField(
+                                                                  onTap: () {
+                                                                    FocusManager
+                                                                        .instance.primaryFocus
+                                                                        ?.unfocus();
+                                                                    _selectDateSE(context,
+                                                                        eDateController, eDate);
+                                                                  },
+                                                                  controller: eDateController,
+                                                                  iconPath:
+                                                                  "assets/images/ic_date.svg",
+                                                                  readOnly: true,
+                                                                  validators: (e) {
+                                                                    if (eDateController.text ==
+                                                                        null ||
+                                                                        eDateController.text ==
+                                                                            '') {
+                                                                      return '*Please enter End Date';
+                                                                    }
+                                                                  },
+                                                                  keyboardTYPE:
+                                                                  TextInputType.text,
+                                                                  obscured: false,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: [
+                                                        Padding(
+                                                          padding: EdgeInsets.zero,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment.start,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                            children: [
+                                                              Transform.scale(
+                                                                scale: 1.3,
+                                                                child: Checkbox(
+                                                                    activeColor: ColorConstants
+                                                                        .primaryBlueColor,
+                                                                    tristate: false,
+                                                                    value: current,
+                                                                    onChanged: (bool? value) {
+                                                                      setState(() {
+                                                                        current = value!;
+                                                                        eDateController.text="0";
+                                                                      });
+                                                                    }),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 12,
+                                                        ),
+                                                        Text(
+                                                          "Issue Is Ongoing",
+                                                          style: GoogleFonts.heebo(
+                                                              fontSize: D.H / 50,
+                                                              fontWeight: FontWeight.w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    /*Padding(
+                                                      padding: EdgeInsets.only(
                                                           left: D.W / 18,
                                                           right: D.W / 18),
                                                       child: Container(
@@ -299,7 +438,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                                           obscured: false,
                                                         ),
                                                       ),
-                                                    ),
+                                                    ),*/
                                                     Container(
                                                       height: 1,
                                                       color:
@@ -318,12 +457,20 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                                               CommonUtils
                                                                   .showRedToastMessage(
                                                                       "Please add Value");
-                                                            } else if (labTestDate
+                                                            } else if (sDateController
                                                                 .text.isEmpty) {
                                                               CommonUtils
                                                                   .showRedToastMessage(
-                                                                      "Please enter End date");
+                                                                      "Please enter Start Date");
+                                                            } else if (eDateController
+                                                                .text.isEmpty) {
+                                                              CommonUtils
+                                                                  .showRedToastMessage(
+                                                                  "Please enter End Date");
                                                             } else {
+                                                              valueList.add(valueController.text.toString());
+                                                              sDateList.add(int.parse(sDateController.text.toString()));
+                                                              eDateList.add(int.parse(eDateController.text.toString()));
                                                               // value=!value;
                                                               // saveandbuildList(desc:
                                                               //     valueController
@@ -436,11 +583,11 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                   .options![j]
                                   .optionId
                                   .toString());
-                              ss = ll.join(',');
+                              //ss = ll.join(',');
                             }
                           }
                           ansList.add(AnswerModel(
-                              answers: ss,
+                              answers: ll[i],
                               questionId: (questionList[i].questionId)));
                         }
                         saveSurvey(ansList);
@@ -478,7 +625,11 @@ class _SurveyScreenState extends State<SurveyScreen> {
     for (int i = 0; i < tempanslist.length; i++) {
       rr.add({
         "questionId": tempanslist[i].questionId,
-        "answers": tempanslist[i].answers
+        "answers": tempanslist[i].answers,
+        "description":valueList[i],
+        "current":eDateList[i]==0?true:false,
+        "startDate":sDateList[i],
+        "endDate":eDateList[i],
       });
     }
     String jsonBody = json.encode(rr);
@@ -516,6 +667,27 @@ class _SurveyScreenState extends State<SurveyScreen> {
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
         eDate = dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:" + Date.toString());
+      });
+    }
+  }
+
+  Future<void> _selectDateS(
+      BuildContext context, final controller, int Date) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        final DateFormat formatter = DateFormat('dd-MM-yy');
+        final String startDate = formatter.format(picked);
+        controller.text = startDate.toString();
+        final DateFormat formatter2 = DateFormat('dd-MM-yyy');
+        final String sDatee = formatter2.format(picked);
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
+        Date = dateTimeFormat.millisecondsSinceEpoch;
         print("Date:" + Date.toString());
       });
     }
