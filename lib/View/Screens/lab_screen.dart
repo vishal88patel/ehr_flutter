@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ehr/Model/testResultType_model.dart';
 import 'package:ehr/View/Screens/body_detail_screen.dart';
@@ -46,8 +47,10 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   String? _choosenLabValue;
   String? _choosenimageValue;
   var showFormField = "";
+  bool askForName = false;
   final commentController = TextEditingController();
   final valueController = TextEditingController();
+  final tasteNameController = TextEditingController();
   final discController = TextEditingController();
   final imagineNameController = TextEditingController();
   int positiveOrnegative = 1;
@@ -689,9 +692,11 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                     InkWell(
                                         //labdialouge
                                         onTap: () {
+                                          isPositive = true;
+                                          positiveOrnegative = 1;
                                           valueController.text = "";
-                                          _choosenLabValue =
-                                              testResultTypesData[0].testType;
+                                          tasteNameController.text = "";
+                                          _choosenLabValue = testResultTypesData[0].testType;
                                           var textModel = testResultTypesData
                                               .where((element) =>
                                                   element.testType ==
@@ -699,6 +704,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                           showFormField = textModel
                                               .first.shortCodeType
                                               .toString();
+                                          askForName =
+                                              textModel.first.askForName!;
                                           labTestDate.text = "";
                                           showDialog<String>(
                                             context: context,
@@ -890,6 +897,10 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                     textModel
                                                                         .first
                                                                         .shortCodeType;
+                                                                askForName =
+                                                                    textModel
+                                                                        .first
+                                                                        .askForName!;
                                                                 for (int i = 0;
                                                                     i <
                                                                         testResultTypesData
@@ -914,6 +925,67 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                       ),
                                                       SizedBox(
                                                           height: D.H / 60),
+                                                      askForName
+                                                          ? Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: D.W /
+                                                                          18,
+                                                                      right: D.W /
+                                                                          18),
+                                                              child: Text(
+                                                                "Enter Test Name",
+                                                                style: GoogleFonts.heebo(
+                                                                    fontSize:
+                                                                        D.H /
+                                                                            52,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              ),
+                                                            )
+                                                          : Container(),
+                                                      askForName
+                                                          ? SizedBox(
+                                                              height: D.H / 240)
+                                                          : Container(),
+                                                      askForName
+                                                          ? Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: D.W /
+                                                                          18,
+                                                                      right: D.W /
+                                                                          18),
+                                                              child:
+                                                                  CustomWhiteTextFormField(
+                                                                controller:
+                                                                    tasteNameController,
+                                                                readOnly: false,
+                                                                validators:
+                                                                    (e) {
+                                                                  if (tasteNameController
+                                                                              .text ==
+                                                                          null ||
+                                                                      tasteNameController
+                                                                              .text ==
+                                                                          '') {
+                                                                    return '*Enter test nname';
+                                                                  }
+                                                                },
+                                                                keyboardTYPE:
+                                                                    TextInputType
+                                                                        .number,
+                                                                obscured: false,
+                                                                maxlength: 100,
+                                                                maxline: 1,
+                                                              ),
+                                                            )
+                                                          : Container(),
+                                                      askForName
+                                                          ? SizedBox(
+                                                              height: D.H / 240)
+                                                          : Container(),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -1124,19 +1196,28 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                 CommonUtils
                                                                     .showRedToastMessage(
                                                                         "Please Select Type");
-                                                              } else if (valueController
-                                                                  .text
-                                                                  .isEmpty) {
-                                                                CommonUtils
-                                                                    .showRedToastMessage(
-                                                                        "Please add Value");
+                                                              } else if (askForName==false && valueController.text.isEmpty) {
+                                                                CommonUtils.showRedToastMessage("Please add Value");
                                                               } else if (labTestDate
                                                                   .text
                                                                   .isEmpty) {
                                                                 CommonUtils
                                                                     .showRedToastMessage(
-                                                                        "Please enter End date");
+                                                                        "Please enter date");
+                                                              } else if (askForName &&
+                                                                  tasteNameController
+                                                                      .text
+                                                                      .isEmpty) {
+                                                                CommonUtils
+                                                                    .showRedToastMessage(
+                                                                        "Please enter TasteName");
                                                               } else {
+                                                                if(valueController.text.isEmpty){
+                                                                  isPositive = true;
+                                                                  positiveOrnegative = 1;
+                                                                  valueController.text = positiveOrnegative.toString();
+
+                                                                }
                                                                 saveTestResult();
                                                               }
                                                             },
@@ -2385,87 +2466,162 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   }) {
     List<TestResults> tempList = [];
     tempList.add(values);
-    showDialog(
+    if (tempList[0].values![0].testResultValue == "0" ||
+        tempList[0].values![0].testResultValue == "1") {
+      var mymils = tempList[0].values![0].testDate;
+      var mydt = DateTime.fromMillisecondsSinceEpoch(mymils!);
+      var myd24 = DateFormat('dd/MM/yyyy').format(mydt);
+
+      AwesomeDialog(
         context: context,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-            builder: (BuildContext context,
-                    void Function(void Function()) setState) =>
-                Dialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0)),
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 14),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                name.toString(),
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                child: Text(
-                                  name,
-                                  style: GoogleFonts.heebo(
-                                      color: ColorConstants.light,
-                                      fontSize: 14),
+        dialogType: DialogType.noHeader,
+        customHeader: Container(
+          height: 100,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: tempList[0].values![0].testResultValue == "0"?Colors.green:Colors.red,
+          ),
+          child: Center(
+              child: Text(
+                tempList[0].values![0].testResultValue == "0"?"-":"+",
+            style: TextStyle(
+                color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),
+          )),
+        ),
+        body: Container(
+          width: 350,
+          decoration: BoxDecoration(),
+          child: Column(
+            children: [
+              Text(
+                tempList[0].values![0].testResultType.toString(),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                "Date: $myd24",
+                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+            ],
+          ),
+        ),
+        title: 'This is Ignored',
+        desc: 'This is also Ignored',
+      ).show();
+      // AwesomeDialog(
+      //   context: context,
+      //   dialogType: DialogType.info,
+      //   borderSide:  BorderSide(
+      //     color:tempList[0].values![0].testResultValue=="0"?Colors.red: Colors.green,
+      //     width: 2,
+      //   ),
+      //   width: 350,
+      //
+      //   buttonsBorderRadius: const BorderRadius.all(
+      //     Radius.circular(2),
+      //   ),
+      //   dismissOnTouchOutside: true,
+      //   dismissOnBackKeyPress: false,
+      //   onDismissCallback: (type) {
+      //
+      //   },
+      //   headerAnimationLoop: false,
+      //   animType: AnimType.bottomSlide,
+      //   title: (tempList[0].values![0].testResultType.toString()),
+      //   desc: 'This Dialog can be dismissed touching outside',
+      //   showCloseIcon: true,
+      //   btnCancelOnPress: () {},
+      //   btnOkOnPress: () {},
+      // ).show();
+
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+              builder: (BuildContext context,
+                      void Function(void Function()) setState) =>
+                  Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0)),
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 14),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  name.toString(),
+                                  style: TextStyle(fontSize: 20),
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 26,
-                          ),
-                          Container(
-                            height: 350,
-                            child: GraphWidget(graphList: tempList),
-                          ),
-                          SizedBox(
-                            height: 18,
-                          ),
-                        ],
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    name,
+                                    style: GoogleFonts.heebo(
+                                        color: ColorConstants.light,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 26,
+                            ),
+                            Container(
+                              height: 350,
+                              child: GraphWidget(graphList: tempList),
+                            ),
+                            SizedBox(
+                              height: 18,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: 1,
-                      color: ColorConstants.line,
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          "OK",
-                          style: GoogleFonts.heebo(
-                              color: Colors.blue, fontSize: 25),
-                        )),
-                    SizedBox(
-                      height: 15,
-                    ),
-                  ],
+                      Container(
+                        height: 1,
+                        color: ColorConstants.line,
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "OK",
+                            style: GoogleFonts.heebo(
+                                color: Colors.blue, fontSize: 25),
+                          )),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          });
+    }
   }
 
   Future<void> getLabScreenApi() async {
@@ -2608,7 +2764,9 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       for (int i = 0; i < res.length; i++) {
         imageTypesData.add(ImageTypeModel(
             imageType: res[i]["imageType"],
-            imageTypeId: res[i]["imageTypeId"],askForName:res[i]["askForName"] ,sequence: res[i]["sequence"]));
+            imageTypeId: res[i]["imageTypeId"],
+            askForName: res[i]["askForName"],
+            sequence: res[i]["sequence"]));
       }
       print("imageTypesData" + imageTypesData.toString());
       setState(() {});
@@ -2628,6 +2786,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     Map<String, dynamic> body = {
       "usersTestResultId": 0,
       "testResultId": testTypeId,
+      "testResultName": tasteNameController.text ?? "",
       "testResultValue": valueController.text.toString(),
       "testDate": eDate,
     };
@@ -2669,10 +2828,10 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
 
     request.headers.addAll(headers);
     request.fields['UsersImagineId'] = '0';
-    if(imagineNameController.text.isEmpty || imagineNameController.text =="" ){
+    if (imagineNameController.text.isEmpty ||
+        imagineNameController.text == "") {
       request.fields['ImagineName'] = imagineNameController.text;
-
-    }else{
+    } else {
       request.fields['ImagineName'] = "";
     }
     request.fields['ImagineTypeId'] = imageId.toString();

@@ -32,9 +32,9 @@ class _SurveyScreenState extends State<SurveyScreen> {
   final labTestDate = TextEditingController();
   int sDate = 0;
   int eDate = 0;
-  List<String> valueList=[];
-  List<int> sDateList=[];
-  List<int> eDateList=[];
+  List<String> valueList = [];
+  List<int> sDateList = [];
+  List<int> eDateList = [];
 
   DateTime selectedDate = DateTime.now();
   var current = false;
@@ -55,7 +55,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
 
     Response response = await get(
@@ -146,261 +146,356 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
+                                    BorderRadius.all(Radius.circular(10)),
                                     color: Color(0xFFF0F0F0),
                                   ),
                                   child: ListTile(
                                       onTap: () {
-                                        valueController.clear();
-                                        labTestDate.clear();
-                                        showDialog<String>(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              StatefulBuilder(
-                                            builder: (BuildContext context,
-                                                    void Function(
-                                                            void Function())
-                                                        setState) =>
-                                                AlertDialog(
-                                              contentPadding: EdgeInsets.all(0),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(18),
-                                                ),
-                                              ),
-                                              content: Container(
-                                                width: D.W / 1.25,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: D.W / 40,
-                                                          right: D.W / 40),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Icon(
-                                                              Icons.close,
-                                                              size: D.W / 20,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "Add Comment",
-                                                          style:
-                                                              GoogleFonts.heebo(
-                                                                  fontSize:
-                                                                      D.H / 38,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
+                                        if (questionList[index].options![i]
+                                            .isSelected ?? false) {
+                                          removeFromList(
+                                              ans: questionList[index]
+                                                  .options![i].optionId
+                                                  .toString(),
+                                              mainIndex: index,
+                                              subIndex: i);
+                                        } else {
+                                          valueController.clear();
+                                          labTestDate.clear();
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                StatefulBuilder(
+                                                  builder: (
+                                                      BuildContext context,
+                                                      void Function(
+                                                          void Function())
+                                                      setState) =>
+                                                      AlertDialog(
+                                                        contentPadding: EdgeInsets
+                                                            .all(0),
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius
+                                                              .all(
+                                                            Radius.circular(18),
+                                                          ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Container(
-                                                      height: 1,
-                                                      color:
-                                                          ColorConstants.line,
-                                                    ),
-                                                    SizedBox(height: D.H / 60),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child: Text(
-                                                        "Type Value",
-                                                        style:
-                                                            GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 52,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 240),
-                                                    SizedBox(height: D.H / 240),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 18,
-                                                          right: D.W / 18),
-                                                      child:
-                                                          CustomWhiteTextFormField(
-                                                        controller:
-                                                            valueController,
-                                                        readOnly: false,
-                                                        validators: (e) {
-                                                          if (valueController
-                                                                      .text ==
-                                                                  null ||
-                                                              valueController
-                                                                      .text ==
-                                                                  '') {
-                                                            return '*Value';
-                                                          }
-                                                        },
-                                                        keyboardTYPE:
-                                                            TextInputType
-                                                                .number,
-                                                        obscured: false,
-                                                        maxlength: 100,
-                                                        maxline: 1,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: D.H / 40),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: D.W / 24,
-                                                          right: D.W / 24
-                                                      ),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Column(
+                                                        content: Container(
+                                                          width: D.W / 1.25,
+                                                          child: Column(
                                                             crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                            mainAxisSize:
+                                                            MainAxisSize.min,
                                                             children: [
-                                                              Text(
-                                                                "Start Date",
-                                                                style: GoogleFonts.heebo(
-                                                                    fontSize: D.H / 52,
-                                                                    fontWeight: FontWeight.w400),
-                                                              ),
-                                                              SizedBox(height: D.H / 120),
-                                                              Container(
-                                                                width: D.W / 2.9,
-                                                                child: CustomDateField(
-                                                                  onTap: () {
-                                                                    FocusManager.instance.primaryFocus
-                                                                        ?.unfocus();
-                                                                    _selectDateS(context,
-                                                                        sDateController, sDate);
-                                                                  },
-                                                                  controller: sDateController,
-                                                                  iconPath: "assets/images/ic_date.svg",
-                                                                  readOnly: true,
-                                                                  validators: (e) {
-                                                                    if (sDateController.text == null ||
-                                                                        sDateController.text == '') {
-                                                                      return '*Please enter Start Date';
-                                                                    }
-                                                                  },
-                                                                  keyboardTYPE: TextInputType.text,
-                                                                  obscured: false,
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                    top: D.W /
+                                                                        40,
+                                                                    right: D.W /
+                                                                        40),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .end,
+                                                                  children: [
+                                                                    InkWell(
+                                                                      onTap: () {
+                                                                        Navigator
+                                                                            .pop(
+                                                                            context);
+                                                                      },
+                                                                      child: Icon(
+                                                                        Icons
+                                                                            .close,
+                                                                        size: D
+                                                                            .W /
+                                                                            20,
+                                                                      ),
+                                                                    )
+                                                                  ],
                                                                 ),
                                                               ),
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text(
-                                                                "End Date",
-                                                                style: GoogleFonts.heebo(
-                                                                    fontSize: D.H / 52,
-                                                                    fontWeight: FontWeight.w400),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                                children: [
+                                                                  Text(
+                                                                    "Add Comment",
+                                                                    style:
+                                                                    GoogleFonts
+                                                                        .heebo(
+                                                                        fontSize:
+                                                                        D.H /
+                                                                            38,
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                              SizedBox(height: D.H / 120),
-                                                              current
-                                                                  ? Container(
-                                                                width: D.W / 2.9,
-                                                                height: D.H / 16,
-                                                              )
-                                                                  : Container(
-                                                                width: D.W / 2.9,
-                                                                child: CustomDateField(
-                                                                  onTap: () {
-                                                                    FocusManager
-                                                                        .instance.primaryFocus
-                                                                        ?.unfocus();
-                                                                    _selectDateSE(context,
-                                                                        eDateController, eDate);
-                                                                  },
-                                                                  controller: eDateController,
-                                                                  iconPath:
-                                                                  "assets/images/ic_date.svg",
-                                                                  readOnly: true,
-                                                                  validators: (e) {
-                                                                    if (eDateController.text ==
+                                                              SizedBox(height: D
+                                                                  .H / 60),
+                                                              Container(
+                                                                height: 1,
+                                                                color:
+                                                                ColorConstants
+                                                                    .line,
+                                                              ),
+                                                              SizedBox(height: D
+                                                                  .H / 60),
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                    left: D.W /
+                                                                        18,
+                                                                    right: D.W /
+                                                                        18),
+                                                                child: Text(
+                                                                  "Type Value",
+                                                                  style:
+                                                                  GoogleFonts
+                                                                      .heebo(
+                                                                      fontSize:
+                                                                      D.H / 52,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: D
+                                                                  .H / 240),
+                                                              SizedBox(height: D
+                                                                  .H / 240),
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                    left: D.W /
+                                                                        18,
+                                                                    right: D.W /
+                                                                        18),
+                                                                child:
+                                                                CustomWhiteTextFormField(
+                                                                  controller:
+                                                                  valueController,
+                                                                  readOnly: false,
+                                                                  validators: (
+                                                                      e) {
+                                                                    if (valueController
+                                                                        .text ==
                                                                         null ||
-                                                                        eDateController.text ==
+                                                                        valueController
+                                                                            .text ==
                                                                             '') {
-                                                                      return '*Please enter End Date';
+                                                                      return '*Value';
                                                                     }
                                                                   },
                                                                   keyboardTYPE:
-                                                                  TextInputType.text,
+                                                                  TextInputType
+                                                                      .number,
                                                                   obscured: false,
+                                                                  maxlength: 100,
+                                                                  maxline: 1,
                                                                 ),
                                                               ),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      children: [
-                                                        Padding(
-                                                          padding: EdgeInsets.zero,
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment.start,
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
-                                                            children: [
-                                                              Transform.scale(
-                                                                scale: 1.3,
-                                                                child: Checkbox(
-                                                                    activeColor: ColorConstants
-                                                                        .primaryBlueColor,
-                                                                    tristate: false,
-                                                                    value: current,
-                                                                    onChanged: (bool? value) {
-                                                                      setState(() {
-                                                                        current = value!;
-                                                                        eDateController.text="0";
-                                                                      });
-                                                                    }),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 12,
-                                                        ),
-                                                        Text(
-                                                          "Issue Is Ongoing",
-                                                          style: GoogleFonts.heebo(
-                                                              fontSize: D.H / 50,
-                                                              fontWeight: FontWeight.w400),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    /*Padding(
+                                                              SizedBox(height: D
+                                                                  .H / 40),
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                    left: D.W /
+                                                                        24,
+                                                                    right: D.W /
+                                                                        24
+                                                                ),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                                  children: [
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          "Start Date",
+                                                                          style: GoogleFonts
+                                                                              .heebo(
+                                                                              fontSize: D
+                                                                                  .H /
+                                                                                  52,
+                                                                              fontWeight: FontWeight
+                                                                                  .w400),
+                                                                        ),
+                                                                        SizedBox(
+                                                                            height: D
+                                                                                .H /
+                                                                                120),
+                                                                        Container(
+                                                                          width: D
+                                                                              .W /
+                                                                              2.9,
+                                                                          child: CustomDateField(
+                                                                            onTap: () {
+                                                                              FocusManager
+                                                                                  .instance
+                                                                                  .primaryFocus
+                                                                                  ?.unfocus();
+                                                                              _selectDateS(
+                                                                                  context,
+                                                                                  sDateController,
+                                                                                  sDate);
+                                                                            },
+                                                                            controller: sDateController,
+                                                                            iconPath: "assets/images/ic_date.svg",
+                                                                            readOnly: true,
+                                                                            validators: (
+                                                                                e) {
+                                                                              if (sDateController
+                                                                                  .text ==
+                                                                                  null ||
+                                                                                  sDateController
+                                                                                      .text ==
+                                                                                      '') {
+                                                                                return '*Please enter Start Date';
+                                                                              }
+                                                                            },
+                                                                            keyboardTYPE: TextInputType
+                                                                                .text,
+                                                                            obscured: false,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          "End Date",
+                                                                          style: GoogleFonts
+                                                                              .heebo(
+                                                                              fontSize: D
+                                                                                  .H /
+                                                                                  52,
+                                                                              fontWeight: FontWeight
+                                                                                  .w400),
+                                                                        ),
+                                                                        SizedBox(
+                                                                            height: D
+                                                                                .H /
+                                                                                120),
+                                                                        current
+                                                                            ? Container(
+                                                                          width: D
+                                                                              .W /
+                                                                              2.9,
+                                                                          height: D
+                                                                              .H /
+                                                                              16,
+                                                                        )
+                                                                            : Container(
+                                                                          width: D
+                                                                              .W /
+                                                                              2.9,
+                                                                          child: CustomDateField(
+                                                                            onTap: () {
+                                                                              FocusManager
+                                                                                  .instance
+                                                                                  .primaryFocus
+                                                                                  ?.unfocus();
+                                                                              _selectDateSE(
+                                                                                  context,
+                                                                                  eDateController,
+                                                                                  eDate);
+                                                                            },
+                                                                            controller: eDateController,
+                                                                            iconPath:
+                                                                            "assets/images/ic_date.svg",
+                                                                            readOnly: true,
+                                                                            validators: (
+                                                                                e) {
+                                                                              if (eDateController
+                                                                                  .text ==
+                                                                                  null ||
+                                                                                  eDateController
+                                                                                      .text ==
+                                                                                      '') {
+                                                                                return '*Please enter End Date';
+                                                                              }
+                                                                            },
+                                                                            keyboardTYPE:
+                                                                            TextInputType
+                                                                                .text,
+                                                                            obscured: false,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: EdgeInsets
+                                                                        .zero,
+                                                                    child: Column(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                      crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                      children: [
+                                                                        Transform
+                                                                            .scale(
+                                                                          scale: 1.3,
+                                                                          child: Checkbox(
+                                                                              activeColor: ColorConstants
+                                                                                  .primaryBlueColor,
+                                                                              tristate: false,
+                                                                              value: current,
+                                                                              onChanged: (
+                                                                                  bool? value) {
+                                                                                setState(() {
+                                                                                  current =
+                                                                                  value!;
+                                                                                  // eDateController
+                                                                                  //     .text =
+                                                                                  // "0";
+                                                                                });
+                                                                              }),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 12,
+                                                                  ),
+                                                                  Text(
+                                                                    "Issue Is Ongoing",
+                                                                    style: GoogleFonts
+                                                                        .heebo(
+                                                                        fontSize: D
+                                                                            .H /
+                                                                            50,
+                                                                        fontWeight: FontWeight
+                                                                            .w400),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              /*Padding(
                                                       padding: EdgeInsets.only(
                                                           left: D.W / 18,
                                                           right: D.W / 18),
@@ -439,68 +534,123 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                                         ),
                                                       ),
                                                     ),*/
-                                                    Container(
-                                                      height: 1,
-                                                      color:
-                                                          ColorConstants.line,
-                                                    ),
-                                                    SizedBox(height: D.H / 80),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        InkWell(
-                                                          onTap: () {
-                                                            if (valueController
-                                                                .text.isEmpty) {
-                                                              CommonUtils
-                                                                  .showRedToastMessage(
-                                                                      "Please add Value");
-                                                            } else if (sDateController
-                                                                .text.isEmpty) {
-                                                              CommonUtils
-                                                                  .showRedToastMessage(
-                                                                      "Please enter Start Date");
-                                                            } else if (eDateController
-                                                                .text.isEmpty) {
-                                                              CommonUtils
-                                                                  .showRedToastMessage(
-                                                                  "Please enter End Date");
-                                                            } else {
-                                                              valueList.add(valueController.text.toString());
-                                                              sDateList.add(int.parse(sDateController.text.toString()));
-                                                              eDateList.add(int.parse(eDateController.text.toString()));
-                                                              // value=!value;
-                                                              // saveandbuildList(desc:
-                                                              //     valueController
-                                                              //         .text,
-                                                              //     labTestDate
-                                                              //         .text,index,i,true,questionList[index].options![i].questionId!);
-                                                            }
-                                                          },
-                                                          child: Text(
-                                                            "OK",
-                                                            style: GoogleFonts.heebo(
-                                                                fontSize:
-                                                                    D.H / 33,
+                                                              Container(
+                                                                height: 1,
                                                                 color:
-                                                                    ColorConstants
-                                                                        .skyBlue,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
+                                                                ColorConstants
+                                                                    .line,
+                                                              ),
+                                                              SizedBox(height: D
+                                                                  .H / 80),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                                children: [
+                                                                  InkWell(
+                                                                    onTap: () async {
+                                                                      if (valueController
+                                                                          .text
+                                                                          .isEmpty) {
+                                                                        CommonUtils
+                                                                            .showRedToastMessage(
+                                                                            "Please add Value");
+                                                                      } else
+                                                                      if (sDateController
+                                                                          .text
+                                                                          .isEmpty) {
+                                                                        CommonUtils
+                                                                            .showRedToastMessage(
+                                                                            "Please enter Start Date");
+                                                                      } else
+                                                                      if (current ==
+                                                                          false &&
+                                                                          eDateController
+                                                                              .text
+                                                                              .isEmpty) {
+                                                                        CommonUtils
+                                                                            .showRedToastMessage(
+                                                                            "Please enter End Date");
+                                                                      } else {
+                                                                        AnswerModelForSurvey ans = AnswerModelForSurvey(
+                                                                            questionId: questionList[index]
+                                                                                .options![i]
+                                                                                .questionId,
+                                                                            answers: questionList[index]
+                                                                                .options![i]
+                                                                                .optionId
+                                                                                .toString(),
+                                                                            startDate: sDate,
+                                                                            endDate: current ==
+                                                                                true
+                                                                                ? 0
+                                                                                : eDate,
+                                                                            current: current,
+                                                                            description: valueController
+                                                                                .text);
+                                                                        await saveAnswerToList(
+                                                                            answer: ans,
+                                                                            mainIndex: index,
+                                                                            subIndex: i)
+                                                                            .then((
+                                                                            value) {
+                                                                          Navigator
+                                                                              .pop(
+                                                                              context);
+                                                                          valueController
+                                                                              .clear();
+                                                                          sDateController
+                                                                              .clear();
+                                                                          eDateController
+                                                                              .clear();
+                                                                          sDate =
+                                                                          0;
+                                                                          eDate =
+                                                                          0;
+                                                                          current =
+                                                                          false;
+                                                                          setState(() {});
+                                                                        });
+                                                                        // valueList.add(valueController.text.toString());
+                                                                        // sDateList.add(int.parse(sDate.toString()));
+                                                                        // eDateList.add(int.parse(eDate.toString()));
+
+                                                                        // value=!value;
+                                                                        // saveandbuildList(desc:
+                                                                        //     valueController
+                                                                        //         .text,
+                                                                        //     labTestDate
+                                                                        //         .text,index,i,true,questionList[index].options![i].questionId!);
+                                                                      }
+                                                                    },
+                                                                    child: Text(
+                                                                      "OK",
+                                                                      style: GoogleFonts
+                                                                          .heebo(
+                                                                          fontSize:
+                                                                          D.H /
+                                                                              33,
+                                                                          color:
+                                                                          ColorConstants
+                                                                              .skyBlue,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              SizedBox(height: D
+                                                                  .H / 80),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: D.H / 80),
-                                                  ],
+                                                      ),
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
+                                          );
+                                        }
+
+
                                         //   value=!value;
                                         // if (value) {
                                         // questionList[index]
@@ -518,7 +668,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                         scale: 1,
                                         child: Checkbox(
                                           activeColor:
-                                              ColorConstants.checkBoxColor,
+                                          ColorConstants.checkBoxColor,
                                           side: BorderSide(
                                               width: 1, color: Colors.grey),
                                           onChanged: (bool? value) async {
@@ -546,9 +696,9 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                             .toString(),
                                         style: GoogleFonts.heebo(
                                             color: questionList[index]
-                                                        .options![i]
-                                                        .isSelected ??
-                                                    false
+                                                .options![i]
+                                                .isSelected ??
+                                                false
                                                 ? ColorConstants.checkBoxColor
                                                 : Colors.black,
                                             fontSize: 14,
@@ -565,38 +715,40 @@ class _SurveyScreenState extends State<SurveyScreen> {
             ),
             questionList.isNotEmpty
                 ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomButton(
-                      color: ColorConstants.blueBtn,
-                      onTap: () {
-                        List<AnswerModel> ansList = [];
-                        for (int i = 0; i < questionList.length; i++) {
-                          var ss = "";
-                          List<String> ll = [];
+              padding: const EdgeInsets.all(8.0),
+              child: CustomButton(
+                color: ColorConstants.blueBtn,
+                onTap: () {
+                  // List<AnswerModel> ansList = [];
+                  // for (int i = 0; i < questionList.length; i++) {
+                  //   var ss = "";
+                  //   List<String> ll = [];
+                  //
+                  //   for (int j = 0;
+                  //   j < questionList[i].options!.length;
+                  //   j++) {
+                  //     if (questionList[i].options![j].isSelected ??
+                  //         false) {
+                  //       ll.add(questionList[i]
+                  //           .options![j]
+                  //           .optionId
+                  //           .toString());
+                  //       //ss = ll.join(',');
+                  //     }
+                  //   }
+                  //   ansList.add(AnswerModel(
+                  //       answers: ll[i],
+                  //       questionId: (questionList[i].questionId)));
+                  // }
+                  // saveSurvey(ansList);
+                  //
 
-                          for (int j = 0;
-                              j < questionList[i].options!.length;
-                              j++) {
-                            if (questionList[i].options![j].isSelected ??
-                                false) {
-                              ll.add(questionList[i]
-                                  .options![j]
-                                  .optionId
-                                  .toString());
-                              //ss = ll.join(',');
-                            }
-                          }
-                          ansList.add(AnswerModel(
-                              answers: ll[i],
-                              questionId: (questionList[i].questionId)));
-                        }
-                        saveSurvey(ansList);
-                        //
-                      },
-                      text: "Done",
-                      textColor: Colors.white,
-                    ),
-                  )
+                  callSaveSurvetApi();
+                },
+                text: "Done",
+                textColor: Colors.white,
+              ),
+            )
                 : Container(),
           ],
         ),
@@ -617,7 +769,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     // String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -626,10 +778,10 @@ class _SurveyScreenState extends State<SurveyScreen> {
       rr.add({
         "questionId": tempanslist[i].questionId,
         "answers": tempanslist[i].answers,
-        "description":valueList[i],
-        "current":eDateList[i]==0?true:false,
-        "startDate":sDateList[i],
-        "endDate":eDateList[i],
+        "description": valueList[i],
+        "current": eDateList[i] == 0 ? true : false,
+        "startDate": sDateList[i],
+        "endDate": eDateList[i],
       });
     }
     String jsonBody = json.encode(rr);
@@ -651,8 +803,48 @@ class _SurveyScreenState extends State<SurveyScreen> {
     }
   }
 
-  Future<void> _selectDateSE(
-      BuildContext context, final controller, int Date) async {
+  Future<void> callSaveSurvetApi() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.saveAnswer;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    // String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+    var rr = [];
+    for (int i = 0; i < mainAnswerList.length; i++) {
+      rr.add({
+        "questionId": mainAnswerList[i].questionId,
+        "answers": mainAnswerList[i].answers,
+        "description": mainAnswerList[i].description,
+        "current": mainAnswerList[i].current,
+        "startDate": mainAnswerList[i].startDate,
+        "endDate": mainAnswerList[i].endDate,
+      });
+    }
+    String jsonBody = json.encode(rr);
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      NavigationHelpers.redirectto(context, DashBoardScreen(1));
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> _selectDateSE(BuildContext context, final controller,
+      int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -672,8 +864,8 @@ class _SurveyScreenState extends State<SurveyScreen> {
     }
   }
 
-  Future<void> _selectDateS(
-      BuildContext context, final controller, int Date) async {
+  Future<void> _selectDateS(BuildContext context, final controller,
+      int Date) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -687,13 +879,14 @@ class _SurveyScreenState extends State<SurveyScreen> {
         final DateFormat formatter2 = DateFormat('dd-MM-yyy');
         final String sDatee = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
-        Date = dateTimeFormat.millisecondsSinceEpoch;
+        sDate = dateTimeFormat.millisecondsSinceEpoch;
         print("Date:" + Date.toString());
       });
     }
   }
 
-  void saveandbuildList({required String desc, required String date, required int MainIndex, required int subIndex, required bool chekboxvalue, required int questionId}) {
+  void saveandbuildList(
+      {required String desc, required String date, required int MainIndex, required int subIndex, required bool chekboxvalue, required int questionId}) {
     // if (chekboxvalue??false) {
     //   questionList[index]
     //       .options![i]
@@ -710,8 +903,28 @@ class _SurveyScreenState extends State<SurveyScreen> {
     //       .isSelected = false;
     // }
 
-      // mainAnswerList.add(AnswerModelForSurvey(description: desc,answers: ,current: false,endDate:date ,questionId: ,startDate: date));
+    // mainAnswerList.add(AnswerModelForSurvey(description: desc,answers: ,current: false,endDate:date ,questionId: ,startDate: date));
     setState(() {});
     Navigator.pop(context);
+  }
+
+  Future<void> saveAnswerToList(
+      {required AnswerModelForSurvey answer, required int mainIndex, required int subIndex}) async {
+    mainAnswerList.add(answer);
+    questionList[mainIndex].options![subIndex].isSelected = true;
+    print(mainAnswerList);
+    setState(() {});
+  }
+
+  Future<void> removeFromList(
+      {required String ans, required int mainIndex, required int subIndex}) async {
+
+    for(int i=0;i<mainAnswerList.length;i++){
+      if(mainAnswerList[i].answers==ans.toString()){
+        mainAnswerList.removeWhere((element) => element.answers==ans.toString());
+      }
+    }
+    questionList[mainIndex].options![subIndex].isSelected = false;
+    setState(() {});
   }
 }
