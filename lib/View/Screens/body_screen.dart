@@ -343,56 +343,37 @@ class _BodyScreenState extends State<BodyScreen> {
                                           print(offsetX.toString() +
                                               ":" +
                                               offsetY.toString());
-                                          if ((offsetX.toInt() >= 53 &&
-                                                  offsetX.toInt() <= 68 &&
-                                                  offsetY.toInt() >= 130 &&
-                                                  offsetY.toInt() <= 145) ||
-                                              (offsetX.toInt() >= 179 &&
-                                                  offsetX.toInt() <= 193 &&
-                                                  offsetY.toInt() >= 130 &&
-                                                  offsetY.toInt() <= 145)) {
-                                            print("BodyPart:" + "elbow");
-                                            bodyPartName = "Elbow";
-                                          } else if ((offsetX.toInt() >= 111 &&
-                                                  offsetX.toInt() <= 116 &&
-                                                  offsetY.toInt() >= 373 &&
-                                                  offsetY.toInt() <= 384) ||
-                                              offsetX.toInt() >= 143 &&
-                                                  offsetX.toInt() <= 148 &&
-                                                  offsetY.toInt() >= 373 &&
-                                                  offsetY.toInt() <= 384) {
-                                            print("BodyPart:" + "ankle");
-                                            bodyPartName = "Ankle";
-                                          } else if ((offsetX.toInt() >= 120 &&
-                                                  offsetX.toInt() <= 127 &&
-                                                  offsetY.toInt() >= 380 &&
-                                                  offsetY.toInt() <= 395) ||
-                                              (offsetX.toInt() >= 133 &&
+                                          if (offsetX.toInt() >= 120 &&
                                                   offsetX.toInt() <= 140 &&
-                                                  offsetY.toInt() >= 380 &&
-                                                  offsetY.toInt() <= 395)) {
-                                            print("BodyPart:" + "heel");
-                                            bodyPartName = "Heel";
-                                          } else if ((offsetX.toInt() >= 90 &&
-                                                  offsetX.toInt() <= 113 &&
-                                                  offsetY.toInt() >= 385 &&
-                                                  offsetY.toInt() <= 397) ||
-                                              (offsetX.toInt() >= 144 &&
-                                                  offsetX.toInt() <= 156 &&
-                                                  offsetY.toInt() >= 385 &&
-                                                  offsetY.toInt() <= 397)) {
-                                            print("BodyPart:" + "feet");
-                                            bodyPartName = "Feet";
-                                          } else if ((offsetX.toInt() >= 100 &&
-                                                  offsetX.toInt() <= 160 &&
-                                                  offsetY.toInt() >= 280 &&
-                                                  offsetY.toInt() <= 295) ||
-                                              (offsetX.toInt() >= 132 &&
-                                                  offsetX.toInt() <= 157 &&
-                                                  offsetY.toInt() >= 280 &&
-                                                  offsetY.toInt() <= 295)) {
-                                            print("BodyPart:" + "Knee");
-                                            bodyPartName = "Knee";
+                                                  offsetY.toInt() >= 10 &&
+                                                  offsetY.toInt() <= 18){
+                                            print("BodyPart:" + "Brain");
+                                            bodyPartName = "Brain";
+                                          } else if (offsetX.toInt() >= 130 &&
+                                                  offsetX.toInt() <= 145 &&
+                                                  offsetY.toInt() >= 95 &&
+                                                  offsetY.toInt() <= 110){
+                                            print("BodyPart:" + "Heart");
+                                            bodyPartName = "Heart";
+                                          } else if (offsetX.toInt() >= 128 &&
+                                                  offsetX.toInt() <= 141 &&
+                                                  offsetY.toInt() >= 117 &&
+                                                  offsetY.toInt() <= 125) {
+                                            print("BodyPart:" + "Pancreas");
+                                            bodyPartName = "Pancreas";
+                                          } else if (offsetX.toInt() >= 113 &&
+                                                  offsetX.toInt() <= 147 &&
+                                                  offsetY.toInt() >= 137 &&
+                                                  offsetY.toInt() <= 158)
+                                           {
+                                            print("BodyPart:" + "Kidney");
+                                            bodyPartName = "Kidney";
+                                          } else if (offsetX.toInt() >= 121 &&
+                                                  offsetX.toInt() <= 135 &&
+                                                  offsetY.toInt() >= 170 &&
+                                                  offsetY.toInt() <= 180) {
+                                            print("BodyPart:" + "Bladder");
+                                            bodyPartName = "Bladder";
                                           } else if ((offsetX.toInt() >= 102 &&
                                                   offsetX.toInt() <= 123 &&
                                                   offsetY.toInt() >= 290 &&
@@ -407,8 +388,8 @@ class _BodyScreenState extends State<BodyScreen> {
                                               offsetX.toInt() <= 160 &&
                                               offsetY.toInt() >= 80 &&
                                               offsetY.toInt() <= 112) {
-                                            print("BodyPart:" + "chest");
-                                            bodyPartName = "Chest";
+                                            print("BodyPart:" + "Lungs");
+                                            bodyPartName = "Lungs";
                                           } else if ((offsetX.toInt() >= 20 &&
                                                   offsetX.toInt() <= 96 &&
                                                   offsetY.toInt() >= 96 &&
@@ -418,27 +399,21 @@ class _BodyScreenState extends State<BodyScreen> {
                                                   offsetY.toInt() >= 96 &&
                                                   offsetY.toInt() <= 168)) {
                                             print("BodyPart:" + "Arm");
-                                            bodyPartName = "Arms";
-                                          } else if ((offsetX.toInt() >= 70 &&
-                                                  offsetX.toInt() <= 96 &&
-                                                  offsetY.toInt() >= 60 &&
-                                                  offsetY.toInt() <= 102) ||
-                                              (offsetX.toInt() >= 163 &&
-                                                  offsetX.toInt() <= 185 &&
-                                                  offsetY.toInt() >= 60 &&
-                                                  offsetY.toInt() <= 102)) {
-                                            print("BodyPart:" + "Shoulder");
-                                            bodyPartName = "Shoulders";
-                                          } else if ((offsetX.toInt() >= 90 &&
-                                                  offsetX.toInt() <= 125 &&
-                                                  offsetY.toInt() >= 215 &&
-                                                  offsetY.toInt() <= 275) ||
-                                              (offsetX.toInt() >= 128 &&
-                                                  offsetX.toInt() <= 165 &&
-                                                  offsetY.toInt() >= 215 &&
-                                                  offsetY.toInt() <= 275)) {
-                                            print("BodyPart:" + "Thighs");
-                                            bodyPartName = "Thigh";
+                                            bodyPartName = "Arm";
+                                          } else if (offsetX.toInt() >= 112 &&
+                                                  offsetX.toInt() <= 122 &&
+                                                  offsetY.toInt() >= 120 &&
+                                                  offsetY.toInt() <= 138)
+                                               {
+                                            print("BodyPart:" + "Liver");
+                                            bodyPartName = "Liver";
+                                          } else if (offsetX.toInt() >= 120 &&
+                                                  offsetX.toInt() <= 130 &&
+                                                  offsetY.toInt() >= 181 &&
+                                                  offsetY.toInt() <= 187)
+                                               {
+                                            print("BodyPart:" + "Reproductive System");
+                                            bodyPartName = "Reproductive System";
                                           } else {
                                             bodyPartName = "None";
                                             print("BodyPart:" + "None");
@@ -537,99 +512,64 @@ class _BodyScreenState extends State<BodyScreen> {
                                                         print(x0.toString() +
                                                             "," +
                                                             y0.toString());
-                                                        if ((x0.toInt() >= 53 &&
-                                                                x0.toInt() <=
-                                                                    68 &&
-                                                                y0.toInt() >=
-                                                                    130 &&
-                                                                y0.toInt() <=
-                                                                    145) ||
-                                                            (x0.toInt() >=
-                                                                    179 &&
-                                                                x0.toInt() <=
-                                                                    193 &&
-                                                                y0.toInt() >=
-                                                                    130 &&
-                                                                y0.toInt() <=
-                                                                    145)) {
-                                                          print("BodyPart:" +
-                                                              "elbow");
-                                                          bodyPartName =
-                                                              "Elbow";
-                                                        } else if ((x0.toInt() >=
-                                                                    111 &&
-                                                                x0.toInt() <=
-                                                                    116 &&
-                                                                y0.toInt() >=
-                                                                    373 &&
-                                                                y0.toInt() <=
-                                                                    384) ||
-                                                            x0.toInt() >= 143 &&
-                                                                x0.toInt() <=
-                                                                    148 &&
-                                                                y0.toInt() >=
-                                                                    373 &&
-                                                                y0.toInt() <=
-                                                                    384) {
-                                                          print("BodyPart:" +
-                                                              "ankle");
-                                                          bodyPartName =
-                                                              "Ankle";
-                                                        } else if ((x0.toInt() >=
-                                                                    120 &&
-                                                                x0.toInt() <=
-                                                                    127 &&
-                                                                y0.toInt() >=
-                                                                    380 &&
-                                                                y0.toInt() <=
-                                                                    395) ||
-                                                            (x0.toInt() >= 133 &&
+                                                        if (x0.toInt() >= 120 &&
                                                                 x0.toInt() <=
                                                                     140 &&
                                                                 y0.toInt() >=
-                                                                    380 &&
+                                                                    10 &&
                                                                 y0.toInt() <=
-                                                                    395)) {
+                                                                    18)
+                                                            {
                                                           print("BodyPart:" +
-                                                              "heel");
-                                                          bodyPartName = "Heel";
-                                                        } else if ((x0.toInt() >=
-                                                                    90 &&
+                                                              "Brain");
+                                                          bodyPartName =
+                                                              "Brain";
+                                                        } else if (x0.toInt() >=
+                                                                    130 &&
                                                                 x0.toInt() <=
+                                                                    145 &&
+                                                                y0.toInt() >=
+                                                                    95 &&
+                                                                y0.toInt() <=
+                                                                    110){
+                                                          print("BodyPart:" +
+                                                              "Heart");
+                                                          bodyPartName =
+                                                              "Heart";
+                                                        } else if (x0.toInt() >=
+                                                                    128 &&
+                                                                x0.toInt() <=
+                                                                    141 &&
+                                                                y0.toInt() >=
+                                                                    117 &&
+                                                                y0.toInt() <=
+                                                                    125){
+                                                          print("BodyPart:" +
+                                                              "Pancreas");
+                                                          bodyPartName = "Pancreas";
+                                                        } else if (x0.toInt() >=
                                                                     113 &&
-                                                                y0.toInt() >=
-                                                                    385 &&
-                                                                y0.toInt() <=
-                                                                    397) ||
-                                                            (x0.toInt() >=
-                                                                    144 &&
                                                                 x0.toInt() <=
-                                                                    156 &&
+                                                                    147 &&
                                                                 y0.toInt() >=
-                                                                    385 &&
+                                                                    137 &&
                                                                 y0.toInt() <=
-                                                                    397)) {
+                                                                    158)  {
                                                           print("BodyPart:" +
-                                                              "feet");
-                                                          bodyPartName = "Feet";
-                                                        } else if ((x0.toInt() >=
-                                                                    100 &&
+                                                              ""
+                                                                  "Kidney");
+                                                          bodyPartName = "Kidney";
+                                                        } else if (x0.toInt() >=
+                                                                    121 &&
                                                                 x0.toInt() <=
-                                                                    160 &&
+                                                                    135 &&
                                                                 y0.toInt() >=
-                                                                    280 &&
+                                                                    170 &&
                                                                 y0.toInt() <=
-                                                                    295) ||
-                                                            (x0.toInt() >= 132 &&
-                                                                x0.toInt() <=
-                                                                    157 &&
-                                                                y0.toInt() >=
-                                                                    280 &&
-                                                                y0.toInt() <=
-                                                                    295)) {
+                                                                    180) {
                                                           print("BodyPart:" +
-                                                              "Knee");
-                                                          bodyPartName = "Knee";
+                                                              "Bladder");
+                                                          bodyPartName = "Bladder";
                                                         } else if ((x0.toInt() >=
                                                                     102 &&
                                                                 x0.toInt() <=
@@ -646,7 +586,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                                                 y0.toInt() <=
                                                                     370)) {
                                                           print("BodyPart:" +
-                                                              "leg");
+                                                              "Leg");
                                                           bodyPartName = "Leg";
                                                         } else if (x0.toInt() >=
                                                                 97 &&
@@ -654,9 +594,9 @@ class _BodyScreenState extends State<BodyScreen> {
                                                             y0.toInt() >= 80 &&
                                                             y0.toInt() <= 112) {
                                                           print("BodyPart:" +
-                                                              "chest");
+                                                              "Lungs");
                                                           bodyPartName =
-                                                              "Chest";
+                                                              "Lungs";
                                                         } else if ((x0.toInt() >=
                                                                     20 &&
                                                                 x0.toInt() <=
@@ -674,46 +614,31 @@ class _BodyScreenState extends State<BodyScreen> {
                                                                     168)) {
                                                           print("BodyPart:" +
                                                               "Arm");
-                                                          bodyPartName = "Arms";
-                                                        } else if ((x0.toInt() >=
-                                                                    70 &&
+                                                          bodyPartName = "Arm";
+                                                        } else if (x0.toInt() >=
+                                                                    112 &&
                                                                 x0.toInt() <=
-                                                                    96 &&
+                                                                    122 &&
                                                                 y0.toInt() >=
-                                                                    60 &&
+                                                                    120 &&
                                                                 y0.toInt() <=
-                                                                    102) ||
-                                                            (x0.toInt() >= 163 &&
-                                                                x0.toInt() <=
-                                                                    185 &&
-                                                                y0.toInt() >=
-                                                                    60 &&
-                                                                y0.toInt() <=
-                                                                    102)) {
+                                                                    138) {
                                                           print("BodyPart:" +
-                                                              "Shoulder");
+                                                              "Liver");
                                                           bodyPartName =
-                                                              "Shoulders";
-                                                        } else if ((x0.toInt() >=
-                                                                    90 &&
+                                                              "Liver";
+                                                        } else if (x0.toInt() >=
+                                                                    120 &&
                                                                 x0.toInt() <=
-                                                                    125 &&
+                                                                    130 &&
                                                                 y0.toInt() >=
-                                                                    215 &&
+                                                                    181 &&
                                                                 y0.toInt() <=
-                                                                    275) ||
-                                                            (x0.toInt() >=
-                                                                    128 &&
-                                                                x0.toInt() <=
-                                                                    165 &&
-                                                                y0.toInt() >=
-                                                                    215 &&
-                                                                y0.toInt() <=
-                                                                    275)) {
+                                                                    187) {
                                                           print("BodyPart:" +
-                                                              "Thighs");
+                                                              "Reproductive System");
                                                           bodyPartName =
-                                                              "Thigh";
+                                                              "Reproductive System";
                                                         } else {
                                                           bodyPartName="None";
                                                           print("BodyPart:" +
