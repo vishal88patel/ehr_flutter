@@ -697,6 +697,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                           valueController.text = "";
                                           tasteNameController.text = "";
                                           _choosenLabValue = testResultTypesData[0].testType;
+                                          testTypeId = testResultTypesData[0].testTypeId!;
                                           var textModel = testResultTypesData
                                               .where((element) =>
                                                   element.testType ==
@@ -893,29 +894,13 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                         element
                                                                             .testType ==
                                                                         _choosenLabValue);
-                                                                showFormField =
-                                                                    textModel
-                                                                        .first
-                                                                        .shortCodeType;
-                                                                askForName =
-                                                                    textModel
-                                                                        .first
-                                                                        .askForName!;
+                                                                showFormField = textModel.first.shortCodeType;
+                                                                askForName = textModel.first.askForName!;
                                                                 for (int i = 0;
-                                                                    i <
-                                                                        testResultTypesData
-                                                                            .length;
-                                                                    i++) {
-                                                                  if (testResultTypesData[
-                                                                              i]
-                                                                          .testType ==
-                                                                      _choosenLabValue) {
-                                                                    testTypeId =
-                                                                        testResultTypesData[i]
-                                                                            .testTypeId!;
-                                                                    print("dropdownvalueId:" +
-                                                                        testTypeId
-                                                                            .toString());
+                                                                    i < testResultTypesData.length; i++) {
+                                                                  if (testResultTypesData[i].testType == _choosenLabValue) {
+                                                                    testTypeId = testResultTypesData[i].testTypeId!;
+                                                                    print("dropdownvalueId:" + testTypeId.toString());
                                                                   }
                                                                 }
                                                               });
@@ -1196,7 +1181,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                 CommonUtils
                                                                     .showRedToastMessage(
                                                                         "Please Select Type");
-                                                              } else if (askForName==false && valueController.text.isEmpty) {
+                                                              } else if (askForName==false && showFormField!="Radiobutton" && valueController.text.isEmpty) {
                                                                 CommonUtils.showRedToastMessage("Please add Value");
                                                               } else if (labTestDate
                                                                   .text
@@ -1523,6 +1508,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                   _choosenimageValue);
                                           shoWimagineNameField =
                                               imagineModel.first.askForName!;
+                                          imagineNameController.clear();
+
 
                                           showDialog<String>(
                                             context: context,
@@ -2786,7 +2773,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     Map<String, dynamic> body = {
       "usersTestResultId": 0,
       "testResultId": testTypeId,
-      "testResultName": tasteNameController.text ?? "",
+      "testResultName": tasteNameController.text,
       "testResultValue": valueController.text.toString(),
       "testDate": eDate,
     };
@@ -2828,8 +2815,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
 
     request.headers.addAll(headers);
     request.fields['UsersImagineId'] = '0';
-    if (imagineNameController.text.isEmpty ||
-        imagineNameController.text == "") {
+    if (imagineNameController.text.isNotEmpty ||
+        imagineNameController.text != "") {
       request.fields['ImagineName'] = imagineNameController.text;
     } else {
       request.fields['ImagineName'] = "";

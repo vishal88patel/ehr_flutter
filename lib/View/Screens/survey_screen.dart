@@ -298,7 +298,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                                                   },
                                                                   keyboardTYPE:
                                                                   TextInputType
-                                                                      .number,
+                                                                      .text,
                                                                   obscured: false,
                                                                   maxlength: 100,
                                                                   maxline: 1,
