@@ -437,6 +437,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       'Authorization':
           'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
+    print("IS BACK"+widget.isBack.toString());
     Map<String, dynamic> body = {
       "usersPainId": 0,
       "bodyPartId": bodyPartId,//

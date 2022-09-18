@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import '../../Constants/api_endpoint.dart';
+import '../../Constants/constants.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/preferences.dart';
@@ -73,7 +74,12 @@ class _CommentScreenState extends State<CommentScreen> {
               "assets/images/ic_plus.svg",
             ),
             onTap: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => BodyDetailScreen())).then((value) => getPainDataWithoutLoader());
+                Navigator.push(context, MaterialPageRoute(builder: (context) => BodyDetailScreen(bodyPartName:
+                "None",
+                    isBack: Constants
+                        .isBackBody,
+                    x: 0.0,
+                    y: 0.0))).then((value) => getPainDataWithoutLoader());
             },
           ),
           Container(
