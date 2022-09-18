@@ -18,8 +18,8 @@ import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_button.dart';
 
 class BodyDetailScreen extends StatefulWidget {
-  final double x;
-  final double y;
+  final dynamic x;
+  final dynamic y;
   final bool isBack;
   String bodyPartName;
   String? description;
@@ -437,6 +437,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       'Authorization':
           'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
+    print("IS BACK"+widget.isBack.toString());
     Map<String, dynamic> body = {
       "usersPainId": 0,
       "bodyPartId": bodyPartId,//
