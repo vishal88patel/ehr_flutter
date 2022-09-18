@@ -76,10 +76,15 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       var myd24Start = DateFormat('dd/MM/yyyy').format(mydtStart);
       sDateController.text=myd24Start.toString();
 
-      var mydtEnd = DateTime.fromMillisecondsSinceEpoch(widget.enddate!.toInt());
-      var myd24End = DateFormat('dd/MM/yyyy').format(mydtEnd);
-      eDateController.text=myd24End.toString();
-      current=widget.iscurrent!;
+      if(widget.enddate!.toInt()!=0){
+        var mydtEnd = DateTime.fromMillisecondsSinceEpoch(widget.enddate!.toInt());
+        var myd24End = DateFormat('dd/MM/yyyy').format(mydtEnd);
+        eDateController.text=myd24End.toString();
+        current=widget.iscurrent!;
+      }else{
+        current=true;
+      }
+
 
     }
 
