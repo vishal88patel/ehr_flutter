@@ -18,8 +18,8 @@ import '../../customWidgets/custom_big_textform_field.dart';
 import '../../customWidgets/custom_button.dart';
 
 class BodyDetailScreen extends StatefulWidget {
-  final double x;
-  final double y;
+  final dynamic x;
+  final dynamic y;
   final bool isBack;
   String bodyPartName;
   String? description;
@@ -446,7 +446,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       "startDate": sDate,//
       "endDate": eDate,//
       "current": current,
-      "isBack": widget.isBack,
+      "isBack": Constants.isBackBody,
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
