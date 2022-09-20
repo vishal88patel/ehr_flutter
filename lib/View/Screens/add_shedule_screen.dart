@@ -297,7 +297,7 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                               padding: EdgeInsets.only(
                                   left: D.W / 18, right: D.W / 18),
                               child: Text(
-                                "",
+                                "AM/PM",
                                 style: GoogleFonts.heebo(
                                     fontSize: D.H / 52,
                                     fontWeight: FontWeight.w400),

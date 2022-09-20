@@ -76,7 +76,8 @@ class _OtpScreenState extends State<OtpScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: D.H / 4),
+            Center(child: SvgPicture.asset("assets/images/login_logo.svg")),
+            SizedBox(height: D.H / 40),
             Padding(
               padding: EdgeInsets.only(left: D.W / 12),
               child: Text(

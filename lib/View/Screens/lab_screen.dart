@@ -146,7 +146,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                         ),
                         Card(
                           color: Colors.white,
-                          elevation: 5,
+                          elevation: 2,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(5),
@@ -374,7 +374,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                         ),
                         Card(
                           color: Colors.white,
-                          elevation: 5,
+                          elevation: 2,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(5),
@@ -658,7 +658,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                         ),
                         Card(
                           color: Colors.white,
-                          elevation: 5,
+                          elevation: 2,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(5),
@@ -1468,7 +1468,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                         ),
                         Card(
                           color: Colors.white,
-                          elevation: 5,
+                          elevation: 2,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(8),
