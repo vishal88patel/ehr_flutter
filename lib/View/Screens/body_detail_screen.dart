@@ -444,7 +444,7 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     };
     print("IS BACK"+widget.isBack.toString());
     Map<String, dynamic> body = {
-      "usersPainId": 0,
+      "usersPainId": widget.isUpdate??false?widget.userPainId:0,
       "bodyPartId": bodyPartId,//
       "locationX": widget.x,//
       "locationY": widget.y,//
