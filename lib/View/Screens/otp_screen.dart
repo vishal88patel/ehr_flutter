@@ -211,7 +211,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               text: "Verify",
                               textColor: Colors.white,
                             ),
-                            SizedBox(height:D.H/5.9),
+                            SizedBox(height:D.H/3.5),
                           ],
                         ),
                       )

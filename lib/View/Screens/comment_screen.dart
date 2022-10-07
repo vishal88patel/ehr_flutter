@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import '../../Constants/api_endpoint.dart';
 import '../../Constants/constants.dart';
+import '../../Model/pain_dashboard_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/preferences.dart';
@@ -29,7 +30,7 @@ class _CommentScreenState extends State<CommentScreen> {
   final commentController = TextEditingController();
   final valueController = TextEditingController();
   final discController = TextEditingController();
-  List<PainModel> painData = [];
+  List<PainDashboardModel> painData = [];
 
 
   @override
@@ -126,6 +127,17 @@ class _CommentScreenState extends State<CommentScreen> {
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
                         ),
+                        SlidableAction(
+                          padding: EdgeInsets.all(0),
+                          onPressed: (BuildContext context) {
+                            setState(() {});
+                            gotoNextPage(index:index,list:painData);
+                            // painData.removeAt(index);
+                          },
+                          backgroundColor: ColorConstants.primaryBlueColor,
+                          foregroundColor: Colors.white,
+                          icon: Icons.edit_outlined,
+                        ),
                       ],
                     ),
                     child: Container(
@@ -198,6 +210,24 @@ class _CommentScreenState extends State<CommentScreen> {
     );
   }
 
+  gotoNextPage({required int index, required List<PainDashboardModel> list}) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BodyDetailScreen(
+              bodyPartName: list[index].bodyPart.toString(),
+              isBack: list[index].isBack!,
+              x: list[index].locationX,
+              y: list[index].locationY,
+              description: list[index].description.toString(),
+              startdate: list[index].startDate,
+              enddate: list[index].endDate,
+              userPainId: list[index].usersPainId,
+              iscurrent: list[index].current,
+              isUpdate: true,
+            )));
+  }
+
 
   Future<void> getPainData() async {
     CommonUtils.showProgressDialog(context);
@@ -223,7 +253,7 @@ class _CommentScreenState extends State<CommentScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       for (int i = 0; i < res.length; i++) {
-        painData.add(PainModel(
+        painData.add(PainDashboardModel(
           usersPainId: res[i]["usersPainId"],
           bodyPartId: res[i]["bodyPartId"],
           bodyPart: res[i]["bodyPart"],
@@ -233,6 +263,8 @@ class _CommentScreenState extends State<CommentScreen> {
           startDate: res[i]["startDate"],
           endDate: res[i]["endDate"],
           created: res[i]["created"],
+          current: res[i]["current"],
+          isBack: res[i]["isBack"]
         ));
       }
       CommonUtils.hideProgressDialog(context);
@@ -266,7 +298,7 @@ class _CommentScreenState extends State<CommentScreen> {
     if (statusCode == 200) {
       painData.clear();
       for (int i = 0; i < res.length; i++) {
-        painData.add(PainModel(
+        painData.add(PainDashboardModel(
           usersPainId: res[i]["usersPainId"],
           bodyPartId: res[i]["bodyPartId"],
           bodyPart: res[i]["bodyPart"],
@@ -276,6 +308,8 @@ class _CommentScreenState extends State<CommentScreen> {
           startDate: res[i]["startDate"],
           endDate: res[i]["endDate"],
           created: res[i]["created"],
+            current: res[i]["current"],
+            isBack: res[i]["isBack"]
         ));
       }
       CommonUtils.showGreenToastMessage("Data Fetched Successfully");

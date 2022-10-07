@@ -2905,20 +2905,20 @@ class _BodyScreenState extends State<BodyScreen> {
   }
 
   gotoNextPage({required int index, required List<PainDashboardModel> list}) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => BodyDetailScreen(
-                  bodyPartName: list[index].bodyPart.toString(),
-                  isBack: list[index].isBack!,
-                  x: list[index].locationX,
-                  y: list[index].locationY,
-                  description: list[index].description.toString(),
-                  startdate: list[index].startDate,
-                  enddate: list[index].endDate,
-                  userPainId: list[index].usersPainId,
-                  iscurrent: list[index].current,
-                  isUpdate: true,
-                )));
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => BodyDetailScreen(
+    //               bodyPartName: list[index].bodyPart.toString(),
+    //               isBack: list[index].isBack!,
+    //               x: list[index].locationX,
+    //               y: list[index].locationY,
+    //               description: list[index].description.toString(),
+    //               startdate: list[index].startDate,
+    //               enddate: list[index].endDate,
+    //               userPainId: list[index].usersPainId,
+    //               iscurrent: list[index].current,
+    //               isUpdate: true,
+    //             )));
   }
 }
