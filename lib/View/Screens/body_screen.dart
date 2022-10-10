@@ -37,7 +37,7 @@ class _BodyScreenState extends State<BodyScreen> {
   bool showDragBack = false;
   bool showdialog = false;
   bool showdialoggg = false;
-  Color colorrr = Colors.blue;
+
   List<PainDashboardModel> painData = [];
   List<PainDashboardModel> frontPainData = [];
   List<PainDashboardModel> backPainData = [];
@@ -455,331 +455,23 @@ class _BodyScreenState extends State<BodyScreen> {
                                     ),
                                     Stack(
                                       children: [
-                                        showDrag
-                                            ? Positioned(
-                                                left: x0,
-                                                top: y0,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    showDrag = false;
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                BodyDetailScreen(
-                                                                    bodyPartName:
-                                                                        bodyPartName,
-                                                                    isBack: Constants
-                                                                        .isBackBody,
-                                                                    x: x0,
-                                                                    y: y0))).then(
-                                                        (value) =>
-                                                            getPainApi());
-                                                  },
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: colorrr),
-                                                      child: Center(
-                                                          child: Text("?")),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        x0 = dragDetails
-                                                                .offset.dx -
-                                                            52;
-                                                        y0 = dragDetails
-                                                                .offset.dy -
-                                                            245;
-
-                                                        print(x0.toString() +
-                                                            "," +
-                                                            y0.toString());
-                                                        if (x0.toInt() >= 120 &&
-                                                            x0.toInt() <= 140 &&
-                                                            y0.toInt() >= 10 &&
-                                                            y0.toInt() <= 18) {
-                                                          print("BodyPart:" +
-                                                              "Brain");
-                                                          bodyPartName =
-                                                              "Brain";
-                                                        } else if (x0.toInt() >=
-                                                                130 &&
-                                                            x0.toInt() <= 145 &&
-                                                            y0.toInt() >= 95 &&
-                                                            y0.toInt() <= 110) {
-                                                          print("BodyPart:" +
-                                                              "Heart");
-                                                          bodyPartName =
-                                                              "Heart";
-                                                        } else if (x0.toInt() >=
-                                                                128 &&
-                                                            x0.toInt() <= 141 &&
-                                                            y0.toInt() >= 117 &&
-                                                            y0.toInt() <= 125) {
-                                                          print("BodyPart:" +
-                                                              "Pancreas");
-                                                          bodyPartName =
-                                                              "Pancreas";
-                                                        } else if (x0.toInt() >=
-                                                                113 &&
-                                                            x0.toInt() <= 147 &&
-                                                            y0.toInt() >= 137 &&
-                                                            y0.toInt() <= 158) {
-                                                          print("BodyPart:" +
-                                                              ""
-                                                                  "Kidney");
-                                                          bodyPartName =
-                                                              "Kidney";
-                                                        } else if (x0.toInt() >=
-                                                                121 &&
-                                                            x0.toInt() <= 135 &&
-                                                            y0.toInt() >= 170 &&
-                                                            y0.toInt() <= 180) {
-                                                          print("BodyPart:" +
-                                                              "Bladder");
-                                                          bodyPartName =
-                                                              "Bladder";
-                                                        } else if ((x0.toInt() >=
-                                                                    102 &&
-                                                                x0.toInt() <=
-                                                                    123 &&
-                                                                y0.toInt() >=
-                                                                    290 &&
-                                                                y0.toInt() <=
-                                                                    370) ||
-                                                            (x0.toInt() >= 130 &&
-                                                                x0.toInt() <=
-                                                                    158 &&
-                                                                y0.toInt() >=
-                                                                    290 &&
-                                                                y0.toInt() <=
-                                                                    370)) {
-                                                          print("BodyPart:" +
-                                                              "Leg");
-                                                          bodyPartName = "Leg";
-                                                        } else if (x0.toInt() >=
-                                                                97 &&
-                                                            x0.toInt() <= 160 &&
-                                                            y0.toInt() >= 80 &&
-                                                            y0.toInt() <= 112) {
-                                                          print("BodyPart:" +
-                                                              "Lungs");
-                                                          bodyPartName =
-                                                              "Lungs";
-                                                        } else if ((x0.toInt() >=
-                                                                    20 &&
-                                                                x0.toInt() <=
-                                                                    96 &&
-                                                                y0.toInt() >=
-                                                                    96 &&
-                                                                y0.toInt() <=
-                                                                    168) ||
-                                                            (x0.toInt() >= 190 &&
-                                                                x0.toInt() <=
-                                                                    225 &&
-                                                                y0.toInt() >=
-                                                                    96 &&
-                                                                y0.toInt() <=
-                                                                    168)) {
-                                                          print("BodyPart:" +
-                                                              "Arm");
-                                                          bodyPartName = "Arm";
-                                                        } else if (x0.toInt() >=
-                                                                112 &&
-                                                            x0.toInt() <= 122 &&
-                                                            y0.toInt() >= 120 &&
-                                                            y0.toInt() <= 138) {
-                                                          print("BodyPart:" +
-                                                              "Liver");
-                                                          bodyPartName =
-                                                              "Liver";
-                                                        } else if (x0.toInt() >=
-                                                                120 &&
-                                                            x0.toInt() <= 130 &&
-                                                            y0.toInt() >= 181 &&
-                                                            y0.toInt() <= 187) {
-                                                          print("BodyPart:" +
-                                                              "Reproductive System");
-                                                          bodyPartName =
-                                                              "Reproductive System";
-                                                        } else {
-                                                          bodyPartName = "None";
-                                                          print("BodyPart:" +
-                                                              "None");
-                                                        }
-                                                        var dialog =
-                                                            CustomAlertDialog(
-                                                                title: "Alert",
-                                                                message:
-                                                                    "Are you sure, do you want save pain here?",
-                                                                positiveBtnText:
-                                                                    'Yes',
-                                                                negativeBtnText:
-                                                                    'No',
-                                                                onPostivePressed:
-                                                                    () {
-                                                                  showDrag =
-                                                                      false;
-                                                                  savePain();
-                                                                },
-                                                                onNegativePressed:
-                                                                    () {});
-
-                                                        if (bodyPartName ==
-                                                            "None") {
-                                                          x0 = 128.0;
-                                                          y0 = 136.0;
-                                                          CommonUtils
-                                                              .showRedToastMessage(
-                                                                  'Please select valid body part');
-                                                        } else {
-                                                          showdialog
-                                                              ? showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder: (BuildContext
-                                                                          context) =>
-                                                                      dialog)
-                                                              : Container();
-                                                        }
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              )
-                                            : Container(),
                                         frontLength >= 1
                                             ? Positioned(
                                                 left: x1,
                                                 top: y1,
                                                 child: InkWell(
                                                   onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.blue),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x1 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y1 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              )
-                                            : Container(),
-                                        frontLength >= 1
-                                            ? Positioned(
-                                                left: x1,
-                                                top: y1,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 0,
-                                                        list: frontPainData);
-                                                  },
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        frontLength >= 2
-                                            ? Positioned(
-                                                left: x2,
-                                                top: y2,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.red),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x2 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y2 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.blue),
                                                   ),
                                                 ),
                                               )
@@ -789,64 +481,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: x2,
                                                 top: y2,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 1,
-                                                        list: frontPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        frontLength >= 3
-                                            ? Positioned(
-                                                left: x3,
-                                                top: y3,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.yellow),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x3 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y3 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.red),
                                                   ),
                                                 ),
                                               )
@@ -856,64 +502,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: x3,
                                                 top: y3,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 2,
-                                                        list: frontPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        frontLength >= 4
-                                            ? Positioned(
-                                                left: x4,
-                                                top: y4,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.orange),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x4 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y4 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.yellow),
                                                   ),
                                                 ),
                                               )
@@ -923,64 +523,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: x4,
                                                 top: y4,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 3,
-                                                        list: frontPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        frontLength >= 5
-                                            ? Positioned(
-                                                left: x5,
-                                                top: y5,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.green),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x5 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y5 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.orange),
                                                   ),
                                                 ),
                                               )
@@ -990,64 +544,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: x5,
                                                 top: y5,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 4,
-                                                        list: frontPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        frontLength >= 6
-                                            ? Positioned(
-                                                left: x6,
-                                                top: y6,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.grey),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x6 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y6 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.green),
                                                   ),
                                                 ),
                                               )
@@ -1057,64 +565,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: x6,
                                                 top: y6,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 5,
-                                                        list: frontPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        frontLength >= 7
-                                            ? Positioned(
-                                                left: x7,
-                                                top: y7,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.black),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x7 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y7 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.grey),
                                                   ),
                                                 ),
                                               )
@@ -1124,65 +586,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: x7,
                                                 top: y7,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 6,
-                                                        list: frontPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        frontLength >= 8
-                                            ? Positioned(
-                                                left: x8,
-                                                top: y8,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors
-                                                              .tealAccent),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x8 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y8 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.black),
                                                   ),
                                                 ),
                                               )
@@ -1192,65 +607,19 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: x8,
                                                 top: y8,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 7,
-                                                        list: frontPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        frontLength >= 9
-                                            ? Positioned(
-                                                left: x9,
-                                                top: y9,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors
-                                                              .deepPurpleAccent),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x9 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y9 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors
+                                                            .tealAccent),
                                                   ),
                                                 ),
                                               )
@@ -1260,64 +629,19 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: x9,
                                                 top: y9,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 8,
-                                                        list: frontPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        frontLength >= 10
-                                            ? Positioned(
-                                                left: x10,
-                                                top: y10,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.green),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.indigo),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        x10 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        y10 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors
+                                                            .deepPurpleAccent),
                                                   ),
                                                 ),
                                               )
@@ -1327,18 +651,22 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: x10,
                                                 top: y10,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 9,
-                                                        list: frontPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.green),
                                                   ),
-                                                ))
-                                            : Container()
+                                                ),
+                                              )
+                                            : Container(),
                                       ],
                                     ),
                                   ],
@@ -1458,349 +786,23 @@ class _BodyScreenState extends State<BodyScreen> {
                                     ),
                                     Stack(
                                       children: [
-                                        showDragBack
-                                            ? Positioned(
-                                                left: xx0,
-                                                top: yy0,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    showDragBack = false;
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                BodyDetailScreen(
-                                                                    bodyPartName:
-                                                                        bodyPartName,
-                                                                    isBack: Constants
-                                                                        .isBackBody,
-                                                                    x: xx0,
-                                                                    y: yy0))).then(
-                                                        (value) =>
-                                                            getPainApi());
-                                                  },
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: colorrr),
-                                                      child: Center(
-                                                          child: Text("?")),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        xx0 = dragDetails
-                                                                .offset.dx -
-                                                            52;
-                                                        yy0 = dragDetails
-                                                                .offset.dy -
-                                                            245;
-
-                                                        print(xx0.toString() +
-                                                            "," +
-                                                            yy0.toString());
-                                                        if (xx0.toInt() >= 120 &&
-                                                            xx0.toInt() <=
-                                                                140 &&
-                                                            yy0.toInt() >= 10 &&
-                                                            yy0.toInt() <= 18) {
-                                                          print("BodyPart:" +
-                                                              "Brain");
-                                                          bodyPartName =
-                                                              "Brain";
-                                                        } else if (xx0.toInt() >=
-                                                                130 &&
-                                                            xx0.toInt() <=
-                                                                145 &&
-                                                            yy0.toInt() >= 95 &&
-                                                            yy0.toInt() <=
-                                                                110) {
-                                                          print("BodyPart:" +
-                                                              "Heart");
-                                                          bodyPartName =
-                                                              "Heart";
-                                                        } else if (xx0.toInt() >=
-                                                                128 &&
-                                                            xx0.toInt() <=
-                                                                141 &&
-                                                            yy0.toInt() >=
-                                                                117 &&
-                                                            yy0.toInt() <=
-                                                                125) {
-                                                          print("BodyPart:" +
-                                                              "Pancreas");
-                                                          bodyPartName =
-                                                              "Pancreas";
-                                                        } else if (xx0.toInt() >=
-                                                                113 &&
-                                                            xx0.toInt() <=
-                                                                147 &&
-                                                            yy0.toInt() >=
-                                                                137 &&
-                                                            yy0.toInt() <=
-                                                                158) {
-                                                          print("BodyPart:" +
-                                                              "Kidney");
-                                                          bodyPartName =
-                                                              "Kidney";
-                                                        } else if (xx0.toInt() >=
-                                                                121 &&
-                                                            xx0.toInt() <=
-                                                                135 &&
-                                                            yy0.toInt() >=
-                                                                170 &&
-                                                            yy0.toInt() <=
-                                                                180) {
-                                                          print("BodyPart:" +
-                                                              "Bladder");
-                                                          bodyPartName =
-                                                              "Bladder";
-                                                        } else if ((xx0.toInt() >=
-                                                                    102 &&
-                                                                xx0.toInt() <=
-                                                                    123 &&
-                                                                yy0.toInt() >=
-                                                                    290 &&
-                                                                yy0.toInt() <=
-                                                                    370) ||
-                                                            (xx0.toInt() >=
-                                                                    130 &&
-                                                                xx0.toInt() <=
-                                                                    158 &&
-                                                                yy0.toInt() >=
-                                                                    290 &&
-                                                                yy0.toInt() <=
-                                                                    370)) {
-                                                          print("BodyPart:" +
-                                                              "leg");
-                                                          bodyPartName = "Leg";
-                                                        } else if (xx0.toInt() >=
-                                                                97 &&
-                                                            xx0.toInt() <=
-                                                                160 &&
-                                                            yy0.toInt() >= 80 &&
-                                                            yy0.toInt() <=
-                                                                112) {
-                                                          print("BodyPart:" +
-                                                              "Lungs");
-                                                          bodyPartName =
-                                                              "Lungs";
-                                                        } else if ((xx0.toInt() >=
-                                                                    20 &&
-                                                                xx0.toInt() <=
-                                                                    96 &&
-                                                                yy0.toInt() >=
-                                                                    96 &&
-                                                                yy0.toInt() <=
-                                                                    168) ||
-                                                            (xx0.toInt() >=
-                                                                    190 &&
-                                                                xx0.toInt() <=
-                                                                    225 &&
-                                                                yy0.toInt() >=
-                                                                    96 &&
-                                                                yy0.toInt() <=
-                                                                    168)) {
-                                                          print("BodyPart:" +
-                                                              "Arm");
-                                                          bodyPartName = "Arm";
-                                                        } else if (xx0.toInt() >=
-                                                                112 &&
-                                                            xx0.toInt() <=
-                                                                122 &&
-                                                            yy0.toInt() >=
-                                                                120 &&
-                                                            yy0.toInt() <=
-                                                                138) {
-                                                          print("BodyPart:" +
-                                                              "Liver");
-                                                          bodyPartName =
-                                                              "Liver";
-                                                        } else if (xx0.toInt() >=
-                                                                120 &&
-                                                            xx0.toInt() <=
-                                                                130 &&
-                                                            yy0.toInt() >=
-                                                                181 &&
-                                                            yy0.toInt() <=
-                                                                187) {
-                                                          print("BodyPart:" +
-                                                              "Reproductive System");
-                                                          bodyPartName =
-                                                              "Reproductive System";
-                                                        } else {
-                                                          bodyPartName = "None";
-                                                        }
-                                                        var dialog =
-                                                            CustomAlertDialog(
-                                                                title: "Alert",
-                                                                message:
-                                                                    "Are you sure, do you want save pain here?",
-                                                                positiveBtnText:
-                                                                    'Yes',
-                                                                negativeBtnText:
-                                                                    'No',
-                                                                onPostivePressed:
-                                                                    () {
-                                                                  showDragBack =
-                                                                      false;
-                                                                  savePain();
-                                                                },
-                                                                onNegativePressed:
-                                                                    () {});
-                                                        if (bodyPartName ==
-                                                            "None") {
-                                                          x0 = 128.0;
-                                                          y0 = 136.0;
-                                                          CommonUtils
-                                                              .showRedToastMessage(
-                                                                  'Please select valid body part');
-                                                        } else {
-                                                          showdialog
-                                                              ? showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder: (BuildContext
-                                                                          context) =>
-                                                                      dialog)
-                                                              : Container();
-                                                        }
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              )
-                                            : Container(),
                                         backLength >= 1
                                             ? Positioned(
                                                 left: xx1,
                                                 top: yy1,
                                                 child: InkWell(
                                                   onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.blue),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx1 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy1 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              )
-                                            : Container(),
-                                        backLength >= 1
-                                            ? Positioned(
-                                                left: xx1,
-                                                top: yy1,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 0,
-                                                        list: backPainData);
-                                                  },
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        backLength >= 2
-                                            ? Positioned(
-                                                left: xx2,
-                                                top: yy2,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.red),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx2 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy2 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.blue),
                                                   ),
                                                 ),
                                               )
@@ -1810,64 +812,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: xx2,
                                                 top: yy2,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 1,
-                                                        list: backPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        backLength >= 3
-                                            ? Positioned(
-                                                left: xx3,
-                                                top: yy3,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.yellow),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx3 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy3 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.red),
                                                   ),
                                                 ),
                                               )
@@ -1877,17 +833,21 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: xx3,
                                                 top: yy3,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 2,
-                                                        list: backPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.yellow),
                                                   ),
-                                                ))
+                                                ),
+                                              )
                                             : Container(),
                                         backLength >= 4
                                             ? Positioned(
@@ -1895,113 +855,17 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 top: yy4,
                                                 child: InkWell(
                                                   onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.orange),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx4 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy4 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              )
-                                            : Container(),
-                                        backLength >= 4
-                                            ? InkWell(
-                                                onTap: () {
-                                                  gotoNextPage(
-                                                      index: 3,
-                                                      list: backPainData);
-                                                },
-                                                child: Positioned(
-                                                    left: xx4,
-                                                    top: yy4,
-                                                    child: Container(
-                                                      color: Colors.transparent,
-                                                      height: 20,
-                                                      width: 20,
-                                                    )),
-                                              )
-                                            : Container(),
-                                        backLength >= 5
-                                            ? Positioned(
-                                                left: xx5,
-                                                top: yy5,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.green),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx5 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy5 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 20,
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.orange),
                                                   ),
                                                 ),
                                               )
@@ -2011,64 +875,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: xx5,
                                                 top: yy5,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 4,
-                                                        list: backPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        backLength >= 6
-                                            ? Positioned(
-                                                left: xx6,
-                                                top: yy6,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.grey),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx6 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy6 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.green),
                                                   ),
                                                 ),
                                               )
@@ -2078,64 +896,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: xx6,
                                                 top: yy6,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 5,
-                                                        list: backPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        backLength >= 7
-                                            ? Positioned(
-                                                left: xx7,
-                                                top: yy7,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.black),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx7 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy7 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.grey),
                                                   ),
                                                 ),
                                               )
@@ -2145,65 +917,18 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: xx7,
                                                 top: yy7,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 6,
-                                                        list: backPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        backLength >= 8
-                                            ? Positioned(
-                                                left: xx8,
-                                                top: yy8,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors
-                                                              .tealAccent),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx8 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy8 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.black),
                                                   ),
                                                 ),
                                               )
@@ -2213,65 +938,19 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: xx8,
                                                 top: yy8,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 7,
-                                                        list: backPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        backLength >= 9
-                                            ? Positioned(
-                                                left: xx9,
-                                                top: yy9,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors
-                                                              .deepPurpleAccent),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.blue),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx9 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy9 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors
+                                                            .tealAccent),
                                                   ),
                                                 ),
                                               )
@@ -2281,64 +960,19 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: xx9,
                                                 top: yy9,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 8,
-                                                        list: backPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
-                                                  ),
-                                                ))
-                                            : Container(),
-                                        backLength >= 10
-                                            ? Positioned(
-                                                left: xx10,
-                                                top: yy10,
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Draggable(
-                                                    child: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                              width: 1.5),
-                                                          color: Colors.green),
-                                                    ),
-                                                    feedback: Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.indigo),
-                                                    ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    onDragEnd: (dragDetails) {
-                                                      setState(() {
-                                                        double width =
-                                                            D.W - D.W / 1.6;
-                                                        double height =
-                                                            D.H - D.H / 1.9;
-                                                        print(width.toString() +
-                                                            "," +
-                                                            height.toString());
-                                                        xx10 = dragDetails
-                                                                .offset.dx -
-                                                            width / 2.6;
-                                                        yy10 = dragDetails
-                                                                .offset.dy -
-                                                            height / 1.56;
-                                                      });
-                                                    },
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors
+                                                            .deepPurpleAccent),
                                                   ),
                                                 ),
                                               )
@@ -2348,18 +982,22 @@ class _BodyScreenState extends State<BodyScreen> {
                                                 left: xx10,
                                                 top: yy10,
                                                 child: InkWell(
-                                                  onTap: () {
-                                                    gotoNextPage(
-                                                        index: 9,
-                                                        list: backPainData);
-                                                  },
+                                                  onTap: () {},
                                                   child: Container(
-                                                    color: Colors.transparent,
                                                     height: 20,
                                                     width: 20,
+                                                    decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.white,
+                                                            width: 1.5),
+                                                        color: Colors.green),
                                                   ),
-                                                ))
-                                            : Container()
+                                                ),
+                                              )
+                                            : Container(),
                                       ],
                                     ),
                                   ],
@@ -2385,12 +1023,12 @@ class _BodyScreenState extends State<BodyScreen> {
             CommonUtils.showRedToastMessage("Please save the pain first");
           } else if (showDragBack) {
             CommonUtils.showRedToastMessage("Please save the pain first");
-          } else if (painData.length > 10) {
+          } else if (painData.length >= 10) {
             CommonUtils.showRedToastMessage(
                 "you can not add pain more than 10");
           } else {
-            showDrag = false;
-            showDragBack = false;
+            //showDrag = false;
+           // showDragBack = false;
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -2461,107 +1099,12 @@ class _BodyScreenState extends State<BodyScreen> {
             startDate: tempFirstSortedYearList[i]["startDate"],
             usersPainId: tempFirstSortedYearList[i]["usersPainId"]));
       }
-      print("total length:" + painData.length.toString());
 
       for (int i = 0; i < painData.length; i++) {
         if (painData[i].isBack == true) {
           backPainData.add(painData[i]);
         } else {
           frontPainData.add(painData[i]);
-        }
-      }
-
-      for (int i = 0; i < frontPainData.length; i++) {
-        if (frontPainData[i].locationX == 0.0 &&
-            frontPainData[i].locationY == 0.0) {
-          if (frontPainData[i].bodyPart == "Brain") {
-            x0 = 130.00;
-            y0 = 14.00;
-          } else if (frontPainData[i].bodyPart == "Heart") {
-            x0 = 137.00;
-            y0 = 105.00;
-          } else if (frontPainData[i].bodyPart == "Pancreas") {
-            x0 = 135.00;
-            y0 = 122.00;
-          } else if (frontPainData[i].bodyPart == "Kidney") {
-            x0 = 130.00;
-            y0 = 147.00;
-          } else if (frontPainData[i].bodyPart == "Bladder") {
-            x0 = 128.00;
-            y0 = 175.00;
-          } else if (frontPainData[i].bodyPart == "Leg") {
-            x0 = 105.00;
-            y0 = 309.00;
-          } else if (frontPainData[i].bodyPart == "Lungs") {
-            x0 = 113.00;
-            y0 = 96.00;
-          } else if (frontPainData[i].bodyPart == "Arm") {
-            x0 = 56.00;
-            y0 = 147.00;
-          } else if (frontPainData[i].bodyPart == "Liver") {
-            x0 = 117.00;
-            y0 = 129.00;
-          } else if (frontPainData[i].bodyPart == "Reproductive System") {
-            x0 = 125.00;
-            y0 = 184.00;
-          } else {}
-          index = i;
-          showDrag = true;
-          showdialog = true;
-          usersPainId = frontPainData[index].usersPainId!;
-          bodyPartId = frontPainData[index].bodyPartId.toString();
-          description = frontPainData[index].description.toString();
-          startDate = frontPainData[index].startDate.toString();
-          endDate = frontPainData[index].endDate.toString();
-          current = frontPainData[index].current!;
-          frontPainData.removeAt(index);
-        }
-      }
-
-      for (int i = 0; i < backPainData.length; i++) {
-        if (backPainData[i].locationX == 0.0 &&
-            backPainData[i].locationY == 0.0) {
-          if (backPainData[i].bodyPart == "Brain") {
-            xx0 = 130.00;
-            yy0 = 14.00;
-          } else if (backPainData[i].bodyPart == "Heart") {
-            xx0 = 137.00;
-            yy0 = 105.00;
-          } else if (backPainData[i].bodyPart == "Pancreas") {
-            xx0 = 135.00;
-            yy0 = 122.00;
-          } else if (backPainData[i].bodyPart == "Kidney") {
-            xx0 = 130.00;
-            yy0 = 147.00;
-          } else if (backPainData[i].bodyPart == "Bladder") {
-            xx0 = 128.00;
-            yy0 = 175.00;
-          } else if (backPainData[i].bodyPart == "Leg") {
-            xx0 = 105.00;
-            yy0 = 309.00;
-          } else if (backPainData[i].bodyPart == "Lungs") {
-            xx0 = 113.00;
-            yy0 = 96.00;
-          } else if (backPainData[i].bodyPart == "Arm") {
-            xx0 = 56.00;
-            yy0 = 147.00;
-          } else if (backPainData[i].bodyPart == "Liver") {
-            xx0 = 117.00;
-            yy0 = 129.00;
-          } else if (backPainData[i].bodyPart == "Reproductive System") {
-            xx0 = 125.00;
-            yy0 = 184.00;
-          } else {}
-          index = i;
-          showDragBack = true;
-          showdialog = true;
-          usersPainId = backPainData[index].usersPainId!;
-          bodyPartId = backPainData[index].bodyPartId.toString();
-          description = backPainData[index].description.toString();
-          startDate = backPainData[index].startDate.toString();
-          endDate = backPainData[index].endDate.toString();
-          current = backPainData[index].current!;
-          backPainData.removeAt(index);
         }
       }
 
@@ -2578,13 +1121,17 @@ class _BodyScreenState extends State<BodyScreen> {
       if (frontPainData.length == 1) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
-        colorrr = Colors.red;
+        print("x1:" + x1.toString());
+        print("y1:" + y1.toString());
+
       } else if (frontPainData.length == 2) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
         x2 = frontPainData[1].locationX!.toDouble();
         y2 = frontPainData[1].locationY!.toDouble();
-        colorrr = Colors.yellow;
+        print("x2:" + x2.toString());
+        print("y2:" + y2.toString());
+
       } else if (frontPainData.length == 3) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
@@ -2592,7 +1139,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y2 = frontPainData[1].locationY!.toDouble();
         x3 = frontPainData[2].locationX!.toDouble();
         y3 = frontPainData[2].locationY!.toDouble();
-        colorrr = Colors.orange;
+
       } else if (frontPainData.length == 4) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
@@ -2602,7 +1149,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y3 = frontPainData[2].locationY!.toDouble();
         x4 = frontPainData[3].locationX!.toDouble();
         y4 = frontPainData[3].locationY!.toDouble();
-        colorrr = Colors.green;
+
       } else if (frontPainData.length == 5) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
@@ -2614,7 +1161,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y4 = frontPainData[3].locationY!.toDouble();
         x5 = frontPainData[4].locationX!.toDouble();
         y5 = frontPainData[4].locationY!.toDouble();
-        colorrr = Colors.grey;
+
       } else if (frontPainData.length == 6) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
@@ -2628,7 +1175,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y5 = frontPainData[4].locationY!.toDouble();
         x6 = frontPainData[5].locationX!.toDouble();
         y6 = frontPainData[5].locationY!.toDouble();
-        colorrr = Colors.black;
+
       } else if (frontPainData.length == 7) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
@@ -2644,7 +1191,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y6 = frontPainData[5].locationY!.toDouble();
         x7 = frontPainData[6].locationX!.toDouble();
         y7 = frontPainData[6].locationY!.toDouble();
-        colorrr = Colors.tealAccent;
+
       } else if (frontPainData.length == 8) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
@@ -2662,7 +1209,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y7 = frontPainData[6].locationY!.toDouble();
         x8 = frontPainData[7].locationX!.toDouble();
         y8 = frontPainData[7].locationY!.toDouble();
-        colorrr = Colors.deepPurpleAccent;
+
       } else if (frontPainData.length == 9) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
@@ -2682,7 +1229,7 @@ class _BodyScreenState extends State<BodyScreen> {
         y8 = frontPainData[7].locationY!.toDouble();
         x9 = frontPainData[8].locationX!.toDouble();
         y9 = frontPainData[8].locationY!.toDouble();
-        colorrr = Colors.indigo;
+
       } else if (frontPainData.length == 10) {
         x1 = frontPainData[0].locationX!.toDouble();
         y1 = frontPainData[0].locationY!.toDouble();
@@ -2705,19 +1252,20 @@ class _BodyScreenState extends State<BodyScreen> {
         x10 = frontPainData[9].locationX!.toDouble();
         y10 = frontPainData[9].locationY!.toDouble();
       } else {
-        colorrr = Colors.blue;
+
+
       }
 
       if (backPainData.length == 1) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
-        colorrr = Colors.red;
+
       } else if (backPainData.length == 2) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
         xx2 = backPainData[1].locationX!.toDouble();
         yy2 = backPainData[1].locationY!.toDouble();
-        colorrr = Colors.yellow;
+
       } else if (backPainData.length == 3) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
@@ -2725,7 +1273,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy2 = backPainData[1].locationY!.toDouble();
         xx3 = backPainData[2].locationX!.toDouble();
         yy3 = backPainData[2].locationY!.toDouble();
-        colorrr = Colors.orange;
+
       } else if (backPainData.length == 4) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
@@ -2735,7 +1283,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy3 = backPainData[2].locationY!.toDouble();
         xx4 = backPainData[3].locationX!.toDouble();
         yy4 = backPainData[3].locationY!.toDouble();
-        colorrr = Colors.green;
+
       } else if (backPainData.length == 5) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
@@ -2747,7 +1295,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy4 = backPainData[3].locationY!.toDouble();
         xx5 = backPainData[4].locationX!.toDouble();
         yy5 = backPainData[4].locationY!.toDouble();
-        colorrr = Colors.grey;
+
       } else if (backPainData.length == 6) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
@@ -2761,7 +1309,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy5 = backPainData[4].locationY!.toDouble();
         xx6 = backPainData[5].locationX!.toDouble();
         yy6 = backPainData[5].locationY!.toDouble();
-        colorrr = Colors.black;
+
       } else if (backPainData.length == 7) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
@@ -2777,7 +1325,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy6 = backPainData[5].locationY!.toDouble();
         xx7 = backPainData[6].locationX!.toDouble();
         yy7 = backPainData[6].locationY!.toDouble();
-        colorrr = Colors.tealAccent;
+
       } else if (backPainData.length == 8) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
@@ -2795,7 +1343,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy7 = backPainData[6].locationY!.toDouble();
         xx8 = backPainData[7].locationX!.toDouble();
         yy8 = backPainData[7].locationY!.toDouble();
-        colorrr = Colors.deepPurpleAccent;
+
       } else if (backPainData.length == 9) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
@@ -2815,7 +1363,7 @@ class _BodyScreenState extends State<BodyScreen> {
         yy8 = backPainData[7].locationY!.toDouble();
         xx9 = backPainData[8].locationX!.toDouble();
         yy9 = backPainData[8].locationY!.toDouble();
-        colorrr = Colors.indigo;
+
       } else if (backPainData.length == 10) {
         xx1 = backPainData[0].locationX!.toDouble();
         yy1 = backPainData[0].locationY!.toDouble();
@@ -2838,12 +1386,9 @@ class _BodyScreenState extends State<BodyScreen> {
         xx10 = backPainData[9].locationX!.toDouble();
         yy10 = backPainData[9].locationY!.toDouble();
       } else {
-        colorrr = Colors.blue;
+
       }
-      // Future.delayed(Duration(milliseconds: 200),(){
-      //   setState(() {});
-      //
-      // });
+
     } else {
       CommonUtils.showRedToastMessage(res["message"]);
     }
@@ -2904,21 +1449,4 @@ class _BodyScreenState extends State<BodyScreen> {
     }
   }
 
-  gotoNextPage({required int index, required List<PainDashboardModel> list}) {
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) => BodyDetailScreen(
-    //               bodyPartName: list[index].bodyPart.toString(),
-    //               isBack: list[index].isBack!,
-    //               x: list[index].locationX,
-    //               y: list[index].locationY,
-    //               description: list[index].description.toString(),
-    //               startdate: list[index].startDate,
-    //               enddate: list[index].endDate,
-    //               userPainId: list[index].usersPainId,
-    //               iscurrent: list[index].current,
-    //               isUpdate: true,
-    //             )));
-  }
 }

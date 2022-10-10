@@ -36,6 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   DateTime selectedDate = DateTime.now();
   int genderId=1;
   bool male=true;
+  bool isChecked = false;
 
 
   @override
@@ -245,18 +246,77 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ],
                               ),
+                              SizedBox(height: D.H / 40),
+                              Row(
+                                children: [
+                                  isChecked?InkWell(
+                                    onTap:(){
+                                      setState(() {
+                                        isChecked=!isChecked;
+                                      });
+                                    },
+                                    child: Image.asset(
+                                      "assets/images/ic_checked.png",
+                                      height: 22,
+                                      width: 22,
+                                    ),
+                                  ):InkWell(
+                                    onTap:(){
+                                      setState(() {
+                                        isChecked=!isChecked;
+                                      });
+                                    },
+                                    child: Image.asset(
+                                      "assets/images/ic_unchecked.png",
+                                      height: 22,
+                                      width: 22,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:  EdgeInsets.only(left: 8.0,top: 2.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "I agree to the ",
+                                          style: GoogleFonts.heebo(
+                                              fontSize: D.H / 56,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        InkWell(
+                                          onTap:(){
+
+                                          },
+                                          child: Text(
+                                            "terms and condition",
+                                            style: GoogleFonts.heebo(
+                                                color: ColorConstants.primaryBlueColor,
+                                                fontSize: D.H / 56,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                               SizedBox(height: D.H / 36),
                               CustomButton(
                                 color: ColorConstants.blueBtn,
                                 onTap: () {
                                   if (_formkey.currentState!.validate()) {
-                                    updateProfile(
-                                      firstName: fNameController.text.toString(),
-                                      lastName: lNameController.text.toString(),
-                                      birthdate: bDate,
-                                      gender: genderId,
-                                      email: emailController.text.toString()
-                                    );
+                                    if(isChecked==false) {
+                                      CommonUtils.showRedToastMessage(
+                                          "Please Check terms and condition");
+                                    }
+                                    else{
+                                      updateProfile(
+                                          firstName: fNameController.text.toString(),
+                                          lastName: lNameController.text.toString(),
+                                          birthdate: bDate,
+                                          gender: genderId,
+                                          email: emailController.text.toString()
+                                      );
+                                    }
                                   }
                                 },
                                 text: "Save",

@@ -34,7 +34,7 @@ class _LogInScreenState extends State<LogInScreen> {
   Map<String, dynamic> _deviceData = <String, dynamic>{};
   String platform = "";
   String? token = "";
-  bool isChecked = false;
+
   String? _chosenValue;
   List<String>? countryCode = ['+91'];
 
@@ -275,59 +275,8 @@ class _LogInScreenState extends State<LogInScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: D.H / 60),
-                            Row(
-                              children: [
-                                isChecked?InkWell(
-                                  onTap:(){
-                                    setState(() {
-                                      isChecked=!isChecked;
-                                    });
-                                  },
-                                  child: Image.asset(
-                                    "assets/images/ic_checked.png",
-                                    height: 22,
-                                    width: 22,
-                                  ),
-                                ):InkWell(
-                                  onTap:(){
-                                    setState(() {
-                                      isChecked=!isChecked;
-                                    });
-                                  },
-                                  child: Image.asset(
-                                    "assets/images/ic_unchecked.png",
-                                    height: 22,
-                                    width: 22,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:  EdgeInsets.only(left: 8.0,top: 2.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "I agree to the ",
-                                        style: GoogleFonts.heebo(
-                                            fontSize: D.H / 56,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      InkWell(
-                                        onTap:(){
 
-                                        },
-                                        child: Text(
-                                          "terms and condition",
-                                          style: GoogleFonts.heebo(
-                                            color: ColorConstants.primaryBlueColor,
-                                              fontSize: D.H / 56,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+
                             SizedBox(height: D.H / 22),
                             CustomButton(
                               color: ColorConstants.blueBtn,
@@ -336,10 +285,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   CommonUtils.showRedToastMessage(
                                       "Please Enter Mobile Number");
                                 }
-                                else if(isChecked==false) {
-                                  CommonUtils.showRedToastMessage(
-                                      "Please Check terms and condition");
-                                }
+
                                 else {
                                   PackageInfo packageInfo =
                                       await PackageInfo.fromPlatform();

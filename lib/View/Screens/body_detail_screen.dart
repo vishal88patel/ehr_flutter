@@ -39,8 +39,8 @@ class BodyDetailScreen extends StatefulWidget {
       this.startdate,
       this.enddate,
       this.iscurrent,
-      this.userPainId, this.isUpdate
-      })
+      this.userPainId,
+      this.isUpdate})
       : super(key: key);
 
   @override
@@ -58,6 +58,8 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
   var bodyPartId = 0;
   var current = false;
   var isOnlyRead = false;
+  double xxx = 0.0;
+  double yyy = 0.0;
 
   @override
   void initState() {
@@ -69,23 +71,23 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       getIdPart();
       isOnlyRead = true;
     }
-    if(widget.isUpdate??false){
+    if (widget.isUpdate ?? false) {
       getIdPart();
-      desController.text=widget.description!;
-      var mydtStart = DateTime.fromMillisecondsSinceEpoch(widget.startdate!.toInt());
+      desController.text = widget.description!;
+      var mydtStart =
+          DateTime.fromMillisecondsSinceEpoch(widget.startdate!.toInt());
       var myd24Start = DateFormat('dd/MM/yyyy').format(mydtStart);
-      sDateController.text=myd24Start.toString();
+      sDateController.text = myd24Start.toString();
 
-      if(widget.enddate!.toInt()!=0){
-        var mydtEnd = DateTime.fromMillisecondsSinceEpoch(widget.enddate!.toInt());
+      if (widget.enddate!.toInt() != 0) {
+        var mydtEnd =
+            DateTime.fromMillisecondsSinceEpoch(widget.enddate!.toInt());
         var myd24End = DateFormat('dd/MM/yyyy').format(mydtEnd);
-        eDateController.text=myd24End.toString();
-        current=widget.iscurrent!;
-      }else{
-        current=true;
+        eDateController.text = myd24End.toString();
+        current = widget.iscurrent!;
+      } else {
+        current = true;
       }
-
-
     }
 
     Constants.isBackBody = widget.isBack;
@@ -206,8 +208,47 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                                               .BodyPartsList[i].bodyPartId!;
                                           print("dropdownvalueId:" +
                                               bodyPartId.toString());
+                                          if(widget.x==0.0 &&widget.y==0.0){
+                                            if (bodyPartId == 2) {
+                                              xxx = 130.00;
+                                              yyy = 14.00;
+                                            } else if (bodyPartId == 1) {
+                                              xxx = 137.00;
+                                              yyy = 105.00;
+                                            } else if (bodyPartId == 5) {
+                                              xxx = 135.00;
+                                              yyy = 122.00;
+                                            } else if (bodyPartId == 4) {
+                                              xxx = 130.00;
+                                              yyy = 147.00;
+                                            } else if (bodyPartId == 6) {
+                                              xxx = 128.00;
+                                              yyy = 175.00;
+                                            } else if (bodyPartId == 8) {
+                                              xxx = 105.00;
+                                              yyy = 309.00;
+                                            } else if (bodyPartId == 3) {
+                                              xxx = 113.00;
+                                              yyy = 96.00;
+                                            } else if (bodyPartId == 9) {
+                                              xxx = 56.00;
+                                              yyy = 147.00;
+                                            } else if (bodyPartId == 7) {
+                                              xxx = 117.00;
+                                              yyy = 129.00;
+                                            } else if (bodyPartId == 11) {
+                                              xxx = 125.00;
+                                              yyy = 184.00;
+                                            } else if (bodyPartId == 10) {
+                                              xxx = 128.00;
+                                              yyy = 131.00;
+                                            } else {}
+                                          }
                                         }
+
                                       }
+
+
                                       print("");
                                     });
                                   },
@@ -405,11 +446,9 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
         final String sDate = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDate);
         this.sDate = dateTimeFormat.millisecondsSinceEpoch;
-
       });
     }
   }
-
 
   Future<void> _selectDateEndDate(
       BuildContext context, final controller, int Date) async {
@@ -428,7 +467,6 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
         final String sDate = formatter2.format(picked);
         var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDate);
         this.eDate = dateTimeFormat.millisecondsSinceEpoch;
-
       });
     }
   }
@@ -442,15 +480,15 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
       'Authorization':
           'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
-    print("IS BACK"+widget.isBack.toString());
+    print("IS BACK" + widget.isBack.toString());
     Map<String, dynamic> body = {
-      "usersPainId": widget.isUpdate??false?widget.userPainId:0,
-      "bodyPartId": bodyPartId,//
-      "locationX": widget.x,//
-      "locationY": widget.y,//
-      "description": desController.text.toString(),//
-      "startDate": sDate,//
-      "endDate": eDate,//
+      "usersPainId": widget.isUpdate ?? false ? widget.userPainId : 0,
+      "bodyPartId": bodyPartId, //
+      "locationX": widget.x==0.0?xxx:widget.x, //
+      "locationY": widget.y==0.0?yyy:widget.y, //
+      "description": desController.text.toString(), //
+      "startDate": sDate, //
+      "endDate": eDate, //
       "current": current,
       "isBack": Constants.isBackBody,
     };
@@ -493,5 +531,3 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
     });
   }
 }
-
-
