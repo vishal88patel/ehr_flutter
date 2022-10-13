@@ -317,6 +317,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
+      print("medication 200");
       for (int i = 0; i < res.length; i++) {
         medicationData.add(MedicationModel(
           usersMedicationId: res[i]["usersMedicationId"],
@@ -333,6 +334,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
           created: res[i]["created"],
         ));
       }
+      print("medication"+medicationData.length.toString());
       CommonUtils.hideProgressDialog(context);
       setState(() {});
     } else {
