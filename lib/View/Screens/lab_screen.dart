@@ -11,7 +11,6 @@ import 'package:ehr/View/Screens/medication_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
@@ -960,7 +959,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                 },
                                                                 keyboardTYPE:
                                                                     TextInputType
-                                                                        .number,
+                                                                        .text,
                                                                 obscured: false,
                                                                 maxlength: 100,
                                                                 maxline: 1,

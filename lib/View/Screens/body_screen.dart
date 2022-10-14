@@ -337,7 +337,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                     Center(
                                       child: GestureDetector(
                                         onTapUp: (TapUpDetails details) {
-                                          var offsetX =
+                                          /*var offsetX =
                                               details.localPosition.dx - 10;
                                           var offsetY =
                                               details.localPosition.dy;
@@ -441,7 +441,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           } else {
                                             CommonUtils.showRedToastMessage(
                                                 'Please select valid body part');
-                                          }
+                                          }*/
                                         },
                                         child: Padding(
                                           padding: EdgeInsets.only(left: 16.0),
@@ -676,7 +676,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                     Center(
                                       child: GestureDetector(
                                         onTapUp: (TapUpDetails details) {
-                                          var offsetX =
+                                          /*var offsetX =
                                               details.localPosition.dx;
                                           var offsetY =
                                               details.localPosition.dy + 14.00;
@@ -775,7 +775,7 @@ class _BodyScreenState extends State<BodyScreen> {
                                           } else {
                                             CommonUtils.showRedToastMessage(
                                                 'Please select valid body part');
-                                          }
+                                          }*/
                                         },
                                         child: Image.asset(
                                           "assets/images/backtestbody.png",

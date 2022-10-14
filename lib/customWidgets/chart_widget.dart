@@ -26,6 +26,7 @@ class GraphWidgetState extends State<GraphWidget> {
     // _SalesData('80', 126),
     // _SalesData('90', 123),
   ];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -35,6 +36,7 @@ class GraphWidgetState extends State<GraphWidget> {
       var d24 = DateFormat('dd/MM/yyyy').format(dt);
       data.add(_SalesData('${d24}', double.parse(widget.graphList[0].values![i].testResultValue.toString())));
     }
+    data.sort((a, b) => a.year.compareTo(b.year));
   }
   @override
   Widget build(BuildContext context) {
