@@ -31,6 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final lNameController = TextEditingController();
   final emailController = TextEditingController();
   final bDayController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
   int bDate=0;
   final _formkey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
@@ -169,12 +171,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   validators: (e) {
                                     if (bDayController.text == null ||
                                         bDayController.text == '') {
-                                      return '*Please enter Start Date';
+                                      return '*Please enter Birth Date';
                                     }
+                                    return null;
                                   },
                                   keyboardTYPE: TextInputType.text,
                                   obscured: false,
                                 ),
+                              ),
+                              SizedBox(height: D.H / 40),
+                              Text(
+                                "Height(cm)",
+                                style: GoogleFonts.heebo(
+                                    fontSize: D.H / 52,
+                                    fontWeight: FontWeight.w400),
+
+                              ),
+                              SizedBox(height: D.H / 120),
+                              CustomTextFormField(
+                                controller: heightController,
+                                readOnly: false,
+                                validators: (e) {
+                                  if (heightController.text == null ||
+                                      heightController.text == '') {
+                                    return '*Please enter Height';
+                                  }
+                                  return null;
+                                },
+                                keyboardTYPE: TextInputType.number,
+                                obscured: false,
+                              ),
+                              SizedBox(height: D.H / 40),
+                              Text(
+                                "Weight(kg)",
+                                style: GoogleFonts.heebo(
+                                    fontSize: D.H / 52,
+                                    fontWeight: FontWeight.w400),
+
+                              ),
+                              SizedBox(height: D.H / 120),
+                              CustomTextFormField(
+                                controller: weightController,
+                                readOnly: false,
+                                validators: (e) {
+                                  if (weightController.text == null ||
+                                      weightController.text == '') {
+                                    return '*Please enter Weight';
+                                  }
+                                  return null;
+                                },
+                                keyboardTYPE: TextInputType.number,
+                                obscured: false,
                               ),
                               SizedBox(height: D.H / 40),
                               Text(
@@ -314,7 +361,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           lastName: lNameController.text.toString(),
                                           birthdate: bDate,
                                           gender: genderId,
-                                          email: emailController.text.toString()
+                                          email: emailController.text.toString(),
+                                        height: heightController.text.toString(),
+                                        weight: weightController.text.toString()
                                       );
                                     }
                                   }
@@ -360,6 +409,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     required int birthdate,
     required int gender,
     required String email,
+    required String height,
+    required String weight,
   }) async {
     FocusManager.instance.primaryFocus?.unfocus();
     CommonUtils.showProgressDialog(context);
@@ -372,7 +423,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       "lastName": lastName,
       "Birthdate": birthdate,
       "gender": gender,
-      "email": email
+      "email": email,
+      "height": height,
+      "weight": weight,
     };
 
     String jsonBody = json.encode(body);

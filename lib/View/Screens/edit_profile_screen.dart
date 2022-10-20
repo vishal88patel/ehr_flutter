@@ -31,6 +31,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final fNameController = TextEditingController();
   final lNameController = TextEditingController();
   final bdayController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
   final genderController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -93,7 +95,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       SvgPicture.asset(
                         "assets/images/bg_light.svg",
                         fit: BoxFit.fill,
-                        height: MediaQuery.of(context).size.height/1.1,
+                        height: MediaQuery.of(context).size.height/0.85,
                       ),
                     ],
                   ),
@@ -160,6 +162,50 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             }
                           },
                           keyboardTYPE: TextInputType.text,
+                          obscured: false,
+                        ),
+                        SizedBox(height: D.H / 40),
+                        Text(
+                          "Height(cm)",
+                          style: GoogleFonts.heebo(
+                              fontSize: D.H / 52,
+                              fontWeight: FontWeight.w400),
+
+                        ),
+                        SizedBox(height: D.H / 120),
+                        CustomTextFormField(
+                          controller: heightController,
+                          readOnly: false,
+                          validators: (e) {
+                            if (heightController.text == null ||
+                                heightController.text == '') {
+                              return '*Please enter Height';
+                            }
+                            return null;
+                          },
+                          keyboardTYPE: TextInputType.number,
+                          obscured: false,
+                        ),
+                        SizedBox(height: D.H / 40),
+                        Text(
+                          "Weight(kg)",
+                          style: GoogleFonts.heebo(
+                              fontSize: D.H / 52,
+                              fontWeight: FontWeight.w400),
+
+                        ),
+                        SizedBox(height: D.H / 120),
+                        CustomTextFormField(
+                          controller: weightController,
+                          readOnly: false,
+                          validators: (e) {
+                            if (weightController.text == null ||
+                                weightController.text == '') {
+                              return '*Please enter Weight';
+                            }
+                            return null;
+                          },
+                          keyboardTYPE: TextInputType.number,
                           obscured: false,
                         ),
                         SizedBox(height: D.H / 40),
@@ -231,7 +277,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   firstName: fNameController.text.toString(),
                                   birthdate: birthdate,
                                   email: emailController.text,
-                                  gender: 1
+                                  gender: 1,
+                                height: heightController.text,
+                                weight: weightController.text
                               );
                             }
                             setState(() {
@@ -271,6 +319,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     fNameController.text = dataModel.firstName.toString();
     lNameController.text = dataModel.lastName.toString();
     genderController.text=dataModel.genderId==1?"Male":"Female";
+    heightController.text=dataModel.height.toString();
+    weightController.text=dataModel.weight.toString();
     // bdayController.text = dataModel.birthdate.toString();
     var dt = DateTime.fromMillisecondsSinceEpoch(dataModel.birthdate!);
     var d24 = DateFormat('dd/MM/yyyy').format(dt); // 31/12/2000, 22:00
@@ -287,6 +337,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     required int birthdate,
     required int gender,
     required String email,
+    required String height,
+    required String weight,
   }) async {
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.updateProfile;
@@ -299,7 +351,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       "lastName": lastName,
       "Birthdate": birthdate,
       "gender": gender,
-      "email": email
+      "email": email,
+      "height": height,
+      "weight": weight,
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');

@@ -6,6 +6,8 @@ class OtpVerificationModel {
   String? profilePicture;
   int? birthdate;
   String? email;
+  String? height;
+  String? weight;
   bool? emailConfirmed;
   String? countryCode;
   String? phoneNumber;
@@ -23,6 +25,8 @@ class OtpVerificationModel {
         this.profilePicture,
         this.birthdate,
         this.email,
+        this.height,
+        this.weight,
         this.genderId,
         this.emailConfirmed,
         this.countryCode,
@@ -40,6 +44,8 @@ class OtpVerificationModel {
     profilePicture = json['profilePicture'];
     birthdate = json['birthdate'];
     email = json['email'];
+    height = json['height'];
+    weight = json['weight'];
     emailConfirmed = json['emailConfirmed'];
     countryCode = json['countryCode'];
     phoneNumber = json['phoneNumber'];
@@ -59,6 +65,8 @@ class OtpVerificationModel {
     data['profilePicture'] = this.profilePicture;
     data['birthdate'] = this.birthdate;
     data['email'] = this.email;
+    data['height'] = this.height;
+    data['weight'] = this.weight;
     data['emailConfirmed'] = this.emailConfirmed;
     data['countryCode'] = this.countryCode;
     data['phoneNumber'] = this.phoneNumber;
