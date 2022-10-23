@@ -1071,18 +1071,23 @@ class _BodyScreenState extends State<BodyScreen> {
     backPainData.clear();
     var tempFirstSortedYearList = [];
     tempFirstSortedYearList.clear();
+    Constants.yearList=["All years"];
     if (statusCode == 200) {
+      for (int i = 0; i < res['years'].length; i++) {
+        Constants.yearList.add(res['years'][i]['year']);
+      }
+      
       if (_chosenValueOfYear != "All years") {
-        for (int i = 0; i < res.length; i++) {
+        for (int i = 0; i < res['pains'].length; i++) {
           var mydtStart =
-              DateTime.fromMillisecondsSinceEpoch(res[i]["startDate"].toInt());
+              DateTime.fromMillisecondsSinceEpoch(res['pains'][i]["startDate"].toInt());
           var myd24Start = DateFormat('yyyy').format(mydtStart);
           if (myd24Start.toString() == _chosenValueOfYear) {
-            tempFirstSortedYearList.add((res[i]));
+            tempFirstSortedYearList.add((res['pains'][i]));
           }
         }
       } else {
-        tempFirstSortedYearList.addAll(res);
+        tempFirstSortedYearList.addAll(res['pains']);
       }
 
       for (int i = 0; i < tempFirstSortedYearList.length; i++) {

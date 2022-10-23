@@ -6,8 +6,8 @@ class OtpVerificationModel {
   String? profilePicture;
   int? birthdate;
   String? email;
-  String? height;
-  String? weight;
+  int? height;
+  int? weight;
   bool? emailConfirmed;
   String? countryCode;
   String? phoneNumber;

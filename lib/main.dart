@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'Constants/color_constants.dart';
+import 'Utils/notification_service.dart';
 import 'Utils/preferences.dart';
 import 'View/Screens/splash_screen.dart';
 import 'View/Screens/survey_screen.dart';
@@ -15,7 +16,7 @@ void main() async {
     await Firebase.initializeApp();
     await PreferenceUtils.init();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-
+    NotificationService().initNotification();
     runApp(MyApp());
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }

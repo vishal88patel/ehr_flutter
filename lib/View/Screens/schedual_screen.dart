@@ -18,7 +18,10 @@ import '../../Model/schedule_model.dart';
 import '../../Utils/common_utils.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
+import '../../Utils/notification_service.dart';
 import '../../Utils/preferences.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class SchedualScreen extends StatefulWidget {
   const SchedualScreen({Key? key}) : super(key: key);
@@ -29,6 +32,7 @@ class SchedualScreen extends StatefulWidget {
 
 class _SchedualScreenState extends State<SchedualScreen> {
   late final PageController _pageController;
+  Duration offsetTime= DateTime.now().timeZoneOffset;
   // late final ValueNotifier<List<Event>> _selectedEvents;
   final ValueNotifier<DateTime> _focusedDay1 = ValueNotifier(DateTime.now());
   // CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -47,6 +51,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
   @override
   void initState() {
     super.initState();
+    tz.initializeTimeZones();
     SchedulerBinding.instance.addPostFrameCallback((_) {
       getSchedule(DateTime.now().month.toString(),DateTime.now().year.toString());
     });
@@ -148,7 +153,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
                                 clearButtonVisible: canClearSelection,
                                 onTodayButtonTap: () {
                                   setState(() => _focusedDay1.value = DateTime.now());
-                                  print("Date:"+_focusedDay1.value.toString());
+
                                 },
                                 onClearButtonTap: () {
                                   setState(() {
@@ -237,8 +242,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
                       var parts = date.split(' ');
                       var showDate=parts[1].toString().split("/");
                       var showTime=parts[2].toString().split(":");
-                      print(parts);
-                      print(showDate);
+
                       return Slidable(
                         key: const ValueKey(0),
                         endActionPane: ActionPane(
@@ -393,8 +397,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
       'Authorization':
           'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
-    print("month:"+month.toString());
-    print("year:"+year.toString());
+
     Map<String, dynamic> body = {
       "monthNumber": month,
       "year": year,
@@ -415,10 +418,40 @@ class _SchedualScreenState extends State<SchedualScreen> {
       for (int i = 0; i < res.length; i++) {
         scheduleList.add(ScheduleModel(
             usersScheduleId: res[i]["usersScheduleId"], scheduleDateTime: res[i]["scheduleDateTime"], comment: res[i]["comment"]));
+        int? datetime= scheduleList[i].scheduleDateTime;
+        var date = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(datetime!));
+        var current = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now());
+        print(date);
+        if(date.compareTo(current) == 0){
+          print("Both date time are at same moment.");
+        }
+
+        if(date.compareTo(current) < 0){
+          print("DT1 is before DT2");
+        }
+
+        if(date.compareTo(current) > 0){
+          print("DT1 is after DT2");
+          var total=date.split(" ");
+          var dateData=total[0].split("-");
+          var timeData=total[1].split(":");
+          int? year= int.parse(dateData[0]);
+          int? month= int.parse(dateData[1]);
+          int? day= int.parse(dateData[2]);
+          int? hours=int.parse(timeData[0]);
+          int? minutes= int.parse(timeData[1]);
+          print(year.toString());
+          print(year.toString());
+          print(year.toString());
+          print(year.toString());
+          print(year.toString());
+          NotificationService().showNotification(
+              int.parse(scheduleList[i].usersScheduleId.toString()),"Reminder", "",tz.TZDateTime.local(year,month,day,hours,minutes).subtract(offsetTime));
+        }
       }
       CommonUtils.hideProgressDialog(context);
       setState(() {});
-      // CommonUtils.showGreenToastMessage("get schedule Successfully");
+
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
@@ -489,6 +522,36 @@ class _SchedualScreenState extends State<SchedualScreen> {
       for (int i = 0; i < res.length; i++) {
         scheduleList.add(ScheduleModel(
             usersScheduleId: res[i]["usersScheduleId"], scheduleDateTime: res[i]["scheduleDateTime"], comment: res[i]["comment"]));
+        int? datetime= scheduleList[i].scheduleDateTime;
+        var date = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(datetime!));
+        var current = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now());
+        print(date);
+        if(date.compareTo(current) == 0){
+          print("Both date time are at same moment.");
+        }
+
+        if(date.compareTo(current) < 0){
+          print("DT1 is before DT2");
+        }
+
+        if(date.compareTo(current) > 0){
+          print("DT1 is after DT2");
+          var total=date.split(" ");
+          var dateData=total[0].split("-");
+          var timeData=total[1].split(":");
+          int? year= int.parse(dateData[0]);
+          int? month= int.parse(dateData[1]);
+          int? day= int.parse(dateData[2]);
+          int? hours=int.parse(timeData[0]);
+          int? minutes= int.parse(timeData[1]);
+          print(year.toString());
+          print(month.toString());
+          print(day.toString());
+          print(hours.toString());
+          print(minutes.toString());
+          NotificationService().showNotification(
+              int.parse(scheduleList[i].usersScheduleId.toString()),"Reminder", "",tz.TZDateTime.local(year,month,day,hours,minutes).subtract(offsetTime));
+        }
       }
       setState(() {});
     } else {
