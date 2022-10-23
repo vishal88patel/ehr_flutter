@@ -445,8 +445,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
           print(year.toString());
           print(year.toString());
           print(year.toString());
-          NotificationService().showNotification(
-              int.parse(scheduleList[i].usersScheduleId.toString()),"Reminder", "",tz.TZDateTime.local(year,month,day,hours,minutes).subtract(offsetTime));
+          addNotification(scheduleList[i].usersScheduleId.toString(),year,month,day,hours,minutes);
         }
       }
       CommonUtils.hideProgressDialog(context);
@@ -490,6 +489,10 @@ class _SchedualScreenState extends State<SchedualScreen> {
       
       CommonUtils.showRedToastMessage(res["message"]);
     }
+  }
+  Future<void> addNotification(String id,int year,int month,int day,int hours,int minute) async {
+    await NotificationService().showNotification(
+        int.parse(id),"Reminder", "",tz.TZDateTime.local(year,month,day,hours,minute).subtract(offsetTime));
   }
 
   Future<void> getScheduleWithoutLoader(String month,String year) async {
@@ -549,8 +552,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
           print(day.toString());
           print(hours.toString());
           print(minutes.toString());
-          NotificationService().showNotification(
-              int.parse(scheduleList[i].usersScheduleId.toString()),"Reminder", "",tz.TZDateTime.local(year,month,day,hours,minutes).subtract(offsetTime));
+          addNotification(scheduleList[i].usersScheduleId.toString(),year,month,day,hours,minutes);
         }
       }
       setState(() {});
@@ -560,6 +562,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
     }
   }
 }
+
 
 
 
