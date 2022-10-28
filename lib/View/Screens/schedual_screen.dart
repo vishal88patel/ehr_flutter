@@ -1,6 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/View/Screens/add_shedule_screen.dart';
 import 'package:ehr/View/Screens/profile_screen.dart';
@@ -260,11 +260,11 @@ class _SchedualScreenState extends State<SchedualScreen> {
                             ),
                             SlidableAction(
                               padding: EdgeInsets.all(0),
-                              onPressed: (BuildContext context) {
+                              onPressed: (BuildContext context) async {
                                 setState(() {});
                                 deleteSchedule(scheduleList[index].usersScheduleId);
                                 scheduleList.removeAt(index);
-
+                                await NotificationService().removeNotification(scheduleList[index].usersScheduleId!);
                               },
                               backgroundColor: Color(0xFFFE4A49),
                               foregroundColor: Colors.white,
@@ -388,6 +388,10 @@ class _SchedualScreenState extends State<SchedualScreen> {
   }
 
 
+  Future<void> addNotification(String id,String disc,DateTime time) async {
+    await NotificationService().showNotification(
+        int.parse(id),"Reminder", disc,time);
+  }
 
   Future<void> getSchedule(String month,String year) async {
     CommonUtils.showProgressDialog(context);
@@ -419,9 +423,9 @@ class _SchedualScreenState extends State<SchedualScreen> {
         scheduleList.add(ScheduleModel(
             usersScheduleId: res[i]["usersScheduleId"], scheduleDateTime: res[i]["scheduleDateTime"], comment: res[i]["comment"]));
         int? datetime= scheduleList[i].scheduleDateTime;
-        var date = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(datetime!));
-        var current = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now());
-        print(date);
+        var date = DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(datetime!)));
+        var current = DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now()));
+
         if(date.compareTo(current) == 0){
           print("Both date time are at same moment.");
         }
@@ -432,20 +436,10 @@ class _SchedualScreenState extends State<SchedualScreen> {
 
         if(date.compareTo(current) > 0){
           print("DT1 is after DT2");
-          var total=date.split(" ");
-          var dateData=total[0].split("-");
-          var timeData=total[1].split(":");
-          int? year= int.parse(dateData[0]);
-          int? month= int.parse(dateData[1]);
-          int? day= int.parse(dateData[2]);
-          int? hours=int.parse(timeData[0]);
-          int? minutes= int.parse(timeData[1]);
-          print(year.toString());
-          print(year.toString());
-          print(year.toString());
-          print(year.toString());
-          print(year.toString());
-          addNotification(scheduleList[i].usersScheduleId.toString(),year,month,day,hours,minutes);
+          Duration diff = date.difference(current);
+          print(diff.inSeconds.toString());
+          int? minutes= int.parse(diff.inSeconds.toString());
+          addNotification(scheduleList[i].usersScheduleId.toString(),scheduleList[i].comment.toString(),DateTime.now().add(Duration(seconds: minutes)));
         }
       }
       CommonUtils.hideProgressDialog(context);
@@ -455,44 +449,6 @@ class _SchedualScreenState extends State<SchedualScreen> {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
     }
-  }
-
-  Future<void> deleteSchedule(var id) async {
-    final uri = ApiEndPoint.deleteSchedule;
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
-    };
-    Map<String, dynamic> body = {
-      "usersScheduleId": id,
-    };
-    String jsonBody = json.encode(body);
-    final encoding = Encoding.getByName('utf-8');
-
-    Response response = await post(
-      uri,
-      headers: headers,
-      body: jsonBody,
-      encoding: encoding,
-    );
-    int statusCode = response.statusCode;
-    String responseBody = response.body;
-    var res = jsonDecode(responseBody);
-    if (statusCode == 200) {
-      if(mounted){
-        setState(() {});
-
-      }
-      // _showSnackBar(context, "Delete");
-    } else {
-      
-      CommonUtils.showRedToastMessage(res["message"]);
-    }
-  }
-  Future<void> addNotification(String id,int year,int month,int day,int hours,int minute) async {
-    await NotificationService().showNotification(
-        int.parse(id),"Reminder", "",tz.TZDateTime.local(year,month,day,hours,minute).subtract(offsetTime));
   }
 
   Future<void> getScheduleWithoutLoader(String month,String year) async {
@@ -526,9 +482,8 @@ class _SchedualScreenState extends State<SchedualScreen> {
         scheduleList.add(ScheduleModel(
             usersScheduleId: res[i]["usersScheduleId"], scheduleDateTime: res[i]["scheduleDateTime"], comment: res[i]["comment"]));
         int? datetime= scheduleList[i].scheduleDateTime;
-        var date = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(datetime!));
-        var current = DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now());
-        print(date);
+        var date = DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.fromMillisecondsSinceEpoch(datetime!)));
+        var current = DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now()));
         if(date.compareTo(current) == 0){
           print("Both date time are at same moment.");
         }
@@ -539,20 +494,10 @@ class _SchedualScreenState extends State<SchedualScreen> {
 
         if(date.compareTo(current) > 0){
           print("DT1 is after DT2");
-          var total=date.split(" ");
-          var dateData=total[0].split("-");
-          var timeData=total[1].split(":");
-          int? year= int.parse(dateData[0]);
-          int? month= int.parse(dateData[1]);
-          int? day= int.parse(dateData[2]);
-          int? hours=int.parse(timeData[0]);
-          int? minutes= int.parse(timeData[1]);
-          print(year.toString());
-          print(month.toString());
-          print(day.toString());
-          print(hours.toString());
-          print(minutes.toString());
-          addNotification(scheduleList[i].usersScheduleId.toString(),year,month,day,hours,minutes);
+          Duration diff = date.difference(current);
+          print(diff.inSeconds.toString());
+          int? minutes= int.parse(diff.inSeconds.toString());
+          addNotification(scheduleList[i].usersScheduleId.toString(),scheduleList[i].comment.toString(),DateTime.now().add(Duration(seconds: minutes)));
         }
       }
       setState(() {});
@@ -561,7 +506,42 @@ class _SchedualScreenState extends State<SchedualScreen> {
       CommonUtils.showRedToastMessage(res["message"]);
     }
   }
+
+  Future<void> deleteSchedule(var id) async {
+    final uri = ApiEndPoint.deleteSchedule;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+    Map<String, dynamic> body = {
+      "usersScheduleId": id,
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+    var res = jsonDecode(responseBody);
+    if (statusCode == 200) {
+      if(mounted){
+        setState(() {});
+
+      }
+      // _showSnackBar(context, "Delete");
+    } else {
+
+      CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
 }
+
 
 
 

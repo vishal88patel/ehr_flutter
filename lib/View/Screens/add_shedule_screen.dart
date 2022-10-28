@@ -419,10 +419,11 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
         DateTime tempDate = DateFormat("hh:mm").parse(_selectedTime.toString());
         var dateFormat = DateFormat("h:mm a");
         timee=dateFormat.format(tempDate);
-        var time=timee.toString().split(" ");
+        var time=_selectedTime.toString().split(" ");
         timeController.text=time[0];
         ampmController.text=time[1];
-        print(_selectedTime);
+        print("Time:"+_selectedTime.toString());
+
       });
     }
   }
