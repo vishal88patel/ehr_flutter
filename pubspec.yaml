@@ -43,8 +43,7 @@ dependencies:
   email_validator: ^2.0.1
   shared_preferences: ^2.0.13
   google_sign_in: ^5.1.0
-  firebase_core: ^1.20.1
-  flutter_facebook_auth: ^4.1.2
+  firebase_core: ^2.1.1
   syncfusion_flutter_sliders: ^20.1.47
   expandable_text: ^2.3.0
   readmore: ^2.1.0
@@ -60,8 +59,8 @@ dependencies:
   flutter_slidable: ^2.0.0
   table_calendar: ^3.0.6
   device_info_plus:
-  package_info_plus: ^1.4.2
-  firebase_messaging: ^12.0.3
+  package_info_plus: ^3.0.1
+  firebase_messaging: ^14.0.3
   file_picker: ^5.0.1
   image_picker: ^0.8.5+3
   cached_network_image: ^3.2.1
@@ -70,10 +69,10 @@ dependencies:
   flutter_html:
   path_provider: ^2.0.11
   image_pixels: ^3.0.0
-  firebase_crashlytics: ^2.8.8
+  firebase_crashlytics: ^3.0.3
   awesome_dialog: ^3.0.1
-  flutter_local_notifications: ^9.3.1
-  timezone: ^0.8.0
+  flutter_local_notifications: 11.0.0
+  timezone: ^0.9.0
 
 
 
