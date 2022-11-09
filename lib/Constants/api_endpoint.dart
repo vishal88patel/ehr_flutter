@@ -1,7 +1,7 @@
 
 class ApiEndPoint {
 
-  static String BASE_URL = "https://ehr-app.azurewebsites.net/api/v1/";
+  static String BASE_URL = "https://journeyapp.us/api/v1/";
 
 
   static Uri login = Uri.parse(BASE_URL + "account/login");
