@@ -354,6 +354,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
+                      Padding(
+                        padding:
+                        EdgeInsets.only(left: D.H / 28, right: D.H / 28),
+                        child: Container(
+                          height: 2,
+                          color: ColorConstants.lineColor,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(left: D.H / 24, right: D.H / 24),
+                        child: Container(
+                          height: D.H / 12,
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/ic_delete.svg",
+                                width: 20,
+                                height: 23,
+                                color: ColorConstants.skyBlue,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // deleteAccount();
+                                  showAlertDialog(context);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 11.0),
+                                  child: Text(
+                                    "Delete Account",
+                                    style: GoogleFonts.inter(
+                                        fontSize: D.H / 45,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   )),
             )
@@ -362,6 +402,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
 
   logout() async {
     CommonUtils.showProgressDialog(context);
@@ -381,6 +422,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
       CommonUtils.hideProgressDialog(context);
       PreferenceUtils.clear();
       CommonUtils.showGreenToastMessage("logout successfully");
+      NavigationHelpers.redirectto(context, LogInScreen());
+    } else {
+      CommonUtils.hideProgressDialog(context);
+      CommonUtils.showRedToastMessage("error");
+    }
+  }
+
+  deleteAccount() async {
+    CommonUtils.showProgressDialog(context);
+    final uri = ApiEndPoint.delete_account;
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+    };
+
+
+    Response response = await delete(
+      uri,
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      CommonUtils.hideProgressDialog(context);
+      PreferenceUtils.clear();
+      CommonUtils.showGreenToastMessage("Account Deleted Successfully");
       NavigationHelpers.redirectto(context, LogInScreen());
     } else {
       CommonUtils.hideProgressDialog(context);
@@ -411,7 +478,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       'Authorization':
           'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
-
+    print(await PreferenceUtils.getString("ACCESSTOKEN"));
     Response response = await get(
       uri,
       headers: headers,
@@ -495,5 +562,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(responseData["message"]);
     }
+  }
+  showAlertDialog(BuildContext context) {
+
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed:  () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes"),
+      onPressed:  () {
+        Navigator.pop(context);
+        deleteAccount();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Alert"),
+      content: Text("Are you sure You want to delete this account"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

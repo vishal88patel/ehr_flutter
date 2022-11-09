@@ -13,6 +13,7 @@ class ApiEndPoint {
   static Uri saveAnswer = Uri.parse(BASE_URL + "users/save-answers");
   static Uri uploadPhoto = Uri.parse(BASE_URL + "account/upload-photo");
   static Uri logout = Uri.parse(BASE_URL + "account/logout");
+  static Uri delete_account = Uri.parse(BASE_URL + "account/delete");
 
 
   static Uri countryCode = Uri.parse(BASE_URL + "shared/get-country-codes");
