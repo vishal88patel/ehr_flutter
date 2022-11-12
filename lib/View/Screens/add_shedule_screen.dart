@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Constants/string_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -371,13 +372,13 @@ class _AddSheduleScreenState extends State<AddSheduleScreen> {
                         color: ColorConstants.blueBtn,
                         onTap: () {
                           if(_selectedDay==null){
-                            CommonUtils.showRedToastMessage("Please Select Date");
+                            CommonUtils.showRedToastMessage(StringConstants.PLEASE_SELECT_DATE);
                           }
                           else if (timee==null){
-                            CommonUtils.showRedToastMessage("Please Select Time");
+                            CommonUtils.showRedToastMessage(StringConstants.PLEASE_SELECT_TIME);
                           }
                           else if (commentController.text.isEmpty){
-                            CommonUtils.showRedToastMessage("Please Enter Comment");
+                            CommonUtils.showRedToastMessage(StringConstants.PLEASE_ENTER_COMMENT);
                           }
                           else{
                             saveSchedule();

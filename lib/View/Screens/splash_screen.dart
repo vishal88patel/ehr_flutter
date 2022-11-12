@@ -19,7 +19,7 @@ import '../../Model/body_part_response_model.dart';
 import '../../Model/otp_verification_model.dart';
 import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
-import 'package:video_player/video_player.dart';
+
 
 import '../../Utils/preferences.dart';
 import 'login_screen.dart';

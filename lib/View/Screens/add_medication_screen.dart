@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Constants/string_constants.dart';
 import 'package:ehr/Model/medicationData_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -539,26 +540,26 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                   }
                                   if (mNameController.text.isEmpty) {
                                     CommonUtils.showRedToastMessage(
-                                        "Please enter Medication Name");
+                                        StringConstants.ENTER_MEDICATION_NAME);
                                   } else if (dosageController.text.isEmpty) {
                                     CommonUtils.showRedToastMessage(
-                                        "Please enter Dosage");
+                                        StringConstants.ENTER_DOSAGE);
                                   } /*else if (dosageId == 0) {
                                     CommonUtils.showRedToastMessage(
                                         "Please select Dosage Type");
                                   }*/ else if (foodId == 0) {
                                     CommonUtils.showRedToastMessage(
-                                        "Please select Food Type");
+                                       StringConstants.SELECT_FOOD_TYPE);
                                   } else if (sDateController.text.isEmpty) {
                                     CommonUtils.showRedToastMessage(
-                                        "Please enter Start Date");
+                                        StringConstants.ENTER_START_DATE);
                                   } else if (current == false &&
                                       eDateController.text.isEmpty) {
                                     CommonUtils.showRedToastMessage(
-                                        "Please enter End date");
+                                        StringConstants.ENTER_END_DATE);
                                   } else if (frequencyId == 0) {
                                     CommonUtils.showRedToastMessage(
-                                        "Please enter Frequency");
+                                        StringConstants.ENTER_FREQUENCY);
                                   } else {
                                     saveMedication();
                                   }
