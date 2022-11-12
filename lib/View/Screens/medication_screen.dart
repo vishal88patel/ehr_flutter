@@ -385,7 +385,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
           created: res[i]["created"],
         ));
       }
-      CommonUtils.showGreenToastMessage("Data Fetched Successfully");
+      // CommonUtils.showGreenToastMessage("Data Fetched Successfully");
       setState(() {});
     } else {
       CommonUtils.showRedToastMessage(res["message"]);

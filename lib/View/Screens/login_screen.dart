@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Constants/string_constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -282,8 +283,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               color: ColorConstants.blueBtn,
                               onTap: () async {
                                 if(ccController.text.isEmpty){
-                                  CommonUtils.showRedToastMessage(
-                                      "Please Enter Mobile Number");
+                                  CommonUtils.showRedToastMessage(StringConstants.ENTER_MOBILE);
                                 }
 
                                 else {

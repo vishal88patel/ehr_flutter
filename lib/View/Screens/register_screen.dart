@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:ehr/Constants/string_constants.dart';
 import 'package:ehr/View/Screens/survey_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:ehr/Constants/color_constants.dart';
@@ -99,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 readOnly: false,
                                 validators: (String? value) {
                                   if (fNameController.text == '') {
-                                    return '*Please enter FirstName';
+                                    return StringConstants.ENTER_FIRST_NAME;
                                   }
                                   return null;
                                 },
@@ -119,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 readOnly: false,
                                 validators: (String? value) {
                                   if (lNameController.text == '') {
-                                    return '*Please enter LastName';
+                                    return StringConstants.ENTER_LAST_NAME;
                                   }
                                   return null;
                                 },
@@ -141,10 +142,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 validators: (e) {
                                   if (emailController.text == null ||
                                       emailController.text == '') {
-                                    return '*Please enter Email';
+                                    return StringConstants.ENTER_EMAIL;
                                   } else if (!EmailValidator.validate(
                                       emailController.text)) {
-                                    return '*Please enter valid Email';
+                                    return StringConstants.ENTER_VALID_EMAIL;
                                   }
                                 },
                                 keyboardTYPE: TextInputType.text,
@@ -171,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   validators: (e) {
                                     if (bDayController.text == null ||
                                         bDayController.text == '') {
-                                      return '*Please enter Birth Date';
+                                      return StringConstants.ENTER_BIRTH_DATE;
                                     }
                                     return null;
                                   },
@@ -194,7 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 validators: (e) {
                                   if (heightController.text == null ||
                                       heightController.text == '') {
-                                    return '*Please enter Height';
+                                    return StringConstants.ENTER_HEIGHT;
                                   }
                                   return null;
                                 },
@@ -216,7 +217,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 validators: (e) {
                                   if (weightController.text == null ||
                                       weightController.text == '') {
-                                    return '*Please enter Weight';
+                                    return StringConstants.ENTER_WEIGHT;
                                   }
                                   return null;
                                 },
@@ -352,8 +353,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 onTap: () {
                                   if (_formkey.currentState!.validate()) {
                                     if(isChecked==false) {
-                                      CommonUtils.showRedToastMessage(
-                                          "Please Check terms and condition");
+                                      CommonUtils.showRedToastMessage(StringConstants.CHECK_TERMS);
                                     }
                                     else{
                                       updateProfile(

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Constants/string_constants.dart';
 import 'package:ehr/Utils/common_utils.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:ehr/View/Screens/register_screen.dart';
@@ -253,7 +254,7 @@ class _OtpScreenState extends State<OtpScreen> {
       PreferenceUtils.putObject("OtpVerificationResponse", model);
 
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage("Login Successfully");
+      CommonUtils.showGreenToastMessage(StringConstants.LOGIN_SUCCESS);
       if(model.registrationCompleted==true){
         _timer!.cancel();
         NavigationHelpers.redirectto(context, DashBoardScreen(1));

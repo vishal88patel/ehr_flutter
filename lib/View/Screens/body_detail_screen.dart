@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ehr/Constants/color_constants.dart';
+import 'package:ehr/Constants/string_constants.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -400,17 +401,17 @@ class _BodyDetailScreenState extends State<BodyDetailScreen> {
                             }
                             if (bodyPartId == 0) {
                               CommonUtils.showRedToastMessage(
-                                  "Please Select Body Part");
+                                  StringConstants.PLEASE_SELECT_BODY_PART);
                             } else if (desController.text.isEmpty) {
                               CommonUtils.showRedToastMessage(
-                                  "Please Enter Description");
+                                  StringConstants.PLEASE_SELECT_DESCRIPTION);
                             } else if (sDateController.text.isEmpty) {
                               CommonUtils.showRedToastMessage(
-                                  "Please Select StartDate");
+                                  StringConstants.ENTER_START_DATE);
                             } else if (current == false &&
                                 eDateController.text.isEmpty) {
                               CommonUtils.showRedToastMessage(
-                                  "Please Select EndDate");
+                                  StringConstants.ENTER_END_DATE);
                             } else {
                               savePain();
                             }
