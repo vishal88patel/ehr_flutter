@@ -135,7 +135,7 @@ class _LogInScreenState extends State<LogInScreen> {
             Center(child: SvgPicture.asset("assets/images/login_logo.svg")),
             SizedBox(height: D.H / 20),
             Text(
-              "WELCOME BACK",
+              "WELCOME",
               style: GoogleFonts.heebo(
                   fontSize: D.H / 32, fontWeight: FontWeight.w700),
             ),

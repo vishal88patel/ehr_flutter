@@ -34,6 +34,7 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
     compileSdkVersion 33
 
     compileOptions {

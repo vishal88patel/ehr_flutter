@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ehr/Constants/api_endpoint.dart';
+import 'package:ehr/View/Screens/how_data_protected_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -290,8 +291,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             EdgeInsets.only(left: D.H / 24, right: D.H / 24),
                         child: InkWell(
                           onTap: () {
+                            // NavigationHelpers.redirect(
+                            //     context, HelpScreen(pageContent));
+
                             NavigationHelpers.redirect(
-                                context, HelpScreen(pageContent));
+                                context, HowDataProtectScreen(pageContent));
                           },
                           child: Container(
                             height: D.H / 12,
@@ -305,7 +309,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: Text(
-                                    "Help",
+                                    "How your Data is Protected",
                                     style: GoogleFonts.inter(
                                         fontSize: D.H / 45,
                                         fontWeight: FontWeight.w500),

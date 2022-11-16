@@ -46,4 +46,8 @@ class ApiEndPoint {
   static Uri deleteImagine = Uri.parse(BASE_URL + "users/delete-test-imagine");
 
 
+  static Uri termConditionWebUrl = Uri.parse("https://jaidapp.com/terms-condition");
+  static Uri privacyPolicyWebUrl = Uri.parse("https://www.jaidapp.com/privacy-policy");
+
+
 }

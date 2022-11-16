@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:ehr/Constants/string_constants.dart';
 import 'package:ehr/View/Screens/survey_screen.dart';
+import 'package:ehr/View/Screens/webview_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:ehr/Constants/color_constants.dart';
 import 'package:ehr/View/Screens/dash_board_screen.dart';
@@ -313,6 +314,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       setState(() {
                                         isChecked=!isChecked;
                                       });
+                                      NavigationHelpers.redirect(
+                                          context,
+                                          WebviewScreen(
+                                            appBarText: "Terms and Conditions",
+                                            url: ApiEndPoint.termConditionWebUrl
+                                                .toString(),
+                                          ));
                                     },
                                     child: Image.asset(
                                       "assets/images/ic_unchecked.png",
