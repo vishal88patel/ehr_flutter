@@ -284,6 +284,8 @@ class _LogInScreenState extends State<LogInScreen> {
                               onTap: () async {
                                 if(ccController.text.isEmpty){
                                   CommonUtils.showRedToastMessage(StringConstants.ENTER_MOBILE);
+                                }else if(_chosenValue==null || _chosenValue =="" ){
+                                  CommonUtils.showRedToastMessage(StringConstants.ENTER_Country);
                                 }
 
                                 else {
@@ -291,7 +293,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       await PackageInfo.fromPlatform();
                                   String version = packageInfo.version;
                                   signInByPhone(
-                                      countryCode: "+91",
+                                      countryCode: _chosenValue.toString(),
                                       appVersion: version,
                                       deviceName:Platform.isIOS?_deviceData['name']??"": _deviceData["brand"]??"" + " " + _deviceData["device"]??"",
                                       deviceToken:
@@ -359,7 +361,7 @@ class _LogInScreenState extends State<LogInScreen> {
       PreferenceUtils.setString("ACCESSTOKEN", res["accessToken"]);
 
       CommonUtils.hideProgressDialog(context);
-      NavigationHelpers.redirectto(context, OtpScreen());
+      NavigationHelpers.redirect(context, OtpScreen());
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);

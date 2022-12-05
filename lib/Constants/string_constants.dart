@@ -1,5 +1,6 @@
 class StringConstants {
   static String ENTER_MOBILE="Please Enter Mobile Number";
+  static String ENTER_Country="Please Select Country";
   static String CHECK_TERMS="Please Check terms and condition";
   static String LOGIN_SUCCESS="Login Successfully";
   static String ENTER_FIRST_NAME="*Please enter FirstName";
