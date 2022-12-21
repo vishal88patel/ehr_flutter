@@ -232,7 +232,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                           hint: Text(
                                             "+91",
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.grey.withOpacity(0.5),
                                                 fontSize: D.H / 48,
                                                 fontWeight: FontWeight.w400),
                                           ),
@@ -283,8 +283,10 @@ class _LogInScreenState extends State<LogInScreen> {
                               color: ColorConstants.blueBtn,
                               onTap: () async {
                                 if(ccController.text.isEmpty){
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                   CommonUtils.showRedToastMessage(StringConstants.ENTER_MOBILE);
                                 }else if(_chosenValue==null || _chosenValue =="" ){
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                   CommonUtils.showRedToastMessage(StringConstants.ENTER_Country);
                                 }
 
