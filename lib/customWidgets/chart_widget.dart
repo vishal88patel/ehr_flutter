@@ -26,6 +26,7 @@ class GraphWidgetState extends State<GraphWidget> {
     // _SalesData('80', 126),
     // _SalesData('90', 123),
   ];
+  List<_SalesData> dataSortedList = [];
 
   @override
   void initState() {
@@ -33,13 +34,20 @@ class GraphWidgetState extends State<GraphWidget> {
     super.initState();
     for(int i=0;i<widget.graphList[0].values!.length;i++){
       var dt = DateTime.fromMillisecondsSinceEpoch(widget.graphList[0].values![i].testDate!);
-      var d24 = DateFormat('dd/MM/yyyy').format(dt);
+      var d24 = DateFormat('yyyy-MM-dd').format(dt);
       data.add(_SalesData('${d24}', double.parse(widget.graphList[0].values![i].testResultValue.toString())));
     }
     data.sort((a, b) => a.year.compareTo(b.year));
+    for(int i=0;i<data.length;i++){
+      var dt = data[i].year;
+      var d24 = DateFormat('dd/MM/yyyy').format(DateTime.parse(dt));
+      dataSortedList.add(_SalesData('${d24}', double.parse(widget.graphList[0].values![i].testResultValue.toString())));
+    }
+
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: SfCartesianChart(
             primaryXAxis: CategoryAxis(
@@ -75,7 +83,7 @@ class GraphWidgetState extends State<GraphWidget> {
               LineSeries<_SalesData, String>(
 
                 color: Color(0xFFB459CB),
-                  dataSource: data,
+                  dataSource: dataSortedList.reversed.toList(),
                   xValueMapper: (_SalesData sales, _) => sales.year,
                   yValueMapper: (_SalesData sales, _) => sales.sales,
                   // Enable data label
