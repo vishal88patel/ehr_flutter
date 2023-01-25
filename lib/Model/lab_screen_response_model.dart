@@ -3,9 +3,11 @@ class LabScreenResponseModel {
   List<Medications>? medications;
   List<TestResults>? testResults;
   List<Imagine>? imagine;
+  List<Supplements>? supplements;
+  List<HeighWeightResponse>? heighWeightResponse;
 
   LabScreenResponseModel(
-      {this.pains, this.medications, this.testResults, this.imagine});
+      {this.pains, this.medications, this.testResults, this.imagine,this.supplements,this.heighWeightResponse});
 
   LabScreenResponseModel.fromJson(Map<String, dynamic> json) {
     if (json['pains'] != null) {
@@ -26,10 +28,22 @@ class LabScreenResponseModel {
         testResults!.add(new TestResults.fromJson(v));
       });
     }
+    if (json['supplements'] != null) {
+      supplements = <Supplements>[];
+      json['supplements'].forEach((v) {
+        supplements!.add(new Supplements.fromJson(v));
+      });
+    }
     if (json['imagine'] != null) {
       imagine = <Imagine>[];
       json['imagine'].forEach((v) {
         imagine!.add(new Imagine.fromJson(v));
+      });
+    }
+    if (json['heighWeightResponse'] != null) {
+      heighWeightResponse = <HeighWeightResponse>[];
+      json['heighWeightResponse'].forEach((v) {
+        heighWeightResponse!.add(new HeighWeightResponse.fromJson(v));
       });
     }
   }
@@ -45,8 +59,15 @@ class LabScreenResponseModel {
     if (this.testResults != null) {
       data['testResults'] = this.testResults!.map((v) => v.toJson()).toList();
     }
+    if (this.supplements != null) {
+      data['supplements'] = this.supplements!.map((v) => v.toJson()).toList();
+    }
     if (this.imagine != null) {
       data['imagine'] = this.imagine!.map((v) => v.toJson()).toList();
+    }
+    if (this.heighWeightResponse != null) {
+      data['heighWeightResponse'] =
+          this.heighWeightResponse!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -156,6 +177,55 @@ class Medications {
     data['startDate'] = this.startDate;
     data['endDate'] = this.endDate;
     data['frequencyId'] = this.frequencyId;
+    data['frequencyType'] = this.frequencyType;
+    data['created'] = this.created;
+    return data;
+  }
+}
+
+class Supplements {
+  int? supplementId;
+  String? supplementName;
+  String? dosage;
+  int? withFoodId;
+  int? startDate;
+  int? endDate;
+  bool? isOngoing;
+  Null? frequencyType;
+  int? created;
+
+  Supplements(
+      {this.supplementId,
+        this.supplementName,
+        this.dosage,
+        this.withFoodId,
+        this.startDate,
+        this.endDate,
+        this.isOngoing,
+        this.frequencyType,
+        this.created});
+
+  Supplements.fromJson(Map<String, dynamic> json) {
+    supplementId = json['supplementId'];
+    supplementName = json['supplementName'];
+    dosage = json['dosage'];
+    withFoodId = json['withFoodId'];
+    startDate = json['startDate'];
+    endDate = json['endDate'];
+    isOngoing = json['isOngoing'];
+    frequencyType = json['frequencyType'];
+    created = json['created'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['supplementId'] = this.supplementId;
+    data['supplementName'] = this.supplementName;
+    data['dosage'] = this.dosage;
+    data['withFoodId'] = this.withFoodId;
+    data['startDate'] = this.startDate;
+    data['endDate'] = this.endDate;
+    data['isOngoing'] = this.isOngoing;
     data['frequencyType'] = this.frequencyType;
     data['created'] = this.created;
     return data;
@@ -294,6 +364,28 @@ class Media {
     data['mediaFileName'] = this.mediaFileName;
     data['mediaType'] = this.mediaType;
     data['mediaSize'] = this.mediaSize;
+    return data;
+  }
+}
+
+class HeighWeightResponse {
+  int? height;
+  int? weight;
+  int? changedDate;
+
+  HeighWeightResponse({this.height, this.weight, this.changedDate});
+
+  HeighWeightResponse.fromJson(Map<String, dynamic> json) {
+    height = json['height'];
+    weight = json['weight'];
+    changedDate = json['changedDate'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['height'] = this.height;
+    data['weight'] = this.weight;
+    data['changedDate'] = this.changedDate;
     return data;
   }
 }

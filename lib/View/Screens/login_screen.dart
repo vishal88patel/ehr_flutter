@@ -233,7 +233,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                             "+91",
                                             style: TextStyle(
                                                 color: Colors.grey.withOpacity(0.5),
-                                                fontSize: D.H / 48,
+                                                fontSize: D.H / 54,
                                                 fontWeight: FontWeight.w400),
                                           ),
                                           onChanged: (String? value) {
