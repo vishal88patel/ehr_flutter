@@ -32,9 +32,12 @@ import '../../Utils/dimensions.dart';
 import '../../Utils/navigation_helper.dart';
 import '../../Utils/preferences.dart';
 import '../../customWidgets/custom_white_textform_field.dart';
+import '../../customWidgets/height_weight_chart.dart';
 import 'add_medication_screen.dart';
 import 'add_suppliments_screen.dart';
 import 'dart:math' as math;
+
+import 'height_weight_screen.dart';
 
 class LabScreen extends StatefulWidget {
   @override
@@ -71,6 +74,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   LabScreenResponseModel _labScreenResponseModelodel = LabScreenResponseModel();
   OtpVerificationModel? getUserName = OtpVerificationModel();
   List<String> selectedImagesList = [];
+
+  bool showHeightChart=true;
 
   // List<TestResults> hemoglobinList = [];
   // List<TestResults> bloodPressureList = [];
@@ -2759,7 +2764,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                               right:
                                                                               D.W / 18),
                                                                           child: Text(
-                                                                            "Height",
+                                                                            "Height(Cm)",
                                                                             style:
                                                                             GoogleFonts.heebo(
                                                                                 fontSize:
@@ -2811,7 +2816,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                               right: D.W /
                                                                                   18),
                                                                           child: Text(
-                                                                            "Weight",
+                                                                            "Weight(Kg)",
                                                                             style: GoogleFonts.heebo(
                                                                                 fontSize:
                                                                                 D.H /
@@ -2911,234 +2916,110 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                         ),
                                         _labScreenResponseModelodel.heighWeightResponse!.isEmpty
                                             ? Container()
-                                            : Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                          children: [
-                                            ListView.builder(
-                                                itemCount:
-                                                _labScreenResponseModelodel
-                                                    .heighWeightResponse!.length,
-                                                shrinkWrap: true,
-                                                physics:
-                                                NeverScrollableScrollPhysics(),
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                    int index) {
-                                                  var millis =
-                                                      _labScreenResponseModelodel
-                                                          .heighWeightResponse![index]
-                                                          .changedDate;
-                                                  var dt = DateTime
-                                                      .fromMillisecondsSinceEpoch(
-                                                      millis!);
-                                                  var d24 = DateFormat(
-                                                      'dd/MM/yyyy')
-                                                      .format(
-                                                      dt); // 31/12/2000, 22:00
-
-                                                  var userName = getUserName!
-                                                      .firstName
-                                                      .toString();
-                                                  var date = d24.toString();
-                                                  return Container(
-                                                    padding: EdgeInsets.only(
-                                                        left: D.W / 40.0,
-                                                        top: D.H / 80),
-                                                    child: Center(
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                            children: [
-                                                              Row(
-                                                                children: [
-                                                                  Card(
-                                                                      color: ColorConstants
-                                                                          .bgImage,
-                                                                      shape:
-                                                                      const RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                        BorderRadius
-                                                                            .only(
-                                                                          topLeft:
-                                                                          Radius.circular(8),
-                                                                          topRight:
-                                                                          Radius.circular(8),
-                                                                          bottomLeft:
-                                                                          Radius.circular(8),
-                                                                          bottomRight:
-                                                                          Radius.circular(8),
-                                                                        ),
-                                                                      ),
-                                                                      elevation:
-                                                                      0,
-                                                                      child:
-                                                                      Padding(
-                                                                        padding: EdgeInsets
-                                                                            .all(D.W /
-                                                                            60),
-                                                                        child: SvgPicture
-                                                                            .asset(
-                                                                            "assets/images/ic_bowl.svg"),
-                                                                      )),
-                                                                  SizedBox(
-                                                                    width:
-                                                                    D.W / 50,
-                                                                  ),
-                                                                  Column(
-                                                                    mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                    crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                    children: [
-                                                                      Row(
-                                                                        children: [
-                                                                          Text(
-                                                                            "Height:",
-                                                                            style: GoogleFonts.heebo(
-                                                                                fontSize: D.H /
-                                                                                    56,
-                                                                                fontWeight:
-                                                                                FontWeight.w300),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                            D.W / 70,
-                                                                          ),
-                                                                          Text(
-                                                                            _labScreenResponseModelodel
-                                                                                .heighWeightResponse![
-                                                                            index]
-                                                                                .height
-                                                                                .toString()+"cm",
-                                                                            style: GoogleFonts.heebo(
-                                                                                fontSize: D.H /
-                                                                                    52,
-                                                                                fontWeight:
-                                                                                FontWeight.w400),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      Row(
-                                                                        children: [
-                                                                          Text(
-                                                                            "Weight:",
-                                                                            style: GoogleFonts.heebo(
-                                                                                fontSize: D.H /
-                                                                                    56,
-                                                                                fontWeight:
-                                                                                FontWeight.w300),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                            D.W / 70,
-                                                                          ),
-                                                                          Text(
-                                                                            _labScreenResponseModelodel
-                                                                                .heighWeightResponse![
-                                                                            index]
-                                                                                .weight
-                                                                                .toString()+"kg",
-                                                                            style: GoogleFonts.heebo(
-                                                                                fontSize: D.H /
-                                                                                    52,
-                                                                                fontWeight:
-                                                                                FontWeight.w400),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                    right: D.W /
-                                                                        30),
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                                  children: [
-
-                                                                    Text(
-                                                                      date.toString(),
-                                                                      style: GoogleFonts.heebo(
-                                                                          color: Colors
-                                                                              .black
-                                                                              .withOpacity(0.3)),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: D.H / 80,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                left: 4.0,
-                                                                right: 4.0),
-                                                            child: Container(
-                                                              height: 1.0,
+                                            :showHeightChart? Column(
+                                              children: [
+                                                Container(
+                                                height: 250,
+                                                width: MediaQuery.of(context).size.width,
+                                                child: HeightWeightChart(graphList:_labScreenResponseModelodel.heighWeightResponse!,)),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          width:
+                                                          10,
+                                                        ),
+                                                        Container(
+                                                          height:
+                                                          D.W /
+                                                              30,
+                                                          width: D.W /
+                                                              30,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius.all(Radius.circular(25)),
+                                                              color: Color(0xFFB459CB)),
+                                                        ),
+                                                        SizedBox(
+                                                          width:
+                                                          3,
+                                                        ),
+                                                        Text(
+                                                          "Height",
+                                                          style: GoogleFonts.heebo(
                                                               color:
-                                                              ColorConstants
-                                                                  .lineColor,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
+                                                              Colors.black.withOpacity(0.3)),
+                                                        ),
+                                                        SizedBox(
+                                                          width:
+                                                          10,
+                                                        ),
+                                                        Container(
+                                                          height:
+                                                          D.W /
+                                                              30,
+                                                          width: D.W /
+                                                              30,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius.all(Radius.circular(25)),
+                                                              color: Color(0xFF7BCB59)),
+                                                        ),
+                                                        SizedBox(
+                                                          width:
+                                                          3,
+                                                        ),
+                                                        Text(
+                                                          "Weight",
+                                                          style: GoogleFonts.heebo(
+                                                              color:
+                                                              Colors.black.withOpacity(0.3)),
+                                                        )
+                                                      ],
                                                     ),
-                                                  );
-                                                }),
-                                            SizedBox(
-                                              height: 4,
-                                            ),
-                                           /* Container(
-                                                height: 30,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.blue
-                                                        .withOpacity(0.1),
-                                                    borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.circular(4))),
-                                                child: TextButton(
-                                                    onPressed: () {
-                                                      *//*Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MedicationScreen())).then(
-                                                  (value) {
-                                                getLabScreenApiWithoutPop();
-                                              });*//*
-                                                    },
-                                                    child: Text(
-                                                      "See more",
-                                                      style: GoogleFonts.heebo(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                          FontWeight.w500,
-                                                          color: ColorConstants
-                                                              .skyBlue),
-                                                    ))),*/
-                                            SizedBox(
-                                              height: D.H / 40,
-                                            ),
-                                          ],
-                                        )
+
+                                                    Container(
+                                                        height: 30,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.blue
+                                                                .withOpacity(0.1),
+                                                            borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(4))),
+                                                        child: TextButton(
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          HeightWeightScreen())).then(
+                                                                      (value) {
+                                                                    getLabScreenApiWithoutPop();
+                                                                  });
+                                                            },
+                                                            child: Text(
+                                                              "See more",
+                                                              style: GoogleFonts.heebo(
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                  FontWeight.w500,
+                                                                  color: ColorConstants
+                                                                      .skyBlue),
+                                                            ))),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: D.H / 40,
+                                                ),
+
+                                              ],
+                                            ):Container(),
+
                                       ],
                                     ),
                                   ),
@@ -3555,7 +3436,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     if (statusCode == 200) {
       setState(() {
         _labScreenResponseModelodel = LabScreenResponseModel.fromJson(res);
-
+        showHeightChart=true;
         setState(() {});
         CommonUtils.hideProgressDialog(context);
 
@@ -3698,6 +3579,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   }
 
   Future<void> saveHeightWeightResult() async {
+    showHeightChart=false;
     FocusManager.instance.primaryFocus?.unfocus();
     CommonUtils.showProgressDialog(context);
     final uri = ApiEndPoint.update_height_weight;
@@ -3728,8 +3610,11 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
+      heightController.clear();
+      weightController.clear();
       setState(() {});
       getLabScreenApiWithoutLoader();
+
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
@@ -3770,7 +3655,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
-      CommonUtils.showGreenToastMessage(responseData["message"]);
       FocusManager.instance.primaryFocus?.unfocus();
       getLabScreenApiWithoutLoader();
       setState(() {});
@@ -3846,7 +3730,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      CommonUtils.showGreenToastMessage(res["message"]);
       _labScreenResponseModelodel.testResults?.removeAt(index);
       CommonUtils.hideProgressDialog(context);
 
@@ -3891,4 +3774,5 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       CommonUtils.hideProgressDialog(context);
     }
   }
+
 }

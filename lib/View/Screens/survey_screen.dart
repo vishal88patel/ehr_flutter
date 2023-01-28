@@ -258,7 +258,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                                                     right: D.W /
                                                                         18),
                                                                 child: Text(
-                                                                  "Type Value",
+                                                                  "Add Description",
                                                                   style:
                                                                   GoogleFonts
                                                                       .heebo(

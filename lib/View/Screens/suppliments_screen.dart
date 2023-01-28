@@ -6,6 +6,7 @@ import 'package:ehr/View/Screens/add_medication_screen.dart';
 import 'package:ehr/View/Screens/add_suppliments_screen.dart';
 import 'package:ehr/View/Screens/medication_detail_screen.dart';
 import 'package:ehr/View/Screens/otp_verification_screen.dart';
+import 'package:ehr/View/Screens/supplement_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -62,7 +63,7 @@ class _SupplimentScreenState extends State<SupplimentScreen> {
               height: 10,
             ),
             Text(
-              "Supplement",
+              "Supplements",
               style: GoogleFonts.heebo(
                   fontSize: D.H / 44, fontWeight: FontWeight.w500),
             ),
@@ -119,159 +120,196 @@ class _SupplimentScreenState extends State<SupplimentScreen> {
                   onTap: () {
 
                   },
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        left: D.W / 40.0,
-                        top: D.H / 80),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
-                            mainAxisAlignment:
-                            MainAxisAlignment
-                                .spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Card(
-                                      color: ColorConstants
-                                          .bgImage,
-                                      shape:
-                                      const RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius
-                                            .only(
-                                          topLeft:
-                                          Radius.circular(8),
-                                          topRight:
-                                          Radius.circular(8),
-                                          bottomLeft:
-                                          Radius.circular(8),
-                                          bottomRight:
-                                          Radius.circular(8),
+                  child: Slidable(
+                    key: const ValueKey(0),
+                    endActionPane: ActionPane(
+                      motion: ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          padding: EdgeInsets.all(0),
+                          onPressed: (BuildContext context) {
+                            setState(() {});
+                            deleteSuppliment(supplementData[index].supplementId,index);
+
+                          },
+                          backgroundColor: Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                        ),
+                        SlidableAction(
+                          padding: EdgeInsets.all(0),
+                          onPressed: (BuildContext context) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SupplementDetailScreen(
+                                      supplementId:supplementData[index].supplementId ,
+                                      supplementName:supplementData[index].supplementName ,
+                                      dosage: supplementData[index].dosage,
+                                      withFoodId: supplementData[index].withFoodId,
+                                      endDate:supplementData[index].endDate ,startDate:supplementData[index].startDate ,isOngoing:supplementData[index].isOngoing ,
+                                    ))).then((value) => getSupplimentDataWithoutLoader());
+                          },
+                          backgroundColor: ColorConstants.primaryBlueColor,
+                          foregroundColor: Colors.white,
+                          icon: Icons.edit_outlined,
+                        ),
+                      ],
+                    ),
+                    child:  Container(
+                      padding: EdgeInsets.only(
+                          left: D.W / 40.0,
+                          top: D.H / 80),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment:
+                              CrossAxisAlignment
+                                  .start,
+                              mainAxisAlignment:
+                              MainAxisAlignment
+                                  .spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Card(
+                                        color: ColorConstants
+                                            .bgImage,
+                                        shape:
+                                        const RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius
+                                              .only(
+                                            topLeft:
+                                            Radius.circular(8),
+                                            topRight:
+                                            Radius.circular(8),
+                                            bottomLeft:
+                                            Radius.circular(8),
+                                            bottomRight:
+                                            Radius.circular(8),
+                                          ),
                                         ),
-                                      ),
-                                      elevation:
-                                      0,
-                                      child:
-                                      Padding(
-                                        padding: EdgeInsets
-                                            .all(D.W /
-                                            60),
-                                        child: SvgPicture
-                                            .asset(
-                                            "assets/images/ic_bowl.svg"),
-                                      )),
-                                  SizedBox(
-                                    width:
-                                    D.W / 50,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .start,
+                                        elevation:
+                                        0,
+                                        child:
+                                        Padding(
+                                          padding: EdgeInsets
+                                              .all(D.W /
+                                              60),
+                                          child: SvgPicture
+                                              .asset(
+                                              "assets/images/ic_bowl.svg"),
+                                        )),
+                                    SizedBox(
+                                      width:
+                                      D.W / 50,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Text(
+                                          supplementData[
+                                          index]
+                                              .supplementName
+                                              .toString(),
+                                          style: GoogleFonts.heebo(
+                                              fontSize: D.H /
+                                                  52,
+                                              fontWeight:
+                                              FontWeight.w400),
+                                        ),
+                                        Text(
+                                          supplementData[index].dosage!.toString(),
+                                          style: GoogleFonts.heebo(
+                                              color: ColorConstants
+                                                  .blueBtn,
+                                              fontSize: D.H /
+                                                  66,
+                                              fontWeight:
+                                              FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets
+                                      .only(
+                                      right: D.W /
+                                          30),
+                                  child: Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment
                                         .start,
                                     children: [
-                                      Text(
-                                        supplementData[
-                                        index]
-                                            .supplementName
-                                            .toString(),
-                                        style: GoogleFonts.heebo(
-                                            fontSize: D.H /
-                                                52,
-                                            fontWeight:
-                                            FontWeight.w400),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            height:
+                                            D.W /
+                                                30,
+                                            width: D.W /
+                                                30,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(25)),
+                                                color: ColorConstants.lightRed),
+                                          ),
+                                          SizedBox(
+                                            width:
+                                            3,
+                                          ),
+                                          Text(
+                                            supplementData[index]
+                                                .withFoodId
+                                                .toString()=="1"?"With Food":supplementData[index]
+                                                .withFoodId
+                                                .toString()=="2"?"Before":supplementData[index]
+                                                .withFoodId
+                                                .toString()=="3"?"After":"N/A",
+                                            style: GoogleFonts.heebo(
+                                                color:
+                                                Colors.black.withOpacity(0.3)),
+                                          )
+                                        ],
                                       ),
                                       Text(
-                                        supplementData[index].dosage!.toString(),
+                                        date.toString(),
                                         style: GoogleFonts.heebo(
-                                            color: ColorConstants
-                                                .blueBtn,
-                                            fontSize: D.H /
-                                                66,
-                                            fontWeight:
-                                            FontWeight.w500),
-                                      ),
+                                            color: Colors
+                                                .black
+                                                .withOpacity(0.3)),
+                                      )
                                     ],
                                   ),
-                                ],
-                              ),
-                              Padding(
-                                padding: EdgeInsets
-                                    .only(
-                                    right: D.W /
-                                        30),
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment
-                                      .start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height:
-                                          D.W /
-                                              30,
-                                          width: D.W /
-                                              30,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(25)),
-                                              color: ColorConstants.lightRed),
-                                        ),
-                                        SizedBox(
-                                          width:
-                                          3,
-                                        ),
-                                        Text(
-                                          supplementData[index]
-                                              .withFoodId
-                                              .toString()=="1"?"With Food":supplementData[index]
-                                              .withFoodId
-                                              .toString()=="2"?"Before":supplementData[index]
-                                              .withFoodId
-                                              .toString()=="3"?"After":"N/A",
-                                          style: GoogleFonts.heebo(
-                                              color:
-                                              Colors.black.withOpacity(0.3)),
-                                        )
-                                      ],
-                                    ),
-                                    Text(
-                                      date.toString(),
-                                      style: GoogleFonts.heebo(
-                                          color: Colors
-                                              .black
-                                              .withOpacity(0.3)),
-                                    )
-                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: D.H / 80,
-                          ),
-                          Padding(
-                            padding:
-                            const EdgeInsets
-                                .only(
-                                left: 4.0,
-                                right: 4.0),
-                            child: Container(
-                              height: 1.0,
-                              color:
-                              ColorConstants
-                                  .lineColor,
+                              ],
                             ),
-                          )
-                        ],
+                            SizedBox(
+                              height: D.H / 80,
+                            ),
+                            Padding(
+                              padding:
+                              const EdgeInsets
+                                  .only(
+                                  left: 4.0,
+                                  right: 4.0),
+                              child: Container(
+                                height: 1.0,
+                                color:
+                                ColorConstants
+                                    .lineColor,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -332,7 +370,7 @@ class _SupplimentScreenState extends State<SupplimentScreen> {
   Future<void> getSupplimentDataWithoutLoader() async {
     getUserName =
         await PreferenceUtils.getDataObject("OtpVerificationResponse");
-    final uri = ApiEndPoint.getMedications;
+    final uri = ApiEndPoint.getSuppliment;
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
@@ -374,16 +412,16 @@ class _SupplimentScreenState extends State<SupplimentScreen> {
     }
   }
 
-  Future<void> deleteMedication(var id, int index) async {
+  Future<void> deleteSuppliment(var id, int index) async {
     CommonUtils.showProgressDialog(context);
-    final uri = ApiEndPoint.deleteMedication;
+    final uri = ApiEndPoint.deleteSupplement;
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
       'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
-      "usersMedicationId": id,
+      "supplementId": id,
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -398,7 +436,6 @@ class _SupplimentScreenState extends State<SupplimentScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      CommonUtils.showGreenToastMessage(res["message"]);
       supplementData.removeAt(index);
       CommonUtils.hideProgressDialog(context);
       setState(() {});

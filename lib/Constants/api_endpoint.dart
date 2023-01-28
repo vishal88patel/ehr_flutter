@@ -36,6 +36,7 @@ class ApiEndPoint {
   static Uri getTestResult = Uri.parse(BASE_URL + "users/get-test-result");
   static Uri getMedications = Uri.parse(BASE_URL + "users/get-medications");
   static Uri getSuppliment = Uri.parse(BASE_URL + "users/get-supplements");
+  static Uri getHeightWeight = Uri.parse(BASE_URL + "users/get-height-weight");
   static Uri getPain = Uri.parse(BASE_URL + "users/get-pains");
   static Uri saveFeedback = Uri.parse(BASE_URL + "users/submit-feedback");
   static Uri saveSchedule = Uri.parse(BASE_URL + "users/save-schedule");
@@ -46,6 +47,7 @@ class ApiEndPoint {
   static Uri deletePain = Uri.parse(BASE_URL + "users/delete-pain");
   static Uri deleteTestResults = Uri.parse(BASE_URL + "users/delete-test-result");
   static Uri deleteMedication = Uri.parse(BASE_URL + "users/delete-medication");
+  static Uri deleteSupplement = Uri.parse(BASE_URL + "users/delete-supplement");
   static Uri deleteImagine = Uri.parse(BASE_URL + "users/delete-test-imagine");
 
 
