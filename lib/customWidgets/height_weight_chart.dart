@@ -18,9 +18,8 @@ class HeightWeightChartState extends State<HeightWeightChart> {
 
 
   List<_SalesData> data = [];
-  List<_SalesData> dataa = [];
   List<_SalesData> dataSortedList = [];
-  List<_SalesData> dataSortedListt = [];
+
 
   @override
   void initState() {
@@ -29,26 +28,16 @@ class HeightWeightChartState extends State<HeightWeightChart> {
     for(int i=0;i<widget.graphList.length;i++){
       var dt = DateTime.fromMillisecondsSinceEpoch(widget.graphList[i].changedDate!);
       var d24 = DateFormat('yyyy-MM-dd').format(dt);
-      data.add(_SalesData('${d24}', double.parse(widget.graphList[i].height.toString())));
+      data.add(_SalesData('${d24}', double.parse(widget.graphList[i].weight.toString())));
     }
     data.sort((a, b) => a.year.compareTo(b.year));
     for(int i=0;i<data.length;i++){
       var dt = data[i].year;
       var d24 = DateFormat('dd/MM/yyyy').format(DateTime.parse(dt));
-      dataSortedList.add(_SalesData('${d24}', double.parse(widget.graphList[i].height.toString())));
+      dataSortedList.add(_SalesData('${d24}', double.parse(data[i].sales.toString())));
     }
 
-    for(int i=0;i<widget.graphList.length;i++){
-      var dt = DateTime.fromMillisecondsSinceEpoch(widget.graphList[i].changedDate!);
-      var d24 = DateFormat('yyyy-MM-dd').format(dt);
-      dataa.add(_SalesData('${d24}', double.parse(widget.graphList[i].weight.toString())));
-    }
-    dataa.sort((a, b) => a.year.compareTo(b.year));
-    for(int i=0;i<dataa.length;i++){
-      var dt = dataa[i].year;
-      var d24 = DateFormat('dd/MM/yyyy').format(DateTime.parse(dt));
-      dataSortedListt.add(_SalesData('${d24}', double.parse(widget.graphList[i].weight.toString())));
-    }
+
 
   }
   @override
@@ -95,14 +84,7 @@ class HeightWeightChartState extends State<HeightWeightChart> {
                   yValueMapper: (_SalesData sales, _) => sales.sales,
                   // Enable data label
                   dataLabelSettings: DataLabelSettings(isVisible: true)),
-              LineSeries<_SalesData, String>(
 
-                  color: Color(0xFF7BCB59),
-                  dataSource: dataSortedListt.reversed.toList(),
-                  xValueMapper: (_SalesData sales, _) => sales.year,
-                  yValueMapper: (_SalesData sales, _) => sales.sales,
-                  // Enable data label
-                  dataLabelSettings: DataLabelSettings(isVisible: true))
             ]));
   }
 }

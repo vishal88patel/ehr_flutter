@@ -55,7 +55,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
   bool askForName = false;
   final commentController = TextEditingController();
   final valueController = TextEditingController();
-  final heightController = TextEditingController();
   final weightController = TextEditingController();
   final tasteNameController = TextEditingController();
   final discController = TextEditingController();
@@ -2671,7 +2670,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                 padding:
                                                 const EdgeInsets.only(left: 5.0),
                                                 child: Text(
-                                                  "Height and Weight",
+                                                  "Weight",
                                                   style: GoogleFonts.heebo(
                                                       fontSize: 18,
                                                       color: Colors.black,
@@ -2738,7 +2737,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                               .center,
                                                                           children: [
                                                                             Text(
-                                                                              "Add Height Weight",
+                                                                              "Add Weight",
                                                                               style: GoogleFonts.heebo(
                                                                                   fontSize:
                                                                                   D.H / 38,
@@ -2755,57 +2754,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                           color:
                                                                           ColorConstants.line,
                                                                         ),
-                                                                        SizedBox(
-                                                                            height: D.H / 60),
-                                                                        Padding(
-                                                                          padding:
-                                                                          EdgeInsets.only(
-                                                                              left: D.W / 18,
-                                                                              right:
-                                                                              D.W / 18),
-                                                                          child: Text(
-                                                                            "Height(Cm)",
-                                                                            style:
-                                                                            GoogleFonts.heebo(
-                                                                                fontSize:
-                                                                                D.H / 52,
-                                                                                fontWeight:
-                                                                                FontWeight
-                                                                                    .w400),
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(
-                                                                            height: D.H / 240),
-                                                                        Padding(
-                                                                          padding: EdgeInsets
-                                                                              .only(
-                                                                              left: D.W /
-                                                                                  18,
-                                                                              right: D.W /
-                                                                                  18),
-                                                                          child:
-                                                                          CustomWhiteTextFormField(
-                                                                            controller:
-                                                                            heightController,
-                                                                            readOnly: false,
-                                                                            validators:
-                                                                                (e) {
-                                                                              if (heightController
-                                                                                  .text ==
-                                                                                  null ||
-                                                                                  heightController
-                                                                                      .text ==
-                                                                                      '') {
-                                                                                return '*Value';
-                                                                              }
-                                                                            },
-                                                                            keyboardTYPE:
-                                                                            TextInputType
-                                                                                .number,
-                                                                            obscured: false,
-                                                                            maxlength: 100,
-                                                                            maxline: 1,
-                                                                          ),),
                                                                         SizedBox(
                                                                             height: D.H / 60),
                                                                         Padding(
@@ -2860,6 +2808,67 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                             maxline: 1,
                                                                           ),),
                                                                         SizedBox(
+                                                                            height: D.H / 60),
+                                                                        Padding(
+                                                                          padding: EdgeInsets
+                                                                              .only(
+                                                                              left: D.W /
+                                                                                  18,
+                                                                              right: D.W /
+                                                                                  18),
+                                                                          child: Text(
+                                                                            "Select Date",
+                                                                            style: GoogleFonts.heebo(
+                                                                                fontSize:
+                                                                                D.H /
+                                                                                    52,
+                                                                                fontWeight:
+                                                                                FontWeight
+                                                                                    .w400),
+                                                                          ),
+                                                                        )
+                                                                        ,
+                                                                        SizedBox(
+                                                                            height: D.H / 240),
+                                                                        Padding(
+                                                                          padding:  EdgeInsets.only(left:D.H / 40),
+                                                                          child: Container(
+                                                                              width: D.W / 2,
+                                                                              child:
+                                                                              CustomDateField(
+                                                                                onTap: () {
+                                                                                  FocusManager
+                                                                                      .instance
+                                                                                      .primaryFocus
+                                                                                      ?.unfocus();
+                                                                                  _selectDateForHW(
+                                                                                      context,
+                                                                                      hwTestDate,
+                                                                                      hwDate);
+                                                                                },
+                                                                                controller:
+                                                                                hwTestDate,
+                                                                                iconPath:
+                                                                                "assets/images/ic_date.svg",
+                                                                                readOnly: true,
+                                                                                validators: (e) {
+                                                                                  if (hwTestDate
+                                                                                      .text ==
+                                                                                      null ||
+                                                                                      hwTestDate
+                                                                                          .text ==
+                                                                                          '') {
+                                                                                    return '*Please enter Date';
+                                                                                  }
+                                                                                },
+                                                                                keyboardTYPE:
+                                                                                TextInputType
+                                                                                    .text,
+                                                                                obscured: false,
+                                                                              )),
+                                                                        ),
+
+                                                                        SizedBox(
                                                                             height: D.H / 40),
                                                                         Container(
                                                                           height: 1,
@@ -2875,13 +2884,12 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                                           children: [
                                                                             InkWell(
                                                                               onTap: () {
-                                                                                if (heightController.text.isEmpty) {
+                                                                                if (weightController.text.isEmpty) {
                                                                                   CommonUtils
                                                                                       .showRedToastMessage(
-                                                                                      "Please Enter Height");
-                                                                                } else if (weightController.text.isEmpty) {
-                                                                                  CommonUtils.showRedToastMessage("Please add Weight");
-
+                                                                                      "Please Enter Weight");
+                                                                                } else if (hwDate==0) {
+                                                                                  CommonUtils.showRedToastMessage("Please Select Date");
                                                                                 } else {
                                                                                   saveHeightWeightResult();
                                                                                 }
@@ -2926,63 +2934,8 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
                                                   height: 10,
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
-                                                    Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width:
-                                                          10,
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                          D.W /
-                                                              30,
-                                                          width: D.W /
-                                                              30,
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                              BorderRadius.all(Radius.circular(25)),
-                                                              color: Color(0xFFB459CB)),
-                                                        ),
-                                                        SizedBox(
-                                                          width:
-                                                          3,
-                                                        ),
-                                                        Text(
-                                                          "Height",
-                                                          style: GoogleFonts.heebo(
-                                                              color:
-                                                              Colors.black.withOpacity(0.3)),
-                                                        ),
-                                                        SizedBox(
-                                                          width:
-                                                          10,
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                          D.W /
-                                                              30,
-                                                          width: D.W /
-                                                              30,
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                              BorderRadius.all(Radius.circular(25)),
-                                                              color: Color(0xFF7BCB59)),
-                                                        ),
-                                                        SizedBox(
-                                                          width:
-                                                          3,
-                                                        ),
-                                                        Text(
-                                                          "Weight",
-                                                          style: GoogleFonts.heebo(
-                                                              color:
-                                                              Colors.black.withOpacity(0.3)),
-                                                        )
-                                                      ],
-                                                    ),
-
                                                     Container(
                                                         height: 30,
                                                         decoration: BoxDecoration(
@@ -3554,8 +3507,6 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     };
     //1657650600000
 
-    var mydtStart = DateTime.fromMillisecondsSinceEpoch(eDate.toInt());
-    var myd24Start = DateFormat('dd/MM/yyyy').format(mydtStart);
 
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -3589,13 +3540,12 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
       'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
-      "height": heightController.text.toString(),
       "weight": weightController.text.toString(),
+      "changedDate":hwDate
     };
     //1657650600000
 
-    var mydtStart = DateTime.fromMillisecondsSinceEpoch(eDate.toInt());
-    var myd24Start = DateFormat('dd/MM/yyyy').format(mydtStart);
+
 
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -3610,7 +3560,7 @@ class _LabScreenState extends State<LabScreen> with TickerProviderStateMixin {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      heightController.clear();
+      hwTestDate.clear();
       weightController.clear();
       setState(() {});
       getLabScreenApiWithoutLoader();

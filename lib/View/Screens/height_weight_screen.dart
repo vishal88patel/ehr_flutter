@@ -15,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../../Constants/api_endpoint.dart';
+import '../../CustomWidgets/custom_date_field.dart';
 import '../../Model/height_weight_model.dart';
 import '../../Model/otp_verification_model.dart';
 import '../../Model/supplement_model.dart';
@@ -33,8 +34,10 @@ class HeightWeightScreen extends StatefulWidget {
 
 class _HeightWeightScreenState extends State<HeightWeightScreen> {
   List<HeightWeightModel> heightWeightData = [];
-  final heightController = TextEditingController();
   final weightController = TextEditingController();
+  final hwTestDate = TextEditingController();
+  int hwDate = 0;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -66,7 +69,7 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
               height: 10,
             ),
             Text(
-              "Supplements",
+              "Weight",
               style: GoogleFonts.heebo(
                   fontSize: D.H / 44, fontWeight: FontWeight.w500),
             ),
@@ -133,7 +136,7 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
                                         .center,
                                     children: [
                                       Text(
-                                        "Add Height Weight",
+                                        "Add Weight",
                                         style: GoogleFonts.heebo(
                                             fontSize:
                                             D.H / 38,
@@ -150,57 +153,6 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
                                     color:
                                     ColorConstants.line,
                                   ),
-                                  SizedBox(
-                                      height: D.H / 60),
-                                  Padding(
-                                    padding:
-                                    EdgeInsets.only(
-                                        left: D.W / 18,
-                                        right:
-                                        D.W / 18),
-                                    child: Text(
-                                      "Height(Cm)",
-                                      style:
-                                      GoogleFonts.heebo(
-                                          fontSize:
-                                          D.H / 52,
-                                          fontWeight:
-                                          FontWeight
-                                              .w400),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      height: D.H / 240),
-                                  Padding(
-                                    padding: EdgeInsets
-                                        .only(
-                                        left: D.W /
-                                            18,
-                                        right: D.W /
-                                            18),
-                                    child:
-                                    CustomWhiteTextFormField(
-                                      controller:
-                                      heightController,
-                                      readOnly: false,
-                                      validators:
-                                          (e) {
-                                        if (heightController
-                                            .text ==
-                                            null ||
-                                            heightController
-                                                .text ==
-                                                '') {
-                                          return '*Value';
-                                        }
-                                      },
-                                      keyboardTYPE:
-                                      TextInputType
-                                          .number,
-                                      obscured: false,
-                                      maxlength: 100,
-                                      maxline: 1,
-                                    ),),
                                   SizedBox(
                                       height: D.H / 60),
                                   Padding(
@@ -255,6 +207,67 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
                                       maxline: 1,
                                     ),),
                                   SizedBox(
+                                      height: D.H / 60),
+                                  Padding(
+                                    padding: EdgeInsets
+                                        .only(
+                                        left: D.W /
+                                            18,
+                                        right: D.W /
+                                            18),
+                                    child: Text(
+                                      "Select Date",
+                                      style: GoogleFonts.heebo(
+                                          fontSize:
+                                          D.H /
+                                              52,
+                                          fontWeight:
+                                          FontWeight
+                                              .w400),
+                                    ),
+                                  )
+                                  ,
+                                  SizedBox(
+                                      height: D.H / 240),
+                                  Padding(
+                                    padding:  EdgeInsets.only(left:D.H / 40),
+                                    child: Container(
+                                        width: D.W / 2,
+                                        child:
+                                        CustomDateField(
+                                          onTap: () {
+                                            FocusManager
+                                                .instance
+                                                .primaryFocus
+                                                ?.unfocus();
+                                            _selectDateForHW(
+                                                context,
+                                                hwTestDate,
+                                                hwDate);
+                                          },
+                                          controller:
+                                          hwTestDate,
+                                          iconPath:
+                                          "assets/images/ic_date.svg",
+                                          readOnly: true,
+                                          validators: (e) {
+                                            if (hwTestDate
+                                                .text ==
+                                                null ||
+                                                hwTestDate
+                                                    .text ==
+                                                    '') {
+                                              return '*Please enter Date';
+                                            }
+                                          },
+                                          keyboardTYPE:
+                                          TextInputType
+                                              .text,
+                                          obscured: false,
+                                        )),
+                                  ),
+
+                                  SizedBox(
                                       height: D.H / 40),
                                   Container(
                                     height: 1,
@@ -270,13 +283,12 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          if (heightController.text.isEmpty) {
+                                          if (weightController.text.isEmpty) {
                                             CommonUtils
                                                 .showRedToastMessage(
-                                                "Please Enter Height");
-                                          } else if (weightController.text.isEmpty) {
-                                            CommonUtils.showRedToastMessage("Please add Weight");
-
+                                                "Please Enter Weight");
+                                          } else if (hwDate==0) {
+                                            CommonUtils.showRedToastMessage("Please Select Date");
                                           } else {
                                             saveHeightWeightResult();
                                           }
@@ -318,203 +330,124 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
       backgroundColor: ColorConstants.background,
       body: heightWeightData.isEmpty
           ? Container()
-          :Padding(
-        padding:
-        EdgeInsets.only(left: D.W / 22, right: D.W / 22, top: D.H / 30),
-        child: Card(
-          color: Colors.white,
-          elevation: 5,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-              bottomLeft: Radius.circular(8),
-              bottomRight: Radius.circular(8),
-            ),
-          ),
-              child: ListView.builder(
-                  itemCount:
-                  heightWeightData.length,
-                  shrinkWrap: true,
-                  physics:
-                  NeverScrollableScrollPhysics(),
-                  itemBuilder:
-                      (BuildContext context,
-                      int index) {
-                    var millis =
-                        heightWeightData[index]
-                            .changedDate;
-                    var dt = DateTime
-                        .fromMillisecondsSinceEpoch(
-                        millis!);
-                    var d24 = DateFormat(
-                        'dd/MM/yyyy')
-                        .format(
-                        dt); // 31/12/2000, 22:00
+          : Padding(
+              padding: EdgeInsets.only(
+                  left: D.W / 22, right: D.W / 22, top: D.H / 30),
+              child: Card(
+                color: Colors.white,
+                elevation: 5,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(8),
+                  ),
+                ),
+                child: ListView.builder(
+                    itemCount: heightWeightData.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      var millis = heightWeightData[index].changedDate;
+                      var dt = DateTime.fromMillisecondsSinceEpoch(millis!);
+                      var d24 = DateFormat('dd/MM/yyyy')
+                          .format(dt); // 31/12/2000, 22:00
 
-                    var date = d24.toString();
-                    return Container(
-                      padding: EdgeInsets.only(
-                          left: D.W / 40.0,
-                          top: D.H / 80),
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment:
-                              CrossAxisAlignment
-                                  .start,
-                              mainAxisAlignment:
-                              MainAxisAlignment
-                                  .spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Card(
-                                        color: ColorConstants
-                                            .bgImage,
-                                        shape:
-                                        const RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius
-                                              .only(
-                                            topLeft:
-                                            Radius.circular(8),
-                                            topRight:
-                                            Radius.circular(8),
-                                            bottomLeft:
-                                            Radius.circular(8),
-                                            bottomRight:
-                                            Radius.circular(8),
-                                          ),
-                                        ),
-                                        elevation:
-                                        0,
-                                        child:
-                                        Padding(
-                                          padding: EdgeInsets
-                                              .all(D.W /
-                                              60),
-                                          child: SvgPicture
-                                              .asset(
-                                              "assets/images/ic_bowl.svg"),
-                                        )),
-                                    SizedBox(
-                                      width:
-                                      D.W / 50,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment
-                                          .start,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Height:",
-                                              style: GoogleFonts.heebo(
-                                                  fontSize: D.H /
-                                                      56,
-                                                  fontWeight:
-                                                  FontWeight.w300),
-                                            ),
-                                            SizedBox(
-                                              width:
-                                              D.W / 70,
-                                            ),
-                                            Text(
-                                              heightWeightData[
-                                              index]
-                                                  .height
-                                                  .toString()+"cm",
-                                              style: GoogleFonts.heebo(
-                                                  fontSize: D.H /
-                                                      52,
-                                                  fontWeight:
-                                                  FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Weight:",
-                                              style: GoogleFonts.heebo(
-                                                  fontSize: D.H /
-                                                      56,
-                                                  fontWeight:
-                                                  FontWeight.w300),
-                                            ),
-                                            SizedBox(
-                                              width:
-                                              D.W / 70,
-                                            ),
-                                            Text(
-                                              heightWeightData[
-                                              index]
-                                                  .weight
-                                                  .toString()+"kg",
-                                              style: GoogleFonts.heebo(
-                                                  fontSize: D.H /
-                                                      52,
-                                                  fontWeight:
-                                                  FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets
-                                      .only(
-                                      right: D.W /
-                                          30),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment
-                                        .start,
+                      var date = d24.toString();
+                      return Container(
+                        padding:
+                            EdgeInsets.only(left: D.W / 40.0, top: D.H / 80),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
                                     children: [
-
-                                      Text(
-                                        date.toString(),
-                                        style: GoogleFonts.heebo(
-                                            color: Colors
-                                                .black
-                                                .withOpacity(0.3)),
-                                      )
+                                      Card(
+                                          color: ColorConstants.bgImage,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(8),
+                                              topRight: Radius.circular(8),
+                                              bottomLeft: Radius.circular(8),
+                                              bottomRight: Radius.circular(8),
+                                            ),
+                                          ),
+                                          elevation: 0,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(D.W / 60),
+                                            child: SvgPicture.asset(
+                                                "assets/images/ic_bowl.svg"),
+                                          )),
+                                      SizedBox(
+                                        width: D.W / 50,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Weight:",
+                                                style: GoogleFonts.heebo(
+                                                    fontSize: D.H / 56,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              ),
+                                              SizedBox(
+                                                width: D.W / 70,
+                                              ),
+                                              Text(
+                                                heightWeightData[index]
+                                                        .weight
+                                                        .toString() +
+                                                    "kg",
+                                                style: GoogleFonts.heebo(
+                                                    fontSize: D.H / 52,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: D.H / 80,
-                            ),
-                            Padding(
-                              padding:
-                              const EdgeInsets
-                                  .only(
-                                  left: 4.0,
-                                  right: 4.0),
-                              child: Container(
-                                height: 1.0,
-                                color:
-                                ColorConstants
-                                    .lineColor,
+                                  Padding(
+                                    padding: EdgeInsets.only(right:D.W / 40.0),
+                                    child: Text(
+                                      date.toString(),
+                                      style: GoogleFonts.heebo(
+                                          color: Colors.black
+                                              .withOpacity(0.3)),
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
+                              SizedBox(
+                                height: D.H / 80,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 4.0, right: 4.0),
+                                child: Container(
+                                  height: 1.0,
+                                  color: ColorConstants.lineColor,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+              ),
             ),
-          ),
     );
   }
 
@@ -544,7 +477,6 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
     if (statusCode == 200) {
       for (int i = 0; i < res.length; i++) {
         heightWeightData.add(HeightWeightModel(
-          height: res[i]["height"],
           weight: res[i]["weight"],
           changedDate: res[i]["changedDate"],
         ));
@@ -557,12 +489,11 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
   }
 
   Future<void> getHeightWeightDataWithoutLoader() async {
-
     final uri = ApiEndPoint.getHeightWeight;
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
       "pageNumber": 1,
@@ -583,7 +514,6 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
       heightWeightData.clear();
       for (int i = 0; i < res.length; i++) {
         heightWeightData.add(HeightWeightModel(
-          height: res[i]["height"],
           weight: res[i]["weight"],
           changedDate: res[i]["changedDate"],
         ));
@@ -594,6 +524,7 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
       CommonUtils.showRedToastMessage(res["message"]);
     }
   }
+
   Future<void> saveHeightWeightResult() async {
     FocusManager.instance.primaryFocus?.unfocus();
     CommonUtils.showProgressDialog(context);
@@ -601,14 +532,12 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-      'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
+          'Bearer ${await PreferenceUtils.getString("ACCESSTOKEN")}',
     };
     Map<String, dynamic> body = {
-      "height": heightController.text.toString(),
       "weight": weightController.text.toString(),
+      "changedDate": hwDate
     };
-    //1657650600000
-
 
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
@@ -623,15 +552,34 @@ class _HeightWeightScreenState extends State<HeightWeightScreen> {
     String responseBody = response.body;
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
-      heightController.clear();
+      hwTestDate.clear();
       weightController.clear();
-      CommonUtils.hideProgressDialog(context);
-      Navigator.pop(context);
       setState(() {});
       getHeightWeightDataWithoutLoader();
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
+    }
+  }
+
+  Future<void> _selectDateForHW(
+      BuildContext context, final controller, int Date) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        final DateFormat formatter = DateFormat('dd-MM-yy');
+        final String startDate = formatter.format(picked);
+        controller.text = startDate.toString();
+        final DateFormat formatter2 = DateFormat('dd-MM-yyy');
+        final String sDatee = formatter2.format(picked);
+        var dateTimeFormat = DateFormat('dd-MM-yyy').parse(sDatee);
+        hwDate = dateTimeFormat.millisecondsSinceEpoch;
+        print("Date:" + Date.toString());
+      });
     }
   }
 }
