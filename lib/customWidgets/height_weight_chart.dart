@@ -19,6 +19,7 @@ class HeightWeightChartState extends State<HeightWeightChart> {
 
   List<_SalesData> data = [];
   List<_SalesData> dataSortedList = [];
+  List<_SalesData> reverseList = [];
 
 
   @override
@@ -34,7 +35,8 @@ class HeightWeightChartState extends State<HeightWeightChart> {
     for(int i=0;i<data.length;i++){
       var dt = data[i].year;
       var d24 = DateFormat('dd/MM/yyyy').format(DateTime.parse(dt));
-      dataSortedList.add(_SalesData('${d24}', double.parse(data[i].sales.toString())));
+      reverseList.add(_SalesData('${d24}', double.parse(data[i].sales.toString())));
+      dataSortedList=reverseList.reversed.toList();
     }
 
 

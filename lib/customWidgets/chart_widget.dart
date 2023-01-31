@@ -27,7 +27,7 @@ class GraphWidgetState extends State<GraphWidget> {
     // _SalesData('90', 123),
   ];
   List<_SalesData> dataSortedList = [];
-
+  List<_SalesData> reverseList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -41,7 +41,8 @@ class GraphWidgetState extends State<GraphWidget> {
     for(int i=0;i<data.length;i++){
       var dt = data[i].year;
       var d24 = DateFormat('dd/MM/yyyy').format(DateTime.parse(dt));
-      dataSortedList.add(_SalesData('${d24}', double.parse(widget.graphList[0].values![i].testResultValue.toString())));
+      reverseList.add(_SalesData('${d24}', double.parse(widget.graphList[0].values![i].testResultValue.toString())));
+      dataSortedList=reverseList.reversed.toList();
     }
 
   }
