@@ -836,7 +836,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
     var res = jsonDecode(responseBody);
     if (statusCode == 200) {
       CommonUtils.hideProgressDialog(context);
-      NavigationHelpers.redirectto(context, DashBoardScreen(1));
+      NavigationHelpers.redirectto(context, DashBoardScreen(0));
     } else {
       CommonUtils.hideProgressDialog(context);
       CommonUtils.showRedToastMessage(res["message"]);
