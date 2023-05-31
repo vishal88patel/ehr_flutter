@@ -8,10 +8,15 @@ class CommonUtils {
   static bool isShowing = false;
   static Future<bool> checkNetwork() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
+
+
+
     if (connectivityResult == ConnectivityResult.mobile) {
       return true;
     } else if (connectivityResult == ConnectivityResult.wifi) {
       return true;
+
+
     } else {
       if (connectivityResult == ConnectivityResult.none) {
         CommonUtils.toastMessage("No Internet Connection");
