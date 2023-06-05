@@ -34,7 +34,7 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
-
+    ndkVersion "25.1.8937393"
     compileSdkVersion 33
 
     compileOptions {

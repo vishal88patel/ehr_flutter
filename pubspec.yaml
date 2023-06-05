@@ -74,7 +74,6 @@ dependencies:
   firebase_messaging: ^14.0.3
   file_picker: ^5.0.1
   image_picker: ^0.8.5+3
-  image_downloader:
   pull_to_refresh: ^2.0.0
   flutter_html:
   path_provider: ^2.0.11
