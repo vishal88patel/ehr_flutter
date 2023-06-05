@@ -7,6 +7,7 @@ import 'package:ehr/View/Screens/add_suppliments_screen.dart';
 import 'package:ehr/View/Screens/medication_detail_screen.dart';
 import 'package:ehr/View/Screens/otp_verification_screen.dart';
 import 'package:ehr/View/Screens/supplement_detail_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -134,7 +135,7 @@ class _SupplimentScreenState extends State<SupplimentScreen> {
                           },
                           backgroundColor: Color(0xFFFE4A49),
                           foregroundColor: Colors.white,
-                          icon: Icons.delete,
+                          icon: CupertinoIcons.delete,
                         ),
                         SlidableAction(
                           padding: EdgeInsets.all(0),
@@ -152,7 +153,7 @@ class _SupplimentScreenState extends State<SupplimentScreen> {
                           },
                           backgroundColor: ColorConstants.primaryBlueColor,
                           foregroundColor: Colors.white,
-                          icon: Icons.edit_outlined,
+                          icon: CupertinoIcons.pen,
                         ),
                       ],
                     ),

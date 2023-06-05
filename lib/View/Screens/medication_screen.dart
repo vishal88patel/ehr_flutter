@@ -5,6 +5,7 @@ import 'package:ehr/Model/medication_model.dart';
 import 'package:ehr/View/Screens/add_medication_screen.dart';
 import 'package:ehr/View/Screens/medication_detail_screen.dart';
 import 'package:ehr/View/Screens/otp_verification_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -152,7 +153,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                           },
                           backgroundColor: Color(0xFFFE4A49),
                           foregroundColor: Colors.white,
-                          icon: Icons.delete,
+                          icon: CupertinoIcons.delete,
                         ),
                       ],
                     ),
