@@ -66,7 +66,7 @@ dependencies:
   # calender
   intl: ^0.17.0
   # swipe delete
-  flutter_slidable: ^2.0.0
+  flutter_slidable: ^3.0.0
   # custom calender
   table_calendar: ^3.0.6
   device_info_plus:
