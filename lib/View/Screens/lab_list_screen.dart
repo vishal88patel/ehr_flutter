@@ -658,7 +658,7 @@ class _LabListScreenState extends State<LabListScreen> {
                               },
                               backgroundColor: Color(0xFFFE4A49),
                               foregroundColor: Colors.white,
-                              icon:CupertinoIcons.delete,
+                              label: "Delete",
                             ),
                           ],
                         ),

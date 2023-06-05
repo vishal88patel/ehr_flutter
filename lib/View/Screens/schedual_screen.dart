@@ -256,7 +256,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
                               backgroundColor:
                                   ColorConstants.primaryBlueColor,
                               foregroundColor: Colors.white,
-                              icon: Icons.edit_outlined,
+                              label: "Edit",
                             ),
                             SlidableAction(
                               padding: EdgeInsets.all(0),
@@ -268,7 +268,7 @@ class _SchedualScreenState extends State<SchedualScreen> {
                               },
                               backgroundColor: Color(0xFFFE4A49),
                               foregroundColor: Colors.white,
-                              icon: Icons.delete,
+                              label: "Delete",
                             ),
                           ],
                         ),

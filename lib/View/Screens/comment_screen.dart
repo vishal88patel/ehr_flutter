@@ -126,7 +126,7 @@ class _CommentScreenState extends State<CommentScreen> {
                           },
                           backgroundColor: Color(0xFFFE4A49),
                           foregroundColor: Colors.white,
-                          icon: CupertinoIcons.delete,
+                          label: "Delete",
                         ),
                         SlidableAction(
                           padding: EdgeInsets.all(0),
@@ -137,7 +137,7 @@ class _CommentScreenState extends State<CommentScreen> {
                           },
                           backgroundColor: ColorConstants.primaryBlueColor,
                           foregroundColor: Colors.white,
-                          icon: CupertinoIcons.pen,
+                          label: "Edit",
                         ),
                       ],
                     ),
